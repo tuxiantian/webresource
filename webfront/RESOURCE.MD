@@ -19,4 +19,13 @@
 ### 图解 Flexbox 
 > https://github.com/ccforward/cc/issues/57
 ### jade 
-> http://cnodejs.org/topic/5368adc5cf738dd6090060f2
+> http://cnodejs.org/topic/5368adc5cf738dd6090060f2  
+* 在 Express 中调用 jade 模板引擎
+* jade 变量调用
+* if 判断
+* 循环
+* Case 选择
+* 在模板中调用其他语言
+* 可重用的 jade 块 (Mixins)
+* 模板包含 (Includes)
+* 模板引用 (Extends)
