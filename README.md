@@ -9,3 +9,6 @@ useful website collections
 > git commit -m "first commit"  
 > git remote add origin https://github.com/tuxiantian/webresource.git   //用你仓库的url  
 > git push -u origin master  //提交到你的仓库  
+
+> git commit -am "修改文件内容"   //提交的快捷方式，提交所有文件  
+
