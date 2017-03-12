@@ -22,3 +22,6 @@ useful website collections
 > git push -u origin master
 > 注意在github网站上面先创建repository,否则会提交失败
 
+## 解决向github提交代码不用输入帐号密码
+> https://segmentfault.com/a/1190000008435592
+
