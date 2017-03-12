@@ -24,4 +24,8 @@ useful website collections
 
 ## 解决向github提交代码不用输入帐号密码
 > https://segmentfault.com/a/1190000008435592
+### 下面把origin地址换成ssh方式的，这样才能提交代码不必输入用户名和密码。
+> 1. git remote rm origin
+> 2. git remote add origin git@github.com:tuxiantian/webresource.git
+> 3. git push -u origin master
 
