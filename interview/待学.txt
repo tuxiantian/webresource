@@ -1342,10 +1342,6 @@ bookName like CONCAT('%','${bookName}','%' )
 var b = Math.random() * 16777215 |0 ; 16777215  颜色白色的十进制表示
 var color = "#" + b.toString(16);
 --------------------------------------------------------------------------------------
-log4j.category.org.mybatis=INFO
-log4j.category.org.apache.ibatis=INFO
-log4j.category.org.springframework=WARN
---------------------------------------------------------------------------------------
 事件分为三个阶段：   事件捕获 -->  事件目标 -->  事件冒泡
 --------------------------------------------------------------------------------------
 服务端编程的3大性能杀手：
@@ -1699,8 +1695,8 @@ Spring提供了以下四种集合类的配置元素：
     <property name="circleA" ref="circleA"/>
 </bean>
 
-IOC技术的本质就是构建对象的技术换句话说就是将一个类实例化成对象的技术
-      Spring提供一个容器,我们在xml文件里定义各个对象的依赖关系,由容器完成对象的构建
+IOC技术的本质就是构建对象的技术。换句话说就是将一个类实例化成对象的技术，Spring提供一个容器,
+我们在xml文件里定义各个对象的依赖关系,由容器完成对象的构建。
 
 
 --------------------------------------------------------------------------------------
@@ -1845,7 +1841,7 @@ http://niceue.com/validator/demo/   nicevalidate
 http://www.cnblogs.com/lansy/p/4355913.html bstrap
 --------------------------------------------------------------------------------------
 curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet
-
+注意后面的地址中若是有！，则需要使用\进行转义
 --------------------------------------------------------------------------------------
 /**
  * 字符串替换
@@ -1875,6 +1871,7 @@ var date = new Date(strDate.replace(/-/g,"/"));
 --------------------------------------------------------------------------------------
 <span style="font-family:‘Times New Roman‘;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 --------------------------------------------------------------------------------------
+springmvc redirect注意事项
 return "redirect:/test3"; 跳转相对于根路径地址: localhost:8080/test3
 return "redirect:test2"; 跳转相对于当前路径地址
 --------------------------------------------------------------------------------------
@@ -1936,11 +1933,10 @@ ALTER TABLE `TABLE_NAME`MODIFY COLUMN `COLUMN_NAME`  varchar CHARACTER SET utf8m
 延迟加载js代码
 <script type="text/javascript" src="" id="my"></script>
 <script type="text/javascript">
-
-setTimeout("document.getElementById(‘my').src='include/php100.php'; ",3000);//延时3秒
-
+    setTimeout("document.getElementById('my').src='include/php100.php'; ",3000);//延时3秒
 </script>
 --------------------------------------------------------------------------------------
+为什么div里嵌套了img，img底部会有间隙。 http://www.qdfuns.com/notes/17631/9dc4c1d4006bdd2a84de2acf3b01be2d.html
 div的高度=img的高度
 当div中没有文字时,可以使用font-size:0;或者line-height:0;
 当div中有文字时,可以设置img为vertical-align:bottom；
@@ -1992,8 +1988,8 @@ springmvc框架在遇到这种同名参数提交,而参数中有逗号时,会出
 比如我提交的值是 xname=123 和 xname=45,67
 那么在进入action拿到参数时会变成string[] xname = ["123","45","67"]
 $("input[name='ssidName']").each(function(){
-                        $(this).val(encodeURIComponent($(this).val()));
-                    })
+    $(this).val(encodeURIComponent($(this).val()));
+})
 URLDecoder.decode(ssidNames [i], "UTF-8" )
 --------------------------------------------------------------------------------------
 ArrayBlockingQueue：阻塞队列主要用于可以用来构建生产者-消费者模型
@@ -2237,6 +2233,7 @@ Enumeration和Iterator接口有何不同
 Iterator更安全,因为在对集合进行遍历时会阻止其他线程对集合进行修改 Iterator允许从集合中移除元素
 
 StringTokenizer
+String s=new String("The Java platform is the ideal platform for network computing");
 StringTokenizer st = new StringTokenizer(s);
 System.out.println( "Token Total: " + st.countTokens() );
 while( st.hasMoreElements() ){
@@ -3862,8 +3859,6 @@ select user,state,count(1) from information_schema.processlist group by user,sta
 https://github.com/aol/cyclops
 https://github.com/freiheit-com/fuava_simplebatch
 --------------------------------------------------------------------------------------
-松红梅
---------------------------------------------------------------------------------------
 不可变集合都不能序列化
 
 --------------------------------------------------------------------------------------
@@ -4319,8 +4314,6 @@ delete t1,t2
 from tmysql_test_tbl_1 t1 left join tmysql_test_tbl_2 t2
 on t1.id=t2.id
 where t1.id=1
-
-
 --------------------------------------------------------------------------------------
 jackson @JsonInclude(Include.NON_EMPTY)
 Include.Include.ALWAYS 默认
@@ -4674,8 +4667,8 @@ while (retry > 0) {
 }
 
 --------------------------------------------------------------------------------------
-查看看进程当前运行的线程数命令为：pstree -p 3660 | wc -l
-查看mac 地址 ifconfig
+查看进程当前运行的线程数命令为：pstree -p 3660 | wc -l
+查看mac地址 ifconfig
 一行显示一个线程 top -H
 
 pidstat主要用于监控全部或指定进程占用系统资源的情况 -u (cpu) -r(内存) -d(io统计)
@@ -4843,15 +4836,11 @@ mysql的datetime与timestamp的区别
 1、添加或更新数据时,如果timestamp字段为null,数据库自动添加当前时间,而datetime为null,数据库会报错
 2、存储空间上,timestamp为4字节,datetime为8字节
 3、检索效率上,timestamp要快于datetime
-4、支持范围上,timestamp支持范围为
-'1970-01-01 00:00:00'到2037
-,datetime支持范围为
-'1000-01-01 00:00:00'到'9999-12-31 23:59:59'
+4、支持范围上,timestamp支持范围为'1970-01-01 00:00:00'到2037-12-31 23:59:59
+,datetime支持范围为'1000-01-01 00:00:00'到'9999-12-31 23:59:59'
 --------------------------------------------------------------------------------------
 查看java web应用开的端口
 lsof -i -P | grep LISTEN |grep java
---------------------------------------------------------------------------------------
-找奇数 return i%2 == 0
 --------------------------------------------------------------------------------------
 MySQL索引类型:B+树索引,哈希索引,FULLTEXT索引,R-Tree索引
 从物理存储角度可分为聚集索引（clustered index）、非聚集索引（non-clustered index）
