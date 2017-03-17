@@ -7,3 +7,6 @@
 > 1. 静态资源只需请求一次，永久缓存，不会发送协商请求304  
 > 2. 版本更新只会更新修改的静态资源内容  
 > 3. 不删除旧版本的静态资源，版本回滚的时候只需要更新html，同样不会增加http请求次数
+
+### vscode官网使用文档
+> http://code.visualstudio.com/docs/editor/debugging#_launch-configurations
