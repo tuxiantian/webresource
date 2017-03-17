@@ -9,6 +9,7 @@ useful website collections
 > git commit -m "first commit"  
 > git remote add origin https://github.com/tuxiantian/webresource.git   //用你仓库的url  
 > git push -u origin master  //提交到你的仓库  
+> git diff master origin/master //比较本地仓库与远程仓库的异同,修改或新加的文件要添加到暂存区或提交到本地仓库
 
 > git commit -am "修改文件内容"   //提交的快捷方式，提交所有文件  
 ## 提交本地项目到github仓库的方法
