@@ -41,8 +41,8 @@ DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 解决办法就是将字段类型改为datetime,查询的sql片段不再使用DATE_FORMAT函数，这样查询语句就会使用索引了。  
 验证sql有没有使用索引：explain+sql
 ### parameterType和resultType
-> map：java.util.Map
-> int: Integer
+> map：java.util.Map  
+> int: Integer  
 > List: java.util.List
 ### 批量更新
 #### 示例一
