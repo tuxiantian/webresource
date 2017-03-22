@@ -9115,31 +9115,6 @@ document.URL
 --------------------------------------------------------------------------------------
 document.getElementById(): 只能运用到document上, 返回找到的元素节点, 速度是最快的
 --------------------------------------------------------------------------------------
-不缓存
-<META HTTP-EQUIV="pragma" CONTENT="no-cache">
-<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
-<META HTTP-EQUIV="expires" CONTENT="0">
-
-$.ajax({
-     url:'www.haorooms.com',
-     dataType:'json',
-     data:{},
-     cache:false,
-     ifModified :true ,
-
-     success:function(response){
-         //操作
-     }
-     async:false
-  });
-
-beforeSend :function(xmlHttp){
-        xmlHttp.setRequestHeader("If-Modified-Since","0");
-        xmlHttp.setRequestHeader("Cache-Control","no-cache");
-},
-
-在 URL 参数后加上 "?timestamp=" + new Date().getTime();
---------------------------------------------------------------------------------------
 chrome支持小于 12px
 p span{font-size:10px;-webkit-transform:scale(0.8);display:block;} 缩放
 

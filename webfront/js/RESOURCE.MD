@@ -232,3 +232,27 @@ Array.prototype.push.apply(array1, array2);
 ```
 array2 追加到array1
 ---
+不缓存
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+
+$.ajax({
+     url:'www.haorooms.com',
+     dataType:'json',
+     data:{},
+     cache:false,
+     ifModified :true ,
+     async:false,
+     success:function(response){
+         //操作
+     }
+  });
+
+beforeSend :function(xmlHttp){
+        xmlHttp.setRequestHeader("If-Modified-Since","0");
+        xmlHttp.setRequestHeader("Cache-Control","no-cache");
+},
+
+在 URL 参数后加上 "?timestamp=" + new Date().getTime();
+--------------------------------------------------------------------------------------
