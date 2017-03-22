@@ -24,3 +24,18 @@ input[type=submit],label,select,.pointer { cursor:pointer; }
 移动超链接的虚线框
 a:active, a:focus{ outline:none; }
 --------------------------------------------------------------------------------------
+table边框合并，显示单线框
+table{
+   border-collapse: collapse;
+}
+table tr td,table tr th{
+   border:1px solid #e2e2e2;
+}
+--------------------------------------------------------------------------------------
+移除input类型为number在谷歌浏览器下自带的上下箭头
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+--------------------------------------------------------------------------------------

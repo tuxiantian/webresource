@@ -365,3 +365,113 @@ var person2 = {};
 console.log(person1 == person2); // false
 ```
 --------------------------------------------------------------------------------------
+jquery阻止事件冒泡
+event.stopPropagation(); 事件处理过程中，阻止了事件冒泡，但不会阻击默认行为
+return false; 事件处理过程中，阻止了事件冒泡，也阻止了默认行为
+
+event.preventDefault();  事件处理过程中，不阻击事件冒泡，但阻击默认行为
+--------------------------------------------------------------------------------------
+事件传播策略
+1.事件捕获
+事件首先交给外层的元素，然后再往内交给更具体的元素： div -> span -> a
+
+2.事件冒泡
+当点击 a 标签后，首先会发送到最具体的元素，在这个元素得到响应后，事件会往上冒泡到更外层的元素
+a -> span -> div
+
+$(document).on('mouseenter','#sam',function(){
+    alert("hey it's sam.");
+});
+--------------------------------------------------------------------------------------
+清空file文件
+function resetFileInput(file){
+    file.after(file.clone().val(""));
+    file.remove();
+}
+--------------------------------------------------------------------------------------
+绑定一次的点击事件
+$('#killBtn').one("click",function(){ //执行方法
+
+}) ;
+--------------------------------------------------------------------------------------
+IE下无法获取文件的实际路径
+var file = $(this)[0].files[0];
+var url = null;
+if (window.createObjectURL != undefined) { // basic
+    url = window.createObjectURL(file);
+} else if (window.URL != undefined) { // mozilla(firefox)
+    url = window.URL.createObjectURL(file);
+} else if (window.webkitURL != undefined) { // webkit or chrome
+    url = window.webkitURL.createObjectURL(file);
+}
+return url;
+--------------------------------------------------------------------------------------
+$(".haorooms").on({
+        click:function(){
+                  alert("我是点击事件")
+        },
+        mouseover:function(){
+            alert("mouseover");
+        },
+        mouseout:function(){
+            alert("out")
+        }
+    })
+
+$(".demo").css({"height":"100px","background-color":"red"});
+--------------------------------------------------------------------------------------
+不是所有的事件都能冒泡，如：blur、focus、load、unload都不能
+--------------------------------------------------------------------------------------
+/**
+ * 判断微信浏览器
+ * @returns {Boolean}
+ */
+function isWeiXin() {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true;
+    } else {
+        return false;
+    }
+}
+--------------------------------------------------------------------------------------
+$('html,body').scrollTop(0);
+$('html, body').animate({ scrollTop: 0 }, 'fast');
+--------------------------------------------------------------------------------------
+var str1 = str2 = "web";
+(function () {
+var str1 = str2 = "前端";
+})();
+console.log(str2); 前端 全局变量
+consloe.log(str1); web 局部变量
+
+str1 = "web";
+(function () {
+     var str1 = "前端";
+
+     //str1剩下的功能
+)();
+console.log(str1);  web
+--------------------------------------------------------------------------------------
+function stopDefault( e ) {
+     // 阻止默认浏览器动作(W3C)
+     if ( e && e.preventDefault ) {
+         e.preventDefault();
+     } else {
+        // IE中阻止函数器默认动作的方式 ie8
+        window.event.returnValue = false;
+    }
+    return false;
+}
+--------------------------------------------------------------------------------------
+js阻止页面关闭
+window.isCloseHint = true;
+//初始化关闭
+window.addEventListener("beforeunload", function(e) {
+    if (window.isCloseHint) {
+        var confirmationMessage = "要记得保存！你确定要离开我吗？";
+        (e || window.event).returnValue = confirmationMessage; // 兼容 Gecko + IE
+        return confirmationMessage; // 兼容 Gecko + Webkit, Safari, Chrome
+    }
+});
+--------------------------------------------------------------------------------------

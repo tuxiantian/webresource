@@ -11193,95 +11193,10 @@ null与任何条件（真、假、null）做异或，结果都为null
 --------------------------------------------------------------------------------------
 order by convert(name using gbk) asc;
 --------------------------------------------------------------------------------------
-Linux 删除除了某个文件之外的所有文件
-rm -f !(a|b)
-
-find . -type f ! -name "file10"|xargs rm -f
---------------------------------------------------------------------------------------
-set  nu ：设置显示文本的行数
-set  nonu：取消显示文本的行数
---------------------------------------------------------------------------------------
 标记-清除算法 产生大量不连续的内存碎片
 复制算法 每次只使用一块
 标记-压缩 Mark-Compact：先标记，然后将存活对象移向一边，再清理掉边界以外的内存
 分代收集算法 新生代一般采用复制算法，年老代采用标记-压缩算法
---------------------------------------------------------------------------------------
-ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
-FileSystemXmlApplicationContext
---------------------------------------------------------------------------------------
-<!--启动@AspectJ支持-->
-<aop:aspectj-autoproxy/>
---------------------------------------------------------------------------------------
-Spring 切面可以应用五种类型的通知：
-    before ：前置通知，在一个方法执行前被调用
-    after:  在方法执行之后调用的通知，无论方法执行是否成功
-    after-returning:  仅当方法成功完成后执行的通知
-    after-throwing:  在方法抛出异常退出时执行的通知
-    around:  在方法执行之前和之后调用的通知
---------------------------------------------------------------------------------------
-Spring 支持两种类型的事务管理：
-编程式事务管理
-声明式事务管理
---------------------------------------------------------------------------------------
-构造器注入
-Setter方法注入
-接口注入
---------------------------------------------------------------------------------------
-spring命名空间：context、beans、jdbc、tx、aop
---------------------------------------------------------------------------------------
-代理模式—在AOP和remoting中被用的比较多
-单例模式—在spring配置文件中定义的bean默认为单例模式
-模板方法—用来解决代码重复的问题比如.  RestTemplate ,  JmsTemplate ,  JpaTemplate
-依赖注入—贯穿于 BeanFactory  /  ApplicationContext 接口的核心理念
-工厂模式—BeanFactory用来创建对象的实例
---------------------------------------------------------------------------------------
-public class AllApplicationEventListener implements ApplicationListener < ApplicationEvent >{
-    public void onApplicationEvent(ApplicationEvent applicationEvent)
-    {
-        //process event
-    }
-}
-
-spring 提供了以下5中标准的事件
-上下文更新事件（ContextRefreshedEvent） ：该事件会在ApplicationContext被初始化或者更新时发布
-也可以在调用ConfigurableApplicationContext 接口中的refresh()方法时被触发
-上下文开始事件（ContextStartedEvent） ：当容器调用ConfigurableApplicationContext的Start()方法开始/重新开始容器时触发该事件
-上下文停止事件（ContextStoppedEvent） ：当容器调用ConfigurableApplicationContext的Stop()方法停止容器时触发该事件
-上下文关闭事件（ContextClosedEvent） ：当ApplicationContext被关闭时触发该事件容器被关闭时，其管理的所有单例Bean都被销毁
-请求处理事件（RequestHandledEvent） ：在Web应用中，当一个http请求（request）结束触发该事件
---------------------------------------------------------------------------------------
-Spring中的 org.springframework.beans 包和 org.springframework.context包构成了Spring框架IoC容器的基础
-ioc 控制反转
---------------------------------------------------------------------------------------
-@controllerAdvice最为实用的一个场景就是将所有@ExceptionHandler方法收集到一个类中，这样所有的异常都能在一个地方进行一致处理
-
-@ControllerAdvice默认所有控制的抛出的异常都会在这个类进行处理
-@ControllerAdvice(annotations = {PCInfoController .class}) 配置你需要拦截的控制器，
-@ControllerAdvice(basePackages = "com.demo") 配置你需要路径下的控制器
-
-@ControllerAdvice 注解，会应用到所有的Controller中的@RequestMapping注解的方法中
-防止SpringMVC和SpringIOC对同一个对象的管理重合
-<context:component-scan base-package="com.uniweibov2.web" use-default-filters="false">
-  <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
-</context:component-scan>
-
-@ControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(SQLException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public ExceptionResponse handleSQLException(HttpServletRequest request, Exception ex) {
-        String message = ex.getMessage();
-        return ExceptionResponse.create(HttpStatus.INTERNAL_SERVER_ERROR.value(), message);
-    }
-}
---------------------------------------------------------------------------------------
-spring中的核心类有那些，各有什么作用?
-BeanFactory：产生一个新的实例，可以实现单例模式
-BeanWrapper：提供统一的get及set方法
-ApplicationContext:提供框架的实现，包括BeanFactory的所有功能
 --------------------------------------------------------------------------------------
 事务执行 update 流程
 用排它锁锁定满足条件的行
@@ -11289,226 +11204,6 @@ ApplicationContext:提供框架的实现，包括BeanFactory的所有功能
 把该行修改前的值复制到 undo log
 修改当前行的值，填写事务编号，使回滚指针指向 undo log 中修改前的行
 当事务发生异常，则根据回滚指针从 undo log 中找出事务修改前的版本，并恢复
-
---------------------------------------------------------------------------------------
-spring mvc 静态资源
-<mvc:resources location="/WEB-INF/resources/**" mapping="/resources/**" />
-
-Spring MVC 的运行流程
-DispatcherServlet 前置控制器,处于核心位置，负责协调和组织不同组件以完成请求处理并返回响应的工作
-SpringMVC 处理请求过程：
-1.spring mvc请所有的请求都提交给DispatcherServlet,它会委托应用系统的其他模块负责负责对请求进行真正的处理工作
-2.DispatcherServlet查询一个或多个HandlerMapping,找到处理请求的Controller.
-3.DispatcherServlet请请求提交到目标Controller
-4.Controller进行业务逻辑处理后，会返回一个ModelAndView
-5.Dispathcher查询一个或多个ViewResolver视图解析器,找到ModelAndView对象指定的视图对象
-6.视图对象负责渲染返回给客户端
-
-@RequestMapping 控制器指定可以处理哪些 URL 请求
-@PathVariable
-@RequestParam
-@RequestBoy 该注解用于读取Request请求的body部分数据
-@ResponseBody
-@ExceptionHandler 注解到方法上，出现异常时会执行该方法
-
-<servlet>
-      <servlet-name>springmvc</servlet-name>
-      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-      <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:springmvc-servlet.xml</param-value>
-      </init-param>
-      <!-- <load-on-startup>1</load-on-startup> -->
-  </servlet>
-
-<servlet-mapping>
-      <servlet-name>springmvc</servlet-name>
-      <url-pattern>/</url-pattern>
-</servlet-mapping>
-
-<url-pattern>/</url-pattern>：会匹配到/springmvc这样的路径型url，不会匹配到模式为*.jsp这样的后缀型url
-<url-pattern>/*</url-pattern>：会匹配所有的url
-
-视图名称解析器
-<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-            id="internalResourceViewResolver">
-        <!-- 前缀 -->
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <!-- 后缀 -->
-        <property name="suffix" value=".jsp" />
-</bean>
-
-<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
-<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-      <property name="defaultEncoding" value="UTF-8"/>
-      <!-- 指定所上传文件的总大小不能超过200KB 所有文件的容量之和 -->
-      <property name="maxUploadSize" value="200000"/>
-</bean>
-
---------------------------------------------------------------------------------------
-@RequestMapping(value="/user/{id}",method=RequestMethod.GET)
-public String get(@PathVariable("id") Integer id){
-       System.out.println("get"+id);
-       return "/hello";
-}
-
-@RequestMapping("test/login")  // 请求url地址映射
-public String testLogin(@RequestParam(value="username")String username){
-
-}
-
---------------------------------------------------------------------------------------
- <!-- 监听spring上下文容器 -->
-<listener>
-     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
- </listener>
-<context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-</context-param>
-
---------------------------------------------------------------------------------------
-public class SpringMVCInterceptor implements HandlerInterceptor {
-    //当preHandle的返回值为false的时候整个请求就结束了
-    public boolean preHandle(HttpServletRequest request,
-         HttpServletResponse response, Object handler) throws Exception {
-       return false;
-    }
-    //在Controller的方法调用之后执行，但是它会在DispatcherServlet进行视图的渲染之前执行
-    public void postHandle(HttpServletRequest request,
-            HttpServletResponse response, Object handler,
-            ModelAndView modelAndView) throws Exception {
-    }
-    //将在整个请求完成之后，也就是DispatcherServlet渲染了视图执行，
-    //这个方法的主要作用是用于清理资源的
-    public void afterCompletion(HttpServletRequest request,
-            HttpServletResponse response, Object handler, Exception ex)
-          throws Exception {
-
-    }
-
-}
-
-<mvc:interceptors>
-    <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
-    <bean class="com.host.app.web.interceptor.AllInterceptor"/>
-    <mvc:interceptor>
-        <mvc:mapping path="/test/number.do"/>
-        <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
-        <bean class="com.host.app.web.interceptor.LoginInterceptor"/>
-    </mvc:interceptor>
-</mvc:interceptors>
-
---------------------------------------------------------------------------------------
-maven中的仓库分为两种，snapshot快照仓库和release发布仓库
-snapshot快照仓库用于保存开发过程中的不稳定版本，release正式仓库则是用来保存稳定的发行版本
-<groupId>cc.mzone</groupId>
-<artifactId>m1</artifactId>
-<version>0.1-SNAPSHOT</version>
-<packaging>jar</packaging>
-
-在maven本地仓库的groupId/artifactId/version文件路径下会存在maven-metadata.xml文件，会记录版本信息
-
-频率共有四种，分别是always、daily、interval:XXX、never
-always是每次都去远程仓库查看是否有更新，
-daily是只在第一次的时候查看是否有更新，当天的其它时候则不会查看；
-interval允许设置一个分钟为单位的间隔时间，在这个间隔时间内只会去远程仓库中查找一次，
-never是不会去远程仓库中查找
-
-<repository>
-    <id>myRepository</id>
-    <url>...</url>
-    <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>XXX</updatePolicy>
-        <checksumPolicy>warn</checksumPolicy>
-    </snapshots>
-</repository>
-
-
---------------------------------------------------------------------------------------
-mvn调试信息：
-比如：mvn -X -e clean compile
--e:打印错误信息
--X:代表debug模式
-Dt 插件相关参
-U 强制更新
---------------------------------------------------------------------------------------
-maven采用约定优于配置的策略
---------------------------------------------------------------------------------------
-时区是UTC
-<properties>
-    <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-</properties>
-
-<plugin>
-   <groupId>org.apache.maven.plugins</groupId>
-   <artifactId>maven-war-plugin</artifactId>
-   <version>2.4</version>
-   <configuration>
-     <warName>showcase-${maven.build.timestamp}</warName>
-   </configuration>
-</plugin>
-
-要使用GMT+8，就需要插件提供支持，我用的是build-helper-maven-plugin
---------------------------------------------------------------------------------------
-maven maven-jar-plugin插件
-打包命令mvn clean package
---------------------------------------------------------------------------------------
-Maven Release Plugin只能以-SNAPSHOT结尾
-
-versions-maven-plugin
-把父模块更新到指定版本号，然后更新子模块，与父模块有相同的版本号
-mvn versions:set -DnewVersion=0.0.4-SNAPSHOT
-mvn -N versions:update-child-modules
-
-#撤销
-mvn versions:revert
-#提交
-mvn versions:commit
---------------------------------------------------------------------------------------
-maven-compiler-plugin用来编译Java代码
-maven-resources-plugin则用来处理资源文件
---------------------------------------------------------------------------------------
-optional：可选依赖，true 不会传递，false会传递（默认）
-<dependency>
-   <groupId>mysql</groupId>
-   <artifactId>mysql-connector-java</artifactId>
-   <version>5.1.10</version>
-   <optional>true</optional>
-</dependency>
---------------------------------------------------------------------------------------
-exclusions排除依赖
-
-归类依赖
-<properties>
-    <spring>2.5.6</spring>
-</properties>
-
---------------------------------------------------------------------------------------
-部署至远程仓库
-
---------------------------------------------------------------------------------------
-maven具有三个独立的生命周期：clean、defeat、site
---------------------------------------------------------------------------------------
-mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId
--DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar
---------------------------------------------------------------------------------------
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-compiler-plugin</artifactId>
-<version>2.3.2</version>
-<configuration>
-    <source>1.6</source>
-    <target>1.6</target>
-    <encoding>UTF-8</encoding>
-    <!-- 解决maven编译时用到com.sun.*包下的东西 -->
-    <compilerArguments>
-        <verbose />
-        <bootclasspath>${env.JAVA_HOME}\jre\lib\rt.jar;${env.JAVA_HOME}\jre\lib\jce.jar</bootclasspath>
-    </compilerArguments>
-
-</configuration>
-</plugin>
 --------------------------------------------------------------------------------------
 HelloServiceImpl helloworldImpl = new HelloServiceImpl();
 //cxf发布服务的工厂bean
@@ -11623,221 +11318,7 @@ client.getOutInterceptors().add
 namespace（命名空间） = http://tempuri.org/
 soapAction = namespace + methodName（方法名）
 --------------------------------------------------------------------------------------
-JAX-RS常用注解：
-@Path：标注资源类或方法的相对路径
-@GET、@PUT、@POST、@DELETE：标注方法的HTTP请求类型
-@Produces：标注返回的MIME媒体类型
-@Consumes：标注可接受请求的MIME媒体类型
-@FormParam：标注方法的参数来自于HTTP请求的位置一般用在Post方法中
-@PathParam来自于URL的路径
-@QueryParam来自于URL的查询参数
-@HeaderParam来自于HTTP请求的头信息
-@CookieParam来自于HTTP请求的Cookie
 
-@GET
-@Path("/books/{id}/")
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-public Book getBook(@PathParam("id") String id){
-  return books.get(id);
-}
-
-@POST
-@Path("/createUser")
-@Consumes("application/x-www-form-urlencoded")
-public void createUser(@FormParam("loginID") String loginID, @FormParam("name") String name,
-    @FormParam("email") String email) throws Exception {
-}
-Jersey RESTful 框架是开源的RESTful框架
-
---------------------------------------------------------------------------------------
-<!-- 复制依赖的插件 -->
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-dependency-plugin</artifactId>
-    <executions>
-        <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-                <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-                <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                <overWriteReleases>false</overWriteReleases>
-                <overWriteSnapshots>true</overWriteSnapshots>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-jar-plugin</artifactId>
-    <configuration>
-        <archive>
-            <manifest>
-                <addClasspath>true</addClasspath>
-                <classpathPrefix>lib/</classpathPrefix>
-                <mainClass>com.weibosdk.listener.boot.ListenerBootstrap</mainClass>
-            </manifest>
-        </archive>
-    </configuration>
-</plugin>
-
-mvn clean package -Dmaven.test.skip=true
-
---------------------------------------------------------------------------------------
-redo log 刷盘策略由 innodb_flush_log_at_trx_commit 参数控制:
-0:每秒刷新一次
-1：每次commit刷新一次(默认值,MySQL5.6)
-2：每次commit都 write os cache，然后根据 innodb_flush_log_at_timeout 参数（默认为1s） flush disk
-
-ib_logfile0 and ib_logfile1两个文件,就是redo log（用于 崩溃时恢复）
-
-二进制日志会记录所有与mysql有关的日志记录(bin log)
---------------------------------------------------------------------------------------
-MySQL 为生产环境在线添加字段
-create table new_table_name like old_table_name;
-alter table new_table_name add column new_column int not null default 0 comment 'your comment';
-
-insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id < xxxx;
-
-begin;
-insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id >= xxxx
-rename old_table_name to old_table_bak, new_table_name to old_table_name;
-commit;
-
---------------------------------------------------------------------------------------
-Mysql关于 字符串 与 整型对比 的查询与索引
-查询中 number compare string： 如果有索引，那么就可以利用到索引
-查询中 string compare number： 就算有索引，也利用不到   有许多种string可以转换值为1,比如: '1', ' 1', '1a'.
-
-auto_increment 在MyISAM与InnoDB的区别:
-对于InnoDB, 自增长列必须是索引. 如果是组合索引, 也必须是组合索引的第一列.
-对于MyISAM, 自增长列可以是组合索引的其他列.
-
-timestamp 还有个重要的特点, 就是与时间相关. 当插入日期时，会先转换为本地时区后存放；
-而从数据库里面取出时，也同样需要将日期转换为本地时区后显示
-两个不同时区的用户看到的同一个日期可能是不一样的
-
-char, varchar
-char会删除最后的空格, 而varchar不会.
-create table t_char (n char(4), nn varchar(4));
-insert into t_char values ('he ', 'he ');
-select length(n), length(nn) from t_char; 2,3
-
-ENUM类型是忽略大小写的，在存储“M”、“f”时将它们都转成了大写，
-对于插入不在 ENUM 指定范围内的值时，插入了enum(‘M’,’F’)的第一个值“M”
-
-查看表级锁的争夺情况
-show global status like 'table_lock%';
-Table_locks_waited的值比较高，则说明存在着较严重的表级锁争用情况
-
-MySIAM 在select前, 会自动给所涉及的表加上读锁, 在执行更新操作时(update, delete, insert)前,会自动给涉及的表加写锁.
-MyISAM 的锁调度
-MyISAM存储引擎的读锁和写锁是互斥的，读写操作是串行的,读锁写锁同时加，写进程先获得锁
-
-InnoDB 的行锁及加锁方法
-行锁类型
-共享锁（S）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁
-排他锁（X）：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁
-意向共享锁（IS）：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁
-意向排他锁（IX）：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁
-
-共享锁（S）：SELECT * FROM table_name WHERE … LOCK IN SHARE MODE
-排他锁（X）：SELECT * FROM table_name WHERE … FOR UPDATE
-
-InnoDB行锁竞争情况
-show global status like '%innodb_row_lock%';
-
-InnoDB行锁是通过给索引上的索引项加锁来实现的,
-如果不通过索引条件检索数据，那么InnoDB将对表中的所有记录加锁，实际效果跟表锁一样
-如果使用相等条件请求给一个不存在的记录加锁，InnoDB也会使用Next-Key锁
-
-行锁分三种情况:
-Record lock：对索引项加锁
-Gap lock：对索引项之间的“间隙”、第一条记录前的“间隙”或最后一条记录后的“间隙”加锁
-Next-key lock：前两种的组合，对记录及其前面的间隙加锁
-
-什么时候使用表锁
-第一种情况是：事务需要更新大部分或全部数据，表又比较大
-第二种情况是：事务涉及多个表，比较复杂，很可能引起死锁，造成大量事务回滚
-
-在用LOCK TABLES对 InnoDB表加锁时要注意，要将AUTOCOMMIT设为 0，否则MySQL不会给表加锁
-必须用UNLOCK TABLES释放表锁
-
-锁等待超时参数innodb_lock_wait_timeout来解决 锁等待超时阈值
-
-在REPEATABLE-READ隔离级别下，如果两个线程同时对相同条件记录用SELECT…FOR UPDATE加排他锁，
-在没有符合该条件记录情况下，两个线程都会加锁成功程序发现记录尚不存在，就试图插入一条新记录
-如果两个线程都这么做，就会出现死锁 将隔离级别改成READ COMMITTED，就可避免问题.
-
-all < index < range < ref < eq_ref < const, system < NULL
-从左到右, 性能由最差到最好
-1. type=ALL，全表扫描，MySQL遍历全表来找到匹配的行.
-2. type=index，索引全扫描，
-3. type=range，索引范围扫描，常见于<、<=、>、>=、between等操作符.
-4. type=ref，使用非唯一索引扫或唯一索引的前缀扫描，返回匹配某个单独值的记录行. ref还经常出现在join操作中
-5. type=eq_ref，类似ref，区别就在使用的索引是唯一索引，对于每个索引键值，表中只有一条记录匹配；
-简单来说，就是多表连接中使用 primary key或者 unique index作为关联条件
-6. type=const/system，单表中最多有一个匹配行，查询起来非常迅速，所以这个匹配行中的其他列的值可以被优化
-7. type=NULL，MySQL不用访问表或者索引，直接就能够得到结果
-8. 类型type还有其他值，如ref_or_null（与ref类似，区别在于条件中包含对NULL的查询）、
-index_merge（索引合并优化）、
-unique_subquery（in 的后面是一个查询主键字段的子查询）、
-index_subquery（与 unique_subquery 类似，区别在于 in 的后面是查询非唯一索引字段的子查询）
-
-Using index也就是平常说的覆盖索引扫描
-explain partitions: 命令查看SQL所访问的分区
-
-通过 show profile分析SQL
-步骤:
-查看是否支持: select @@have_profiling;.
-会话级开启: set profiling = 1;
-执行SQL
-执行profile: show profiles;
-查看具体某个query的profile: show profile for query N;
-
-用or分割开的条件，如果or前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到
-
-SET UNIQUE_CHECKS=0，关闭唯一性校验
-
-select a.film_id, a.description
-from file a
- inner join
-(select file_id from file order by title limit 50, 5)
- b on a.film_id = b.film_id
-
- 启用NO_BACKSLASH_ESCAPES: 使反斜线成为普通字符.
- 在导入数据时, 如果数据中含有反斜线, 那么启用NO_BACKSLASH_ESCAPES模式可以保证数据的正确性
-
-开启事务: start transaction 或 begin
-提交或回滚: commit, rollback
-commit and chain: 立即启动一个新的事务, 并且和刚才的那个事务具有相同的隔离级别.
-release: 断开和客户端的连接
-
-定点数不同于浮点数，定点数实际上是以字符串形式存放的  decimal(10,2)
-
---------------------------------------------------------------------------------------
-nginx
-将所有HTTP请求重写为HTTPS
-server {
-    return 301 https://$host$request_uri;
-}
-
-重写HTTP 某些URL 为 HTTPS URL
-location = /res/static/index.html {
-    #方式一
-    #return 301 https://$http_host$request_uri$is_args$query_string;
-
-    #方式二
-    return 301 https://$host$request_uri;
-
-    #方式三
-    #rewrite ^/(.+) https://$host/$1 permanent;
-}
-
---------------------------------------------------------------------------------------
 HTTP 请求头 Range
 请求资源的部分内容(不包括响应头的大小), 单位是byte,即字节,从0开始.
 如果服务器能够正常响应的话，服务器会返回206 Partial Content的状态码及说明.
@@ -11873,34 +11354,6 @@ class TimestampThing {
 		<relativePath>../emacsist-project/pom.xml</relativePath>
 </parent>
 --------------------------------------------------------------------------------------
-部署到远程仓库
-<distributionManagement>
-	<repository>
-		<id>nexus-releases</id>
-		<name>Nexus Release Repository</name>
-		<url>http://127.0.0.1:8080/nexus/content/repositories/releases/</url>
-	</repository>
-	<snapshotRepository>
-		<id>nexus-snapshots</id>
-		<name>Nexus Snapshot Repository</name>
-		<url>http://127.0.0.1:8080/nexus/content/repositories/snapshots/</url>
-	</snapshotRepository>
-</distributionManagement>
---------------------------------------------------------------------------------------
-mvn dependency:sources -DincludeArtifactIds=guava
-mvn dependency:sources -DincludeGroupIds=com.jcraft,org.testng -Dclassifier=sources
-
-mvn -DgroupId=com.google.code.gson
-  -DartifactId=gson
-  -Dversion=2.6.2
-  -Dclassifier=sources
-  -DremoteRepositories=http://nexus.dmz1.heuboe.hbintern:8080/nexus/content/repositories/central/
-  org.apache.maven.plugins:maven-dependency-plugin:2.10:get
-
-maven -DgroupId=com.google.code.gson -DartifactId=gson -Dversion=2.6.2
--Dclassifier=sources org.apache.maven.plugins:maven-dependency-plugin:2.10:get
-
---------------------------------------------------------------------------------------
 http://note.youdao.com/share/?id=8927d00b982bb562f6197712ac34c856&type=notebook#/ hadoop笔记
 --------------------------------------------------------------------------------------
 postgresql 默认端口5432
@@ -11909,14 +11362,6 @@ https://github.com/postgres-cn/pgdoc-cn  中文手册
 --------------------------------------------------------------------------------------
 @Expose
 String json = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(t);
---------------------------------------------------------------------------------------
-table边框合并，显示单线框
-table{
-   border-collapse: collapse;
-}
-table tr td,table tr th{
-   border:1px solid #e2e2e2;
-}
 --------------------------------------------------------------------------------------
 spring mvc 3 list array大小256报错
 DataBinder
@@ -11960,9 +11405,6 @@ chmod -R 777 /home/aoi
 --------------------------------------------------------------------------------------
 mysql
  基于语句的复制 NOW()，当同一条SQL在从库中执行的时候显然和在主库中执行的结果是不一样的
-
---------------------------------------------------------------------------------------
-mvn verify 运行检查以证实生成的包是有效的，达到质量标准的
 
 --------------------------------------------------------------------------------------
 动态绑定失效
@@ -12063,19 +11505,6 @@ redis
 5如果锁获取失败了（要么是没有锁住N/2+1个节点，要么是锁的最终有效时长为负数），
 客户端会对所有实例进行解锁操作
 
---------------------------------------------------------------------------------------
-redis整个从库重做流程是这样的：
-主库bgsave自身数据到磁盘
-主库发送rdb文件到从库
-从库开始加载
-加载完毕开始续传，同时开始提供服务
-
-内存越大，触发持久化的操作阻塞主线程的时间越长
---------------------------------------------------------------------------------------
-mysql or查询
-(select f_crm_id from d_dbname1.t_tbname1 where  f_xxx_id = 926067  and f_mobile ='1234567891' limit 1 )
-UNION ALL
-(select f_crm_id from d_dbname1.t_tbname1 where  f_xxx_id = 926067  and f_phone ='1234567891' limit 1 )
 --------------------------------------------------------------------------------------
 $(function () {
             //除了表头（第一行）以外所有的行添加click事件.
@@ -12303,24 +11732,6 @@ java中基本类型的包装类的大部分都实现了常量池技术
 即Byte,Short,Integer,Long,Character,Boolean
 这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据
 
---------------------------------------------------------------------------------------
-jquery阻止事件冒泡
-event.stopPropagation(); 事件处理过程中，阻止了事件冒泡，但不会阻击默认行为
-return false; 事件处理过程中，阻止了事件冒泡，也阻止了默认行为
-
-event.preventDefault();  事件处理过程中，不阻击事件冒泡，但阻击默认行为
---------------------------------------------------------------------------------------
-事件传播策略
-1.事件捕获
-事件首先交给外层的元素，然后再往内交给更具体的元素： div -> span -> a
-
-2.事件冒泡
-当点击 a 标签后，首先会发送到最具体的元素，在这个元素得到响应后，事件会往上冒泡到更外层的元素
-a -> span -> div
-
-$(document).on('mouseenter','#sam',function(){
-    alert("hey it's sam.");
-});
 --------------------------------------------------------------------------------------
 map
 put函数
@@ -12848,12 +12259,6 @@ https://github.com/lwhite1/tablesaw
 https://github.com/kocherovms/metracer
 https://github.com/selfly/dexcoder-assistant 快速开发辅助工具包
 --------------------------------------------------------------------------------------
-清空file文件
-function resetFileInput(file){
-    file.after(file.clone().val(""));
-    file.remove();
-}
---------------------------------------------------------------------------------------
 jps
 -m 输出main method的参数
 -v 输出jvm参数
@@ -13052,23 +12457,6 @@ sort_buffer_size
 
 mysql5.6 优先队列 堆排序实现
 --------------------------------------------------------------------------------------
-绑定一次的点击事件
-$('#killBtn').one(''click",function(){ //执行方法
-
-}) ;
---------------------------------------------------------------------------------------
-IE下无法获取文件的实际路径
-var file = $(this)[0].files[0];
-var url = null;
-if (window.createObjectURL != undefined) { // basic
-    url = window.createObjectURL(file);
-} else if (window.URL != undefined) { // mozilla(firefox)
-    url = window.URL.createObjectURL(file);
-} else if (window.webkitURL != undefined) { // webkit or chrome
-    url = window.webkitURL.createObjectURL(file);
-}
-return url;
---------------------------------------------------------------------------------------
 js正则
 正则表达式没有定义捕获组的情况下，默认为三个参数，分别为：matched（匹配子串），匹配下标，原串(originalText)。
 否则，第2至n个参数对应为捕获组匹配项，倒数的两个参数为：匹配下标，原串(originalText)
@@ -13089,29 +12477,8 @@ var getDateFromFormat=function(date,format){
     };
 getDateFromFormat("2011-11-12","YYYY-MM-DD");
 --------------------------------------------------------------------------------------
-移除input类型为number在谷歌浏览器下自带的上下箭头
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0;
-}
---------------------------------------------------------------------------------------
 https://github.com/randoop/randoop 测试数据生成
 https://github.com/jMotif/SAX
---------------------------------------------------------------------------------------
-$(".haorooms").on({
-        click:function(){
-                  alert("我是点击事件")
-        },
-        mouseover:function(){
-            alert("mouseover");
-        },
-        mouseout:function(){
-            alert("out")
-        }
-    })
-
-$(".demo").css({"height":"100px","background-color":"red"});
 --------------------------------------------------------------------------------------
 双字节长度
 String.prototype.dbLength = function() {
@@ -13124,14 +12491,6 @@ String.prototype.dbLength = function() {
     }
     return leg;
 }
---------------------------------------------------------------------------------------
-nginx
-proxy_set_header X-Forwarded-Proto $scheme;
-
-在反向代理那里设置一个头X-Forwarded-Proto，值设置成https。
-在tomcat的server.xml里添加这段配置：
-<Valve className="org.apache.catalina.valves.RemoteIpValve" protocolHeader="X-Forwarded-Proto" />
-如此一来sendRedirect的时候就能够正确的使用协议了
 --------------------------------------------------------------------------------------
 https://github.com/burtcorp/jmespath-java
 --------------------------------------------------------------------------------------
@@ -13184,22 +12543,6 @@ $("#sel option[text='jQuery']").attr("selected", true);
 //设置select的value值为1时被选中
 $("#sel option[value='1']").attr("selected", true
 --------------------------------------------------------------------------------------
-不是所有的事件都能冒泡，如：blur、focus、load、unload都不能
---------------------------------------------------------------------------------------
-Array.prototype.unique4 = function() {
-      var arr = [];
-      var hash = {};
-      for (var i = 0; i < this.length; i++) {
-        var item = this[i];
-        var key = typeof(item) + item
-        if (hash[key] !== 1) {
-              arr.push(item);
-              hash[key] = 1;
-        }
-      }
-      return arr;
-}
---------------------------------------------------------------------------------------
 <if test='startd != null and startd != "0"'>
 --------------------------------------------------------------------------------------
 关注
@@ -13233,166 +12576,6 @@ mysqlbinlog -v -v --base64-output=DECODE-ROWS mysql-bin.000002
 –verbose(或-v)，将改动生成带注释的语句
 mysqlbinlog -v --base64-output=DECODE-ROWS mysql-bin.000002
 --------------------------------------------------------------------------------------
-javascript es6
-1、字符串的扩展
-主要增加对大于0xFFFF的码点的支持
-
-for...of循环遍历
-var text = String.fromCodePoint(0x20BB7);
-for (let i of text) {
-  //可以识别大于0xFFFF的码点
-  console.log(i); //吉
-}
-
-模板字符串
-let name = 'Yoda'
-console.log('My name is ' + name) //
-console.log(`My name is ${name}`) //模板字符串
-模板字符串（template string）是增强版的字符串，用反引号（`）标识。
-它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量
-
-2、数值的扩展
-ES6提供了二进制和八进制数值的新的写法，分别用前缀0b（或0B）和0o（或0O）表示。
-0b111110111 === 503 // true
-0o767 === 503 // true
-
-number新增方法：
-
-Number.isFinite():检查一个数值是否非无穷（infinity）。
-Number.isNaN():检查一个值是否为NaN
-Number.parseInt()
-Number.parseFloat()ES6将全局方法parseInt()和parseFloat()，移植到Number对象上面
-Number.isInteger() 判断一个值是否为整数
-Number.EPSILON :极小的常量Number.EPSILON,的实质是一个可以接受的误差范围。
-安全整数和Number.isSafeInteger() JavaScript能够准确表示的整数范围在-2^53到2^53之间（不含两个端点），超过这个范围，无法精确表示这个值。
-Number.MAX_SAFE_INTEGER和Number.MIN_SAFE_INTEGER这两个常量，用来表示这个范围的上下限。
-
-math新增方法
-Math.trunc()：用于去除一个数的小数部分，返回整数部分
-Math.sign(): 用来判断一个数到底是正数、负数、还是零。
-Math.cbrt方法用于计算一个数的立方根。
-Math.clz32方法返回一个数的32位无符号整数形式有多少个前导0。
-Math.imul方法返回两个数以32位带符号整数形式相乘的结果，返回的也是一个32位的带符号整数。
-Math.fround方法返回一个数的单精度浮点数形式。
-Math.hypot方法返回所有参数的平方和的平方根
-
-3、数组的扩展
-Array.from方法用于将两类对象转为真正的数组
-常见的类似数组的对象是DOM操作返回的NodeList集合，以及函数内部的arguments对象
-let ps = document.querySelectorAll('p');
-Array.from(ps).forEach(function (p) {
-  console.log(p);
-});
-
-Array.of()
-Array.of方法用于将一组值，转换为数组
-Array(3) // [, , ,]  参数个数只有一个时，实际上是指定数组的长度。
-Array(3, 11, 8) // [3, 11, 8]
-
-
-数组的解构赋值
-let [foo, [[bar], baz]] = [1, [[2], 3]];
-let [head, ...tail] = [1, 2, 3, 4]; tail=[2,3,4]
-let [x, y, z] = new Set(["a", "b", "c"])
-
-const [a, b, c, d, e] = 'hello';
-
-var map = new Map();
-map.set('first', 'hello');
-map.set('second', 'world');
-
-for (let [key, value] of map) {
-  console.log(key + " is " + value);
-}
-
-提取JSON数据
-var jsonData = {
-  id: 42,
-  status: "OK",
-  data: [867, 5309]
-}
-let { id, status, data: number } = jsonData;
-console.log(id, status, number)
-
-从函数返回多个值
-function example() {
-  return [1, 2, 3];
-}
-var [a, b, c] = example();
-
-交换变量的值
-[x, y] = [y, x];
-
-let的块作用域
-function cat(){
-    let mew = '喵'
-    let angry = true
-    console.log(mew)
-    if(angry){
-        let mew = '...'  //外层{}成为块作用域
-        console.log(mew)
-    }
-    console.log(mew)
-}
-cat()
-//喵
-//...
-//喵
-
-使用let声明只在块级作用域内有效
-var a = []
-for (let i = 0; i < 5; i++) {
-  a[i] = function () {
-    console.log(i)
-  }
-}
-a[3]()
-
-
---------------------------------------------------------------------------------------
-function sleep(time) {
-  return function() {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  };
-}
-
-sleep(1000)().then(function() {
-  console.log('1000ms后运行');
-}).then(sleep(3000)).then(function() {
-  console.log('3000ms后运行');
-});
-
-es6 generator 函数的执行可以被控制
-// 数组
-function* GenFunc() {
-  yield [1, 2];
-  yield* [3, 4];
-  yield "56";
-  yield* "78";
-}
-var gen = GenFunc();
-console.log(gen.next().value); // [1, 2]
-console.log(gen.next().value); // 3
-console.log(gen.next().value); // 4
-
-// generator函数
-function* Gen1() {
-  yield 2;
-  yield 3;
-}
-function* Gen2() {
-  yield 1;
-  yield* Gen1();
-  yield 4;
-}
-var g2 = Gen2();
-console.log(g2.next().value); // 1
-console.log(g2.next().value); // 2
-console.log(g2.next().value); // 3
-console.log(g2.next().value); // 4
-yield*会逐个调用右侧可迭代对象的next方法
-
---------------------------------------------------------------------------------------
 函数防抖就是让某个函数在上一次执行后, 满足等待某个时间内不再触发此函数后再执行,
  而在这个等待时间内再次触发此函数, 等待时间会重新计算
  underscore.js的函数防抖定义: _.debounce(fn, wait, [immediate]);
@@ -13407,19 +12590,6 @@ underscore.js的函数节流定义: _.throttle(fn, wait, [options]);
 --------------------------------------------------------------------------------------
 https://github.com/tj/co js异步
 
---------------------------------------------------------------------------------------
-/**
- * 判断微信浏览器
- * @returns {Boolean}
- */
-function isWeiXin() {
-    var ua = window.navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-        return true;
-    } else {
-        return false;
-    }
-}
 --------------------------------------------------------------------------------------
 /**
  * 生成随机字符串(可指定长度)
@@ -13521,22 +12691,6 @@ Generator的核心实际上就是一个Iterator
 3挂起时，函数当前的执行上下文环境和参数被保存下来；
 4执行到第二个yield时，参数从挂起状态被重新调用，进入上次挂起的执行上下文环境继续下面的操作，到下一个yield操作时重复上面的过程
 --------------------------------------------------------------------------------------
-//可遍历对象
-let arr = ['a', 'b', 'c'];
-let arrIterator = `arr[Symbol.iterator]()`
-
-let set = new Set([1,2,3]);
-let setIterator = `set[Symbol.iterator]()`
-
-let map = new Map([x,1][y,2]);
-let mapIterator = `map[Symbol.iterator]()`
---------------------------------------------------------------------------------------
-用let替换var来定义变量. 如果是常量，使用const
-静态字符串统一用单引号'' , 动态拼接成的字符串统一用反引号``
-往对象里添加/修改属性时，使用Object.assign，而不用松散的.语法
-const objectA = {};
-Object.assign(objectA, { attr1: 3 });
---------------------------------------------------------------------------------------
 https://github.com/poetix/octarine
 --------------------------------------------------------------------------------------
 系统环境变量中增加一个变量，变量名为: JAVA_TOOL_OPTIONS， 变量值为：-Dfile.encoding=UTF-8
@@ -13574,20 +12728,6 @@ https://github.com/dragon66/icafe
 https://github.com/jrachiele/java-timeseries
 https://github.com/shagaba/jackson-patch-sync
 https://github.com/aterai/java-swing-tips
---------------------------------------------------------------------------------------
-// 字面量方式定义的对象默认是可扩展的.
-var o2 = {};
-console.log(Object.isExtensible(o2) === true); // true
-
-//...但可以改变
-Object.preventExtensions(o2);
-console.log(Object.isExtensible(o2) === false); // true
-
-让一个对象变的不可扩展 不可扩展的对象的属性通常仍然可以被删除
-
-Object.freeze() 方法可以冻结一个对象，冻结指的是这个对象永远不可变。数据属性的值不可更改，包括getter,setter
-Object.freeze(o);
-console.log(Object.isFrozen(o) === true); // true
 --------------------------------------------------------------------------------------
 Chrome浏览器中特有的函数 $$。你可以在你的Chrome浏览器控制台中输入 $$('a')，然后你就能得到一个当前页面中所有锚元素的列表
 --------------------------------------------------------------------------------------
@@ -13672,13 +12812,6 @@ if (typeof name === "undefined") {
        name = name || "James";
    }
 --------------------------------------------------------------------------------------
-es6
-new.target元属性
-函数内部有两个方法 [[call]] 和 [[construct]] (箭头函数没有这个方法)，当使用new 操作符时，
-函数内部调用 [[construct]]， 创建一个新实例，this指向这个实例； 不使用new 操作符时， 函数内部调用 [[call]]
-ES6 通过new.target 来判断是否使用new
-if (typeof new.target !== "undefined")
---------------------------------------------------------------------------------------
 function parsePage() {
     var searchString = window.location.search.substr(1).split('&').filter(v => v.indexOf('page') !== -1)[0];
     var page = Number(searchString.split('=')[1]);
@@ -13736,27 +12869,9 @@ XX:+PerfDisableSharedMem
 
 
 --------------------------------------------------------------------------------------
-$('html,body').scrollTop(0);
-$('html, body').animate({ scrollTop: 0 }, 'fast');
---------------------------------------------------------------------------------------
 $("a[id$='_eventBtn']
 --------------------------------------------------------------------------------------
 增加-XX:+TraceClassLoading和-XX:+TraceClassUnloading, 看看哪些class加载了，哪些class卸载了
---------------------------------------------------------------------------------------
-var str1 = str2 = "web";
-(function () {
-var str1 = str2 = "前端";
-})();
-console.log(str2); 前端 全局变量
-consloe.log(str1); web 局部变量
-
-str1 = "web";
-(function () {
-     var str1 = "前端";
-
-     //str1剩下的功能
-)();
-console.log(str1);  web
 --------------------------------------------------------------------------------------
 https://github.com/MGunlogson/CuckooFilter4J
 --------------------------------------------------------------------------------------
@@ -14004,10 +13119,6 @@ var o = new F();
 console.log(o.constructor.name); // C
  C() 的前面添加了 new ，这个函数就变成了一个构造函数，this 是一个由 C() 构造器创建的一个实例，所以在这里 this 指向了o
 --------------------------------------------------------------------------------------
-mmsql更改字符集
-alter table t1 convert to charset utf8mb4;
-alter table 改字符集的操作是阻塞写的
---------------------------------------------------------------------------------------
 在for循环中使用ajax的异步同步数据时，如何按照给定数据的先后顺序去执行
 var data = ['one','two','three','four','five','six','seven','eight'];
 
@@ -14240,17 +13351,7 @@ https://github.com/nolanlawson/optimize-js 加快js初始化
 https://github.com/luruke/barba.js 创建两个页面之间的平滑过渡效果
 https://github.com/metafloor/bwip-js 生成条形码和二维码
 --------------------------------------------------------------------------------------
-function stopDefault( e ) {
-     // 阻止默认浏览器动作(W3C)
-     if ( e && e.preventDefault ) {
-         e.preventDefault();
-     } else {
-        // IE中阻止函数器默认动作的方式 ie8
-        window.event.returnValue = false;
-    }
-    return false;
-}
---------------------------------------------------------------------------------------
+
 MySQL的变更记录叫binlog, Oracle的称之为redolog
 数据库中间件有以下几种：
 分布式数据库分表分库
@@ -14643,19 +13744,6 @@ org.apache.juli.FileHandler.prefix = error-debug.
 java.util.logging.ConsoleHandler.level = FINE
 java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
 --------------------------------------------------------------------------------------
-@RestController 返回的 json 不包含值为 null 的字段
-<mvc:annotation-driven>
-	<mvc:message-converters>
-		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-			<property name="objectMapper">
-				<bean class="com.fasterxml.jackson.databind.ObjectMapper">
-					<property name="serializationInclusion" value="NON_NULL"/>
-				</bean>
-			</property>
-		</bean>
-	</mvc:message-converters>
-</mvc:annotation-driven>
---------------------------------------------------------------------------------------
 public int normalizeTicksPerWheel(int ticksPerWheel) {
 		// 这里参考java8 hashmap的算法，使推算的过程固定
 		int n = ticksPerWheel - 1;//防止已经是2的幂
@@ -14795,17 +13883,6 @@ http://www.chinaxing.org/ 支持各式各样的图片滑动，移动端和PC端�
 --------------------------------------------------------------------------------------
 tomcat maxPostSize默认值2M
 <Connector port="8081" maxPostSize="0"/> 设置为0表示没有限制
---------------------------------------------------------------------------------------
-js阻止页面关闭
-window.isCloseHint = true;
-//初始化关闭
-window.addEventListener("beforeunload", function(e) {
-    if (window.isCloseHint) {
-        var confirmationMessage = "要记得保存！你确定要离开我吗？";
-        (e || window.event).returnValue = confirmationMessage; // 兼容 Gecko + IE
-        return confirmationMessage; // 兼容 Gecko + Webkit, Safari, Chrome
-    }
-});
 --------------------------------------------------------------------------------------
 yield语句是Generator函数内部可以暂停执行程序的语句，yield语句后面的值可以是各种数据类型，字符串，整数，布尔值等
 当碰到return语句时，返回对象的done属性值就为true，遍历结束，不管后面是否还有yield或者return语句
@@ -15042,30 +14119,9 @@ update pay_record set status = 'doing' where status == 'init';
 if (updateNum == 0)
     return;
 --------------------------------------------------------------------------------------
-查找大文件
-find . -type f -size +200M -print0 | xargs -0 du -h | sort -nr
-
-linux 文件的三种时间
-atime 最后一次访问时间, 如 less, more 等, 但 chmod, chown, ls, stat 等不会修改些时间
-ctime 最后一次状态修改时间, 如 chmod, chown 等状态时间改变但修改时间不会改变, 使用 stat file 可以查看
-mtime 最后一次内容修改时间, 如 vi 保存后等, 修改时间发生改变的话, atime 和 ctime 也相应跟着发生改变
-
-find /var/log/ -mtime +3 -type f -print  3天前
-find /var/log/ -mtime -3 -type f -print  3天内
-find /var/log/ -mtime 3 -type f -print   第3天
-find /var/log/ -mtime +2 -mtime -4 -type f -print
---------------------------------------------------------------------------------------
 java 8 使用Nashorn
 jjs
 print('Hello World');
---------------------------------------------------------------------------------------
-ES6 引入了块级作用域，明确允许在块级作用域之中声明函数
-函数声明语句的行为类似于let，在块级作用域之外不可引用
-// ES6严格模式
-'use strict';
-if (true) {
-  function f() {}
-}
 --------------------------------------------------------------------------------------
 mysql
 链式复制（多级复制）

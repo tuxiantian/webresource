@@ -27,3 +27,24 @@ grep -nH "Excetion message" test.text
 查找文件中字符串出现次数
 grep -c 'httpSample' kmtest0924.jtl
 --------------------------------------------------------------------------------------
+Linux 删除除了某个文件之外的所有文件
+rm -f !(a|b)
+
+find . -type f ! -name "file10"|xargs rm -f
+--------------------------------------------------------------------------------------
+set  nu ：设置显示文本的行数
+set  nonu：取消显示文本的行数
+--------------------------------------------------------------------------------------
+查找大文件
+find . -type f -size +200M -print0 | xargs -0 du -h | sort -nr
+
+linux 文件的三种时间
+atime 最后一次访问时间, 如 less, more 等, 但 chmod, chown, ls, stat 等不会修改些时间
+ctime 最后一次状态修改时间, 如 chmod, chown 等状态时间改变但修改时间不会改变, 使用 stat file 可以查看
+mtime 最后一次内容修改时间, 如 vi 保存后等, 修改时间发生改变的话, atime 和 ctime 也相应跟着发生改变
+
+find /var/log/ -mtime +3 -type f -print  3天前
+find /var/log/ -mtime -3 -type f -print  3天内
+find /var/log/ -mtime 3 -type f -print   第3天
+find /var/log/ -mtime +2 -mtime -4 -type f -print
+--------------------------------------------------------------------------------------
