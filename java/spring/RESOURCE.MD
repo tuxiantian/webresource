@@ -223,3 +223,9 @@ Jersey RESTful 框架是开源的RESTful框架
 	</mvc:message-converters>
 </mvc:annotation-driven>
 --------------------------------------------------------------------------------------
+<bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+          p:defaultEncoding="UTF-8"
+          p:maxUploadSize="10485760"
+          p:uploadTempDir="WEB-INF/upload/temp"/>
+--------------------------------------------------------------------------------------

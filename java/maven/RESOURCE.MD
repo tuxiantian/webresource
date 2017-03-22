@@ -175,3 +175,35 @@ maven -DgroupId=com.google.code.gson -DartifactId=gson -Dversion=2.6.2
 mvn verify 运行检查以证实生成的包是有效的，达到质量标准的
 
 --------------------------------------------------------------------------------------
+
+<plugin>
+	<!-- 发布插件 -->
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-deploy-plugin</artifactId>
+	<version>2.8.2</version>
+	<configuration>
+      <skip>true</skip>
+    </configuration>
+</plugin>
+
+跳过测试
+--------------------------------------------------------------------------------------
+mvn help: active-Profiles来查看处于激活状态的profiles
+
+<profile>
+    <!-- 开发环境 -->
+    <id>dev</id>
+    <properties>
+        <db-username>***</db-username>
+    </properties>
+    <!-- 默认激活本环境 -->
+    <activation>
+        <activeByDefault>true</activeByDefault>
+    </activation>
+</profile>
+maven package -P dev
+将自动打包成dev环境的部署包
+--------------------------------------------------------------------------------------
+mvn clean install -Dmaven.test.skip -Denv=release
+-Denv=dev 语句创建一个名为 env 的系统属性，并将其值设为 dev，这激活了开发配置
+--------------------------------------------------------------------------------------

@@ -48,3 +48,9 @@ find /var/log/ -mtime -3 -type f -print  3天内
 find /var/log/ -mtime 3 -type f -print   第3天
 find /var/log/ -mtime +2 -mtime -4 -type f -print
 --------------------------------------------------------------------------------------
+linux复制文件到多个目录
+ echo /home/aaronkilik/test/ /home/aaronkilik/tmp | xargs -n 1 cp -v /home/aaronkilik/bin/sys_info.sh
+-n 1 - 告诉 xargs 命令每个命令行最多使用一个参数，并发送到 cp 命令中。
+cp – 用于复制文件。
+-v – 启用详细模式来显示更多复制细节
+--------------------------------------------------------------------------------------

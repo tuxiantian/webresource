@@ -14216,13 +14216,6 @@ $(document).ready(function(){
 
 });
 --------------------------------------------------------------------------------------
-var book='{"title":"professional Javascript", "authors":"Anna"}';//json字符串
-var bookText=JSON.parse(book);//序列化成json对象
-
-JSON.stringify(bookText,null,1);
---------------------------------------------------------------------------------------
-$.ajax({async:false}) 同步
---------------------------------------------------------------------------------------
 mysql
 binlog_row_image 参数默认值是FULL，其还有一个值是minimal
 full记录每一行的变更，minimal只记录影响后的行
@@ -14391,13 +14384,6 @@ chunk(data, printValue)
 --------------------------------------------------------------------------------------
 http://ecomfe.github.io/zrender/  MVC核心封装实现图形仓库、视图渲染和交互控制
 --------------------------------------------------------------------------------------
-linux复制文件到多个目录
- echo /home/aaronkilik/test/ /home/aaronkilik/tmp | xargs -n 1 cp -v /home/aaronkilik/bin/sys_info.sh
--n 1 - 告诉 xargs 命令每个命令行最多使用一个参数，并发送到 cp 命令中。
-cp – 用于复制文件。
--v – 启用详细模式来显示更多复制细节
-
---------------------------------------------------------------------------------------
 MySQL 5.6.24才引入的功能，新增了一个 avoid_temporal_upgrade 选项，其作用是让我们能选择是否强制升级表结构
 --------------------------------------------------------------------------------------
 [101,2,5,100].sort() 默认排序规则是数组元素 字符 的 Unicode 编码排序的
@@ -14460,24 +14446,6 @@ new Boolean(false) 是等于true的
 let声明的变量不存在“变量提升”现象。
 console.log(x); // undefined
 let x = 10;
---------------------------------------------------------------------------------------
-<bean id="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-          p:defaultEncoding="UTF-8"
-          p:maxUploadSize="10485760"
-          p:uploadTempDir="WEB-INF/upload/temp"/>
---------------------------------------------------------------------------------------
-<plugin>
-	<!-- 发布插件 -->
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-deploy-plugin</artifactId>
-	<version>2.8.2</version>
-	<configuration>
-      <skip>true</skip>
-    </configuration>
-</plugin>
-
-跳过测试
 --------------------------------------------------------------------------------------
 http://kazzkiq.github.io/balloon.css/ 一款非常小巧的提示框组件
 http://basscss.com/ 轻量级的 CSS 基本元素样式、工具、颜色和布局模块
@@ -14614,25 +14582,6 @@ $.ajax{
             p: values
       }
 }
---------------------------------------------------------------------------------------
-mvn help: active-Profiles来查看处于激活状态的profiles
-
-<profile>
-    <!-- 开发环境 -->
-    <id>dev</id>
-    <properties>
-        <db-username>***</db-username>
-    </properties>
-    <!-- 默认激活本环境 -->
-    <activation>
-        <activeByDefault>true</activeByDefault>
-    </activation>
-</profile>
-maven package -P dev
-将自动打包成dev环境的部署包
---------------------------------------------------------------------------------------
-mvn clean install -Dmaven.test.skip -Denv=release
--Denv=dev 语句创建一个名为 env 的系统属性，并将其值设为 dev，这激活了开发配置
 --------------------------------------------------------------------------------------
 console.log(Object.prototype._proto_) null
 原型链的形成是真正是靠 _proto _ 的，而不是 prototype。
@@ -14819,17 +14768,6 @@ fetch('/api', options).then(response => response.json())
 
 Fetch 请求默认是不带 cookie，需要设置 fetch(url, {credentials: 'include'})`
 服务器返回 400，500 错误码时并不会 reject，只有网络错误这些导致请求不能完成时，fetch 才会被 reject
---------------------------------------------------------------------------------------
-[].concat[1,2,3]  undefined
-[].concat([1,2,3]) [1,2,3]
-concat() 方法将传入的数组或非数组值与原数组合并，组成一个新的数组并返回
-
-[].concat，这个的结果是 Array.prototype.concat
-执行一个逗号操作符。逗号操作符对它的每个操作对象求值（从左至右），然后返回最后一个操作对象的值 1,2,3 -->3
-Array.prototype.concat[3]
-
-Array.prototype.concat[3] = [1,2,3]
-[].concat[1,2,3] 就会得到结果 [1,2,3]
 --------------------------------------------------------------------------------------
 Webp 是一种支持有损压缩和无损压缩的图片文件格式，派生自图像编码格式 VP8
 function checkWebpSupport() {
