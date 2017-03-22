@@ -3,22 +3,22 @@
 代码片段
 ```
 <choose>
-		<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='0'.toString()">
-					and SERVICE_PASSWORD_VERIFY in ('0','1','2')
-		</when>
-		<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='1'.toString()">
-					and SERVICE_PASSWORD_VERIFY ='0'
-		</when>
-		<otherwise></otherwise>
+	<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='0'.toString()">
+				and SERVICE_PASSWORD_VERIFY in ('0','1','2')
+	</when>
+	<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='1'.toString()">
+				and SERVICE_PASSWORD_VERIFY ='0'
+	</when>
+	<otherwise></otherwise>
 </choose>
 ```
 ### 特殊符号的处理
 对于>、<、等特殊符号要用<![CDATA[]]>处理
 ```
 <if test="endDate != null and endDate != 'null' and endDate != ''">
-			<![CDATA[
-			and CREATE_DATE < date_add(str_to_date(#{endDate} , '%Y-%m-%d'), interval 1 day)
-			]]>
+	<![CDATA[
+	and CREATE_DATE < date_add(str_to_date(#{endDate} , '%Y-%m-%d'), interval 1 day)
+	]]>
 </if>
 ```
 ### 对数据库日期字段格式化
@@ -27,14 +27,14 @@ DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 ### 日期比较
 ```
 <if test="expertDate != null and expertDate != 'null' and expertDate != ''">
-and DATE_FORMAT(EXPERT_DATE,'%Y-%m-%d') = str_to_date(#{expertDate} , '%Y-%m-%d')
+	and DATE_FORMAT(EXPERT_DATE,'%Y-%m-%d') = str_to_date(#{expertDate} , '%Y-%m-%d')
 </if>
 ```
 ### 日期字段加索引注意事项
 ```
 <if test="acceptDate != null and acceptDate != 'null' and acceptDate !='' ">
-				and DATE_FORMAT(ACCEPT_DATE,'%Y-%m-%d') &gt;= str_to_date(#{acceptDate} , '%Y-%m-%d')
-				and DATE_FORMAT(ACCEPT_DATE,'%Y-%m-%d') &lt;= date_add(str_to_date(#{acceptDate} , '%Y-%m-%d'), interval 1 day)
+	and DATE_FORMAT(ACCEPT_DATE,'%Y-%m-%d') &gt;= str_to_date(#{acceptDate} , '%Y-%m-%d')
+	and DATE_FORMAT(ACCEPT_DATE,'%Y-%m-%d') &lt;= date_add(str_to_date(#{acceptDate} , '%Y-%m-%d'), interval 1 day)
 </if>
 ```
 由于表中ACCEPT_DATE是varchar类型，在进行日期比较时，使用了DATE_FORMAT函数，因此对该字段上面加的索引就不起作用了。  
@@ -48,28 +48,28 @@ and DATE_FORMAT(EXPERT_DATE,'%Y-%m-%d') = str_to_date(#{expertDate} , '%Y-%m-%d'
 #### 示例一
 ```
 <update id="updateSysMarkToNullByPage" parameterType="java.util.Map">
-		update ${table}
-		set ${column} = null,
-		MARK_DATE = null
-		where LOGID in
-		<foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+	update ${table}
+	set ${column} = null,
+	MARK_DATE = null
+	where LOGID in
+	<foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+		#{item}
+	</foreach>
 </update>
 ```
 #### 示例二
 ```
 <update id="markOrder" parameterType="java.util.List">
-		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
-			UPDATE
-			db_ap_rgsh_vertify_log
-			<set>
-				PERSONAL_OPCODE = #{item.personalOpCode},
-				MARK_DATE = #{item.markDate}
-			</set>
-			WHERE
-			LOGID = #{item.logId}
-		</foreach>
+	<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+		UPDATE
+		db_ap_rgsh_vertify_log
+		<set>
+			PERSONAL_OPCODE = #{item.personalOpCode},
+			MARK_DATE = #{item.markDate}
+		</set>
+		WHERE
+		LOGID = #{item.logId}
+	</foreach>
 </update>
 ```
 ### like的使用
