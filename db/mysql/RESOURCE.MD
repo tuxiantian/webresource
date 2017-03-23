@@ -134,3 +134,27 @@ mysql更改字符集
 alter table t1 convert to charset utf8mb4;
 alter table 改字符集的操作是阻塞写的
 --------------------------------------------------------------------------------------
+mysql 当sql解释器遇到 start transaction 时候会触发commit
+mysql> starttransaction ;
+QueryOK, 0 rowsaffected (0.00 sec)
+
+mysql> insertintoceshivalues(3);
+QueryOK, 1 rowaffected (0.00 sec)
+
+mysql> commit;
+QueryOK, 0 rowsaffected (0.00 sec)
+
+mysql> rollback;
+QueryOK, 0 rowsaffected (0.00 sec)
+--------------------------------------------------------------------------------------
+mysql union 使用IN查询不连续的数
+select *
+from (
+    select 1 as cid union all
+    select 5000 union all
+    select 50000 union all
+    select 500000 union all
+    select 955559
+) as tmp, t
+where tmp.cid = t.cid;
+--------------------------------------------------------------------------------------

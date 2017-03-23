@@ -15236,35 +15236,6 @@ console.log(array.slice(-1)); // [6]
 console.log(array.slice(-2)); // [5,6]
 console.log(array.slice(-3)); // [4,5,6]
 --------------------------------------------------------------------------------------
-linux strace常用来跟踪进程执行时的系统调用和所接收的信
-strace -T -tt -f -p 92028 -o 92028.txt
--T 显示每一调用所耗的时间
--tt 在输出中的每一行前加上时间信息,微秒级
--f 跟踪由fork调用所产生的子进程
--p pid 跟踪指定的进程pid
--o filename  将strace的输出写入文件filename
--e expr 指定一个表达式,用来控制如何跟踪
-
---------------------------------------------------------------------------------------
-grep AND 操作
-grep -E 'pattern1.*pattern2' filename
-
-grep or
-egrep 'pattern1|pattern2' filename
-grep -e pattern1 -e pattern2 filename
-
-grep not
-grep -v 'pattern1' filename
-
--o 只输出文件中匹配到的部分
--P 选项是利用PERL的正则语法进行匹配
-－n：显示匹配行及 行号
-
-grep accept 92028.txt|grep 16:58:15 |grep -Po '192\.168\.\d{2,}\.\d{2,}'|sort|uniq -c
-
-grep -A 1 除了列出符合行之外，并且列出后NUM行
-grep -A1 -n "api.weixin.qq.com/cgi-bin/" *.log | grep -v "api.weixin.qq.com" | awk '$6 > 5'
---------------------------------------------------------------------------------------
 记录不使用索引的语句
 mysql> set global log_queries_not_using_indexes = 'ON';
 FLUSH LOGS;
@@ -15354,79 +15325,6 @@ utf-8 非最短形式
 非最短形式的安全隐患
 在安全检查时并未将UTF-8非最短形式编码的字符
 看作是 “/”正常字符，但是后续的处理中又将传入非最短形式编码的字符的0xC0AF看作”/”处理
---------------------------------------------------------------------------------------
-mysql 当sql解释器遇到 start transaction 时候会触发commit
-mysql> starttransaction ;
-QueryOK, 0 rowsaffected (0.00 sec)
-
-mysql> insertintoceshivalues(3);
-QueryOK, 1 rowaffected (0.00 sec)
-
-mysql> commit;
-QueryOK, 0 rowsaffected (0.00 sec)
-
-mysql> rollback;
-QueryOK, 0 rowsaffected (0.00 sec)
---------------------------------------------------------------------------------------
-mysql union 使用IN查询不连续的数
-select *
-from (
-    select 1 as cid union all
-    select 5000 union all
-    select 50000 union all
-    select 500000 union all
-    select 955559
-) as tmp, t
-where tmp.cid = t.cid;
---------------------------------------------------------------------------------------
-/*
-解决思路:
-   增加若干个对应的闭包域空间(这里采用的是匿名函数),专门用来存储原先需要引用的内容(下标),不过只限于基本类型(基本类型值传递,对象类型引用传递)
-*/
-for(vari= 0;i<arr.length;i++){
-
-   //声明一个匿名函数,若传进来的是基本类型则为值传递,故不会对实参产生影响,
-   //该函数对象有一个本地私有变量arg(形参) ,该函数的 function scope 的 closure 对象属性有两个引用,一个是 arr,一个是 i
-   //尽管引用 i 的值随外部改变 ,但本地私有变量(形参) arg 不会受影响,其值在一开始被调用的时候就决定了.
-   (function (arg) {
-       arr[i].onclick= function () { //onclick函数实例的 function scope 的 closure 对象属性有一个引用 arg,
-           alert(arg);               //只要 外部空间的 arg 不变,这里的引用值当然不会改变
-       }
-   })(i);                             //立刻执行该匿名函数,传递下标 i(实参)
-}
-
-
-/*
-解决思路:
-   与解决办法一有点相似但却有点不太相似.
-   相似点:同样是增加若干个对应的闭包域空间用来存储下标
-   不同点:解决办法一是在新增的匿名闭包空间内完成事件的绑定,而此例是将事件绑定在新增的匿名函数返回的函数上
-
-   此时绑定的函数中的 function scope 中的 closure 对象的 引用 arg 是指向将其返回的匿名函数的私有变量 arg
-*/
-for(vari= 0;i<arr.length;i++){
-   arr[i].onclick= (function(arg){
-       return function () {
-           alert(arg);
-       }
-   })(i);
-}
---------------------------------------------------------------------------------------
-sed -n '1p' ab   #显示第一行
---------------------------------------------------------------------------------------
-const isKitten = cat => cat.months < 7
-const getName = cat => cat.name
-const getKittenNames = cats =>
-  cats.filter(isKitten)
-      .map(getName)
-const cats = [
-  { name: 'Mojo',    months: 84 },
-  { name: 'Mao-Mao', months: 34 },
-  { name: 'Waffles', months: 4 },
-  { name: 'Pickles', months: 6 }
-]
-const kittens = getKittenNames(cats)
-console.log(kittens)
 --------------------------------------------------------------------------------------
 varnish是一款高性能且开源的方向代理服务器和HTTP加速器
 Varnish采用了“Visual Page Cache”技术，在内存的利用上，Varnish比Squid具有优势，
@@ -15533,67 +15431,7 @@ connector.setAttribute("sslProtocol", "TLS");
 connector.setAttribute("protocol", "org.apache.coyote.http11.Http11Protocol");
 
 --------------------------------------------------------------------------------------
-nginx
-设置临时目录
-proxy_temp_path /tmp/temp_dir;
 
-设置http状态码为200,302缓存时间，24h为24小时
-proxy_cache_valid 200 302 24h;
-设置失期时间，90d为90天
-expires 90d;
-不进行缓存直接转到后端服务器
-proxy_pass http://127.0.0.1:9000;
-
-proxy_cache_bypass $cookie_nocache $arg_nocache; 哪种类型的请求需要向服务器请求而不是尝试首先在缓存中查找
-http://www.example.com/?nocache=true
-
-proxy_cache_path用来设置缓存的路径和配置，proxy_cache用来启用缓存
-proxy_cache_path /path/to/cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m
-                 use_temp_path=off;
-
-location / {
-      proxy_cache my_cache;
-      proxy_pass http://my_upstream;
-}
-
-levels在/path/to/cache/设置了一个两级层次结构的目录
-keys_zone设置一个共享内存区，该内存区用于存储缓存键和元数据 10MB内存空间
-max_size设置了缓存的上限
-inactive指定了项目在不被访问的情况下能够在内存中保持的时间
-use_temp_path=off命令指示NGINX将在缓存这些文件时将它们写入同一个目录下 避免在文件系统中不必要的数据拷贝
-
-proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
-当NGINX收到服务器返回的error，timeout或者其他指定的5xx错误，并且在其缓存中有请求文件的陈旧版本，
-则会将这些陈旧版本的文件而不是错误信息发送给客户端
-
-location /images/ {
-    proxy_cache my_cache;
-    proxy_ignore_headers Cache-Control;
-    proxy_cache_valid any 30m;
-    ...
-}
-会忽略所有/images/下的Cache-Control头
-proxy_cache_valid命令强制规定缓存数据的过期时间
-
-缓存POST请求
-proxy_cache_methods GET HEAD POST;
-
-#所有静态文件由nginx直接读取不经过tomcat或resin
-location ~ .*.(htm|html|gif|jpg|jpeg|png|bmp|swf|ioc|rar|zip|txt|flv|mid|doc|ppt|pdf|xls|mp3|wma)$
-{ expires 15d; }
-location ~ .*.(js|css)?$
-{ expires 1h; }
-}
-}
-#所有jsp的页面均交由tomcat或resin处理
-location ~ .(jsp|jspx|do)?$ {
-proxy_set_header Host $host;
-proxy_set_header X-Real-IP $remote_addr;
-#后端的Web服务器可以通过X-Forwarded-For获取用户真实IP
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_pass http://127.0.0.1:8080;
-}
---------------------------------------------------------------------------------------
 netty
 new LengthFieldBasedFrameDecoder(100000000,0,4,0,4)
 maxFrameLength为信息最大长度，超过这个长度回报异常，
@@ -15728,101 +15566,6 @@ Logback日志按时间滚动(切割)
 </appender>
 
 --------------------------------------------------------------------------------------
-awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理
-last -n 5 | awk  '{print $1}'
-$0则表示所有域,$1表示第一个域,$n表示第n个域。默认域分隔符是"空白键" 或 "[tab]键
--F指定域分隔符  -F ':'
-awk  -F ':'  '{print $1"\t"$7}'
-
-awk  -F ':'  'BEGIN {print "start"}  {print $1","$7} END {print "end"}'
-
-ARGC               命令行参数个数
-ARGV               命令行参数排列
-ENVIRON            支持队列中系统环境变量的使用
-FILENAME           awk浏览的文件名
-FNR                浏览文件的记录数
-FS                 设置输入域分隔符，等价于命令行 -F选项
-NF                 浏览记录的域的个数
-NR                 已读的记录数
-OFS                输出域分隔符
-ORS                输出记录分隔符
-RS                 控制记录分隔符
-
-awk  -F ':'  '{print "filename:" FILENAME ",linenumber:" NR ",columns:" NF ",linecontent:"$0}' /etc/passwd
-
-如果以M为单位显示:
-ls -l |awk 'BEGIN {size=0;} {size=size+$5;} END{print "[end]size is ", size/1024/1024,"M"}'
-
-awk '{print $1}' log_file|sort|uniq|wc -l
-
---------------------------------------------------------------------------------------
-linux last 列出目前与过去登录系统的用户相关信息
-last -n 5 <==仅取出前五行
---------------------------------------------------------------------------------------
-var json = {
-    item1: {
-        buckets: [
-            {
-                key: 'item1_1',
-                item2: {
-                    buckets: [
-                        {
-                            key: 'item2_1',
-                            item3: {
-                                buckets: [
-                                    {
-                                        key: 'item3_1',
-                                        name: 'name'
-                                    }, {
-                                        key: 'item3_2',
-                                        name: ''
-                                    }
-                                ]
-                            }
-                        }, {
-                            key: 'item2_2',
-                            item3: {
-                                buckets: [
-                                    {
-                                        key: 'item3_1',
-                                        name: 'name'
-                                    }
-                                ]
-                            }
-                        }, {
-                            key: 'item2_3',
-                            item3: {
-                                buckets: [
-                                    {
-                                        key: 'item3_1',
-                                        name: 'name'
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-}
-var filedArr = ['item1', 'item2', 'item3', 'name']
-var arr = []
-function recursion(obj, tempObj, index) {
-    var key = filedArr[index];
-    for (var i = 0; i < obj[key].buckets.length; i++) {
-        tempObj[key] = obj[key].buckets[i].key
-        if (index == filedArr.length - 2) {
-            var temp = JSON.stringify(tempObj)
-            arr.push(JSON.parse(temp))
-        } else {
-            recursion(obj[key].buckets[i], tempObj, index + 1)
-        }
-    }
-}
-recursion(json, {}, 0);
-console.log(arr);
---------------------------------------------------------------------------------------
 'string' & 1; 0
 先使用Number()函数处理，结果返回NaN，NaN又会被当成0来处理
 --------------------------------------------------------------------------------------
@@ -15839,12 +15582,6 @@ console.log(arr);
 const flatten = arr => arr.reduce(
 	(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
 );
---------------------------------------------------------------------------------------
-解决position:fixed抖动的问题
-<div style="position:fiexd;bottom:0px;">
-  <div style="position:absolute;">
-</div>
-</div>
 --------------------------------------------------------------------------------------
 127.0.0.1  fonts.googleapis.com
 127.0.0.1  ajax.googleapis.com
@@ -16112,57 +15849,7 @@ Allow From all #允许所有
 Deny From 192.168.4.112 #禁止的IP
 </Directory>
 --------------------------------------------------------------------------------------
-Linux禁用开启ping设置
-linux禁用ping的设置方法
-echo 1 >/proc/sys/net/ipv4/icmp_echo_ignore_all
 
-linux开启ping的设置方法
-echo 0 >/proc/sys/net/ipv4/icmp_echo_ignore_all
-
---------------------------------------------------------------------------------------
-location ^~ /static/
-{
-# http://backup/。。。 不带location中的东西
-# 只要proxy_pass后面有东西就不带location中的东西
-proxy_pass http://www.test.com/;
-}
-# location中的匹配路径为/static/。加了/之后proxy_pass 不会加上/static/
-# curl http://localhost:3000/static/index.html
-# proxy_pass 转发为 http://www.test.com/index.html
-
-如果没有/，则会把匹配的路径部分也给代理走。
-location ^~ /static/
-{
-# 带上location中的东西
-proxy_pass http://www.test.com;
-}
-# location中的匹配路径为/static/。不加 / 后proxy_pass会加上 /static/
-# curl http://localhost:3000/static/index.html
-# proxy_pass 转发为 http://www.test.com/static/index.html
-
-location 中 ~ （区分大小写）与 ~* （不区分大小写）标识均为正则匹配
-location ~* /static/(.*)
-{
-# 此处 location 为正则匹配，proxy_pass 后面不能有 /test
-
-proxy_pass http://www.test.com;
-}
-
-server {
-    listen 127.0.0.1:8080;  # IPv4地址，8080端口
-    # listen [2001:3CA1:10F:1A:121B:0:0:10]:80;   # IPv6地址，80端口
-    # listen [::]:80;  # 听本机的所有IPv4与IPv6地址，80端口
-    # The rest of server configuration
-}
-
-location /wrong/url {
-    return 404;
-}
-
-location /permanently/moved/url {
-    return 301 http://www.example.com/moved/here;
-}
---------------------------------------------------------------------------------------
 列出所有数据库
 #db2 list db directory
 

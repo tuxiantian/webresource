@@ -39,3 +39,9 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 --------------------------------------------------------------------------------------
+解决position:fixed抖动的问题
+<div style="position:fiexd;bottom:0px;">
+  <div style="position:absolute;">
+</div>
+</div>
+--------------------------------------------------------------------------------------

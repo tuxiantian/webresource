@@ -54,3 +54,115 @@ linux复制文件到多个目录
 cp – 用于复制文件。
 -v – 启用详细模式来显示更多复制细节
 --------------------------------------------------------------------------------------
+linux strace常用来跟踪进程执行时的系统调用和所接收的信
+strace -T -tt -f -p 92028 -o 92028.txt
+-T 显示每一调用所耗的时间
+-tt 在输出中的每一行前加上时间信息,微秒级
+-f 跟踪由fork调用所产生的子进程
+-p pid 跟踪指定的进程pid
+-o filename  将strace的输出写入文件filename
+-e expr 指定一个表达式,用来控制如何跟踪
+
+--------------------------------------------------------------------------------------
+grep AND 操作
+grep -E 'pattern1.*pattern2' filename
+
+grep or
+egrep 'pattern1|pattern2' filename
+grep -e pattern1 -e pattern2 filename
+
+grep not
+grep -v 'pattern1' filename
+
+-o 只输出文件中匹配到的部分
+-P 选项是利用PERL的正则语法进行匹配
+－n：显示匹配行及 行号
+
+grep accept 92028.txt|grep 16:58:15 |grep -Po '192\.168\.\d{2,}\.\d{2,}'|sort|uniq -c
+
+grep -A 1 除了列出符合行之外，并且列出后NUM行
+grep -A1 -n "api.weixin.qq.com/cgi-bin/" *.log | grep -v "api.weixin.qq.com" | awk '$6 > 5'
+--------------------------------------------------------------------------------------
+sed -n '1p' ab   #显示第一行
+--------------------------------------------------------------------------------------
+awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理
+last -n 5 | awk  '{print $1}'
+$0则表示所有域,$1表示第一个域,$n表示第n个域。默认域分隔符是"空白键" 或 "[tab]键
+-F指定域分隔符  -F ':'
+awk  -F ':'  '{print $1"\t"$7}'
+
+awk  -F ':'  'BEGIN {print "start"}  {print $1","$7} END {print "end"}'
+
+ARGC               命令行参数个数
+ARGV               命令行参数排列
+ENVIRON            支持队列中系统环境变量的使用
+FILENAME           awk浏览的文件名
+FNR                浏览文件的记录数
+FS                 设置输入域分隔符，等价于命令行 -F选项
+NF                 浏览记录的域的个数
+NR                 已读的记录数
+OFS                输出域分隔符
+ORS                输出记录分隔符
+RS                 控制记录分隔符
+
+awk  -F ':'  '{print "filename:" FILENAME ",linenumber:" NR ",columns:" NF ",linecontent:"$0}' /etc/passwd
+
+如果以M为单位显示:
+ls -l |awk 'BEGIN {size=0;} {size=size+$5;} END{print "[end]size is ", size/1024/1024,"M"}'
+
+awk '{print $1}' log_file|sort|uniq|wc -l
+
+--------------------------------------------------------------------------------------
+linux last 列出目前与过去登录系统的用户相关信息
+last -n 5 <==仅取出前五行
+--------------------------------------------------------------------------------------
+Linux禁用开启ping设置
+linux禁用ping的设置方法
+echo 1 >/proc/sys/net/ipv4/icmp_echo_ignore_all
+
+linux开启ping的设置方法
+echo 0 >/proc/sys/net/ipv4/icmp_echo_ignore_all
+--------------------------------------------------------------------------------------
+location ^~ /static/
+{
+# http://backup/。。。 不带location中的东西
+# 只要proxy_pass后面有东西就不带location中的东西
+proxy_pass http://www.test.com/;
+}
+# location中的匹配路径为/static/。加了/之后proxy_pass 不会加上/static/
+# curl http://localhost:3000/static/index.html
+# proxy_pass 转发为 http://www.test.com/index.html
+
+如果没有/，则会把匹配的路径部分也给代理走。
+location ^~ /static/
+{
+# 带上location中的东西
+proxy_pass http://www.test.com;
+}
+# location中的匹配路径为/static/。不加 / 后proxy_pass会加上 /static/
+# curl http://localhost:3000/static/index.html
+# proxy_pass 转发为 http://www.test.com/static/index.html
+
+location 中 ~ （区分大小写）与 ~* （不区分大小写）标识均为正则匹配
+location ~* /static/(.*)
+{
+# 此处 location 为正则匹配，proxy_pass 后面不能有 /test
+
+proxy_pass http://www.test.com;
+}
+
+server {
+    listen 127.0.0.1:8080;  # IPv4地址，8080端口
+    # listen [2001:3CA1:10F:1A:121B:0:0:10]:80;   # IPv6地址，80端口
+    # listen [::]:80;  # 听本机的所有IPv4与IPv6地址，80端口
+    # The rest of server configuration
+}
+
+location /wrong/url {
+    return 404;
+}
+
+location /permanently/moved/url {
+    return 301 http://www.example.com/moved/here;
+}
+--------------------------------------------------------------------------------------

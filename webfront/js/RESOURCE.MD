@@ -486,3 +486,100 @@ Array.prototype.concat[3]
 Array.prototype.concat[3] = [1,2,3]
 [].concat[1,2,3] 就会得到结果 [1,2,3]
 --------------------------------------------------------------------------------------
+/*
+解决思路:
+   增加若干个对应的闭包域空间(这里采用的是匿名函数),专门用来存储原先需要引用的内容(下标),不过只限于基本类型(基本类型值传递,对象类型引用传递)
+*/
+for(vari= 0;i<arr.length;i++){
+
+   //声明一个匿名函数,若传进来的是基本类型则为值传递,故不会对实参产生影响,
+   //该函数对象有一个本地私有变量arg(形参) ,该函数的 function scope 的 closure 对象属性有两个引用,一个是 arr,一个是 i
+   //尽管引用 i 的值随外部改变 ,但本地私有变量(形参) arg 不会受影响,其值在一开始被调用的时候就决定了.
+   (function (arg) {
+       arr[i].onclick= function () { //onclick函数实例的 function scope 的 closure 对象属性有一个引用 arg,
+           alert(arg);               //只要 外部空间的 arg 不变,这里的引用值当然不会改变
+       }
+   })(i);                             //立刻执行该匿名函数,传递下标 i(实参)
+}
+
+
+/*
+解决思路:
+   与解决办法一有点相似但却有点不太相似.
+   相似点:同样是增加若干个对应的闭包域空间用来存储下标
+   不同点:解决办法一是在新增的匿名闭包空间内完成事件的绑定,而此例是将事件绑定在新增的匿名函数返回的函数上
+
+   此时绑定的函数中的 function scope 中的 closure 对象的 引用 arg 是指向将其返回的匿名函数的私有变量 arg
+*/
+for(vari= 0;i<arr.length;i++){
+   arr[i].onclick= (function(arg){
+       return function () {
+           alert(arg);
+       }
+   })(i);
+}
+--------------------------------------------------------------------------------------
+var json = {
+    item1: {
+        buckets: [
+            {
+                key: 'item1_1',
+                item2: {
+                    buckets: [
+                        {
+                            key: 'item2_1',
+                            item3: {
+                                buckets: [
+                                    {
+                                        key: 'item3_1',
+                                        name: 'name'
+                                    }, {
+                                        key: 'item3_2',
+                                        name: ''
+                                    }
+                                ]
+                            }
+                        }, {
+                            key: 'item2_2',
+                            item3: {
+                                buckets: [
+                                    {
+                                        key: 'item3_1',
+                                        name: 'name'
+                                    }
+                                ]
+                            }
+                        }, {
+                            key: 'item2_3',
+                            item3: {
+                                buckets: [
+                                    {
+                                        key: 'item3_1',
+                                        name: 'name'
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+var filedArr = ['item1', 'item2', 'item3', 'name']
+var arr = []
+function recursion(obj, tempObj, index) {
+    var key = filedArr[index];
+    for (var i = 0; i < obj[key].buckets.length; i++) {
+        tempObj[key] = obj[key].buckets[i].key
+        if (index == filedArr.length - 2) {
+            var temp = JSON.stringify(tempObj)
+            arr.push(JSON.parse(temp))
+        } else {
+            recursion(obj[key].buckets[i], tempObj, index + 1)
+        }
+    }
+}
+recursion(json, {}, 0);
+console.log(arr);
+--------------------------------------------------------------------------------------
