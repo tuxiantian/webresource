@@ -20,3 +20,10 @@
 2. 安装现有软件：mysql、mysql客户端、tomcat、eclipse、jdk、everything、jdgui、jsonview
 3. 拷贝文档：梳理的技术参考资料
 4. 个性化配置 ：账户设置等
+### idea个性化设置
+#### 设置idea的快捷键为eclipse的快捷键
+file-settings-keymap-eclipse
+#### 更改IntelliJ的快捷键为Eclipse风格，并且恢复Alt+/代码自动补全快捷键code completion
+> http://blog.csdn.net/shijiebei2009/article/details/44725733
+####  IntelliJ中的main函数和System.out.println()快捷键
+> http://blog.csdn.net/shijiebei2009/article/details/44726433

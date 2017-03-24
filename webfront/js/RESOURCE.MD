@@ -583,3 +583,49 @@ function recursion(obj, tempObj, index) {
 recursion(json, {}, 0);
 console.log(arr);
 --------------------------------------------------------------------------------------
+前端路由主要由两种方式实现：
+location.hash+hashchange事件
+history.pushState()+popState事件
+
+location.hash始终指向页面url 中#之后的内容
+function Router(){
+  this.currentUrl='';
+  this.routes={};
+}
+Router.prototype.route = function(path,callback){
+  this.routes[path] = callback || function(){}
+}
+Router.prototype.refresh = function(){
+  this.currentUrl = location.hash.slice(1) || '/';
+  this.routes[this.currentUrl]();
+}
+Router.prototype.init = function(){
+  window.addEventListener('load',this.refresh.bind(this),false);
+  window.addEventListener('hashchange',this.refresh.bind(this),false);
+}
+
+var route = new Router();
+route.init();
+function changecolor(color){
+  var body = document.getElementsByTagName('body')[0];
+  body.style['background-color'] = color;
+}
+route.route('/',changecolor.bind(null,'skyblue'));
+route.route('/blue',changecolor.bind(null,'blue'));
+route.route('/green',changecolor.bind(null,'green'));
+route.route('/color',function(){
+  var p= document.getElementsByTagName('a');
+  [].forEach.call(p,function(item){item.style['color'] = '#'+((~~(Math.random()*(1<<24))).toString(16));})
+});
+
+缺点就是#的存在，让一些人看了觉得不是很舒服
+
+pushState()修改url的地址，popstate监听地址的改变，不同的是，手动的进行pushState()并不会触发popstate事件
+--------------------------------------------------------------------------------------
+const name = 'xiaobo'
+const person={
+  name,
+  age:16
+};
+console.log(person.name);//xiaobo
+--------------------------------------------------------------------------------------
