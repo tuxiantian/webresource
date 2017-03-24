@@ -395,3 +395,13 @@ $("input[name='ssidName']").each(function(){
 })
 URLDecoder.decode(ssidNames [i], "UTF-8" )
 --------------------------------------------------------------------------------------
+spring过滤器
+<mvc:interceptors>
+   <mvc:interceptor>
+     <mvc:mapping path="/**" />
+     <mvc:exclude-mapping path="/**.jsonp"/>
+     <mvc:exclude-mapping path="/site/**.jsonp"/>
+     <bean id="loginInterceptor" class="com.jdd.admin.interceptor.LoginInterceptor" />
+  </mvc:interceptor>
+ </mvc:interceptors>
+--------------------------------------------------------------------------------------

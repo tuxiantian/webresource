@@ -55,3 +55,24 @@ public void bubbleSort_plus(int[] arr){
 }
 ```
 --------------------------------------------------------------------------------------
+
+树形结构 递归算法 非递归(一层一层查询)
+public List<Map<String, Object>> getMenuTreeListsTradition(List<Map<String, Object>> menuList, String pid) throws Exception {
+	List<Map<String, Object>> children = null;
+	List<Map<String, Object>> subMenuList = new ArrayList<Map<String, Object>>();
+	for (Map<String, Object> menu : menuList) {
+		if(pid==null&&menu.get("BASE_PTY_ID")!=null){
+			continue;
+		}
+		if (pid==null&&menu.get("BASE_PTY_ID")==null||pid.equals(menu.get("BASE_PTY_ID"))) {
+			children = new ArrayList<Map<String, Object>>();
+			children = getMenuTreeListsTradition(menuList, menu.get("TGT_PTY_ID").toString());
+			if(children!=null&&children.size()>0){
+				menu.put("subList", children);
+			}
+			subMenuList.add(menu);
+		}
+	}
+	return subMenuList;
+}
+--------------------------------------------------------------------------------------
