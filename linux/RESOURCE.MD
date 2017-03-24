@@ -458,3 +458,22 @@ dirname $val
 --------------------------------------------------------------------------------------
 du -sh /tmp/* | sort -nr | head -3
 --------------------------------------------------------------------------------------
+curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet
+注意后面的地址中若是有！，则需要使用\进行转义
+--------------------------------------------------------------------------------------
+curl多次尝试连接
+curl --retry 10 --retry-delay 60 --retry-max-time 60 http://www.baidu.com/ -o baidu_html
+注： --retry表示重试次数； --retry-delay表示两次重试之间的时间间隔（秒为单位）；
+ --retry-max-time表示在此最大时间内只容许重试一次（一般与--retry-delay相同）
+
+-d/--data <data>   HTTP POST方式传送数据
+
+设置http响应头处理
+curl -H "Connection:keep-alive \n User-Agent: Mozilla/5.0" http://www.aiezu.com
+
+分块下载文件 -o保存
+curl -r 0-1024000 -o new_divide_1.mp3 http://vfile/55750a8be70.mp3
+
+查看头信息
+curl -I http://www.taobao.com/
+--------------------------------------------------------------------------------------

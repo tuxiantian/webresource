@@ -207,3 +207,33 @@ maven package -P dev
 mvn clean install -Dmaven.test.skip -Denv=release
 -Denv=dev 语句创建一个名为 env 的系统属性，并将其值设为 dev，这激活了开发配置
 --------------------------------------------------------------------------------------
+mvn:deploy在整合或者发布环境下执行,将最终版本的包拷贝到远程的repository,使得其他的开发者或者工程可以共享
+mvn install 安装当前工程的输出文件到本地仓库
+--------------------------------------------------------------------------------------
+maven的仲裁
+根据从根节点到各个组件节点之间的路径深度,路径短的组件优先,如果路径深度相同,则是先发现的那个
+类似一棵树的广度遍历
+--------------------------------------------------------------------------------------
+父模块
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependency>
+  <groupId>junit</groupId>
+  <artifactid>junit</artifactId>
+</dependency>
+
+<properties>
+    <hibernate.annotations.version>3.3.0.ga</hibernate.annotations.version>
+</properties>
+
+mvn dependency:analyze,使用该命令就可以看到maven分析的结果和建议
+mvn dependency:tree,使用该命令可以看到maven的依赖树
+--------------------------------------------------------------------------------------

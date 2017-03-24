@@ -404,34 +404,6 @@ set s_key s_value nx px 30000
 
 slaveof 127.0.0.1 8000
 --------------------------------------------------------------------------------------
-//冒泡排序
-public void bubbleSort(int[] arr){
-	for(int i=0;i<arr.length-1;i++){
-		for(int j=arr.length-1;j>i;j--){
-			if(arr[j]<arr[j-1]){
-				int tmp=arr[j];
-				arr[j]=arr[j-1];
-				arr[j-1]=tmp;
-			}
-		}
-	}
-}
-//冒泡排序的改良版
-public void bubbleSort_plus(int[] arr){
-	boolean flag=true;
-	for(int i=0;i<arr.length-1&&flag;i++){
-		flag=false;
-		for(int j=arr.length-1;j>i;j--){
-			if(arr[j]<arr[j-1]){
-				flag=true;
-				int tmp=arr[j];
-				arr[j]=arr[j-1];
-				arr[j-1]=tmp;
-			}
-		}
-	}
-}
---------------------------------------------------------------------------------------
 HashMap()：构建一个初始容量为 16,负载因子为 0.75 的 HashMap resize后的HashMap容量是容量的两倍
 1不是线程安全的 使用迭代器的过程中有其他线程修改了map,那么将抛出ConcurrentModificationException,这就是所谓fail-fast策略
 通过modCount域 对HashMap内容的修改都将增加这个值
@@ -451,31 +423,6 @@ size函数需要访问所有数据,也就需要取得所有的锁
 map set接口
 --------------------------------------------------------------------------------------
 int middle = left + ((right - left) >> 1); 防止溢出
---------------------------------------------------------------------------------------
-public static int search(int[] arr, int searchValue) {
-		int left = 0;
-		int right = arr.length - 1;
-		return binarySearch(arr, searchValue, left, right);
-	}
-
-private static int binarySearch(int[] arr, int searchValue, int left, int right) {
-	if (right < left) {
-		return NOT_FOUND;
-	}
-	/*
-	int mid = mid = (left + right) / 2;
-	There is a bug in the above line;
-	Joshua Bloch suggests the following replacement:
-	*/
-	int mid = (left + right) >>> 1;
-	if (searchValue > arr[mid]) {
-		return binarySearch(arr, searchValue, mid + 1, right);
-	} else if (searchValue < arr[mid]) {
-		return binarySearch(arr, searchValue, left, mid - 1);
-	} else {
-		return mid;
-	}
-}
 --------------------------------------------------------------------------------------
 public class Singleton_静态内部类 {
 	private static class Singleton_Holder_S3 {
@@ -890,252 +837,11 @@ POST 用来新建资源（也可以用于更新资源）,
 PUT 用来更新资源,
 DELETE 用来删除资源
 --------------------------------------------------------------------------------------
-mysql数据库的逻辑架构图
-客户端层(链接处理,授权认证,安全)、中间层(查询解析、分析、优化、缓存以及所有的内置函数)、存储引擎层(查询优化和执行 并发控制 事务处理)
-表锁是MySQL中最基本的策略锁 行级锁可以最大程度的支持并发处理
-
-mysql有md5 sha1函数
-mysql5.5 password采用2次SHA-1算法DigestUtils.sha(DigestUtils.sha(utf8))
-select aes_encrypt('1234','12345678'),aes_decrypt(aes_encrypt('1234','12345678'),'12345678')
-
-mysql5.6 select  to_base64('1234'), from_base64(to_base64('1234'))
-
-select  to_base64(aes_encrypt('1234','12345678')),
-        aes_decrypt(from_base64(to_base64(aes_encrypt('1234','12345678'))),'12345678')
-
-select  to_base64(des_encrypt('1234','12345678')),
-        des_decrypt(from_base64(to_base64(des_encrypt('1234','12345678'))),'12345678')
-
-select hex('1234ABCD'),unhex(hex('1234ABCD'))
-
-
-MySQL 能够支持的最大连接数量受限于操作系统 max_connections
-
-整数保存ip
-select inet_aton('192.168.222.255');  输出：3232292607
-select inet_ntoa(3232292607);        输出：192.168.222.255
-
-
-整数保存时间
-select from_unixtime(1156219870);
-select unix_timestamp('2006-11-04 12:23:00'); 秒
-
-查看mysql数据库的时区
-select timediff(now(), utc_timestamp);
-转换时区
-select timediff(now(),convert_tz(now(),@@session.time_zone,'+00:00'));
-
-
-查看语法
-? create table
-
-查看表优化
-select * from db_ap_rgsg_mb_work_order procedure analyse();
-
-复制字段结构 丢失主键、自动增长和索引信息
-create table test_copy_a_2
-select * from test_copy_a where 1 != 1
-
-复制完整的字段结构和索引 表状态与原表等同
-create table test_copy_a_3 like test_copy_a
-
-均不会复制权限对表的设置
-
-explain type
-ref 非唯一性索引扫描或者,返回匹配某个单独值的所有行
-all 全表遍历
-index 索引全扫描
-range 索引范围扫描
-eq_ref 主键扫描或者索引唯一扫描
-const、system 配的行的其他列值可以转换为一个常量
-NULL不用访问表或者索引就可以直接得到结果
-
-B-Tree索引,所有的值都是按照顺序存储 的,并且每一个叶子页到根的距离都相等
-B-Tree对索引列是顺序存储的,所以很适合查找范围数据
-缺点是必须按照索引从最左列开始查找,否则无法使用索引
-
-R-Tree（空间数据索引）,MyISAM表支持空间索引,可以用作地理数据存储
-
-避免使用NULL
-delete大数据的时候使用limit,避免大语句锁住过多数据
-关联查询拆成简单查询然后在应用层聚合数据
-mysql客户端和服务器之间的通信协议是半双工
-热点数据分离出来
-
-哈希索引只支持等值比较,查询包括 = ,in(),不支持范围查询,如 where age>50
-可以新加一列 url_path_hash_code 用CRC32 做哈希, full_url_hash int unsigned
-crc32是32 bit的CRC校验,无符号. 返回的最大数为2^32,(10位以内).
-select crc32('mysql'),crc32('Mysql');
-select crc32(''),crc32(null);  0--null
-
-mysql数据库SUM(A+B)不一定等于SUM(A)+SUM(B),当A或B为NULL时,SUM(A+B)=NULL
-不同字段,将or改为union  同一字段 or改为in
-
-无需排序：order by null
-
-数字型更高效、查询更快、占用空间更小
-
- Count(distinct field)查询效率极低,数据量大时甚至会爆出内存不足
-优化技巧：使用临时表概念,先把distinct的field 经过group by过滤后,再对其进行count计算
-
-单表去重并保留id最小的一条
-DELETE FROM table_test WHERE id NOT IN
-(SELECT id FROM (SELECT MIN(id) AS id FROM table_test AS t GROUP BY uid) t1);
-
-刷新Host缓存
-flush hosts
-
-只使用IP地址来匹配连接
-skip-name-resolve
-
-表级锁：开销小,加锁快;不会出现死锁;锁定粒度大,发生锁冲突的概率最高,并发度最低
-行级锁：开销大,加锁慢;会出现死锁;锁定粒度最小,发生锁冲突的概率最低,并发度也最高
-
-行级锁并不是直接锁记录,而是锁索引 在UPDATE、DELETE操作时  会锁定相邻的键值,即所谓的next-key locking
-
-强制索引 force index
-select * from db_ap_rgsh_vertify_log force index (index_ap_rgsh_vertify_log_001)
-忽略索引 ignore index
-select * from db_ap_rgsh_vertify_log ignore index (index_ap_rgsh_vertify_log_001)
-
-
-查出符合条件的主键值,再按照主键更新记录
-分区表 没有合适的索引时,对其中几个分区表进行全表扫描.或者只有一个分区表和索引是热点,而且这个分区和索引能够全部存储在内存中
-.限制单表分区数不要超过150个
-分区表分为RANGE,LIST,HASH,KEY四种类型,并且分区表的索引是可以局部针对分区表建立的
-
----必须为主键 NULL值使分区过滤无效
-create table tmysql_test_partition_range (
-    id int auto_increment,
-    amount double not null,
-    order_day datetime not null,
-    primary key(id, order_day)
-) engine=innodb partition by range(year(order_day)) (
-    partition p_2010 values less than (2010),
-    partition p_2011 values less than (2011),
-    partition p_2012 values less than (2012),
-    partition p_catchall values less than maxvalue);
-
-
-添加分区 只能添加大于分区键的分区
-alter table tmysql_test_partition_range add partition (partition p2013 values less than(2013));
-
-删除分区 数据也删除了
-alter table tmysql_test_partition_range drop partition p_catchall; //可以删除任意分区
-
-删除分区数据
-alter table tmysql_test_partition_range  truncate partition p_2011;
-alter table tmysql_test_partition_range  truncate partition all;
-
-rebuild重建分区 解决磁盘碎片
-alter  table tmysql_test_partition_range rebuild partition all;
-
-查看正在锁的事务
-select * from information_schema.innodb_locks;
-
-查看等待锁的事务
-select * from information_schema.innodb_lock_waits;
-
-show full processlist;
-
-事务表
-select * from information_schema.innodb_trx;
-
-避免对带有多个唯一关键字的表使用on duplicate key子句
-存在更新
-insert into tmysql_test_replaceinfo_t (k, v)
-values(1,'update_1')
-on duplicate key update v='update_1 ';
-
-replace将delete和insert合二为一,形成一个原子操作
-表中必须有唯一索引,而且这个索引所在的字段不能允许空值
-replace into tmysql_test_replaceinfo_t (k, v) values (1, '1-1');
-
-on duplicate key replace主键都会自增 replace旧值消失
-
-show variables like '%dir%';
-
-5.6
-explain update mysql_test_rangecount_2 set yb=2  where id=1
-timestamp(3) datetime(3) 保存毫秒  0-6
-select microsecond('2015-12-10 14:12:09.019473');  19473
-
-
-mysql 5.7特性
-密码过期策略(天)
-alter user 'root'@'localhost' password expire never
-default_password_lifetime=0 --不过期
-
-alter user 'test'@'%' password expire interval 90 day;
-flush privileges;
-
-select
-   user,
-   host,
-   password_last_changed,
-   password_lifetime,
-   password_expired
- from mysql.user
-where user = 'root'
-
-创建用户
-create user 'jeffrey'@'localhost'
-  identified with sha256_password by 'new-password'
-  password expire interval 180 day;
-
-mysqld --initialize --user=mysql \
-         --basedir=/opt/mysql/mysql \
-         --datadir=/opt/mysql/mysql/data
-
-对JSON的某个属性建立索引 虚拟列功能,通过传统的B+树索引即可实现对JSON格式部分属性的快速查询
-create table `tmysql_test_virtual_column` (
-  `id` int(11) not null auto_increment,
-  `data` json not null,
-  `name` varchar(64) generated always as (json_unquote(json_extract(data, '$.name'))) virtual,
-  primary key (`id`),
-  key `name` (`name`)
-) engine=innodb
-
-explain select * from tmysql_test_virtual_column where name = 'longlong';
-
-多线程复制
-
-"UNION ALL" 不再创建临时表,减少磁盘空间和磁盘IO的操作
-
-sys数据库
-获取未使用的索引
-select * from sys.schema_unused_indexes;
-
-5.6.3以后新增的系统选项 default_tmp_storage_engine 是控制 create temporary table 创建的临时表的引擎类型
-show variables like 'default_tmp%';
-
-create temporary table tmp1(id int not null);
-
-临时表相关配置
-tmp_table_size：指定系统创建的内存临时表最大大小
-max_heap_table_size: 指定用户创建的内存表的最大大小
-
-从5.7.5开始,新增一个系统选项 internal_tmp_disk_storage_engine 可定义磁盘临时表的引擎类型为 InnoDB
-show variables like 'internal_tmp_disk_storage_engine%';
-
---------------------------------------------------------------------------------------
-索引内部是怎么排序的 b+树
-B树了解过吗,内部是怎么排序的
-
-key_len 等于索引列类型字节长度,例如int类型为4-bytes,bigint为8-bytes；
-字符串类型,CHAR(30) UTF8则key_len至少是90-bytes；
-若该列类型定义时允许NULL,其key_len还需要再加 1-bytes；
-VARCHAR其key_len还需要再加 2-bytes
-
---------------------------------------------------------------------------------------
 多线程同步方式
 1 synchronized
 2 使用重入锁ReenreantLock ReentrantReadWriteLock
 3 使用局部变量 threadlocal
 AtomicInteger
---------------------------------------------------------------------------------------
-mongodb默认端口 27017
-
 --------------------------------------------------------------------------------------
 des密钥长度8
 aes加密可以设置偏移量和密钥
@@ -1183,8 +889,6 @@ HASH算法：MD5,SHA1,SHA256
 mui.js html5页面 hbuilder开发工具 handerbars模板
 http://dev.dcloud.net.cn/mui/ui/#button
 --------------------------------------------------------------------------------------
-mongoVUE
---------------------------------------------------------------------------------------
 Java日志API由以下三个核心组件组成：
  Loggers：Logger负责捕捉事件并将其发送给合适的Appender
  Appenders：也被称为Handlers,负责将日志事件记录到目标位置在将日志事件输出之前,Appenders使用Layouts来对事件进行格式化处理
@@ -1200,15 +904,6 @@ hashcode方法返回该对象的哈希码值 hashCode是用于查找使用的 �
 
 hashcode冲突
  相同的hashcode需要equals hash冲突 java.util.HashMap采用的链表法的方式,链表是单向链表
---------------------------------------------------------------------------------------
-mysql 默认隔离级别 可重复读（Read-Repeatable,RR)  RC不可重复读,而Binlog要求SQL串行化
-  SELECT @@global.tx_isolation;
-  SELECT @@session.tx_isolation;
-  SELECT @@tx_isolation;
-
-transaction-isolation = REPEATABLE-READ
-
-oracle 默认隔离级别 读提交（Read-Comitted,RC）
 --------------------------------------------------------------------------------------
 PreparedStatement是预编译的,对于批量处理可以大大提高效率
 statement每次执行sql语句,相关数据库都要执行sql语句的编译,preparedstatement是预编译得,
@@ -1239,8 +934,6 @@ juc
 --------------------------------------------------------------------------------------
 分段锁 ConcurrentHashMap使用分段锁 Segment来保护不同段的数据
 --------------------------------------------------------------------------------------
-ajax  async:false同步
---------------------------------------------------------------------------------------
 InputStream为什么不能被重复读取
 Stream是一个管道,是一个数据流而不是一个容器管道只负责数据的流通而不负责数据的 存储
 --------------------------------------------------------------------------------------
@@ -1266,11 +959,7 @@ rest认证
 设置请求时的 HEADER 里 Authorization 的值为 Bearer <token>
 oauth2协议
 --------------------------------------------------------------------------------------
-常用积累
---------------------------------------------------------------------------------------
-$.isArray
-var jQuery_1_6_3 = $.noConflict(true);
---------------------------------------------------------------------------------------
+
 快排原理
  通过一躺排序将要排序的数据分割成独立的两部分,其中一部分的所有数据都比另外一不部分的所有数据都要小,
 然后再按次方法对这两部分数据分别进行快速排序,整个排序过程可以递归进行,以此达到整个数据变成有序序列
@@ -1293,20 +982,8 @@ http://lion.newtouch.com/index.html 代码生成框架
 --------------------------------------------------------------------------------------
 cvs 对应的连接协议为pserver
 --------------------------------------------------------------------------------------
-只在IE下生效：
-<!--[if IE]>
-这段文字只在IE浏览器显示
-<![endif]-->
-
-http://www.cnblogs.com/taojiaqu/p/4894383.html
---------------------------------------------------------------------------------------
 检查某个或者某些jar包是否被签名
 jarsigner -verify <your_jar_name>
---------------------------------------------------------------------------------------
-mongodb不支持Timestamp
---------------------------------------------------------------------------------------
-mvn:deploy在整合或者发布环境下执行,将最终版本的包拷贝到远程的repository,使得其他的开发者或者工程可以共享
-mvn install 安装当前工程的输出文件到本地仓库
 --------------------------------------------------------------------------------------
 https://github.com/ysc/HtmlExtractor
 --------------------------------------------------------------------------------------
@@ -1319,23 +996,12 @@ var x = Math.floor(Math.random() * (max - min + 1)) + min;
 --------------------------------------------------------------------------------------
 http://draggabilly.desandro.com/ 拖动
 --------------------------------------------------------------------------------------
-var a=[1,2,3,5];
-Math.max.apply(null, a)
 
-var a=[1,2,3,[5,6],[1,4,8]];
-var ta=a.join(",").split(",");//转化为一维数组
-
---------------------------------------------------------------------------------------
-p标签左右两端对齐:text-align:justify;text-justify:inter-ideograph;
---------------------------------------------------------------------------------------
 $('#CheckBox').is(':checked')
 --------------------------------------------------------------------------------------
 $.ajaxSetup ({ cache: false });
 --------------------------------------------------------------------------------------
-设置按钮不可用
-$("#queryBtn").attr("disabled",true);
-$("#rbutton_"+i).prop("disabled",true);
---------------------------------------------------------------------------------------
+
 bookName like CONCAT('%','${bookName}','%' )
 --------------------------------------------------------------------------------------
 随机颜色问题：
@@ -1389,17 +1055,9 @@ TreeMap
 底层为一个棵红黑树
 继承NavigableMap,主要实现了SortMap,因此是有序的
 --------------------------------------------------------------------------------------
-判断myObj是否有定义
-if (typeof myObj == "undefined") {
-　　　　var myObj = { };
-}
---------------------------------------------------------------------------------------
 http://dt.thxopen.com/example/ datatables  --
 http://blog.codepiano.com/pages/jquery-datatables-config-cn.html
 http://www.requirejs.cn/
---------------------------------------------------------------------------------------
-javascript的数据类型
-字符串,数值型,boolean型,数组,对象,null型,undefined型
 --------------------------------------------------------------------------------------
 UML的关系：依赖、关联、泛化和实现
 --------------------------------------------------------------------------------------
@@ -1433,8 +1091,6 @@ new Timer().schedule(new TimerTask() {
 线程被永久堵塞在一个等待进入同步块的状态
 
 不公平锁能够提高吞吐量但不可避免的会造成某些线程的饥饿
-
-
 --------------------------------------------------------------------------------------
 死锁：是指两个或两个以上的进程（或线程）在执行过程中,因争夺资源而造成的一种互相等待的现象
 死锁发生的条件
@@ -1444,27 +1100,7 @@ new Timer().schedule(new TimerTask() {
 不剥夺条件：线程已获得的资源,在未使用完之前,不能被其他线程剥夺,只能在使用完以后由自己释放
 环路等待条件
 --------------------------------------------------------------------------------------
-重置表单
-$('#myform')[0].reset()
---------------------------------------------------------------------------------------
-禁用 input 字段
-$('input[type="submit"]').prop('disabled', true);
-$('input[type="submit"]').removeAttr('disabled');
 
-checkbox
-$("#saleBtn").prop("disabled",true);//禁用
-$("#saleBtn").prop("disabled",false);//去除禁用
-
-$("#saleBtn").prop("disabled","disabled");//禁用
-$("#saleBtn").prop("disabled","");//去除禁用
---------------------------------------------------------------------------------------
-自定义的DOM属性处理这些属性时,建议使用attr方法
---------------------------------------------------------------------------------------
-判断前一个
-if (typeof $("#div1").prev().html() != "undefined") {
-                alert("没啦");
-}
---------------------------------------------------------------------------------------
 RPC 远程过程调用协议
 RPC采用客户机/服务器模式请求程序就是一个客户机,而服务提供程序就是一个服务器
 RPC 需要两个协议： 对象序列化协议 和 调用控制协议
@@ -1503,12 +1139,7 @@ function trim(str,delimeter){
   return str.replace(reg,"");
 }
 --------------------------------------------------------------------------------------
-行内元素有哪些?块级元素有哪些?CSS的盒模型?
-块级元素：div p h1 h2 h3 h4 form ul
-行内元素: a b br i span input select
-Css盒模型:内容,border ,margin,padding
 
---------------------------------------------------------------------------------------
 前端页面有哪三层构成,分别是什么?作用是什么?
 结构层；主要指DOM节点；HTML/XHTML
 样式层；主要是指页面渲染；CSS
@@ -1519,10 +1150,6 @@ CSS选择符号有哪些？
 --------------------------------------------------------------------------------------
 javascript的同源策略
 一段脚本只能读取来自于同一来源的窗口和文档的属性,这里的同一来源指的是主机名、协议和端口号的组合
---------------------------------------------------------------------------------------
-display:none 和visibility:hidden的区别
-1.使用display:none,元素会完全不显示；visibility:hidden,元素还占用空间；
-2.display:none,内容元素都不能访问,但是设为visibility:hidden之后,可以通过设置子元素的visibility来显示子元素内
 --------------------------------------------------------------------------------------
 $("input:checked").length
 --------------------------------------------------------------------------------------
@@ -1558,23 +1185,11 @@ url重写
 隐藏input
 ip地址
 --------------------------------------------------------------------------------------
-<img>的title和alt有什么区别
-title是当鼠标滑动到元素上的时候显示
-alt是<img>的特有属性,图片无法加载时显示
---------------------------------------------------------------------------------------
-data-*: 为元素增加自定义属性
---------------------------------------------------------------------------------------
 css hack原理及常用hack
 原理：利用不同浏览器对CSS的支持和解析结果不一样编写针对特定浏览器样式
 常见的hack有1）属性hack2）选择器hack3）IE条件注释
 --------------------------------------------------------------------------------------
-function isArray(arg) {
-    if (typeof arg === 'object') {
-        return Object.prototype.toString.call(arg) === '[object Array]';
-    }
-    return false;
-}
---------------------------------------------------------------------------------------
+
 对象字面量： var obj = {};
 构造函数： var obj = new Object();
 --------------------------------------------------------------------------------------
@@ -1585,8 +1200,7 @@ request.getRequestedSessionId();
 response.getStatus();
 request.getParts();
 --------------------------------------------------------------------------------------
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
---------------------------------------------------------------------------------------
+
 http://www.tuicool.com/articles/j6z2U3 akka  研究actor
 http://git.oschina.net/liuyieyer/projects
 
@@ -1620,86 +1234,7 @@ MySQL automatically casts a string to a number  a string that does not begin wit
 select 'a'=0 -->1
 SELECT '1abc' + '2ef' AS total; -->3
 --------------------------------------------------------------------------------------
-http://my.oschina.net/liting/blog/524332
-BeanFactory接口是Spring IoC 容器的核心接口
 
-BeanFactory和ApplicationContext有什么区别
-BeanFactory 含有bean集合的工厂类
-
-application context在此基础上还提供了其他的功能ApplicationContex接口对BeanFactory（是一个子接口）进行了扩展
-提供了支持国际化的文本消息
-统一的资源文件读取方式
-已在监听器中注册的bean的事件
-
-bean的生命周期由两组回调方法组成
-初始化之后调用的回调方法
-销毁之前调用的回调方法
-
-Spring提供了以下四种集合类的配置元素：
-<list> :   该标签用来装配可重复的list值
-<set> :    该标签用来装配没有重复的set值
-<map>:   该标签可用来注入键和值可以为任何类型的键值对
-<props> : 该标签支持注入键和值都是字符串类型的键值对
-
-<property name="customMap">
-        <map>
-           <entry key="1" value="INDIA"/>
-        </map>
-      </property>
-
-<property name="customProperies">
-    <props>
-        <prop key="admin">admin@nospam.com</prop>
-    </props>
-</property>
-
-
-<util:list id="strArray">
-  <value>Hello</value>
-</util:list>
-<util:set set-class="java.util.HashSet">
-    <value>1</value>
-</util:set>
-<util:map id="map" map-class="java.util.HashMap" >
-   <entry key="key1" value-ref="some1"/>
-</util:map>
-<util:properties id="config" location="classpath:/config.properties">
-    <prop key="jdbc.prop1">JDBC Properties 1</prop>
-</util:properties>
-
-<bean id="holder" class="com.happyhouse.rednics.tutorial.spring.property.PropertyHolder">
-    <property name="jdbcDriverClass" value="#{config['jdbc.driverClass']}" />
-</bean>
-
-<bean id="people" class="com.abc.People">
-　　 <property name="name" value="张三" /> <!-- 设值注入 -->
-　　 <property name="school" ref="school" />
-　　 <property name="age" value="20" type="int" />
-</bean>
-<bean id="people" class="com.abc.People">
-    <!-- 构造注入,index=0表示构造器的第一个参数 -->
-　　 <constructor-arg index="0" value="张三"/> <!-- 构造注入 -->
-　　 <constructor-arg index="1" ref="school" />
-　　 <constructor-arg index="2" value="20" type="int" />
-</bean>
-
-循环依赖就是循环引用,两个或多个Bean相互之间的持有对方,比如CircleA引用CircleB,CircleB引用CircleC,CircleC引用CircleA
-解决 设值注入
-<bean id="circleA" class="cn.javass.spring.chapter3.bean.CircleA" scope="prototype">
-     <property name="circleB" ref="circleB"/>
-</bean>
-<bean id="circleB" class="cn.javass.spring.chapter3.bean.CircleB" scope="prototype">
-    <property name="circleC" ref="circleC"/>
-</bean>
-<bean id="circleC" class="cn.javass.spring.chapter3.bean.CircleC" scope="prototype">
-    <property name="circleA" ref="circleA"/>
-</bean>
-
-IOC技术的本质就是构建对象的技术。换句话说就是将一个类实例化成对象的技术，Spring提供一个容器,
-我们在xml文件里定义各个对象的依赖关系,由容器完成对象的构建。
-
-
---------------------------------------------------------------------------------------
 树形结构 递归算法 非递归(一层一层查询)
 public List<Map<String, Object>> getMenuTreeListsTradition(List<Map<String, Object>> menuList, String pid) throws Exception {
 	List<Map<String, Object>> children = null;
@@ -1720,80 +1255,7 @@ public List<Map<String, Object>> getMenuTreeListsTradition(List<Map<String, Obje
 	return subMenuList;
 }
 --------------------------------------------------------------------------------------
-spring配置注入
-<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-    <property name="locations">
-        <list>
-            <value>classpath*:application.properties</value>
-        </list>
-    </property>
-</bean>
-<!-- 将配置文件读取到容器中,交给Spring管理 -->
-<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
-    <property name="properties" ref="configProperties" />
-</bean>
 
-@Value("#{configProperties['mysql.url']}")
-private String url;
-
-
-<bean id="placer2" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
-    <property name="order" value="1"></property>
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="locations">
-        <list>
-            <value>classpath:/jdbc.properties</value>
-        </list>
-    </property>
-</bean>
-
-
-
-<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="ignoreResourceNotFound" value="true" />
-    <property name="locations">
-        <list>
-            <value>classpath:default.properties</value>
-            <value>file:${user.home}/webextractor.properties</value>
-        </list>
-    </property>
-</bean>
-
-
-加密 http://www.yihaomen.com/article/java/420.htm  extends DefaultPropertiesPersister 重写load 读入流覆盖属性转成流
-<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
-	<property name="locations">
-		<list>
-			<value>classpath:config/jdbc.properties</value>
-		</list>
-	</property>
-	<property name="propertiesPersister">
-		<bean class="com.ai.rgshcore.util.MyPropertiesPersist" />
-	</property>
-	<property name="ignoreUnresolvablePlaceholders" value="true" />
-	<property name="ignoreResourceNotFound" value="true" />
-</bean>
-
-
-extends PropertyPlaceholderConfigurer 重写PropertiesLoaderSupport loadProperties;   super.loadProperties(props) 直接覆盖属性
-extends PropertyPlaceholderConfigurer 重写PropertyResourceConfigurer convertProperty(String propertyName, String propertyValue) 覆盖propertyValue属性
-
-使用jasypt jasypt-spring3加密 ENC(加密值)
-
-<bean id="propertyConfigurerForProject2" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="order" value="2" />
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="locations">
-      <list>
-        <value>classpath:/spring/include/jdbc-parms.properties</value>
-        <value>classpath:/spring/include/base-config.properties</value>
-      </list>
-    </property>
-</bean>
---------------------------------------------------------------------------------------
-@Value("${server.host:127.0.0.1}")  默认值
---------------------------------------------------------------------------------------
 avalon 迷你mvvc
 https://avalonjs.github.io/
 
@@ -1811,15 +1273,6 @@ Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 ~~利用符号进行的类型转换,转换成数字类型 ~~undefined 0
 !!将一个元素转为布尔类型的值 !!undefined // false
 --------------------------------------------------------------------------------------
-aop原理源码
---------------------------------------------------------------------------------------
-* {
-       outline: 0;
-       padding: 0;
-       margin: 0;
-       border: 0;
-}
---------------------------------------------------------------------------------------
 http://hi.haojima.net/job/index 搜索工作
 --------------------------------------------------------------------------------------
 transient用来表示一个域不是该对象串行化的一部分当一个对象被串行化的时候,transient型变量的值不包括在串行化的表示中
@@ -1827,10 +1280,7 @@ transient修饰的字段,是否会被序列化,取决于writeObject方法的实�
 HashMap 中的存储数据的数组数据成员中,数组还有很多的空间没有被使用,没有被使用到的空间被序列化没有意义
 所以需要手动使用 writeObject() 方法,只序列化实际存储元素的数组
 --------------------------------------------------------------------------------------
-maven的仲裁
-根据从根节点到各个组件节点之间的路径深度,路径短的组件优先,如果路径深度相同,则是先发现的那个
-类似一棵树的广度遍历
---------------------------------------------------------------------------------------
+
 判断支持console
 if(window.console&&window.console.log)
 --------------------------------------------------------------------------------------
@@ -1840,40 +1290,12 @@ http://niceue.com/validator/demo/   nicevalidate
 --------------------------------------------------------------------------------------
 http://www.cnblogs.com/lansy/p/4355913.html bstrap
 --------------------------------------------------------------------------------------
-curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet
-注意后面的地址中若是有！，则需要使用\进行转义
---------------------------------------------------------------------------------------
-/**
- * 字符串替换
- * @param  {string} str    要被替换的字符串
- * @param  {string} substr 要替换的字符串
- * @param  {string} newstr 用于替换的字符串
- * @return {string}        替换后的新字符串
- */
-function replace(str, substr, newstr) {
-  var p = -1; // 字符出现位置
-  var s = 0; // 下一次起始位置
-
-  while((p = str.indexOf(substr, s)) > -1) {
-    s = p + newstr.length; // 位置 + 值的长度
-    str = str.replace(substr, newstr);
-  }
-
-  return str;
-}
-
-console.log( replace("ssssss", "ss", "s") ); // sss
---------------------------------------------------------------------------------------
 是否是window 对象,value != null  && value === value.window;
 --------------------------------------------------------------------------------------
 时间格式兼容
 var date = new Date(strDate.replace(/-/g,"/"));
 --------------------------------------------------------------------------------------
 <span style="font-family:‘Times New Roman‘;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
---------------------------------------------------------------------------------------
-springmvc redirect注意事项
-return "redirect:/test3"; 跳转相对于根路径地址: localhost:8080/test3
-return "redirect:test2"; 跳转相对于当前路径地址
 --------------------------------------------------------------------------------------
 Java 中的finalize有哪些问题？
 影响 GC 性能,可能会引发OutOfMemoryException
@@ -1928,14 +1350,7 @@ mysql支持emoji解决办法
 ALTER TABLE `TABLE_NAME` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `TABLE_NAME`MODIFY COLUMN `COLUMN_NAME`  varchar CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 --------------------------------------------------------------------------------------
-去除li圆点 li {list-style-type: none;}
---------------------------------------------------------------------------------------
-延迟加载js代码
-<script type="text/javascript" src="" id="my"></script>
-<script type="text/javascript">
-    setTimeout("document.getElementById('my').src='include/php100.php'; ",3000);//延时3秒
-</script>
---------------------------------------------------------------------------------------
+
 为什么div里嵌套了img，img底部会有间隙。 http://www.qdfuns.com/notes/17631/9dc4c1d4006bdd2a84de2acf3b01be2d.html
 div的高度=img的高度
 当div中没有文字时,可以使用font-size:0;或者line-height:0;
@@ -1973,8 +1388,7 @@ Error handling 错误处理
 logging
 Transactions 事务
 --------------------------------------------------------------------------------------
-Spring提供了两种方式来生成代理对象: JDKProxy (接口)和Cglib
---------------------------------------------------------------------------------------
+
 参数 -XX:+TraceClassLoading 来追踪哪些类被加载
 --------------------------------------------------------------------------------------
 Java 类加载器的层次结构
@@ -1983,14 +1397,6 @@ Java 类加载器的层次结构
 应用程序类加载器 (Application Class Loader)
 --------------------------------------------------------------------------------------
 img{border:0 none;}
---------------------------------------------------------------------------------------
-springmvc框架在遇到这种同名参数提交,而参数中有逗号时,会出现问题：
-比如我提交的值是 xname=123 和 xname=45,67
-那么在进入action拿到参数时会变成string[] xname = ["123","45","67"]
-$("input[name='ssidName']").each(function(){
-    $(this).val(encodeURIComponent($(this).val()));
-})
-URLDecoder.decode(ssidNames [i], "UTF-8" )
 --------------------------------------------------------------------------------------
 ArrayBlockingQueue：阻塞队列主要用于可以用来构建生产者-消费者模型
 内部用数组实现的一个queue,按照元素先进先出（FIFO）原则初始化后,队列容量不可改变
@@ -2067,29 +1473,6 @@ while (iter.hasNext())
 Integer.toString(i) 快
 String.valueOf(i)方法会比+""高效节
 --------------------------------------------------------------------------------------
-父模块
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-
-<dependency>
-  <groupId>junit</groupId>
-  <artifactid>junit</artifactId>
-</dependency>
-
-<properties>
-    <hibernate.annotations.version>3.3.0.ga</hibernate.annotations.version>
-</properties>
-
-mvn dependency:analyze,使用该命令就可以看到maven分析的结果和建议
-mvn dependency:tree,使用该命令可以看到maven的依赖树
---------------------------------------------------------------------------------------
 log4j.category.org.mybatis=INFO
 log4j.category.org.apache.ibatis=INFO
 log4j.category.org.springframework=WARN
@@ -2098,15 +1481,6 @@ StringBuffer 中的方法大都采用了 synchronized 关键字进行修饰,因�
 而 StringBuilder 没有这个修饰,可以被认为是线程不安全的
 --------------------------------------------------------------------------------------
 mysql datadir
---------------------------------------------------------------------------------------
-js数组合并
-Array.prototype.push.apply(arrA, arrB);
-
-var merge = function() {
-    return Array.prototype.concat.apply([], arguments)
-  }
-
-merge([1,2,4],[3,4],[5,6]);
 --------------------------------------------------------------------------------------
 lock锁（内存的可见性、互斥访问、限制编译器的代码优化调整）
 Condition条件通知（线程间的协作）
@@ -2124,10 +1498,6 @@ if($("#pdfInput").val()==""){
 --------------------------------------------------------------------------------------
 <meta name="keywords" content="net,enterprise,ERP,c#">
 <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
---------------------------------------------------------------------------------------
-js
-==         等于
-===         全等（值和类型）
 --------------------------------------------------------------------------------------
 直接使用双引号声明出来的String对象会直接存储在常量池中
 如果不是用双引号声明的String对象,可以使用String提供的intern方法
@@ -2166,20 +1536,6 @@ CSS中 link 和@import 的区别是？
 (3) import只在IE5以上才能识别,而link是HTML标签,无兼容问题;
 (4) link方式的样式的权重 高于@import的权重.
 --------------------------------------------------------------------------------------
-CSS 选择符
-1.id选择器（ # myid）
-2.类选择器（.myclassname）
-3.标签选择器（div, h1, p）
-4.相邻选择器（h1 + p）
-5.子选择器（ul > li）
-6.后代选择器（li a）
-7.通配符选择器（ * ）
-8.属性选择器（a[rel = "external"]）
-9.伪类选择器（a: hover, li:nth-child）
-
-可继承的样式： font-size font-family color, text-indent;
-不可继承的样式：border padding margin width height ;
---------------------------------------------------------------------------------------
 http://www.cnblogs.com/sniper-allen/p/4952660.html 前端面试题
 --------------------------------------------------------------------------------------
 查看碎片 data_free>0
@@ -2198,8 +1554,7 @@ optimize table table_name
 创建数据库
 create database `test2` default character set utf8 collate utf8_general_ci;
 --------------------------------------------------------------------------------------
-log4j常见日志级别为：debug < info < warn < error < fatal
---------------------------------------------------------------------------------------
+
 集合框架中的泛型有什么好处
 泛型允许我们指定集合中对象的类型 避免了运行时的ClassCastException异常并且我们不再进行类型转换和 instanceof 判断
 --------------------------------------------------------------------------------------
@@ -2306,24 +1661,7 @@ delete o.x; // 删除成功
 
 mvn eclipse:eclipse -Dcheckstyle.skip=true
 --------------------------------------------------------------------------------------
-数组排序
-Arrays.sort(wiStateParks, new Comparator<String>() {
-	public int compare(String o1, String o2) {
-		if (o1 == null && o2 == null) {
-			return 0;
-		}
-		if (o1 == null) {
-			return 1;
-		}
-		if (o2 == null) {
-			return -1;
-		}
-		return o1.compareTo(o2);
-	}
-});
-Comparator.nullsLast((s1, s2) -> s1.length() - s2.length())
-Comparator.nullsLast(String::compareToIgnoreCase)
---------------------------------------------------------------------------------------
+
 java 8删除一个 removeif删除所有
 --------------------------------------------------------------------------------------
 TreeMap 允许value值为null,不允许key值为null   log(n)的复杂度进行get
@@ -2366,23 +1704,7 @@ replace replaceAll(Matcher.quoteReplacement(paramCharSequence2.toString())) -->�
 --------------------------------------------------------------------------------------
 http://www.baeldung.com/jackson-serialize-dates
 --------------------------------------------------------------------------------------
-curl多次尝试连接
-curl --retry 10 --retry-delay 60 --retry-max-time 60 http://www.baidu.com/ -o baidu_html
-注： --retry表示重试次数； --retry-delay表示两次重试之间的时间间隔（秒为单位）；
- --retry-max-time表示在此最大时间内只容许重试一次（一般与--retry-delay相同）
 
--d/--data <data>   HTTP POST方式传送数据
-
-设置http响应头处理
-curl -H "Connection:keep-alive \n User-Agent: Mozilla/5.0" http://www.aiezu.com
-
-分块下载文件 -o保存
-curl -r 0-1024000 -o new_divide_1.mp3 http://vfile/55750a8be70.mp3
-
-查看头信息
-curl -I http://www.taobao.com/
-
---------------------------------------------------------------------------------------
 守护线程
 Thread.setDeamon(true);
 守护线程中新产生的线程也是守护线程；
@@ -2502,20 +1824,6 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset !important;}
 $('img').on('error', function () {
   $(this).prop('src', 'img/broken.png');
 });
---------------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------------
-catch (Exception e) {
-
-  throw new RuntimeException(e);
-
-} catch (Throwable th) {
-
-  throw th;
-
-}
-
-Throwable (this includes Exception and Error)
 --------------------------------------------------------------------------------------
 rmdir /s/q C:\Users\Test\Downloads\Java8Training-master
 del /F/S/Q C:\Users\Test\Downloads\Java8Training-master
@@ -2704,48 +2012,7 @@ TCP/IP是个协议组,可分为四个层次：网络接口层、网络层、传�
 在应用层有FTP、HTTP、TELNET、SMTP、DNS等协议
 HTTP本身就是一个协议,是从Web服务器传输超文本到本地浏览器的传送协议
 --------------------------------------------------------------------------------------
-mysql存储过程
-call proc_sp_table_exists('test','t1',@result);
-select @result;
 
-MySQL4.1 提供了information_schema 数据字典从此可以很简单的用SQL语句来检索需要的系统元数据了
-MySQL5.5 提供了performance_schema 性能字典 但是这个字典比较专业,一般人可能也就看看就不了了之了
-MySQL5.7 提供了 sys系统数据库 sys数据库里面包含了一系列的存储过程、自定义函数以及视图来帮助我们快速的了解系统的元数据信息
-sys系统数据库结合了information_schema和performance_schema的相关数据
-
-未使用的索引
-select * from sys.schema_unused_indexes;
-
-检索指定数据库下面的表扫描信息,过滤出执行次数大于10的查询
-select * from sys.statement_analysis
-where db='test'
-and full_scan = '*'
-and exec_count >5
-
-过滤出有临时表的查询
-select * from sys.statement_analysis
-where db='test'
-and tmp_tables > 0
-order by tmp_tables desc
-
-检索执行次数排名前五的语句
-select statement,total
-from sys.user_summary_by_statement_type
-where `user`='root'
-order by total desc limit 5
-
-metadata lock即 元数据锁 元数据即数据字典信息包括db,table,function,procedure,trigger,event等
-metadata lock主要为了保证元数据的一致性,用于处理不同线程操作同一数据对象的同步与互斥问题
-主要解决
-事务隔离问题 可重复隔离级别下,会话A在2次查询期间,会话B对表结构做了修改
-数据复制问题 如会话A执行了多条更新语句期间,另外一个会话B做了表结构变更并且先提交
-
-查看临时文件存储目录
-show variables like '%tmp%';
-tmpdir=path
-
-find_in_set(3,'1,2,3')
---------------------------------------------------------------------------------------
 bigint unsigned
 --------------------------------------------------------------------------------------
 CAP
@@ -2880,83 +2147,6 @@ xalan xml xpath big xml
 saxon mpl许可 支持xpath2.0
 --------------------------------------------------------------------------------------
 https://github.com/javadev/underscore-java/tree/master/lodash-plugin
---------------------------------------------------------------------------------------
-公司电脑配置如何？
-注：2015年,电脑配置低于8G内存不是I3 CPU以上的,别去了连个电脑配置都不舍得给你,你认为公司对员工会好吗？
-
-能够提供多个屏幕吗？
-注：做web开发,至少得双屏幕若连这点要求都给不了,别去了除非对方提供的RMBP13/15
-
-公司提供的椅子是怎么样的,可以申请一张好椅子吗？
-注：别小看这个我现在公司的椅子垃圾得要命听说还几百元一张一年内我坐坏了几张后面受不了破椅子,自己去淘宝买了一张一张好得椅子,可以让工作效率提升N倍至少避免了各种骨科病啊！具体说明参考前两条
-
-技术人员多名若太少的话,追问：还在扩招吗？
-注：1个技术的公司,你就别去了估计是现在的技术离职了,让你去填坑一家公司少于4名程序的话,又不打算扩招,说明公司不重视技术其次,入职时,记得看看公司的规模除非你想进入的是创业公司
-
-描述一下公司的开发流程/规范
-注：窥探你面试的公司是否有一套完整的开发流程开发经理---设计师---开发人员---测试人员---运维人员
-
-公司如何分配任务的？
-注：小公司的话,不走流程还正常但我个人觉得连个任务管理系统,文档系统什么都没有小心到时候被坑至少用这种系统,可以知道自己每天有啥事情可做具体参考后面第12条的
-
-公司使用什么PHP框架（或技术）.
-注：这点请依据自身技术进行咨询不是所有公司都会使用开源框架至少可以初步了解公司的技术如何
-
-公司使用何种版本控制软件.
-注：除非公司新建立,否则连个版本控制软件都没有的,你敢去吗？这是开发规范的基本要领啊！结合第四点使用,效果更佳
-
-公司开发环境
-注：结合第六点了解对方是否强制使用指定的开发环境如操作系统,软件版本以PHP来说,我个人是拒绝去还在使用PHP官方已经放弃支持的版本还在用PHP5.2的公司,估计是在使用老掉牙的国产某软件
-
-公司的上班时间,是打卡考勤还是人性化（强制加班）
-注：打卡考勤至少来说准时上下班人性化的话,呵呵呵当然,技术强的就别鸟他们了劳动合同注明上下班时间的哦
-
-双休吗？
-注：我建议在收到面试通知时,就问清楚不是双休的话,我是拒绝去的！单休公司,你周末只能撸一发,你认为足够吗？大小周的,每个月总有几天觉得不够,你喜欢吗？
-
-迟到的话扣多少钱？
-注：对于我来说,我几乎容易迟到,但通常我不会准时下班的大概在公司延迟半小时别小看这个,有些公司迟到几分钟就扣你不少钱,简直吸血鬼可以考虑不去了
-
-对于准时下班,你们有意见吗？
-注：别小看这点员工在意能不能准时下班,老板在意谁准时下班那么谁关注8小时内,大家做啥了呢？
-
-对于加班,如何处理？是调休、加班费？提供晚餐、车补吗？
-注：基本要求拒绝免费加班,不做资本主义家的奴隶
-
-五险（一金）何时购买？
-注：通常在试用期过后这点可以理解,但广州有一些公司要求一年后才购买,简直恶心的要命,根本忽视劳动法的规定
-
-入职马上签订劳动合同吗？
-注：劳动法规定的！不论你是做普通的码农,还是CTO入职请马上签订劳动合同！具体参考V2此贴,血淋淋：http://v2ex.com/t/241894
-
-公司是技术主导型还是其他主导型？
-注：若想自己的技术能够施展拳脚,请到技术主导型的公司
-
-公司的经营状况如何？或者问公司的前景和公司每月几号发工资！是否准时？
-注：我最怕公司拖工资的了务必了解一下状况一旦出现拖工资时间超过半个月,直接找上级了！严重的话,劳动局当然,除非公司提供知会,不过我看来公司为了稳定军心,是不会这么做得呵呵
-
-你认为你是个怎样的人？或者问,你觉得你的上司是个怎样的人
-注：这点,注意针对的是面试你的人是否你以后的上司,快速了解自己上司是个怎样的人若他们连这点都回答不到,呵呵！这公司有问题！
-
-公司的调薪制度！是一年,还是半年？
-注：差点忘记这一条了！！千万别忘记问这条了这是基本要求一个员工为企业付出汗水,一年都不调一次薪,然后不断喊"为什么人才这么难得？"到了员工提出离职了,再找你谈话说,加薪多少元呵呵简直可笑！！！
-
-工资是税后的
-注：面试的时候,记得谈好薪资税前还是税后的前和后有非常大的差别啊！还有,有一些公司特别坑爹的我给你税后工资,但是要求你每月收集多少发票坑不坑？我只是想安安静静做一个码农,还要我去找发票,这不是扯蛋吗？
-
-关于请假的事项
-注：这条应该是入职后根据公司的员工守则进行的不过面试也可以提问了解一下,事假,病假,婚假之类的毕竟IT这行,工资较高,请假一天几乎没了几百元,心痛！
-
-关于年假
-注：请务必要问是否拥有年假年假是否被强制放？我目前就职的公司就是强制所有员工放年假了,有点坑爹通常年假是5天的至于是否入职后就拥有,请参考劳动法规定
-
-关于年底奖金
-注：这点也很关键当前我就职的公司是13薪的这应该是国内公司福利最低档次的了（有些还没有）辛辛苦苦打拼了一年,公司也盈利了,结果和你说,没奖金？？？估计你心里不好受了
-
-试用期多久
-注：务必提问延迟1个月,你就亏一个月的工资
---------------------------------------------------------------------------------------
-
 --------------------------------------------------------------------------------------
 https://github.com/changmingxie/aggregate-framework ddd开发
 https://github.com/lukehutch/fast-classpath-scanner 关注
@@ -16603,35 +15793,6 @@ function isObject(value){
   return value === Object(value);
 }
 --------------------------------------------------------------------------------------
-弹性布局 flex
-采用Flex布局的元素为，称为 Flex容器，容器的直接子元素称为 Flex项目，
-容器默认有两个轴心线，用于项目的对齐与排列
-水平主轴为 main axis
-垂直主轴为 cross axis，
-主轴的开始位置为 start， 结束位置为 end
-
-主轴和交叉轴的判定：如果flex-direction为row，则主轴是水平方向，如果是column，则主轴是垂直方向
-
-将任意元素的 display 属性设置为 flex，可将其转换为Flex容器
-设为Flex容器后，子元素的 float、clear 和 vertical-align 属性将失效
-
-主轴方向：水平排列（默认） | 水平反向排列 | 垂直排列 | 垂直反向排列
-flex-direction: row | row-reverse | column | column-reverse;
-
-换行：不换行（默认） | 换行 | 反向换行(第一行在最后面)
-flex-wrap: nowrap | wrap | wrap-reverse;
-flex-flow: <flex-direction> || <flex-wrap>;
-
-主轴对齐方式：起点对齐（默认） | 终点对齐 | 居中对齐 | 两端对齐 | 分散对齐
-justify-content: flex-start | flex-end | center | space-between | space-around;
-
-交叉轴对齐方式：起点对齐（默认） | 终点对齐 | 居中对齐 | 第一行文字的基线对齐 | 拉伸对齐
-align-items: flex-start | flex-end | center | baseline | stretch;
-
-多根轴线对齐方式：起点对齐（默认） | 终点对齐 | 居中对齐 | 两端对齐 | 分散对齐 | 拉伸对齐
-align-content: flex-start | flex-end | center | space-between | space-around | stretch;
-
---------------------------------------------------------------------------------------
 调小 TCP 协议的 time_wait 超时时间
 操作系统默认 240 秒后，才会关闭处于 time_wait 状态的连接
 etc/sysctl.conf 文件去修改该缺省值（秒）：
@@ -16939,28 +16100,6 @@ ssl_session_timeout 10m;
 #SSL session过期时间
 
 ssl_session_cache shared:SSL:20m;
---------------------------------------------------------------------------------------
-mongodb监控
-db.your_collection.find({ x : 123, y : 456 }).explain("allPlansExecution")，查看你的语句的工作情况 :
-
-db.setProfilingLevel( profile, slowms )
-// 第一个参数表示慢日志的级别，取值是 0 1 2
-        profile=0  表示不记录慢日志
-        profile=1  表示只记录慢日志
-        profile=2  表示所有日志都记录
-// 第二个参数表示慢日志的时间阀值，单位是毫秒
-
-db.getProfilingStatus()
-// 查看当前慢日志的配置信息
-
-开启慢日志后，在当前库下就会出现system.profile这个collection
- db.system.profile.find().limit(2).sort({ ts : -1 }).pretty() 查出最近的2条慢日志
-
-查看最近15分钟内的服务状态
-db.serverStatus()
-// 必须在admin库下，才能使用这条命令
-egg db.serverStatus()['extra_info']
-
 --------------------------------------------------------------------------------------
 SET NAMES UTF8MB4
 Statement statement = con.createStatement();

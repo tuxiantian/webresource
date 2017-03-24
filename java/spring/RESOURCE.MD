@@ -229,3 +229,169 @@ Jersey RESTful 框架是开源的RESTful框架
           p:maxUploadSize="10485760"
           p:uploadTempDir="WEB-INF/upload/temp"/>
 --------------------------------------------------------------------------------------
+http://my.oschina.net/liting/blog/524332
+BeanFactory接口是Spring IoC 容器的核心接口
+
+BeanFactory和ApplicationContext有什么区别
+BeanFactory 含有bean集合的工厂类
+
+application context在此基础上还提供了其他的功能ApplicationContex接口对BeanFactory（是一个子接口）进行了扩展
+提供了支持国际化的文本消息
+统一的资源文件读取方式
+已在监听器中注册的bean的事件
+
+bean的生命周期由两组回调方法组成
+初始化之后调用的回调方法
+销毁之前调用的回调方法
+
+Spring提供了以下四种集合类的配置元素：
+<list> :   该标签用来装配可重复的list值
+<set> :    该标签用来装配没有重复的set值
+<map>:   该标签可用来注入键和值可以为任何类型的键值对
+<props> : 该标签支持注入键和值都是字符串类型的键值对
+
+<property name="customMap">
+        <map>
+           <entry key="1" value="INDIA"/>
+        </map>
+      </property>
+
+<property name="customProperies">
+    <props>
+        <prop key="admin">admin@nospam.com</prop>
+    </props>
+</property>
+
+
+<util:list id="strArray">
+  <value>Hello</value>
+</util:list>
+<util:set set-class="java.util.HashSet">
+    <value>1</value>
+</util:set>
+<util:map id="map" map-class="java.util.HashMap" >
+   <entry key="key1" value-ref="some1"/>
+</util:map>
+<util:properties id="config" location="classpath:/config.properties">
+    <prop key="jdbc.prop1">JDBC Properties 1</prop>
+</util:properties>
+
+<bean id="holder" class="com.happyhouse.rednics.tutorial.spring.property.PropertyHolder">
+    <property name="jdbcDriverClass" value="#{config['jdbc.driverClass']}" />
+</bean>
+
+<bean id="people" class="com.abc.People">
+　　 <property name="name" value="张三" /> <!-- 设值注入 -->
+　　 <property name="school" ref="school" />
+　　 <property name="age" value="20" type="int" />
+</bean>
+<bean id="people" class="com.abc.People">
+    <!-- 构造注入,index=0表示构造器的第一个参数 -->
+　　 <constructor-arg index="0" value="张三"/> <!-- 构造注入 -->
+　　 <constructor-arg index="1" ref="school" />
+　　 <constructor-arg index="2" value="20" type="int" />
+</bean>
+
+循环依赖就是循环引用,两个或多个Bean相互之间的持有对方,比如CircleA引用CircleB,CircleB引用CircleC,CircleC引用CircleA
+解决 设值注入
+<bean id="circleA" class="cn.javass.spring.chapter3.bean.CircleA" scope="prototype">
+     <property name="circleB" ref="circleB"/>
+</bean>
+<bean id="circleB" class="cn.javass.spring.chapter3.bean.CircleB" scope="prototype">
+    <property name="circleC" ref="circleC"/>
+</bean>
+<bean id="circleC" class="cn.javass.spring.chapter3.bean.CircleC" scope="prototype">
+    <property name="circleA" ref="circleA"/>
+</bean>
+
+IOC技术的本质就是构建对象的技术。换句话说就是将一个类实例化成对象的技术，Spring提供一个容器,
+我们在xml文件里定义各个对象的依赖关系,由容器完成对象的构建。
+--------------------------------------------------------------------------------------
+spring配置注入
+<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="locations">
+        <list>
+            <value>classpath*:application.properties</value>
+        </list>
+    </property>
+</bean>
+<!-- 将配置文件读取到容器中,交给Spring管理 -->
+<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+    <property name="properties" ref="configProperties" />
+</bean>
+
+@Value("#{configProperties['mysql.url']}")
+private String url;
+
+
+<bean id="placer2" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+    <property name="order" value="1"></property>
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+    <property name="locations">
+        <list>
+            <value>classpath:/jdbc.properties</value>
+        </list>
+    </property>
+</bean>
+
+
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+    <property name="ignoreResourceNotFound" value="true" />
+    <property name="locations">
+        <list>
+            <value>classpath:default.properties</value>
+            <value>file:${user.home}/webextractor.properties</value>
+        </list>
+    </property>
+</bean>
+
+
+加密 http://www.yihaomen.com/article/java/420.htm  extends DefaultPropertiesPersister 重写load 读入流覆盖属性转成流
+<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+	<property name="locations">
+		<list>
+			<value>classpath:config/jdbc.properties</value>
+		</list>
+	</property>
+	<property name="propertiesPersister">
+		<bean class="com.ai.rgshcore.util.MyPropertiesPersist" />
+	</property>
+	<property name="ignoreUnresolvablePlaceholders" value="true" />
+	<property name="ignoreResourceNotFound" value="true" />
+</bean>
+
+
+extends PropertyPlaceholderConfigurer 重写PropertiesLoaderSupport loadProperties;   super.loadProperties(props) 直接覆盖属性
+extends PropertyPlaceholderConfigurer 重写PropertyResourceConfigurer convertProperty(String propertyName, String propertyValue) 覆盖propertyValue属性
+
+使用jasypt jasypt-spring3加密 ENC(加密值)
+
+<bean id="propertyConfigurerForProject2" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="order" value="2" />
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+    <property name="locations">
+      <list>
+        <value>classpath:/spring/include/jdbc-parms.properties</value>
+        <value>classpath:/spring/include/base-config.properties</value>
+      </list>
+    </property>
+</bean>
+--------------------------------------------------------------------------------------
+@Value("${server.host:127.0.0.1}")  默认值
+--------------------------------------------------------------------------------------
+springmvc redirect注意事项
+return "redirect:/test3"; 跳转相对于根路径地址: localhost:8080/test3
+return "redirect:test2"; 跳转相对于当前路径地址
+--------------------------------------------------------------------------------------
+Spring提供了两种方式来生成代理对象: JDKProxy (接口)和Cglib
+--------------------------------------------------------------------------------------
+springmvc框架在遇到这种同名参数提交,而参数中有逗号时,会出现问题：
+比如我提交的值是 xname=123 和 xname=45,67
+那么在进入action拿到参数时会变成string[] xname = ["123","45","67"]
+$("input[name='ssidName']").each(function(){
+    $(this).val(encodeURIComponent($(this).val()));
+})
+URLDecoder.decode(ssidNames [i], "UTF-8" )
+--------------------------------------------------------------------------------------

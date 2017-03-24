@@ -629,3 +629,110 @@ const person={
 };
 console.log(person.name);//xiaobo
 --------------------------------------------------------------------------------------
+$.isArray
+var jQuery_1_6_3 = $.noConflict(true);
+--------------------------------------------------------------------------------------
+var a=[1,2,3,5];
+Math.max.apply(null, a)
+
+var a=[1,2,3,[5,6],[1,4,8]];
+var ta=a.join(",").split(",");//转化为一维数组
+--------------------------------------------------------------------------------------
+设置按钮不可用
+$("#queryBtn").attr("disabled",true);
+$("#rbutton_"+i).prop("disabled",true);
+--------------------------------------------------------------------------------------
+判断myObj是否有定义
+if (typeof myObj == "undefined") {
+　　　　var myObj = { };
+}
+--------------------------------------------------------------------------------------
+javascript的数据类型
+字符串,数值型,boolean型,数组,对象,null型,undefined型
+--------------------------------------------------------------------------------------
+重置表单
+$('#myform')[0].reset()
+--------------------------------------------------------------------------------------
+禁用 input 字段
+$('input[type="submit"]').prop('disabled', true);
+$('input[type="submit"]').removeAttr('disabled');
+
+checkbox
+$("#saleBtn").prop("disabled",true);//禁用
+$("#saleBtn").prop("disabled",false);//去除禁用
+
+$("#saleBtn").prop("disabled","disabled");//禁用
+$("#saleBtn").prop("disabled","");//去除禁用
+--------------------------------------------------------------------------------------
+自定义的DOM属性处理这些属性时,建议使用attr方法
+--------------------------------------------------------------------------------------
+判断前一个
+if (typeof $("#div1").prev().html() != "undefined") {
+                alert("没啦");
+}
+--------------------------------------------------------------------------------------
+function isArray(arg) {
+    if (typeof arg === 'object') {
+        return Object.prototype.toString.call(arg) === '[object Array]';
+    }
+    return false;
+}
+--------------------------------------------------------------------------------------
+/**
+ * 字符串替换
+ * @param  {string} str    要被替换的字符串
+ * @param  {string} substr 要替换的字符串
+ * @param  {string} newstr 用于替换的字符串
+ * @return {string}        替换后的新字符串
+ */
+function replace(str, substr, newstr) {
+  var p = -1; // 字符出现位置
+  var s = 0; // 下一次起始位置
+
+  while((p = str.indexOf(substr, s)) > -1) {
+    s = p + newstr.length; // 位置 + 值的长度
+    str = str.replace(substr, newstr);
+  }
+
+  return str;
+}
+
+console.log( replace("ssssss", "ss", "s") ); // sss
+--------------------------------------------------------------------------------------
+延迟加载js代码
+<script type="text/javascript" src="" id="my"></script>
+<script type="text/javascript">
+    setTimeout("document.getElementById('my').src='include/php100.php'; ",3000);//延时3秒
+</script>
+--------------------------------------------------------------------------------------
+js数组合并
+Array.prototype.push.apply(arrA, arrB);
+
+var merge = function() {
+    return Array.prototype.concat.apply([], arguments)
+  }
+
+merge([1,2,4],[3,4],[5,6]);
+--------------------------------------------------------------------------------------
+js
+==         等于
+===         全等（值和类型）
+--------------------------------------------------------------------------------------
+数组排序
+Arrays.sort(wiStateParks, new Comparator<String>() {
+	public int compare(String o1, String o2) {
+		if (o1 == null && o2 == null) {
+			return 0;
+		}
+		if (o1 == null) {
+			return 1;
+		}
+		if (o2 == null) {
+			return -1;
+		}
+		return o1.compareTo(o2);
+	}
+});
+Comparator.nullsLast((s1, s2) -> s1.length() - s2.length())
+Comparator.nullsLast(String::compareToIgnoreCase)
+--------------------------------------------------------------------------------------
