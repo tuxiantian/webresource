@@ -405,3 +405,25 @@ spring过滤器
   </mvc:interceptor>
  </mvc:interceptors>
 --------------------------------------------------------------------------------------
+@Transactional(rollbackFor = Exception.class)
+public int method(Object obj) {
+    try {
+        doInsert(obj);
+        return 1;
+    } catch(Exception e) {
+        e.printStackTrace();
+        // 加入下行代码手动回滚
+        // @Transactional 为方法加上事务,try catch 捕获到异常手动回滚事务
+        if (TransactionAspectSupport.currentTransactionStatus().isNewTransaction()) {
+            // 第一次开启事务遇到异常则回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        } else {
+            // 嵌套的事务,当前方法被另一个加了 @Transactional 标注的方法调用
+            // 抛出异常告诉上一个事务,让上一个事务判断是否回滚
+            // 这样的优点是: 在调用者那边不用根据当前方法返回值来判断是否回滚
+            throw e;
+        }
+    }
+    return 0;
+}
+--------------------------------------------------------------------------------------

@@ -10726,13 +10726,7 @@ Quartz 调度器以多线程的方式执行调度任务JobDetail,最大线程池
 若调度器中已有maxPoolSize个Job在工作（线程没有结束），那么即使有JobDetail到了被触发的时间，新的JobDetail不会被执行
 
 --------------------------------------------------------------------------------------
-oracle分组取最大
-select *
-  from (select *,
-               row_number() over(partition by gid order by col2 desc) as cc
-          from t2) tt2
- where tt2.cc <= 1
---------------------------------------------------------------------------------------
+
 先变量再字段
 变量之间, 从左到右
 字段之间, 并行执行
@@ -10927,80 +10921,11 @@ CountDownLatch用完之后就不能再次使用了，CyclicBarrier用完之后�
 CountDownLatch底层使用的是共享锁，CyclicBarrier底层使用的是ReentrantLock
 Semaphore底层也是使用共享锁实现的
 --------------------------------------------------------------------------------------
-oracle DML操作和单行SELECT语句会使用隐式游标
-插入操作：INSERT
-更新操作：UPDATE
-删除操作：DELETE
-单行查询操作：SELECT ... INTO ...
-
-游标的属性有四种，如下所示:
-sql%found （布尔类型，默认值为null）
-sql%notfound（布尔类型,默认值为null）
-sql%rowcount(数值类型默认值为0)
-sql%isopen(布尔类型)
-
-显式游标
-1声明游标
-2打开游标
-3提取数据
-4关闭游标
-declare
-  --定义游标c_job
-  cursor c_job is
-    select empno, ename, job, sal from emp where job = 'MANAGER';
-  --定义游标变量c_row
-  c_row c_job%rowtype;
-begin
-  open c_job;
-  loop
-    --提取一行数据到c_row
-    fetch c_job into c_row;
-    --判读是否提取到值，没取到值就退出
-    exit when c_job%notfound;
-    dbms_output.put_line(c_row.empno || '-' || c_row.ename || '-' ||
-                         c_row.job || '-' || c_row.sal);
-  end loop;
-  --关闭游标
-  close c_job;
-end;
-
-带参游标
-declare
-  cursor emp_dept_cur(dno int) is
-    select * from ol_reality_account where state = dno; --有参数的游标
-begin
-  for emprow in emp_dept_cur(&dno) loop
-    dbms_output.put_line(emprow.source_code);
-  end loop;
-end;
---------------------------------------------------------------------------------------
 struts2 漏洞
 开启动态方法调用的情况下可以远程执行任意命令
 修改 Struts2 的配置文件，将“struts.enable.DynamicMethodInvocation” 设置为 false，如
 <constant name="struts.enable.DynamicMethodInvocation" value="false" />；
 
---------------------------------------------------------------------------------------
-@Transactional(rollbackFor = Exception.class)
-public int method(Object obj) {
-    try {
-        doInsert(obj);
-        return 1;
-    } catch(Exception e) {
-        e.printStackTrace();
-        // 加入下行代码手动回滚
-        // @Transactional 为方法加上事务,try catch 捕获到异常手动回滚事务
-        if (TransactionAspectSupport.currentTransactionStatus().isNewTransaction()) {
-            // 第一次开启事务遇到异常则回滚
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        } else {
-            // 嵌套的事务,当前方法被另一个加了 @Transactional 标注的方法调用
-            // 抛出异常告诉上一个事务,让上一个事务判断是否回滚
-            // 这样的优点是: 在调用者那边不用根据当前方法返回值来判断是否回滚
-            throw e;
-        }
-    }
-    return 0;
-}
 --------------------------------------------------------------------------------------
 mybatis
 <select id="getCfgTaskList" parameterType="java.util.Map"
