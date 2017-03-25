@@ -1,3 +1,32 @@
+### 配置maven仓库的镜像地址
+```
+    <mirrors>
+        <mirror>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>mvnrepository</id>
+            <name>mvnrepository Central</name>
+            <url>http://mvnrepository.com/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>ibiblio</id>
+            <name>ibiblio Central</name>
+            <url>http://mirrors.ibiblio.org/maven2/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>CN</id>
+            <name>OSChina Central</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+```
 maven中的仓库分为两种，snapshot快照仓库和release发布仓库
 snapshot快照仓库用于保存开发过程中的不稳定版本，release正式仓库则是用来保存稳定的发行版本
 <groupId>cc.mzone</groupId>
