@@ -41,7 +41,7 @@ always是每次都去远程仓库查看是否有更新，
 daily是只在第一次的时候查看是否有更新，当天的其它时候则不会查看；
 interval允许设置一个分钟为单位的间隔时间，在这个间隔时间内只会去远程仓库中查找一次，
 never是不会去远程仓库中查找
-
+```
 <repository>
     <id>myRepository</id>
     <url>...</url>
@@ -51,7 +51,7 @@ never是不会去远程仓库中查找
         <checksumPolicy>warn</checksumPolicy>
     </snapshots>
 </repository>
-
+```
 
 --------------------------------------------------------------------------------------
 mvn调试信息：
@@ -64,6 +64,7 @@ U 强制更新
 maven采用约定优于配置的策略
 --------------------------------------------------------------------------------------
 时区是UTC
+```
 <properties>
     <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 </properties>
@@ -76,7 +77,7 @@ maven采用约定优于配置的策略
      <warName>showcase-${maven.build.timestamp}</warName>
    </configuration>
 </plugin>
-
+```
 要使用GMT+8，就需要插件提供支持，我用的是build-helper-maven-plugin
 --------------------------------------------------------------------------------------
 maven maven-jar-plugin插件
@@ -98,20 +99,23 @@ maven-compiler-plugin用来编译Java代码
 maven-resources-plugin则用来处理资源文件
 --------------------------------------------------------------------------------------
 optional：可选依赖，true 不会传递，false会传递（默认）
+```
 <dependency>
    <groupId>mysql</groupId>
    <artifactId>mysql-connector-java</artifactId>
    <version>5.1.10</version>
    <optional>true</optional>
 </dependency>
+```
 --------------------------------------------------------------------------------------
 exclusions排除依赖
 
 归类依赖
+```
 <properties>
     <spring>2.5.6</spring>
 </properties>
-
+```
 --------------------------------------------------------------------------------------
 部署至远程仓库
 
@@ -121,6 +125,7 @@ maven具有三个独立的生命周期：clean、defeat、site
 mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId
 -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar
 --------------------------------------------------------------------------------------
+```
 <groupId>org.apache.maven.plugins</groupId>
 <artifactId>maven-compiler-plugin</artifactId>
 <version>2.3.2</version>
@@ -136,8 +141,9 @@ mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId
 
 </configuration>
 </plugin>
+```
 --------------------------------------------------------------------------------------
-
+```
 <!-- 复制依赖的插件 -->
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -173,8 +179,10 @@ mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId
 </plugin>
 
 mvn clean package -Dmaven.test.skip=true
+```
 --------------------------------------------------------------------------------------
 部署到远程仓库
+```
 <distributionManagement>
 	<repository>
 		<id>nexus-releases</id>
@@ -187,7 +195,9 @@ mvn clean package -Dmaven.test.skip=true
 		<url>http://127.0.0.1:8080/nexus/content/repositories/snapshots/</url>
 	</snapshotRepository>
 </distributionManagement>
+```
 --------------------------------------------------------------------------------------
+```
 mvn dependency:sources -DincludeArtifactIds=guava
 mvn dependency:sources -DincludeGroupIds=com.jcraft,org.testng -Dclassifier=sources
 
@@ -200,11 +210,12 @@ mvn -DgroupId=com.google.code.gson
 
 maven -DgroupId=com.google.code.gson -DartifactId=gson -Dversion=2.6.2
 -Dclassifier=sources org.apache.maven.plugins:maven-dependency-plugin:2.10:get
+```
 --------------------------------------------------------------------------------------
 mvn verify 运行检查以证实生成的包是有效的，达到质量标准的
 
 --------------------------------------------------------------------------------------
-
+```
 <plugin>
 	<!-- 发布插件 -->
 	<groupId>org.apache.maven.plugins</groupId>
@@ -214,11 +225,11 @@ mvn verify 运行检查以证实生成的包是有效的，达到质量标准的
       <skip>true</skip>
     </configuration>
 </plugin>
-
+```
 跳过测试
 --------------------------------------------------------------------------------------
 mvn help: active-Profiles来查看处于激活状态的profiles
-
+```
 <profile>
     <!-- 开发环境 -->
     <id>dev</id>
@@ -230,6 +241,7 @@ mvn help: active-Profiles来查看处于激活状态的profiles
         <activeByDefault>true</activeByDefault>
     </activation>
 </profile>
+```
 maven package -P dev
 将自动打包成dev环境的部署包
 --------------------------------------------------------------------------------------
@@ -244,6 +256,7 @@ maven的仲裁
 类似一棵树的广度遍历
 --------------------------------------------------------------------------------------
 父模块
+```
 <dependencyManagement>
     <dependencies>
         <dependency>
@@ -265,6 +278,7 @@ maven的仲裁
 
 mvn dependency:analyze,使用该命令就可以看到maven分析的结果和建议
 mvn dependency:tree,使用该命令可以看到maven的依赖树
+```
 --------------------------------------------------------------------------------------
 Maven对重复依赖的解决方案
 最短路径原则
