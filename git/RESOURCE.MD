@@ -30,3 +30,16 @@
 ##  git中文文件名、目录名乱码应该怎么解决？
 git config core.quotepath false  
 core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常
+
+### Git工作流指南
+> http://blog.jobbole.com/76843/
+### Git工作流指南：集中式工作流
+> http://blog.jobbole.com/76847/
+### Git工作流指南：功能分支工作流
+> http://blog.jobbole.com/76857/
+### Git工作流指南：Gitflow工作流
+> http://blog.jobbole.com/76867/
+### Git工作流指南：Forking工作流
+> http://blog.jobbole.com/76861/
+### Git工作流指南：Pull Request工作流
+> http://blog.jobbole.com/76854/
