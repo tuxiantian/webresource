@@ -30,6 +30,8 @@
 ##  git中文文件名、目录名乱码应该怎么解决？
 git config core.quotepath false  
 core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常
+## 查看远程仓库的地址
+> git remote -v
 
 ### Git工作流指南
 > http://blog.jobbole.com/76843/
