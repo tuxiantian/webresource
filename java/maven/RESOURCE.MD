@@ -1,3 +1,6 @@
+### The Central Repository
+> https://search.maven.org/
+
 ### 配置maven仓库的镜像地址
 ```
     <mirrors>
@@ -29,11 +32,12 @@
 ```
 maven中的仓库分为两种，snapshot快照仓库和release发布仓库
 snapshot快照仓库用于保存开发过程中的不稳定版本，release正式仓库则是用来保存稳定的发行版本
+```
 <groupId>cc.mzone</groupId>
 <artifactId>m1</artifactId>
 <version>0.1-SNAPSHOT</version>
 <packaging>jar</packaging>
-
+```
 在maven本地仓库的groupId/artifactId/version文件路径下会存在maven-metadata.xml文件，会记录版本信息
 
 频率共有四种，分别是always、daily、interval:XXX、never
