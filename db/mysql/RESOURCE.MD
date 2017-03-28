@@ -462,3 +462,8 @@ profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
 批量插入
 useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
 --------------------------------------------------------------------------------------
+mysql
+alter table t_user_2 add name2 varchar(15),add name3 varchar(4);
+
+alter table t_user_2 drop name2, drop name3;
+--------------------------------------------------------------------------------------

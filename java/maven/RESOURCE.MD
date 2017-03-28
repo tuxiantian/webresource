@@ -291,3 +291,19 @@ Maven对重复依赖的解决方案
 maven依赖jar包冲突
 mvn dependency:tree -Dverbose
 --------------------------------------------------------------------------------------
+Maven常见的依赖范围有哪些?
+compile:编译依赖,默认的依赖方式,在编译（编译项目和编译测试用例）,运行测试用例,运行（项目实际运行）三个阶段都有效,
+典型地有spring-core等jar
+test:测试依赖,只在编译测试用例和运行测试用例有效,典型地有JUnit
+provided:对于编译和测试有效,不会打包进发布包中,典型的例子为servlet-api,一般的web工程运行时都使用容器的servlet-api
+runtime:只在运行测试用例和实际运行时有效,对于测试和运行classpath有效,但在编译主代码时无效,典型地是jdbc驱动jar包
+system: 不从maven仓库获取该jar,而是通过systemPath指定该jar的路径
+import: 用于一个dependencyManagement对另一个dependencyManagement的继承
+--------------------------------------------------------------------------------------
+ maven中的仓库分为两种,snapshot快照仓库和release发布仓库
+snapshot快照仓库用于保存开发过程中的不稳定版本,release正式仓库则是用来保存稳定的发行版本
+<groupId>cc.mzone</groupId>
+<artifactId>m1</artifactId>
+<version>0.1-SNAPSHOT</version>
+<packaging>jar</packaging>
+--------------------------------------------------------------------------------------
