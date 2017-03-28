@@ -447,3 +447,18 @@ tmpdir=path
 
 find_in_set(3,'1,2,3')
 --------------------------------------------------------------------------------------
+
+记录不使用索引的语句
+mysql> set global log_queries_not_using_indexes = 'ON';
+FLUSH LOGS;
+--------------------------------------------------------------------------------------
+jdbc:mysql://10.0.0.40:3308/unidsp?profileSQL=true&gatherPerfMetrics=true&
+reportMetricsIntervalMillis=500&useUnicode=true&zeroDateTimeBehavior=convertToNull
+&allowMultiQueries=true&characterEncoding=UTF-8
+
+记录 SQL 实际执行的各种时间
+profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
+
+批量插入
+useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
+--------------------------------------------------------------------------------------

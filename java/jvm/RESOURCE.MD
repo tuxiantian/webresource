@@ -16,3 +16,18 @@
 > http://mp.weixin.qq.com/s/1TmJvnof_yWDAuqffCVhOQ
 ### JVM（8）：JVM 知识点总览 - 高级 Java 工程师面试必备
 > http://mp.weixin.qq.com/s/EDieD01pqJyMIAiTB3V4Eg
+
+JAVA_OPTS="$JAVA_OPTS -Xmn768m -Xms2048m -Xmx2048m -XX:PermSize=128m -XX:MaxPermSize=256m"
+--------------------------------------------------------------------------------------
+JVM初始分配的内存默认是物理内存的1/64,默认(MinHeapFreeRatio参数可以调整)空余堆内存小于40%时，
+JVM就会增大堆直到-Xmx的最大限制,-XX:MinHeapFreeRatio=40.
+
+JVM最大分配的内存默认是物理内存的1/4,默认(MaxHeapFreeRatio参数可以调整)空余堆内存大于70%时，
+JVM会减少堆直到 -Xms的最小限制,-XX:MaxHeapFreeRatio=70.
+--------------------------------------------------------------------------------------
+查看jvm栈深度
+jinfo -flag ThreadStackSize 11351（pid）
+--------------------------------------------------------------------------------------
+
+强制要求JVM始终抛出含堆栈的异常(-XX:-OmitStackTraceInFastThrow)
+--------------------------------------------------------------------------------------

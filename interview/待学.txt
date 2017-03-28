@@ -10934,8 +10934,6 @@ mybatis
 ibatis
 select id="getUserByLikeEmail" resultClass="User" parameterClass="parameterMap">
 --------------------------------------------------------------------------------------
-MyBatis将 #{…} 解释为JDBC prepared statement 的一个参数标记。而将 ${…} 解释为字符串替换
---------------------------------------------------------------------------------------
 Struts2中通过使用拦截器来实现的 token拦截器和tokenSession拦截器
 使用token拦截器重复提交表单的时候，浏览器会跳转到一个错误页面，
 而使用更tokenSession拦截器重复提交表单的话是不会跳转的，仍然在成功之后页面。
@@ -11062,14 +11060,6 @@ rewriteBatchedStatements=true，mysql默认关闭了batch处理，通过此参�
 useServerPrepStmts=false  使用com.mysql.jdbc.PreparedStatement进行本地SQL拼装
 --------------------------------------------------------------------------------------
 http://nutzam.com/
---------------------------------------------------------------------------------------
-JAVA_OPTS="$JAVA_OPTS -Xmn768m -Xms2048m -Xmx2048m -XX:PermSize=128m -XX:MaxPermSize=256m"
---------------------------------------------------------------------------------------
-JVM初始分配的内存默认是物理内存的1/64,默认(MinHeapFreeRatio参数可以调整)空余堆内存小于40%时，
-JVM就会增大堆直到-Xmx的最大限制,-XX:MinHeapFreeRatio=40.
-
-JVM最大分配的内存默认是物理内存的1/4,默认(MaxHeapFreeRatio参数可以调整)空余堆内存大于70%时，
-JVM会减少堆直到 -Xms的最小限制,-XX:MaxHeapFreeRatio=70.
 --------------------------------------------------------------------------------------
 /**
      * emoji表情替换
@@ -11819,11 +11809,7 @@ var uncurrying= function (fn) {
 --------------------------------------------------------------------------------------
 mybatis useCache="false" flushCache="true"
 --------------------------------------------------------------------------------------
-查看jvm栈深度
-jinfo -flag ThreadStackSize 11351（pid）
---------------------------------------------------------------------------------------
-强制要求JVM始终抛出含堆栈的异常(-XX:-OmitStackTraceInFastThrow)
---------------------------------------------------------------------------------------
+
 console.log("%d年%d月%d日",2016,10,24);
 --------------------------------------------------------------------------------------
 编辑/etc/sysctl.conf文件，开启iptables转发（FORWARD）功能
@@ -13004,19 +12990,6 @@ function reverse(string) {
 
 https://github.com/mathiasbynens/esrever Unicode-aware string reverser
 --------------------------------------------------------------------------------------
-立即执行函数
-使用IIFE
-(function(){
-    //......
-})()
-
-// 下面的函数会先进行pre-parse
-function foo() {
-    //......
-}
-// 2秒之后函数被执行，又会进行一遍full-parse
-setTimeout(foo, 2000);
---------------------------------------------------------------------------------------
 jquery的append可以做到注入
 因为jquery会在将append元素变为fragment的时候，找到其中的script标签，再使用eval执行一遍
 --------------------------------------------------------------------------------------
@@ -13063,37 +13036,7 @@ MVCC（多版本控制并发）
 采用paxos协议，来保证修改操作的一致性。
 
 --------------------------------------------------------------------------------------
-1.子选择器$( "parent > child" )：选取所有指定元素的直接后代元素，即子元素，可以用children()代替它。
-    eg:$(“body>div”)相当于$(“body”).children(“div”);
 
-2.后代选择器$("ancestor descendant")：选取给定的祖先元素的所有后代元素，可以用find()代替它
-    eg:$(“ul li”)相当于$(“ul”).find(“li);
-
-3.相邻兄弟选择器$("prev + next")：选取所有紧接在“prev”元素后的“next”元素,可以用next()替代它。
-    eg :    $(“a+ul”)相当于$(“a”).next();
-    相邻兄弟选择器要满足三个条件：
-    1）它们必须是兄弟，即他们的父元素为同一个
-    2）next必须在prev后面
-    3）它们必须相邻
-
-4. 一般兄弟选择器 $("prev ~ siblings")，选取“prev”元素之后的所有兄弟元素,可以用nextAll()代替它。
-     eg : $(“a~span”)相当于$(“a”).nextAll("span");
-   一般兄弟选择器两个条件：
-     1.它们必须是兄弟，即他们的父元素为同一个
-     2.siblings必须在prev后面
-
-子选择器 仅是指它的直接后代 后代选择器是作用于所有子后代元素
-
-siblings()可以跟同辈的元素匹配，无论位置的先后。
-next()只能跟紧随其后的一个同辈元素匹配
-nextAll()只能跟其后的同辈元素匹配
-区分$(“ul.active”)和$(“ul .active”)
-二者的差别在于空格，前者会被解析为“获取class为active的ul元素”，
-而后者则是“获取ul元素的后代元素中class为active的元素”
-
-$(“input”)获取的是<input>元素，
-:input选取所有的<input>、<textarea>、<select>、<button>元素
---------------------------------------------------------------------------------------
 箭头函数中的this关键字，指向的是定义时的对象，而不是使用时的对象
 --------------------------------------------------------------------------------------
 var x=1;
@@ -14002,26 +13945,7 @@ http://podio.github.io/jquery-mentions-input/ @功能
 js中并没有实现(?<=exp)和(?<!exp)的位置匹配
 /^(.(?!\.global))+\.less$/
 --------------------------------------------------------------------------------------
-获取数组中最后一个元素
-var array = [1,2,3,4,5,6];
-console.log(array.slice(-1)); // [6]
-console.log(array.slice(-2)); // [5,6]
-console.log(array.slice(-3)); // [4,5,6]
---------------------------------------------------------------------------------------
-记录不使用索引的语句
-mysql> set global log_queries_not_using_indexes = 'ON';
-FLUSH LOGS;
---------------------------------------------------------------------------------------
-jdbc:mysql://10.0.0.40:3308/unidsp?profileSQL=true&gatherPerfMetrics=true&
-reportMetricsIntervalMillis=500&useUnicode=true&zeroDateTimeBehavior=convertToNull
-&allowMultiQueries=true&characterEncoding=UTF-8
 
-记录 SQL 实际执行的各种时间
-profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
-
-批量插入
-useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
---------------------------------------------------------------------------------------
 https://github.com/anylogic/alogic/blob/master/alogic-doc/alogic-common/xscript2.md
 --------------------------------------------------------------------------------------
 指定时区
@@ -14851,9 +14775,7 @@ baidu 100 5000
 sohu 100 4500
 google 110 5000
 --------------------------------------------------------------------------------------
-maven依赖jar包冲突
-mvn dependency:tree -Dverbose
---------------------------------------------------------------------------------------
+
 查看已经开启的服务
 netstat -tulpn
 -u (udp)仅显示udp相关选项
@@ -14885,24 +14807,6 @@ https://github.com/dangdangdotcom/sharding-jdbc 当当网 分库分表中间件S
 --------------------------------------------------------------------------------------
 linux中使用指定用户运行命令
 su username -c 'cmd'
---------------------------------------------------------------------------------------
-开启： chkconfig iptables on
-关闭： chkconfig iptables off
-
-查看防火墙状态：
-/etc/init.d/iptables status
-
-即时生效，重启后失效
-开启： service iptables start
-关闭： service iptables stop
-
-service iptables save
-
-iptables -L 查看一下当前的规则
-iptables -X        清除预设表filter中使用者自定链中的规则
-
-iptables -A INPUT  -p tcp --dport 22 -j ACCEPT
-iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 --------------------------------------------------------------------------------------
 判断字符串为空的方法有三种：
 if [ "$str" =  "" ]
@@ -15027,111 +14931,6 @@ public ListService windowsService() {
 请求头信息伪造XSS
 FireFox的Tamper Data和Moify Headers 插件修改下就实现
 --------------------------------------------------------------------------------------
-# 关机
-shutdown -h now
-
-# 重启
-shutdown -r now
-
-# 查看当前用户环境变量
-env
-
-同步服务器时间
-sudo ntpdate -u ntp.api.bz
-
-# 后台运行,并且有nohup.out输出
-nohup xxx &
-
-# 后台运行, 不输出任何日志
-nohup xxx > /dev/null &
-
-# 后台运行, 并将错误信息做标准输出到日志中
-nohup xxx >out.log 2>&1 &
-
-查看进程所有打开最大fd数
-ulimit -n
-
-sar,查看网络吞吐状态 需要安装
-# sar命令在这里可以查看网络设备的吞吐率。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和
-sar -n DEV 1
-网络统计(-n) -n后接关键词”DEV”可显示eth0、eth1等网卡的信息 DEV显示网络接口信息
-sar [选项] intervar [count]
-
-# TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。
-TCP重传可能是因为网络环境恶劣，或者服务器压力过大导致丢包
-sar -n TCP,ETCP 1
-
-# 显示本地打开的所有端口
-ss -l
-
-# 显示每个进程具体打开的socket
-ss -pl
-
-# 显示所有tcp socket
-ss -t -a
-
-# 显示所有的UDP Socekt
-ss -u -a
-
-列出当前socket统计信息
-ss -s
-
-# 显示所有已建立的SMTP连接
-ss -o state established '( dport = :smtp or sport = :smtp )'
-
-# 显示所有已建立的HTTP连接
-ss -o state established '( dport = :http or sport = :http )'
-
-# 要封停一个ip
-iptables -I INPUT -s ***.***.***.*** -j DROP
-
-# 要解封一个IP，使用下面这条命令：
-iptables -D INPUT -s ***.***.***.*** -j DROP
--I是表示Insert（添加），-D表示Delete（删除）DROP表示放弃连接
-
-#开启9090端口的访问
-/sbin/iptables -I INPUT -p tcp --dport 9090 -j ACCEPT
-
-# 会从 /doc 目录开始往下找，找寻文件名是 ja 开头或者 ma开头的文件。
-find /doc \( -name 'ja*' -o- -name 'ma*' \) –print
-
-# 反向匹配, 查找不包含xxx的内容
-grep -v xxx
-
-# 排除所有空行
-grep -v '^$'
-
-tee, 重定向的同时输出到屏幕
-awk ‘{print $0}’ xxx.log | tee test.log
-
-# 查看特殊字符
-cat -v xxx.sh
--v 或 –show-nonprinting
-
-# 去除特殊字符
-sed -i 's/^M//g’ env.sh  去除文件的特殊字符, 比如^M
-
-日志输出的字节数,可以用作性能测试
-# 如果做性能测试, 可以每执行一次, 往日志里面输出 “.” , 这样日志中的字节数就是实际的性能测试运行的次数, 还可以看见实时速率.
-tail -f xxx.log | pv -bt
-pv 显示当前在命令行执行的命令的进度信息
--p 来显示百分比，-t 来显示时间 -r 表示传输速率
-
-文件里最长的那一行是多少个字
-wc -L filename
-
-# 统计字节数
-wc -c
-
-shift + g # 跳到文件最后
-gg # 跳到文件头
-
-# 显示行号
-:set nu
-
-# 去除行号
-:set nonu
---------------------------------------------------------------------------------------
 php在使用curl做POST的时候, 当要POST的数据大于1024字节的时候, curl并不会直接就发起POST请求, 而是会分为2个步骤：
 1发送一个请求, 包含一个Expect:100-continue, 询问Server使用愿意接受数据
 2接收到Server返回的100-continue应答以后, 才把数据POST给Server
@@ -15167,23 +14966,7 @@ public MapperScannerConfigurer mapperScannerConfigurer(){
     return mapperScannerConfigurer;
 }
 --------------------------------------------------------------------------------------
-查看谁正在使用某个文件
-lsof /data
 
-列出某个用户打开的文件信息
-lsof  -u username
-
-列出某个程序所打开的文件信息
-lsof -c MySQL
-备注: -c 选项将会列出所有以mysql开头的程序的文件
-
-查询文件和目录使用者
-fuser /root  最基本的用法是查询某个文件或目录被哪个进程使用
-
-列出进程的详细信息 -v
--k参数能够杀死所有的正在访问指定文件的进程
--u参数 列出进程所属的用户
---------------------------------------------------------------------------------------
 Java 8 集合框架的 parallelStream() 可以正常的在启动线程中捕获到 Lambda 表达式中产生的异常
 Arrays.asList("a", "b").parallelStream().forEach(s -> {
        try {

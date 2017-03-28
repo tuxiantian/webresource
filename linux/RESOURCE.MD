@@ -477,3 +477,143 @@ curl -r 0-1024000 -o new_divide_1.mp3 http://vfile/55750a8be70.mp3
 查看头信息
 curl -I http://www.taobao.com/
 --------------------------------------------------------------------------------------
+开启： chkconfig iptables on
+关闭： chkconfig iptables off
+
+查看防火墙状态：
+/etc/init.d/iptables status
+
+即时生效，重启后失效
+开启： service iptables start
+关闭： service iptables stop
+
+service iptables save
+
+iptables -L 查看一下当前的规则
+iptables -X        清除预设表filter中使用者自定链中的规则
+
+iptables -A INPUT  -p tcp --dport 22 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+--------------------------------------------------------------------------------------
+# 关机
+shutdown -h now
+
+# 重启
+shutdown -r now
+
+# 查看当前用户环境变量
+env
+
+同步服务器时间
+sudo ntpdate -u ntp.api.bz
+
+# 后台运行,并且有nohup.out输出
+nohup xxx &
+
+# 后台运行, 不输出任何日志
+nohup xxx > /dev/null &
+
+# 后台运行, 并将错误信息做标准输出到日志中
+nohup xxx >out.log 2>&1 &
+
+查看进程所有打开最大fd数
+ulimit -n
+
+sar,查看网络吞吐状态 需要安装
+# sar命令在这里可以查看网络设备的吞吐率。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和
+sar -n DEV 1
+网络统计(-n) -n后接关键词”DEV”可显示eth0、eth1等网卡的信息 DEV显示网络接口信息
+sar [选项] intervar [count]
+
+# TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。
+TCP重传可能是因为网络环境恶劣，或者服务器压力过大导致丢包
+sar -n TCP,ETCP 1
+
+# 显示本地打开的所有端口
+ss -l
+
+# 显示每个进程具体打开的socket
+ss -pl
+
+# 显示所有tcp socket
+ss -t -a
+
+# 显示所有的UDP Socekt
+ss -u -a
+
+列出当前socket统计信息
+ss -s
+
+# 显示所有已建立的SMTP连接
+ss -o state established '( dport = :smtp or sport = :smtp )'
+
+# 显示所有已建立的HTTP连接
+ss -o state established '( dport = :http or sport = :http )'
+
+# 要封停一个ip
+iptables -I INPUT -s ***.***.***.*** -j DROP
+
+# 要解封一个IP，使用下面这条命令：
+iptables -D INPUT -s ***.***.***.*** -j DROP
+-I是表示Insert（添加），-D表示Delete（删除）DROP表示放弃连接
+
+#开启9090端口的访问
+/sbin/iptables -I INPUT -p tcp --dport 9090 -j ACCEPT
+
+# 会从 /doc 目录开始往下找，找寻文件名是 ja 开头或者 ma开头的文件。
+find /doc \( -name 'ja*' -o- -name 'ma*' \) –print
+
+# 反向匹配, 查找不包含xxx的内容
+grep -v xxx
+
+# 排除所有空行
+grep -v '^$'
+
+tee, 重定向的同时输出到屏幕
+awk ‘{print $0}’ xxx.log | tee test.log
+
+# 查看特殊字符
+cat -v xxx.sh
+-v 或 –show-nonprinting
+
+# 去除特殊字符
+sed -i 's/^M//g’ env.sh  去除文件的特殊字符, 比如^M
+
+日志输出的字节数,可以用作性能测试
+# 如果做性能测试, 可以每执行一次, 往日志里面输出 “.” , 这样日志中的字节数就是实际的性能测试运行的次数, 还可以看见实时速率.
+tail -f xxx.log | pv -bt
+pv 显示当前在命令行执行的命令的进度信息
+-p 来显示百分比，-t 来显示时间 -r 表示传输速率
+
+文件里最长的那一行是多少个字
+wc -L filename
+
+# 统计字节数
+wc -c
+
+shift + g # 跳到文件最后
+gg # 跳到文件头
+
+# 显示行号
+:set nu
+
+# 去除行号
+:set nonu
+--------------------------------------------------------------------------------------
+查看谁正在使用某个文件
+lsof /data
+
+列出某个用户打开的文件信息
+lsof  -u username
+
+列出某个程序所打开的文件信息
+lsof -c MySQL
+备注: -c 选项将会列出所有以mysql开头的程序的文件
+
+查询文件和目录使用者
+fuser /root  最基本的用法是查询某个文件或目录被哪个进程使用
+
+列出进程的详细信息 -v
+-k参数能够杀死所有的正在访问指定文件的进程
+-u参数 列出进程所属的用户
+--------------------------------------------------------------------------------------
