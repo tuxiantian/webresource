@@ -11,6 +11,7 @@
 - [ ] jdgui  
 - [ ] jsonview  
 - [ ] 有道云笔记、有道词典  
+- [ ] pdf阅读器
 - [ ] qq、微信  
 - [ ] 文档资料  
 - [ ] eclipse  
