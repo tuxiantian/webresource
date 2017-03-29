@@ -9,8 +9,12 @@
 > git diff master origin/master //比较本地仓库与远程仓库的异同,修改或新加的文件要添加到暂存区或提交到本地仓库，差异内容会在终端上显示
 > git diff master origin/master >> e:diff/webResource.log //比较本地仓库与远程仓库的异同,修改或新加的文件要添加到暂存区或提交到本地仓库，差异内容输出到文件便于查看  
 > git <command> --help //查看某个命令的帮助文档
-
 > git commit -am "修改文件内容"   //提交的快捷方式，提交所有文件  
+## 撤销尚未提交的修改
+> git checkout head readme.txt todo.txt//撤销1、2个文件  
+> git checkout head *.txt //撤销所有的txt文件  
+> git checkout head . //撤销所有文件  
+
 ## 提交本地项目到github仓库的方法
 > git init
 > 在.gitigonre文件中编写过滤规则
