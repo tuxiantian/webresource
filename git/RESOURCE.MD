@@ -15,6 +15,7 @@
 > git checkout head *.txt //撤销所有的txt文件  
 > git checkout head . //撤销所有文件  
 
+
 ## 提交本地项目到github仓库的方法
 > git init
 > 在.gitigonre文件中编写过滤规则
