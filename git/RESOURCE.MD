@@ -105,10 +105,11 @@ git branch -d issue-#001
 git pull --rebase origin master //用git pull合并上游的修改到自己的仓库中//--rebase选项告诉Git把小红的提交移到同步了中央仓库修改后的master分支的顶部
 Git在合并有冲突的提交处暂停rebase过程
 运行git status命令来查看哪里有问题。冲突文件列在Unmerged paths（未合并路径）一节中
-> Unmerged paths:
-> (use "git reset HEAD <some-file>..." to unstage)
-> (use "git add/rm <some-file>..." as appropriate to mark resolution)
-> both modified: <some-file>
+> Unmerged paths:  
+> (use "git reset HEAD <some-file>..." to unstage)  
+> (use "git add/rm <some-file>..." as appropriate to mark resolution)  
+> both modified: <some-file>  
+
 编辑这些文件。修改完成后，用老套路暂存这些文件，并让git rebase完成剩下的事：  
 git add  
 git rebase --continue  
