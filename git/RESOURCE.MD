@@ -14,7 +14,14 @@
 > git checkout head readme.txt todo.txt//撤销1、2个文件  
 > git checkout head *.txt //撤销所有的txt文件  
 > git checkout head . //撤销所有文件  
-
+## 撤销提交
+### 反转最近一次提交
+> git revert --no-commit head
+#### 取消暂存
+> git reset head或git reset head <file name>
+#### 复位head之前的那个版本
+> git reset --hard head^^ //不会再版本库中留下痕迹。我使用的这个版本两个"^"相当于一个"^"。
+ 
 ## 提交本地项目到github仓库的方法
 > git init
 > 在.gitigonre文件中编写过滤规则
