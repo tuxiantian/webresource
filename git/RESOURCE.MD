@@ -122,5 +122,5 @@ git push origin master
 #### 暂存区
 暂存区是用来准备一个提交，但可以不用把工作目录中所有的修改内容都包含进来。这样你可以创建一个高度聚焦的提交，尽管你本地修改很多内容。
 #### Git中文件的4种状态
-> http://www.jianshu.com/p/96beaf505865
+> http://www.jianshu.com/p/96beaf505865  
 > Untracked Unmodify Modified Staged
