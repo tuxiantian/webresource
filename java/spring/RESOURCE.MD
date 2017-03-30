@@ -124,6 +124,7 @@ web.xml中springmvc的启动配置
 ```
 --------------------------------------------------------------------------------------
  <!-- 监听spring上下文容器 -->
+ ```
 <listener>
      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
  </listener>
@@ -131,6 +132,7 @@ web.xml中springmvc的启动配置
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
 </context-param>
+```
 --------------------------------------------------------------------------------------
 JAX-RS常用注解：
 @Path：标注资源类或方法的相对路径  
@@ -159,6 +161,7 @@ public void createUser(@FormParam("loginID") String loginID, @FormParam("name") 
 Jersey RESTful 框架是开源的RESTful框架
 ```
 --------------------------------------------------------------------------------------
+```
 @RestController 返回的 json 不包含值为 null 的字段
 <mvc:annotation-driven>
 	<mvc:message-converters>
@@ -171,6 +174,7 @@ Jersey RESTful 框架是开源的RESTful框架
 		</bean>
 	</mvc:message-converters>
 </mvc:annotation-driven>
+```
 --------------------------------------------------------------------------------------
 springmvc文件上传配置
 ```
@@ -197,16 +201,16 @@ bean的生命周期由两组回调方法组成
 销毁之前调用的回调方法
 
 Spring提供了以下四种集合类的配置元素：
-<list> :   该标签用来装配可重复的list值
-<set> :    该标签用来装配没有重复的set值
-<map>:   该标签可用来注入键和值可以为任何类型的键值对
-<props> : 该标签支持注入键和值都是字符串类型的键值对
+`<list>` :   该标签用来装配可重复的list值
+`<set>` :    该标签用来装配没有重复的set值
+`<map>`:   该标签可用来注入键和值可以为任何类型的键值对
+`<props>` : 该标签支持注入键和值都是字符串类型的键值对
 ```
 <property name="customMap">
         <map>
            <entry key="1" value="INDIA"/>
         </map>
-      </property>
+</property>
 
 <property name="customProperies">
     <props>
@@ -362,6 +366,7 @@ spring拦截器
  一个springmvc的拦截器使用示例  
  > http://blog.csdn.net/liuwenbo0920/article/details/7283757
 --------------------------------------------------------------------------------------
+```
 @Transactional(rollbackFor = Exception.class)
 public int method(Object obj) {
     try {
@@ -383,4 +388,5 @@ public int method(Object obj) {
     }
     return 0;
 }
+```
 --------------------------------------------------------------------------------------
