@@ -1,7 +1,7 @@
 ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");  
 FileSystemXmlApplicationContext
 --------------------------------------------------------------------------------------
-Spring 切面可以应用五种类型的通知：
+Spring 切面可以应用五种类型的通知：  
     * before ：前置通知，在一个方法执行前被调用  
     * after:  在方法执行之后调用的通知，无论方法执行是否成功  
     * after-returning:  仅当方法成功完成后执行的通知  
