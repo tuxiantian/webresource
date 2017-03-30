@@ -32,7 +32,11 @@
 > git remote add origin https://github.com/tuxiantian/webresource.git
 > git push -u origin master
 > 注意在github网站上面先创建repository,否则会提交失败
-
+## github ssh无密钥登陆
+ ssh-keygen 不是内部或外部命令
+ > http://blog.csdn.net/zy_281870667/article/details/50443403
+ ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no passphrase):注意在这一步的时候不要输入密码，后续提交才能不用输入密码  
+在github网站上添加C:\Users\tuxt\.ssh\目录下生成的公钥  
 ## 解决向github提交代码不用输入帐号密码
 > https://segmentfault.com/a/1190000008435592
 ### 下面把origin地址换成ssh方式的，这样才能提交代码不必输入用户名和密码。
