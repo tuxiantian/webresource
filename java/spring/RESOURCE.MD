@@ -1,75 +1,21 @@
-ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");  
 FileSystemXmlApplicationContext
 --------------------------------------------------------------------------------------
-<!--启动@AspectJ支持-->
-<aop:aspectj-autoproxy/>
---------------------------------------------------------------------------------------
 Spring 切面可以应用五种类型的通知：
-    before ：前置通知，在一个方法执行前被调用
-    after:  在方法执行之后调用的通知，无论方法执行是否成功
-    after-returning:  仅当方法成功完成后执行的通知
-    after-throwing:  在方法抛出异常退出时执行的通知
-    around:  在方法执行之前和之后调用的通知
+    * before ：前置通知，在一个方法执行前被调用  
+    * after:  在方法执行之后调用的通知，无论方法执行是否成功  
+    * after-returning:  仅当方法成功完成后执行的通知  
+    * after-throwing:  在方法抛出异常退出时执行的通知  
+    * around:  在方法执行之前和之后调用的通知  
 --------------------------------------------------------------------------------------
-Spring 支持两种类型的事务管理：
-编程式事务管理
-声明式事务管理
+Spring 支持两种类型的事务管理：  
+编程式事务管理  
+声明式事务管理  
 --------------------------------------------------------------------------------------
 spring命名空间：context、beans、jdbc、tx、aop
 --------------------------------------------------------------------------------------
-代理模式—在AOP和remoting中被用的比较多
-单例模式—在spring配置文件中定义的bean默认为单例模式
-模板方法—用来解决代码重复的问题比如.  RestTemplate ,  JmsTemplate ,  JpaTemplate
-依赖注入—贯穿于 BeanFactory  /  ApplicationContext 接口的核心理念
-工厂模式—BeanFactory用来创建对象的实例
---------------------------------------------------------------------------------------
-public class AllApplicationEventListener implements ApplicationListener < ApplicationEvent >{
-    public void onApplicationEvent(ApplicationEvent applicationEvent)
-    {
-        //process event
-    }
-}
-
-spring 提供了以下5中标准的事件
-上下文更新事件（ContextRefreshedEvent） ：该事件会在ApplicationContext被初始化或者更新时发布
-也可以在调用ConfigurableApplicationContext 接口中的refresh()方法时被触发
-上下文开始事件（ContextStartedEvent） ：当容器调用ConfigurableApplicationContext的Start()方法开始/重新开始容器时触发该事件
-上下文停止事件（ContextStoppedEvent） ：当容器调用ConfigurableApplicationContext的Stop()方法停止容器时触发该事件
-上下文关闭事件（ContextClosedEvent） ：当ApplicationContext被关闭时触发该事件容器被关闭时，其管理的所有单例Bean都被销毁
-请求处理事件（RequestHandledEvent） ：在Web应用中，当一个http请求（request）结束触发该事件
---------------------------------------------------------------------------------------
-Spring中的 org.springframework.beans 包和 org.springframework.context包构成了Spring框架IoC容器的基础
-ioc 控制反转
---------------------------------------------------------------------------------------
-@controllerAdvice最为实用的一个场景就是将所有@ExceptionHandler方法收集到一个类中，这样所有的异常都能在一个地方进行一致处理
-
-@ControllerAdvice默认所有控制的抛出的异常都会在这个类进行处理
-@ControllerAdvice(annotations = {PCInfoController .class}) 配置你需要拦截的控制器，
-@ControllerAdvice(basePackages = "com.demo") 配置你需要路径下的控制器
-
-@ControllerAdvice 注解，会应用到所有的Controller中的@RequestMapping注解的方法中
-防止SpringMVC和SpringIOC对同一个对象的管理重合
-<context:component-scan base-package="com.uniweibov2.web" use-default-filters="false">
-  <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
-</context:component-scan>
-
-@ControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(SQLException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public ExceptionResponse handleSQLException(HttpServletRequest request, Exception ex) {
-        String message = ex.getMessage();
-        return ExceptionResponse.create(HttpStatus.INTERNAL_SERVER_ERROR.value(), message);
-    }
-}
---------------------------------------------------------------------------------------
-spring中的核心类有那些，各有什么作用?
-BeanFactory：产生一个新的实例，可以实现单例模式
-BeanWrapper：提供统一的get及set方法
-ApplicationContext:提供框架的实现，包括BeanFactory的所有功能
+spring mvc异常统一处理（ControllerAdvice注解）
+> https://my.oschina.net/gef/blog/713722
 --------------------------------------------------------------------------------------
 spring mvc 静态资源
 ```
@@ -185,26 +131,11 @@ springmvc文件上传配置
           p:uploadTempDir="WEB-INF/upload/temp"/>
 ```
 --------------------------------------------------------------------------------------
-http://my.oschina.net/liting/blog/524332
-BeanFactory接口是Spring IoC 容器的核心接口
-
-BeanFactory和ApplicationContext有什么区别
-BeanFactory 含有bean集合的工厂类
-
-application context在此基础上还提供了其他的功能ApplicationContex接口对BeanFactory（是一个子接口）进行了扩展
-提供了支持国际化的文本消息
-统一的资源文件读取方式
-已在监听器中注册的bean的事件
-
-bean的生命周期由两组回调方法组成
-初始化之后调用的回调方法
-销毁之前调用的回调方法
-
 Spring提供了以下四种集合类的配置元素：
-`<list>` :   该标签用来装配可重复的list值
-`<set>` :    该标签用来装配没有重复的set值
-`<map>`:   该标签可用来注入键和值可以为任何类型的键值对
-`<props>` : 该标签支持注入键和值都是字符串类型的键值对
+`<list>` :   该标签用来装配可重复的list值  
+`<set>` :    该标签用来装配没有重复的set值  
+`<map>`:   该标签可用来注入键和值可以为任何类型的键值对  
+`<props>` : 该标签支持注入键和值都是字符串类型的键值对  
 ```
 <property name="customMap">
         <map>
@@ -264,6 +195,7 @@ IOC技术的本质就是构建对象的技术。换句话说就是将一个类�
 我们在xml文件里定义各个对象的依赖关系,由容器完成对象的构建。
 --------------------------------------------------------------------------------------
 spring配置注入
+```
 <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
     <property name="locations">
         <list>
@@ -298,38 +230,6 @@ private String url;
             <value>classpath:default.properties</value>
             <value>file:${user.home}/webextractor.properties</value>
         </list>
-    </property>
-</bean>
-
-
-加密 http://www.yihaomen.com/article/java/420.htm  extends DefaultPropertiesPersister 重写load 读入流覆盖属性转成流
-<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
-	<property name="locations">
-		<list>
-			<value>classpath:config/jdbc.properties</value>
-		</list>
-	</property>
-	<property name="propertiesPersister">
-		<bean class="com.ai.rgshcore.util.MyPropertiesPersist" />
-	</property>
-	<property name="ignoreUnresolvablePlaceholders" value="true" />
-	<property name="ignoreResourceNotFound" value="true" />
-</bean>
-
-
-extends PropertyPlaceholderConfigurer 重写PropertiesLoaderSupport loadProperties;   super.loadProperties(props) 直接覆盖属性
-extends PropertyPlaceholderConfigurer 重写PropertyResourceConfigurer convertProperty(String propertyName, String propertyValue) 覆盖propertyValue属性
-
-使用jasypt jasypt-spring3加密 ENC(加密值)
-```
-<bean id="propertyConfigurerForProject2" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="order" value="2" />
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="locations">
-      <list>
-        <value>classpath:/spring/include/jdbc-parms.properties</value>
-        <value>classpath:/spring/include/base-config.properties</value>
-      </list>
     </property>
 </bean>
 ```
