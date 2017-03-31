@@ -23,3 +23,9 @@ mongodb默认端口 27017
 --------------------------------------------------------------------------------------
 mongodb不支持Timestamp
 --------------------------------------------------------------------------------------
+#### 启动MongoDB
+mongod.exe --dbpath C:\mongod_data\db
+#### 将MongoDB服务器作为Windows服务运行
+mongod.exe --bind_ip localhost --logpath "C:\mongod_data\dbConf\mongodb.log" --logappend --dbpath "C:\mongod_data\db" --port 27017 --serviceName "mongodb" --serviceDisplayName "mongodb" --install
+#### MongoDB学习文档
+http://www.runoob.com/mongodb/mongodb-window-install.html

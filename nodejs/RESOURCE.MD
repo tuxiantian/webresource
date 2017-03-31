@@ -1,3 +1,8 @@
+### 使用淘宝镜像
+npm install -g cnpm --registry=https://registry.npm.taobao.org  
+cnpm install [name]
+#### 更新安装的模块
+cnpm install koa-proxy@0.8.0 --save-dev
 ### gulp 自动添加版本号
 > http://www.tuicool.com/articles/UbaqyyJ  
 根据静态资源内容，生成md5签名，打包出来的文件名会加上md5签名，同时生成一个json用来保存文件名路径对应关系。
