@@ -26,6 +26,20 @@ mongodb不支持Timestamp
 #### 启动MongoDB
 mongod.exe --dbpath C:\mongod_data\db
 #### 将MongoDB服务器作为Windows服务运行
-mongod.exe --bind_ip localhost --logpath "C:\mongod_data\dbConf\mongodb.log" --logappend --dbpath "C:\mongod_data\db" --port 27017 --serviceName "mongodb" --serviceDisplayName "mongodb" --install
+mongod.exe --bind_ip localhost --logpath "C:\mongod_data\dbConf\mongodb.log" --logappend --dbpath "C:\mongod_data\db" --port 27017 --serviceName "mongodb" --serviceDisplayName "mongodb" --install  
+**注意以管理员身份运行**
+net start mongodb  启动服务  
+net stop mongodb   停止服务  
+sc delete mongodb   删除服务（这条命令适合大多数服务，只需要改后面的服务名称）  
+mongo 127.0.0.1:27017 //连接mongodb  
+bin目录中包含如下几个程序：
+1. mongo.exe，命令行客户端工具。  
+2. mongod.exe，数据库服务程序。  
+3. mongodump.exe，数据库备份程序。  
+4. mongoexport.exe，数据导出工具。  
+5. mongofiles.exe，GridFS工具。  
+6. mongoimport.exe，数据导入工具。  
+7. mongorestore.exe，数据库恢复工具。  
+8. mongos.exe，貌似是性能检测工具。  
 #### MongoDB学习文档
 http://www.runoob.com/mongodb/mongodb-window-install.html
