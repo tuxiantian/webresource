@@ -1,5 +1,6 @@
 ### The Central Repository
 > https://search.maven.org/
+> http://mvnrepository.com/tags/maven
 ### 常用Maven插件介绍
 > http://www.importnew.com/23928.html
 

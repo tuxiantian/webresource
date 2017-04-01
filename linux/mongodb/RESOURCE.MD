@@ -32,6 +32,9 @@ net start mongodb  启动服务
 net stop mongodb   停止服务  
 sc delete mongodb   删除服务（这条命令适合大多数服务，只需要改后面的服务名称）  
 mongo 127.0.0.1:27017 //连接mongodb  
+下面两个是连接的简写  
+mongo 27017  
+mongo  
 bin目录中包含如下几个程序：
 1. mongo.exe，命令行客户端工具。  
 2. mongod.exe，数据库服务程序。  
