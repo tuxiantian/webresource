@@ -56,3 +56,9 @@ log4j.appender.logfile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} [%t]
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 </listener>
 ```
+### java使用示例
+```
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+private static final Logger logger =LoggerFactory.getLogger(DeviceDataControler.class);
+```
