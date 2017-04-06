@@ -481,7 +481,7 @@ curl -I http://www.taobao.com/
 关闭： chkconfig iptables off
 
 查看防火墙状态：
-/etc/init.d/iptables status
+/etc/init.d/iptables status或service iptables status
 
 即时生效，重启后失效
 开启： service iptables start

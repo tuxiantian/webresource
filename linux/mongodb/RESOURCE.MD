@@ -46,3 +46,4 @@ bin目录中包含如下几个程序：
 8. mongos.exe，貌似是性能检测工具。  
 #### MongoDB学习文档
 http://www.runoob.com/mongodb/mongodb-window-install.html
+mongodb官网       http://docs.mongoing.com/manual-zh/sharding.html
