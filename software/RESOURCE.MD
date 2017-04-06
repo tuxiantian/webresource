@@ -45,3 +45,8 @@ Windows Registry Editor Version 5.00
 @="C:\\Program Files (x86)\\Sublime Text3\\sublime_text.exe %1"
 ```
 **注意：需要把下面代码中的Sublime的安装目录（标粗部分），替换成自已实际的Sublime安装目录**
+
+#### eclispe代码自动提示
+Window ——> Preferences ——> Java ——> Editor ——> Content Assist  
+[auto activation triggers for java]自动补全触发器,默认是".", 这个位置可以设置成  
+“.abcdefghijklmnopqrstuvwxyz(,”  

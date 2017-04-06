@@ -47,3 +47,34 @@ bin目录中包含如下几个程序：
 #### MongoDB学习文档
 http://www.runoob.com/mongodb/mongodb-window-install.html
 mongodb官网       http://docs.mongoing.com/manual-zh/sharding.html
+mongodb视图管理工具下载地址      https://robomongo.org/download
+#### 查看数据库信息
+
+```
+ 命令：db.stats()
+ 执行结果如下：
+ {
+        "db" : "test",  //当前数据库
+        "collections" : 509,     //当前数据库多少表
+        "views" : 0,
+        "objects" : 5446,       //当前数据库所有表共有多少条数据 
+        "avgObjSize" : 141.1968417186926,       //每条数据的平均大小
+        "dataSize" : 768958,    //所有数据的总大小 
+        "storageSize" : 18640896, //所有数据占的磁盘大小
+        "numExtents" : 0,
+        "indexes" : 510,        //索引数
+        "indexSize" : 18673664, //索引大小
+        "ok" : 1
+}
+```
+#### 查看集合信息
+命令：db.集合名.stats()
+
+#### Help查看命令提示
+```
+help
+db.help();
+db.yourColl.help();
+db.youColl.find().help();
+rs.help();
+```
