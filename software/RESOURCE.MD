@@ -50,3 +50,12 @@ Windows Registry Editor Version 5.00
 Window ——> Preferences ——> Java ——> Editor ——> Content Assist  
 [auto activation triggers for java]自动补全触发器,默认是".", 这个位置可以设置成  
 “.abcdefghijklmnopqrstuvwxyz(,”  
+
+#### eclipse怎么在项目里面批量替换单词，但是要完整匹配
+```
+ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole word"方式,整个项目批量替换
+
+
+------解决方案--------------------
+先选中你要替换的东东，然后再菜单栏中找到Search→Text→Project，这样就会在整个项目中查找单词。然后在Search的Console中，单击项目，右键选择Replace All，填入你想替换的东东，就OK了。
+```
