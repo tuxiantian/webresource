@@ -59,3 +59,7 @@ ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole 
 ------解决方案--------------------
 先选中你要替换的东东，然后再菜单栏中找到Search→Text→Project，这样就会在整个项目中查找单词。然后在Search的Console中，单击项目，右键选择Replace All，填入你想替换的东东，就OK了。
 ```
+#### Eclipse快速复制一行的快捷键
+1. 在Eclipse菜单中选 Window->Preference->General->Key  
+
+2. 右侧头部的“type filter text”编辑框中分别输入Copy Lines以及Duplicate Lines，并在底部的Binding编辑框将原有组合键删除，并保持光标停留在此编辑框中，再按下自定义的组合键。  

@@ -104,6 +104,10 @@ git branch -d release-0.1
 #### 打上线的tag
 git tag -a 0.1 -m "Initial public release" master  
 git push --tags  
+
+git tag -l  //查看所有tag
+git tag -d tag_v1.0.0_20170407  //删除本地tag
+git push origin :refs/tags/tag_v1.0.0_20170407  //删除远程tag
 #### 上线后的bug处理
 git checkout -b issue-#001 master  
 \# Fix the bug  
