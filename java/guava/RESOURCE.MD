@@ -186,3 +186,78 @@ limiter.acquire();
 ```
 1、RateLimiter.create(5)表示桶容量为5且每秒新增5个令牌，即每隔200毫秒新增一个令牌；  
 2、limiter.acquire()表示消费一个令牌，如果当前桶中有足够令牌则成功（返回值为0），如果桶中没有令牌则暂停一段时间，比如发令牌间隔是200毫秒，则等待200毫秒后再去消费令牌，这种实现将突发请求速率平均为了固定请求速率。
+## 集合数据分组
+```
+public static void main(String[] args) {
+		Person p1 = new Person("a", 10, "男", "china");
+        Person p2 = new Person("b", 11, "女", "japan");
+        Person p3 = new Person("c", 12, "男", "japan");
+        Person p4 = new Person("d", 14, "男", "USA");
+        Person p5 = new Person("e", 14, "女", "china");
+        List<Person> persons = Lists.newArrayList(p1,p2,p3,p4,p5);
+        Multimap<String,Person> multimap1 = ArrayListMultimap.create();
+        Multimap<Integer,Person> multimap2 = ArrayListMultimap.create();
+        Multimap<String,Person> multimap3 = ArrayListMultimap.create();
+        for (Person p : persons) {
+            multimap1.put(p.getSex(), p);
+            multimap2.put(p.getAge(), p);
+            multimap3.put(p.getContry(), p);
+        }
+        Map<String, Collection<Person>> sex = multimap1.asMap();
+        for (Entry<String, Collection<Person>> p : sex.entrySet()) {
+            System.out.println("按性别分组 = " +p.getKey()+"--"+ p.getValue());
+        }
+        Map<Integer, Collection<Person>> age = multimap2.asMap();
+        for (Entry<Integer, Collection<Person>> p : age.entrySet()) {
+            System.out.println("按年龄分组 = " +p.getKey()+"岁"+"--"+ p.getValue());
+        }
+        Map<String, Collection<Person>> country = multimap3.asMap();
+        for (Entry<String, Collection<Person>> p : country.entrySet()) {
+            System.out.println("按国家分组 = " +p.getKey() +"--" + p.getValue());
+        }
+}
+```
+## Joiner
+```
+//use java
+List<String> list = new ArrayList<String>();
+list.add("aa");
+list.add("bb");
+list.add("cc");
+String str = "";
+for(int i=0; i<list.size(); i++){
+    str ="-" +list.get(i);
+}
+System.out.println(str);
+//str 为-aa-bb-cc
+//use guava
+List<String> list2 = new ArrayList<String>();
+list2.add("aa");
+list2.add("bb");
+list2.add("cc");
+String result = Joiner.on("-").join(list2);
+//result为  aa-bb-cc
+System.out.println(result);
+```
+## Splitter
+```
+//use java
+List<String> list = new ArrayList<String>();
+String a = "1-2-3-4-5-6";
+String[] strs = a.split("-");
+for(int i=0; i<strs.length; i++){
+    list.add(strs[i]);
+}
+System.out.println(list);
+//use guava
+String str = "1-2-3-4-5-6";
+List<String> list2 = Splitter.on("-").splitToList(str);
+System.out.println(list2);
+//list为  [1, 2, 3, 4, 5, 6]
+String str2 = "1-2-3-4-  5-  6   ";  
+List<String> list3 = Splitter.on("-").omitEmptyStrings().trimResults().splitToList(str2);
+System.out.println(list3);
+
+List<String> list4 = Splitter.on("-").splitToList(str2);
+System.out.println(list4);
+```
