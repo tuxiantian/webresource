@@ -53,6 +53,8 @@ Window ——> Preferences ——> Java ——> Editor ——> Content Assist
 
 Window ——> Preferences ——> General ——> Keys
 Assign to local variable的快捷键修改为Alt+2. 
+
+选中文本，按下Alt+/，输入syso。然后选中的文本会出现在System.out.println()的括号中。
 #### eclipse怎么在项目里面批量替换单词，但是要完整匹配
 ```
 ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole word"方式,整个项目批量替换
