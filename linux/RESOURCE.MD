@@ -1,6 +1,9 @@
+根据端口号，查找对应的进程
+netstat -alp | grep  2181
+ps aux | grep 3567
+--------------------------------------------------------------------------------------
 截取一段时间的日志
 sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14
-
 --------------------------------------------------------------------------------------
 查看磁盘： df -lh
 
@@ -14,27 +17,45 @@ tar压缩：tar -zcvf file.tar.zip file
 
 解压war：jar -xvf xxx.war
 --------------------------------------------------------------------------------------
-linux快速清空文件内容
-> filename
+linux快速清空文件内容  
+\> filename  
 echo "" > filename
 --------------------------------------------------------------------------------------
 mkdir -p language/android 连续创建目录以及子目录
 --------------------------------------------------------------------------------------
-通过关键字查询日志
-grep -nH "Excetion message" test.text
- -n, --line-number 行号
--H, --with-filename 打印每个匹配的文件名
+通过关键字查询日志  
+grep -nH "Excetion message" test.text  
+ -n, --line-number 行号  
+-H, --with-filename 打印每个匹配的文件名  
 
-查找文件中字符串出现次数
-grep -c 'httpSample' kmtest0924.jtl
+查找文件中字符串出现次数  
+grep -c 'httpSample' kmtest0924.jtl  
 --------------------------------------------------------------------------------------
-Linux 删除除了某个文件之外的所有文件
+Linux 删除除了某个文件之外的所有文件  
 rm -f !(a|b)
 
 find . -type f ! -name "file10"|xargs rm -f
 --------------------------------------------------------------------------------------
-set  nu ：设置显示文本的行数
-set  nonu：取消显示文本的行数
+set  nu ：设置显示文本的行数  
+set  nonu：取消显示文本的行数  
+--------------------------------------------------------------------------------------
+开启： chkconfig iptables on
+关闭： chkconfig iptables off
+
+查看防火墙状态：
+/etc/init.d/iptables status或service iptables status
+
+即时生效，重启后失效
+开启： service iptables start
+关闭： service iptables stop
+
+service iptables save
+
+iptables -L 查看一下当前的规则
+iptables -X        清除预设表filter中使用者自定链中的规则
+
+iptables -A INPUT  -p tcp --dport 22 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 --------------------------------------------------------------------------------------
 查找大文件
 find . -type f -size +200M -print0 | xargs -0 du -h | sort -nr
@@ -124,49 +145,6 @@ echo 1 >/proc/sys/net/ipv4/icmp_echo_ignore_all
 linux开启ping的设置方法
 echo 0 >/proc/sys/net/ipv4/icmp_echo_ignore_all
 --------------------------------------------------------------------------------------
-location ^~ /static/
-{
-# http://backup/。。。 不带location中的东西
-# 只要proxy_pass后面有东西就不带location中的东西
-proxy_pass http://www.test.com/;
-}
-# location中的匹配路径为/static/。加了/之后proxy_pass 不会加上/static/
-# curl http://localhost:3000/static/index.html
-# proxy_pass 转发为 http://www.test.com/index.html
-
-如果没有/，则会把匹配的路径部分也给代理走。
-location ^~ /static/
-{
-# 带上location中的东西
-proxy_pass http://www.test.com;
-}
-# location中的匹配路径为/static/。不加 / 后proxy_pass会加上 /static/
-# curl http://localhost:3000/static/index.html
-# proxy_pass 转发为 http://www.test.com/static/index.html
-
-location 中 ~ （区分大小写）与 ~* （不区分大小写）标识均为正则匹配
-location ~* /static/(.*)
-{
-# 此处 location 为正则匹配，proxy_pass 后面不能有 /test
-
-proxy_pass http://www.test.com;
-}
-
-server {
-    listen 127.0.0.1:8080;  # IPv4地址，8080端口
-    # listen [2001:3CA1:10F:1A:121B:0:0:10]:80;   # IPv6地址，80端口
-    # listen [::]:80;  # 听本机的所有IPv4与IPv6地址，80端口
-    # The rest of server configuration
-}
-
-location /wrong/url {
-    return 404;
-}
-
-location /permanently/moved/url {
-    return 301 http://www.example.com/moved/here;
-}
---------------------------------------------------------------------------------------
 uptime 命令用于查看服务器运行了多长时间以及有多少个用户登录，快速获知服务器的负荷情况
 load average: 0.53, 0.31, 0.25
 最近1分钟、5分钟、15分钟系统的负载
@@ -174,9 +152,7 @@ load average: 0.53, 0.31, 0.25
 iostat命令主要用于查看机器磁盘IO情况
 iostat -xz 1
 --------------------------------------------------------------------------------------
-nginx修改配置后重载
-nginx -s reload
---------------------------------------------------------------------------------------
+
 shell
 arr=(a b c)
 arr=(${arr[@]/b/c}) # a c c
@@ -296,10 +272,6 @@ touch -m -d "2010-05-31 08:10:30" test.doc
 touch -a -d "2010-05-31 08:10:30" test.doc
 
 -d 使用指定的日期时间
---------------------------------------------------------------------------------------
-根据端口号，查找对应的进程
-netstat -alp | grep  2181
-ps -aux | grep 3567
 --------------------------------------------------------------------------------------
 如何查看Linux的默认网关？
 用 route -n 和 netstat -nr 命令
@@ -477,24 +449,6 @@ curl -r 0-1024000 -o new_divide_1.mp3 http://vfile/55750a8be70.mp3
 
 查看头信息
 curl -I http://www.taobao.com/
---------------------------------------------------------------------------------------
-开启： chkconfig iptables on
-关闭： chkconfig iptables off
-
-查看防火墙状态：
-/etc/init.d/iptables status或service iptables status
-
-即时生效，重启后失效
-开启： service iptables start
-关闭： service iptables stop
-
-service iptables save
-
-iptables -L 查看一下当前的规则
-iptables -X        清除预设表filter中使用者自定链中的规则
-
-iptables -A INPUT  -p tcp --dport 22 -j ACCEPT
-iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 --------------------------------------------------------------------------------------
 # 关机
 shutdown -h now
