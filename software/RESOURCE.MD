@@ -51,6 +51,8 @@ Window ——> Preferences ——> Java ——> Editor ——> Content Assist
 [auto activation triggers for java]自动补全触发器,默认是".", 这个位置可以设置成  
 “.abcdefghijklmnopqrstuvwxyz(,”  
 
+Window ——> Preferences ——> General ——> Keys
+Assign to local variable的快捷键修改为Alt+2. 
 #### eclipse怎么在项目里面批量替换单词，但是要完整匹配
 ```
 ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole word"方式,整个项目批量替换
