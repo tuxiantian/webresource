@@ -54,6 +54,8 @@ core.quotepath设为false的话，就不会对0x80以上的字符进行quote。�
 > git remote set-url --delete origin git@github.com:tuxiantian/mongodb.git
 > git remote set-url --add origin  git@192.168.0.254:server/mongodb.git
 > git push --set-upstream origin develop
+## 合并另一个分支的指定文件
+> git checkout <branch> -- <file>
 ## 查看当前所处分支
 > git branch
 ## 查看所有分支
