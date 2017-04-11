@@ -1,3 +1,15 @@
+### 在tomcat-users.xml文件中添加tomcat的管理员账户
+```
+<role rolename="manager"/>
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-jmx"/>
+
+<role rolename="manager-status"/>
+<role rolename="admin"/>
+<user username="admin" password="admin" roles="admin,manager,manager-script,manager-gui,manager-jmx,manager-status"/>
+```
+--------------------------------------------------------------------------------------
 tomcat 参数
 -server
 
@@ -38,4 +50,34 @@ System 类加载器的类（如上所述）
 Common 类加载器的类（如上所述）
 Web 应用的 /WEB-INF/classes 类
 Web 应用的 /WEB-INF/lib/*.jar 类
+--------------------------------------------------------------------------------------
+tomcat中如何禁止和允许主机或IP地址访问
+```
+<Host name="localhost" ...>
+  <Valve className="org.apache.catalina.valves.RemoteHostValve"
+         allow="*.mycompany.com,www.yourcompany.com"/>
+  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         deny="192.168.1.*"/>
+</Host>
+```
+--------------------------------------------------------------------------------------
+tomcat中如何禁止和允许列目录下的文档
+在{tomcat_home}/conf/web.xml中，把listings参数配置成false即可，如下：
+```
+<servlet>
+   <init-param>
+     <param-name>listings</param-name>
+     <param-value>false</param-value>
+   </init-param>
+</servlet>
+```
+--------------------------------------------------------------------------------------
+Tomcat的session过期时间修改
+ 修改conf\web.xml
+ ```
+<session-config>
+    <!-- 单位：分钟 -->
+    <session-timeout>180</session-timeout>
+</session-config>
+```
 --------------------------------------------------------------------------------------
