@@ -51,6 +51,16 @@ web.xml中springmvc的启动配置
 <url-pattern>/</url-pattern>：会匹配到/springmvc这样的路径型url，不会匹配到模式为*.jsp这样的后缀型url
 <url-pattern>/*</url-pattern>：会匹配所有的url
 ```
+<!-- 监听spring上下文容器 -->
+ ```
+<listener>
+     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ </listener>
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+</context-param>
+```
 视图名称解析器和文件上传解析器
 ```
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -67,17 +77,6 @@ web.xml中springmvc的启动配置
       <!-- 指定所上传文件的总大小不能超过200KB 所有文件的容量之和 -->
       <property name="maxUploadSize" value="200000"/>
 </bean>
-```
---------------------------------------------------------------------------------------
- <!-- 监听spring上下文容器 -->
- ```
-<listener>
-     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
- </listener>
-<context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-</context-param>
 ```
 --------------------------------------------------------------------------------------
 JAX-RS常用注解：

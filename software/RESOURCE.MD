@@ -27,8 +27,9 @@ file-settings-keymap-eclipse
 #### 更改IntelliJ的快捷键为Eclipse风格，并且恢复Alt+/代码自动补全快捷键code completion
 > http://blog.csdn.net/shijiebei2009/article/details/44725733
 ####  IntelliJ中的main函数和System.out.println()快捷键
-> http://blog.csdn.net/shijiebei2009/article/details/44726433
-
+> http://blog.csdn.net/shijiebei2009/article/details/44726433  
+System.out.println();在IntellJ中是输入sout  
+自动补全main函数，在IntellJ中则是输入psvm，选中即可  
 #### sublime text 添加到鼠标右键功能
 把以下内容复制并保存到文件，重命名为：sublime_addright.reg，然后双击就可以了。  
 ```
