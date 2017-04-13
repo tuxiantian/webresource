@@ -81,3 +81,6 @@ Tomcat的session过期时间修改
 </session-config>
 ```
 --------------------------------------------------------------------------------------
+### linux下解压tomcat后执行startup.sh提示没有权限
+apache-tomcat-7.0.59/bin下执行  
+chmod 777 *.sh  

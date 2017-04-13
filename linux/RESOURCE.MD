@@ -14,6 +14,10 @@ tar压缩：tar -zcvf file.tar.zip file
 解压tar：tar -zxvf file.tar.zip
 
 解压zip：unzip xxx.zip
+unzip -o -d /home/sunny myfile.zip
+把myfile.zip文件解压到 /home/sunny/
+-o:不提示的情况下覆盖文件；
+-d:-d /home/sunny 指明将文件解压缩到/home/sunny目录下；
 
 解压war：jar -xvf xxx.war
 --------------------------------------------------------------------------------------
