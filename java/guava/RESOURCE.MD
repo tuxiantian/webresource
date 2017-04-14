@@ -261,3 +261,5 @@ System.out.println(list3);
 List<String> list4 = Splitter.on("-").splitToList(str2);
 System.out.println(list4);
 ```
+## 优质资源
+使用Google Guava快乐编程  http://www.jianshu.com/p/97778b21bd00  

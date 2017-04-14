@@ -60,6 +60,79 @@ db.yourColl.help();
 db.youColl.find().help();
 rs.help();
 ```
+#### 索引
+```
+> db.carInfo001.find().pretty().explain()
+{
+        "queryPlanner" : {
+                "plannerVersion" : 1,
+                "namespace" : "xingtu.carInfo001",
+                "indexFilterSet" : false,
+                "parsedQuery" : {
+
+                },
+                "winningPlan" : {
+                        "stage" : "COLLSCAN",
+                        "direction" : "forward"
+                },
+                "rejectedPlans" : [ ]
+        },
+        "serverInfo" : {
+                "host" : "tuxt-PC",
+                "port" : 27017,
+                "version" : "3.4.3",
+                "gitVersion" : "f07437fb5a6cca07c10bafa78365456eb1d6d5e1"
+        },
+        "ok" : 1
+}
+```
+```
+> db.carInfo001.find({"receivedTime":{$lte:1492052929754}}).pretty().explain()
+{
+        "queryPlanner" : {
+                "plannerVersion" : 1,
+                "namespace" : "xingtu.carInfo001",
+                "indexFilterSet" : false,
+                "parsedQuery" : {
+                        "receivedTime" : {
+                                "$lte" : 1492052929754
+                        }
+                },
+                "winningPlan" : {
+                        "stage" : "FETCH",
+                        "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "keyPattern" : {
+                                        "receivedTime" : -1
+                                },
+                                "indexName" : "receivedTime_-1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                        "receivedTime" : [ ]
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                        "receivedTime" : [
+                                                "[1492052929754.0, -inf.0]"
+                                        ]
+                                }
+                        }
+                },
+                "rejectedPlans" : [ ]
+        },
+        "serverInfo" : {
+                "host" : "tuxt-PC",
+                "port" : 27017,
+                "version" : "3.4.3",
+                "gitVersion" : "f07437fb5a6cca07c10bafa78365456eb1d6d5e1"
+        },
+        "ok" : 1
+}
+```
 #### mongodb监控
 db.your_collection.find({ x : 123, y : 456 }).explain("allPlansExecution")，查看你的语句的工作情况 :
 

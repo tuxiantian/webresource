@@ -1,6 +1,32 @@
-根据端口号，查找对应的进程
-netstat -alp | grep  2181
-ps aux | grep 3567
+### Linux将命令添加到PATH中
+简单说PATH就是一组路径的字符串变量，当你输入的命令不带任何路径时，LINUX会在PATH记录的路径中查找该命令。有的话则执行，不存在则提示命令找不到。比如在根目录/下可以输入命令ls,在/usr目录下也可以输入ls,但其实ls命令根本不在这个两个目录下，当你输入ls命令时LINUX会去/bin,/usr/bin,/sbin等目录寻找该命令。而PATH就是定义/bin:/sbin:/usr/bin等这些路劲的变量，其中冒号为目录间的分割符。  
+如何自定义路径：  
+假设你新编译安装了一个apache在/usr/local/apache下，你希望每次启动的时候不用敲一大串字符（# /usr/local/apache/bin/apachectl start）才能使用它，而是直接像ls一样在任何地方都直接输入类似这样（# apachectl start）的简短命令。这时，你就需要修改环境变量PATH了，准确的说就是给PATH增加一个值/usr/local/apache/bin。将/usr/local/apache/bin添加到PATH中有三种方法：  
+
+1、直接在命令行中设置PATH  
+PATH=$PATH:/usr/local/apache/bin  
+使用这种方法,只对当前会话有效，也就是说每当登出或注销系统以后，PATH设置就会失效。  
+
+2、在profile中设置PATH  
+vi /etc/profile  
+找到export行，在下面新增加一行，内容为：export PATH=$PATH:/usr/local/apache/bin。  
+注：＝ 等号两边不能有任何空格。这种方法最好,除非手动强制修改PATH的值,否则将不会被改变。  
+编辑/etc/profile后PATH的修改不会立马生效，如果需要立即生效的话，可以执行# source profile命令。  
+
+3、在当前用户的profile中设置PATH  
+vi ~/.bash_profile  
+修改PATH行,把/usr/local/apache/bin添加进去,如：PATH=$PATH:$HOME/bin:/usr/local/apache/bin。  
+source ~/.bash_profile  
+让这次的修改生效。  
+注：这种方法只对当前用户起作用的,其他用户该修改无效。  
+
+去除自定义路径：  
+当你发现新增路径/usr/local/apache/bin没用或不需要时，你可以在以前修改的/etc/profile或~/.bash_profile文件中删除你曾今自定义的路径。  
+
+### 根据端口号，查找对应的进程  
+netstat -alp | grep  2181  
+### 根据进程号查看进程信息
+ps aux | grep 3567  
 --------------------------------------------------------------------------------------
 截取一段时间的日志
 sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14
