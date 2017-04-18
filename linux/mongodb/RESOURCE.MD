@@ -27,9 +27,16 @@ bin目录中包含如下几个程序：
 7. mongorestore.exe，数据库恢复工具。  
 8. mongos.exe，貌似是性能检测工具。  
 #### MongoDB学习文档
-http://www.runoob.com/mongodb/mongodb-window-install.html
-mongodb官网       http://docs.mongoing.com/manual-zh/sharding.html
-mongodb视图管理工具下载地址      https://robomongo.org/download
+MongoDB入门学习     http://www.runoob.com/mongodb/mongodb-window-install.html  
+mongodb官网       http://docs.mongoing.com/manual-zh/sharding.html  
+mongodb视图管理工具下载地址      https://robomongo.org/download  
+
+MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/blog/382722  
+> 最后一点 ConnectionTimeOut和SocketTimeOut的区别：
+> 一次完整的请求包括三个阶段：1、建立连接 2、数据传输 3、断开连接  
+> 如果与服务器(这里指数据库)请求建立连接的时间超过ConnectionTimeOut，就会抛 ConnectionTimeOutException，即服务器连接超时，没有在规定的时间内建立连接。  
+> 如果与服务器连接成功，就开始数据传输了。  
+> 如果服务器处理数据用时过长，超过了SocketTimeOut，就会抛出SocketTimeOutExceptin，即服务器响应超时，服务器没有在规定的时间内返回给客户端数据。  
 #### 查看数据库信息
 
 ```
