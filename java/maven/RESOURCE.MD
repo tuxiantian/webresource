@@ -59,7 +59,6 @@ never是不会去远程仓库中查找
     </snapshots>
 </repository>
 ```
-
 --------------------------------------------------------------------------------------
 mvn调试信息：
 比如：mvn -X -e clean compile
@@ -116,7 +115,19 @@ optional：可选依赖，true 不会传递，false会传递（默认）
 ```
 --------------------------------------------------------------------------------------
 exclusions排除依赖
-
+```
+<dependency>
+    <groupId>commons-configuration</groupId>
+    <artifactId>commons-configuration</artifactId>
+    <version>1.9</version>
+    <exclusions>
+        <exclusion>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
 归类依赖
 ```
 <properties>
@@ -282,6 +293,7 @@ maven的仲裁
 
 mvn dependency:analyze,使用该命令就可以看到maven分析的结果和建议
 mvn dependency:tree,使用该命令可以看到maven的依赖树
+mvn dependency:tree -Doutput=tree.txt,将maven的依赖树导出到tree.txt
 ```
 --------------------------------------------------------------------------------------
 Maven对重复依赖的解决方案
