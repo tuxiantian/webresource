@@ -3,7 +3,32 @@
 > http://mvnrepository.com/tags/maven
 ### 常用Maven插件介绍
 > http://www.importnew.com/23928.html
-
+### 处理私有jar的两种方式
+#### 使用私服nexus
+填好GAV，上传私有jar，pom文件中添加依赖。jar包的GAV可以随意指定。
+#### 设置maven参数的方式
+```
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.1</version>
+    <configuration>
+        <source>1.8</source>
+        <target>1.8</target>
+        <encoding>UTF-8</encoding>  <!-- “编码 GBK 的不可映射字符”问题的解决 -->
+        <compilerArgs>
+            <arg>-verbose</arg>
+            <arg>-Xlint:unchecked</arg>
+            <arg>-Xlint:deprecation</arg>
+            <!--<arg>-bootclasspath</arg>
+            <arg>${JAVA_HOME}/jre/lib/rt.jar,${JAVA_HOME}/jre/lib/jce.jar</arg>-->
+            <arg>-extdirs</arg>
+            <arg>${project.basedir}/src/main/webapp/WEB-INF/lib</arg>
+        </compilerArgs>
+    </configuration>
+</plugin>
+```
+`-extdirs`指定编译过程中使用外部的jar
 ### 配置maven仓库的镜像地址
 ```
     <mirrors>
