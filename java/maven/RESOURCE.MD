@@ -29,6 +29,9 @@
 </plugin>
 ```
 `-extdirs`指定编译过程中使用外部的jar
+##### 本地开发
+* 使用eclipse: 选中jar，右键add build path；
+* 使用idea: project structure->modules->选中项目->Dependencies->点击加号添加jar
 ### 配置maven仓库的镜像地址
 ```
     <mirrors>
