@@ -30,6 +30,7 @@ file-settings-keymap-eclipse
 > http://blog.csdn.net/shijiebei2009/article/details/44726433  
 System.out.println();在IntellJ中是输入sout  
 自动补全main函数，在IntellJ中则是输入psvm，选中即可  
+idea翻译插件Translation Alt+1 翻译tip
 #### sublime text 添加到鼠标右键功能
 把以下内容复制并保存到文件，重命名为：sublime_addright.reg，然后双击就可以了。  
 ```

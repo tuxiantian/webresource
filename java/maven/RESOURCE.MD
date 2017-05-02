@@ -339,6 +339,20 @@ provided:对于编译和测试有效,不会打包进发布包中,典型的例子
 runtime:只在运行测试用例和实际运行时有效,对于测试和运行classpath有效,但在编译主代码时无效,典型地是jdbc驱动jar包
 system: 不从maven仓库获取该jar,而是通过systemPath指定该jar的路径
 import: 用于一个dependencyManagement对另一个dependencyManagement的继承
+
+依赖范围compile使用举例
+```
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>3.1.0</version>
+    <scope>compile</scope>
+</dependency>
+添加上面的依赖后可以使用request.getServletContext().getRealPath(uploadPath)
+代替下面的代码
+request.getSession().getServletContext().getRealPath(uploadPath)
+tomcat的lib包下面包含servlet-api.jar
+```
 --------------------------------------------------------------------------------------
  maven中的仓库分为两种,snapshot快照仓库和release发布仓库
 snapshot快照仓库用于保存开发过程中的不稳定版本,release正式仓库则是用来保存稳定的发行版本
