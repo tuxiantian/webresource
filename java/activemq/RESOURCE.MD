@@ -9,10 +9,16 @@ D:\activemq\apache-activemq-5.12.1\conf\users.properties文件中配置用户名
 #### activemq从入门到精通
 http://www.jianshu.com/p/ecdc6eab554c  
 activemq基础  
+
 http://www.jianshu.com/p/f7a7105b3c27  
 消息的顺序消费、JMS Selectors、消息的同步 AND 异步 接受、P2P or Pub/Sub、持久化订阅、与Spring整合  
+
 http://www.jianshu.com/p/79f8a0457069  
 利用Zookeeper实现ActiveMQ的高可用  
+
+Prefetch Limit  
+http://www.cnblogs.com/kaka/archive/2012/07/28/2612870.html
+> 如果客户端处理很慢的话，Broker会在之前发送消息的反馈之前，继续发送新的消息到客户端。如果客户端依旧很慢的话，没有得到确认反馈的消息会持续增长。在这种情况下，Broker有可能会停止发送消息给消费者。当未被反馈的消息达到了prefetch limit设置的数字时，Broker将会停止给消费者发送新的消息。除非消费者开始给予反馈，否则得不到任何消息。
 ### linux下安装activemq
 tar -zxvf apache-activemq-5.14.4-bin.tar.gz -C /usr/local/  
 将压缩包解压到另外一个目录别忘了加参数-C  
