@@ -30,6 +30,9 @@ bin目录中包含如下几个程序：
 MongoDB入门学习     http://www.runoob.com/mongodb/mongodb-window-install.html  
 mongodb官网       http://docs.mongoing.com/manual-zh/sharding.html  
 mongodb视图管理工具下载地址      https://robomongo.org/download  
+MongoDB干货篇之更新数据         https://chenjiabing666.github.io/2017/05/01/MongoDB%E5%B9%B2%E8%B4%A7%E7%AF%87%E4%B9%8B%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE/#
+MongoDB干货篇之查询数据         https://chenjiabing666.github.io/2017/04/30/MongoDB%E5%B9%B2%E8%B4%A7%E7%AF%87%E4%B9%8B%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/
+
 
 MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/blog/382722  
 > 最后一点 ConnectionTimeOut和SocketTimeOut的区别：
