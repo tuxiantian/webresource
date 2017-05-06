@@ -82,6 +82,13 @@ cron表达式：
 |星期 	   |1-7 或者 SUN-SAT  |    , - * ? / L C #        |
 |年（可选）  |留空, 1970-2099    |   , - * /                 |
 
+### 关于在spring容器初始化bean和销毁前所做的操作定义方式有三种：
+第一种：通过@PostConstruct 和 @PreDestroy 方法 实现初始化和销毁bean之前进行的操作   http://blog.csdn.net/topwqp/article/details/8681497  
+第二种是：通过 在xml中定义init-method 和  destory-method方法                      http://blog.csdn.net/topwqp/article/details/8681467
+第三种是： 通过bean实现InitializingBean和 DisposableBean接口                      http://blog.csdn.net/topwqp/article/details/8681573
+
+
+### spring容器的加载方式
 ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");  
 FileSystemXmlApplicationContext
 --------------------------------------------------------------------------------------
