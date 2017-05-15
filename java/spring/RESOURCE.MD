@@ -10,6 +10,46 @@
 第一个任务表示程序启动5s后调用voiceFileClearJob类中的execute方法，然后每隔一个小时再调用execute一次  
 第三个任务表示每天的23点59分调用statJob类中的statLgj方法  
 
+spring-task的周期执行任务，若下一个周期到来，而上一个周期的任务没有完成，那么任务不会再次执行直到上一个周期的任务执行完成。  
+测试代码如下：
+```
+<bean id="springTaskTest" class="com.laijia.biz.task.SpringTaskTest"/>
+<task:scheduled-tasks>
+        <task:scheduled ref="springTaskTest" method="testTask" cron="0/10 * * * * ?"/>
+</task:scheduled-tasks>
+public class SpringTaskTest {
+
+    public void testTask() throws InterruptedException {
+        System.out.println("task start");
+        Thread.sleep(15*1000);
+
+        Thread wait=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.currentThread().sleep(15*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("task finish");
+            }
+        });
+        wait.start();
+        System.out.println("task finish main");
+    }
+
+}
+运行结果：
+task start
+task finish
+task finish main
+task start
+task finish
+task finish main
+task start
+task finish
+task finish main
+```
 
 ref是工作类  
 method是工作类中要执行的方法  
@@ -84,7 +124,7 @@ cron表达式：
 
 ### 关于在spring容器初始化bean和销毁前所做的操作定义方式有三种：
 第一种：通过@PostConstruct 和 @PreDestroy 方法 实现初始化和销毁bean之前进行的操作   http://blog.csdn.net/topwqp/article/details/8681497  
-第二种是：通过 在xml中定义init-method 和  destory-method方法                      http://blog.csdn.net/topwqp/article/details/8681467
+第二种是：通过在xml中定义init-method和destory-method方法                      http://blog.csdn.net/topwqp/article/details/8681467
 第三种是： 通过bean实现InitializingBean和 DisposableBean接口                      http://blog.csdn.net/topwqp/article/details/8681573
 
 
