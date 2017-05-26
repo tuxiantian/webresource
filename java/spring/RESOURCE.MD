@@ -123,9 +123,9 @@ cron表达式：
 |年（可选）  |留空, 1970-2099    |   , - * /                 |
 
 ### 关于在spring容器初始化bean和销毁前所做的操作定义方式有三种：
-第一种：通过@PostConstruct 和 @PreDestroy 方法 实现初始化和销毁bean之前进行的操作   http://blog.csdn.net/topwqp/article/details/8681497  
-第二种是：通过在xml中定义init-method和destory-method方法                      http://blog.csdn.net/topwqp/article/details/8681467
-第三种是： 通过bean实现InitializingBean和 DisposableBean接口                      http://blog.csdn.net/topwqp/article/details/8681573
+第一种：[通过@PostConstruct 和 @PreDestroy 方法 实现初始化和销毁bean之前进行的操作](http://blog.csdn.net/topwqp/article/details/8681497)  
+第二种是：[通过在xml中定义init-method和destory-method方法](http://blog.csdn.net/topwqp/article/details/8681467)  
+第三种是：[通过bean实现InitializingBean和 DisposableBean接口](http://blog.csdn.net/topwqp/article/details/8681573)  
 
 
 ### spring容器的加载方式
@@ -145,8 +145,7 @@ Spring 支持两种类型的事务管理：
 --------------------------------------------------------------------------------------
 spring命名空间：context、beans、jdbc、tx、aop
 --------------------------------------------------------------------------------------
-spring mvc异常统一处理（ControllerAdvice注解）
-> https://my.oschina.net/gef/blog/713722
+[spring mvc异常统一处理（ControllerAdvice注解）](https://my.oschina.net/gef/blog/713722)
 --------------------------------------------------------------------------------------
 spring mvc 静态资源
 ```
@@ -393,8 +392,7 @@ spring拦截器
   </mvc:interceptor>
  </mvc:interceptors>
  ```
- 一个springmvc的拦截器使用示例  
- > http://blog.csdn.net/liuwenbo0920/article/details/7283757
+[一个springmvc的拦截器使用示例](http://blog.csdn.net/liuwenbo0920/article/details/7283757)  
 --------------------------------------------------------------------------------------
 ```
 @Transactional(rollbackFor = Exception.class)
