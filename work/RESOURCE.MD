@@ -607,3 +607,23 @@ public class MapBean extends HashMap<String, Object> implements Entity {
     }
 }
 ```
+### 来驾项目管理
+使用wiki来做知识管理和团队协作.知识库中添加需求、技术、维护文档，既可以作为老成员的备忘录，又可以降低新成员的学习成本。  
+后端小组为前端小组和app小组提供接口。在page页中@某人，则他可以通过邮件和wiki通知中心得到消息，这样便可以完成项目成员之间的工作衔接。  
+在工作计划及完成情况页面，各小组可以互相查看工作安排来规划自己本周的工作。  
+wiki目录规划  
+* API
+  * WEB
+  * APP
+  * 接口变更清单
+* 知识库
+* 工作小组
+  * 工作计划及完成情况
+工作计划及完成情况示例
+![](/images/work/weeklyWorkPlan.png)
+接口变更清单示例
+![](/images/work/interfaceChange.png)
+知识库文档示例
+![](/images/work/knowledgeDemo.png)
+api文档示例
+![](/images/work/apiDemo.png)
