@@ -1,4 +1,6 @@
-### 搭建环境需要安装的软件
+### 一个web开发者的装机清单
+
+#### 搭建环境需要安装的软件
 - [ ] MSCODE  
 - [ ] mysql  
 - [ ] mysql客户端  
@@ -16,12 +18,18 @@
 - [ ] 文档资料  
 - [ ] eclipse  
 - [ ] 谷歌浏览器  
-### 环境搭建流程
+- [ ] idea
+- [ ] PowerDesigner
+- [ ] sublimit
+- [ ] nodeJs
+#### 环境搭建流程
 1. 下载软件:MSCODE、有道云笔记、有道词典、qq、微信、谷歌浏览器、foxmail、git、maven
 2. 安装现有软件：mysql、mysql客户端、tomcat、eclipse、jdk、everything、jdgui、jsonview
 3. 拷贝文档：梳理的技术参考资料
 4. 个性化配置 ：账户设置等
+
 ### idea个性化设置
+
 #### 设置idea的快捷键为eclipse的快捷键
 file-settings-keymap-eclipse
 #### 更改IntelliJ的快捷键为Eclipse风格，并且恢复Alt+/代码自动补全快捷键code completion
@@ -32,14 +40,20 @@ System.out.println();在IntellJ中是输入sout
 自动补全main函数，在IntellJ中则是输入psvm，选中即可  
 idea翻译插件Translation Alt+1 翻译tip  
 Ctrl+Shift+空格   在idea中查看javadoc  
+
 ### visio
+
 #### 新建流程图步骤
 1 新建空白绘图
 2 形状->更多形状->流程图->基本流程图形状
+
 ### wiki
 // 表示输入日期  
 @ 可以在文档中@某个人  
 [ 可以快速输入链接
+
+### sublime配置
+
 #### sublime text 添加到鼠标右键功能
 把以下内容复制并保存到文件，重命名为：sublime_addright.reg，然后双击就可以了。  
 ```
@@ -57,7 +71,9 @@ Windows Registry Editor Version 5.00
 ```
 **注意：需要把下面代码中的Sublime的安装目录（标粗部分），替换成自已实际的Sublime安装目录**
 
-#### eclispe代码自动提示
+### eclipse配置
+
+#### eclipse代码自动提示
 Window ——> Preferences ——> Java ——> Editor ——> Content Assist  
 [auto activation triggers for java]自动补全触发器,默认是".", 这个位置可以设置成  
 “.abcdefghijklmnopqrstuvwxyz(,”  
@@ -78,3 +94,12 @@ ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole 
 1. 在Eclipse菜单中选 Window->Preference->General->Key  
 
 2. 右侧头部的“type filter text”编辑框中分别输入Copy Lines以及Duplicate Lines，并在底部的Binding编辑框将原有组合键删除，并保持光标停留在此编辑框中，再按下自定义的组合键。  
+
+### markdown语法
+
+#### 插入图片
+```
+插入本地图片
+![](file:///E:/webresource/images/t_globalparam.png)
+![](/images/t_globalparam.png)
+```
