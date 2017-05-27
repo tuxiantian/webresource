@@ -19,15 +19,17 @@ public McpPageResult queryLockDetailsPage(Integer pageNo,
 carsMapper.xml
 ```
 <select id="myCarsPage" resultType="mb">
-        SELECT C.CARID carId,C.LPN lpn,C.VIN vin,C.ENGINENUM engineNum,C.COLOR color,C.STATUS status,M.CARMODELNAME carModelName,
-        M.SEAT seat,M.MILEAGE mileage,D.GLATITUDE glatitude,D.GLONGITUDE glongitude,D.TOTALMILEAGE totalMileage,A.REMARK remark FROM t_cars C
-        INNER JOIN `t_carmodels` M ON M.CARMODELID=C.CARMODELID
-        INNER JOIN `t_lastdevicedata` D ON D.DEVICEID=C.DEVICEID
-        LEFT OUTER JOIN T_AREA A ON C.AREACODE = A.AREACODE
-        WHERE 1=1
-        <if test="orgNo != null">
-            AND C.ORGNO = #{orgNo}
-        </if>
+    <include refid="sys.begin"/>
+    SELECT C.CARID carId,C.LPN lpn,C.VIN vin,C.ENGINENUM engineNum,C.COLOR color,C.STATUS status,M.CARMODELNAME carModelName,
+    M.SEAT seat,M.MILEAGE mileage,D.GLATITUDE glatitude,D.GLONGITUDE glongitude,D.TOTALMILEAGE totalMileage,A.REMARK remark FROM t_cars C
+    INNER JOIN `t_carmodels` M ON M.CARMODELID=C.CARMODELID
+    INNER JOIN `t_lastdevicedata` D ON D.DEVICEID=C.DEVICEID
+    LEFT OUTER JOIN T_AREA A ON C.AREACODE = A.AREACODE
+    WHERE 1=1
+    <if test="orgNo != null">
+        AND C.ORGNO = #{orgNo}
+    </if>
+    <include refid="sys.end"/>
 </select>
 
 <select id="myCarsPageCount" resultType="long">
