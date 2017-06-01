@@ -10,3 +10,9 @@ http://www.gushiwen.org/zhishi/cipai.aspx?WebShieldDRSessionVerify=xzq2ZUGkTjbSm
 ---
 [李笑来知笔墨图书](http://zhibimo.com/explore/books)  
 [我也有话要说——普通人的当众讲话技能](http://zhibimo.com/read/xiaolai/wo-ye-you-hua-yao-shuo--pu-tong-ren-de-jiang-yan-ji-neng/index.html)  
+[我在携程订好机票，请问怎么取票怎么登机](https://zhidao.baidu.com/question/2137972386253611668.html)
+
+http://flights.ctrip.com/booking/CGO-SHA/SecondRoute/?DCity1=CGO&ACity1=SHA&SearchType=&DDate1=2017-06-04&DDate2=2017-06-04&ACity2=CGO&AirlineCode=&ClassType=&LogToken=978aa5b21b2641d2b4c886ae5f7d2718&mkt_header=bdnm&DTime=2017-06-04&TransitType=&FDCity=CGO&FACity=SHA&from=&sf1=FM9328%7CV%7C460%7CAirLineMarketing%7C460%7C%7C%7CIScABAHAs7AAAAAA%7C%25E8%2588%25AA%25E5%258F%25B8%25E7%259B%25B4%25E9%2594%2580&IsXModel1=F&SmCorpFeeType1=&IsAdditionalRebate=false&CivilDiscountFlight1=&Quantity=1&IsHotFlight1=false&RecommendItems1=
+
+上海虹桥 地铁2号线转1号线汶水路站下
+上海浦东机场地铁2号线转1号线汶水路站下
