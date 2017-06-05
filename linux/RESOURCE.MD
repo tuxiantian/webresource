@@ -27,31 +27,31 @@ linux快速清空文件内容
 \> filename  
 echo "" > filename
 ### find命令汇总
-批量删除空文件
-find . -name "*" -type f -size 0c | xargs -n 1 rm -f
+批量删除空文件  
+find . -name "*" -type f -size 0c | xargs -n 1 rm -f  
 
-会从 /doc 目录开始往下找，找寻文件名是 ja 开头或者 ma开头的文件。
-find /doc \( -name 'ja*' -o- -name 'ma*' \) –print
+会从 /doc 目录开始往下找，找寻文件名是 ja 开头或者 ma开头的文件。  
+find /doc \( -name 'ja*' -o- -name 'ma*' \) –print  
 
-查询出所有的空文件夹
-find -type d -empty
+查询出所有的空文件夹  
+find -type d -empty  
 
-从根目录开始查找所有扩展名为.log的文本文件,并找出包含"ERROR"的行
-find / -type f -name "*.log" | xargs grep "ERROR"
+从根目录开始查找所有扩展名为.log的文本文件,并找出包含"ERROR"的行  
+find / -type f -name "*.log" | xargs grep "ERROR"  
 
-查找目录下的所有文件中是否含有某个字符串
-find .|xargs grep -ri "IBM"
+查找目录下的所有文件中是否含有某个字符串  
+find .|xargs grep -ri "IBM"  
 
-查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名
-find .|xargs grep -ri "IBM" -l
+查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名  
+find .|xargs grep -ri "IBM" -l  
 
-查找大文件
-find . -type f -size +200M -print0 | xargs -0 du -h | sort -nr
+查找大文件  
+find . -type f -size +200M -print0 | xargs -0 du -h | sort -nr  
 
-find /var/log/ -mtime +3 -type f -print  3天前
-find /var/log/ -mtime -3 -type f -print  3天内
-find /var/log/ -mtime 3 -type f -print   第3天
-find /var/log/ -mtime +2 -mtime -4 -type f -print
+find /var/log/ -mtime +3 -type f -print  3天前  
+find /var/log/ -mtime -3 -type f -print  3天内  
+find /var/log/ -mtime 3 -type f -print   第3天  
+find /var/log/ -mtime +2 -mtime -4 -type f -print  
 ### curl命令
 curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet
 注意后面的地址中若是有！，则需要使用\进行转义
