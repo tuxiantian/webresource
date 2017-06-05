@@ -7,8 +7,8 @@ useful website collections
 [简书](http://www.jianshu.com/)  
 [bootstrap](http://www.bootcss.com/)  
 adminlte  
-官网示例    https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html#  
-参考文档    http://11140372.blog.51cto.com/  
+* [官网示例](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html#)  
+* [参考文档](http://11140372.blog.51cto.com/)  
 ## 这个项目的起源
 我第一次换工作的时候，朋友欧阳春光发给我一个他的《待学.txt》，里面主要是一个Java程序员工作中的知识整理。内容非常的优质，我看后受益匪浅。
 但是文档的格式过于简陋且没有知识分类，每个知识条目仅用一条线分隔。我想把这个文件分类，于是建了各种知识门类的文件夹。每个知识门类的文件夹
