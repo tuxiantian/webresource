@@ -19,8 +19,11 @@ adminlte
 * 这是一个公开的仓库，我随时可以在外网上面查看我的知识库。另外这种面向大众的知识输出可以倒逼我输出更高质量的文档。
 * 使用git管理，可以随时随地的查看编辑，在不连接网络的情况下也能查看重要的笔记内容。
 * 后续我会将个人博客逐渐迁移至此，创造一个更加聚集的知识中心。
-## 编辑这个项目的最佳工具
+## 温馨提示
+### 编辑这个项目的最佳工具
 visual studio code
-## chrome上最好用的github网站的工具
+### chrome上最好用的github网站的工具
 Octo Mate
 > Missing mate of GitHub, making single file download effortless and with more features
+### 关于浏览器上面图片显示不清晰的办法
+在浏览器上面查看图片，如看不清楚可以克隆下仓库到本地，本地查看的图片会更加清晰。
