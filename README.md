@@ -19,3 +19,8 @@ visual studio code
 ## chrome上最好用的github网站的工具
 Octo Mate
 > Missing mate of GitHub, making single file download effortless and with more features
+## 这个项目的起源
+我第一次换工作的时候，朋友欧阳春光发给我一个他的《待学.txt》，里面主要是一个Java程序员工作中的知识整理。内容非常的优质，我看后受益匪浅。  
+但是文档的格式过于简陋且没有知识分类，每个知识条目仅用一条线分隔。我想把这个文件分类，于是建了各种知识门类的文件夹。每个知识门类的文件夹  
+聚集的知识太多后还可以建立子文件夹来细分。我想在外网上实时查看，于是想到了github。我想让文本内容具有一定的格式，于是用到了markdown。我  
+想更好的编辑查看这个项目，于是我找到了visual studio code。我想创建一个更加聚集的知识中心，于是我将博客迁移至此。
