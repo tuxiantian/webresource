@@ -467,3 +467,11 @@ alter table t_user_2 add name2 varchar(15),add name3 varchar(4);
 
 alter table t_user_2 drop name2, drop name3;
 --------------------------------------------------------------------------------------
+查看最大连接数上限
+show variables like 'max_connections';
+
+查看mysql最大使用连接数
+show global status like 'Max_used_connections';
+
+max_connections=1500
+--------------------------------------------------------------------------------------
