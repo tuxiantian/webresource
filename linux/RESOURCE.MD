@@ -103,7 +103,21 @@ sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException
 查看磁盘： df -lh
 
 查看目录占用大小：du -lh
+### 根据端口号，查找对应的进程  
+netstat -alp | grep  2181  
+### 根据进程号查看进程信息
+ps aux | grep 3567  
+### 压缩命令及解压缩命令
+tar压缩：tar -zcvf file.tar.zip file  
 
+解压tar：tar -zxvf file.tar.zip  
+
+解压zip：unzip xxx.zip  
+unzip -o -d /home/sunny myfile.zip 把myfile.zip文件解压到 /home/sunny/  
+-o:不提示的情况下覆盖文件；  
+-d:-d /home/sunny 指明将文件解压缩到/home/sunny目录下；  
+
+解压war：jar -xvf xxx.war
 ### sed命令
 sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14 截取一段时间的日志
 
@@ -156,22 +170,6 @@ source ~/.bash_profile
 
 去除自定义路径：  
 当你发现新增路径/usr/local/apache/bin没用或不需要时，你可以在以前修改的/etc/profile或~/.bash_profile文件中删除你曾今自定义的路径。  
-
-### 根据端口号，查找对应的进程  
-netstat -alp | grep  2181  
-### 根据进程号查看进程信息
-ps aux | grep 3567  
-### 压缩命令及解压缩命令
-tar压缩：tar -zcvf file.tar.zip file  
-
-解压tar：tar -zxvf file.tar.zip  
-
-解压zip：unzip xxx.zip  
-unzip -o -d /home/sunny myfile.zip 把myfile.zip文件解压到 /home/sunny/  
--o:不提示的情况下覆盖文件；  
--d:-d /home/sunny 指明将文件解压缩到/home/sunny目录下；  
-
-解压war：jar -xvf xxx.war
 --------------------------------------------------------------------------------------
 通过关键字查询日志  
 grep -nH "Excetion message" test.text  
