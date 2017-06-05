@@ -109,6 +109,25 @@ sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException
 sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14
 
 sed –n '5,10p' /etc/passwd 这样你就可以只查看文件的第 5 行到第 10 行
+sed -n '1p' filename   #显示第一行
+### linux防火墙
+开启： chkconfig iptables on  
+关闭： chkconfig iptables off  
+
+查看防火墙状态：  
+/etc/init.d/iptables status或service iptables status  
+
+即时生效，重启后失效  
+开启： service iptables start  
+关闭： service iptables stop  
+
+service iptables save  
+
+iptables -L 查看一下当前的规则  
+iptables -X 清除预设表filter中使用者自定链中的规则  
+
+iptables -A INPUT  -p tcp --dport 22 -j ACCEPT  
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT  
 ### Linux将命令添加到PATH中
 简单说PATH就是一组路径的字符串变量，当你输入的命令不带任何路径时，LINUX会在PATH记录的路径中查找该命令。有的话则执行，不存在则提示命令找不到。比如在根目录/下可以输入命令ls,在/usr目录下也可以输入ls,但其实ls命令根本不在这个两个目录下，当你输入ls命令时LINUX会去/bin,/usr/bin,/sbin等目录寻找该命令。而PATH就是定义/bin:/sbin:/usr/bin等这些路劲的变量，其中冒号为目录间的分割符。  
 如何自定义路径：  
@@ -164,29 +183,6 @@ rm -f !(a|b)
 
 find . -type f ! -name "file10"|xargs rm -f
 --------------------------------------------------------------------------------------
-开启： chkconfig iptables on
-关闭： chkconfig iptables off
-
-查看防火墙状态：
-/etc/init.d/iptables status或service iptables status
-
-即时生效，重启后失效
-开启： service iptables start
-关闭： service iptables stop
-
-service iptables save
-
-iptables -L 查看一下当前的规则
-iptables -X        清除预设表filter中使用者自定链中的规则
-
-iptables -A INPUT  -p tcp --dport 22 -j ACCEPT
-iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
---------------------------------------------------------------------------------------
-linux 文件的三种时间
-atime 最后一次访问时间, 如 less, more 等, 但 chmod, chown, ls, stat 等不会修改些时间
-ctime 最后一次状态修改时间, 如 chmod, chown 等状态时间改变但修改时间不会改变, 使用 stat file 可以查看
-mtime 最后一次内容修改时间, 如 vi 保存后等, 修改时间发生改变的话, atime 和 ctime 也相应跟着发生改变
---------------------------------------------------------------------------------------
 linux strace常用来跟踪进程执行时的系统调用和所接收的信
 strace -T -tt -f -p 92028 -o 92028.txt
 -T 显示每一调用所耗的时间
@@ -215,8 +211,6 @@ grep accept 92028.txt|grep 16:58:15 |grep -Po '192\.168\.\d{2,}\.\d{2,}'|sort|un
 
 grep -A 1 除了列出符合行之外，并且列出后NUM行
 grep -A1 -n "api.weixin.qq.com/cgi-bin/" *.log | grep -v "api.weixin.qq.com" | awk '$6 > 5'
---------------------------------------------------------------------------------------
-sed -n '1p' ab   #显示第一行
 --------------------------------------------------------------------------------------
 awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理
 last -n 5 | awk  '{print $1}'
