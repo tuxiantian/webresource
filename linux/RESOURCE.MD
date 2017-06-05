@@ -105,11 +105,15 @@ sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException
 查看目录占用大小：du -lh
 
 ### sed命令
-截取一段时间的日志
-sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14
+sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14 截取一段时间的日志
 
-sed –n '5,10p' /etc/passwd 这样你就可以只查看文件的第 5 行到第 10 行
-sed -n '1p' filename   #显示第一行
+sed –n '5,10p' /etc/passwd 这样你就可以只查看文件的第5行到第10行  
+sed -n '1p' filename 显示第一行  
+sed '/^$/d' file 删除文件中的空行  
+1、替换并输出（不修改源文件）：  
+sed  's/dog/cat/g' file dog被替换的内容，cat替换的内容  
+2、备份后直接替换至源文件：  
+sed -i.bak 's/dog/cat/g' file  
 ### linux防火墙
 开启： chkconfig iptables on  
 关闭： chkconfig iptables off  
