@@ -7,6 +7,41 @@ FIC（Fast index Creation）可以让innodb存储引擎避免创建临时表，�
 （3）添加或删除外键约束  
 （4）列的重命名  
 
+[SQL优化之【类型转换】](http://www.cnblogs.com/gomysql/p/4450928.html)  
+
+[EXPLAIN 命令详解](http://www.cnblogs.com/gomysql/p/3720123.html)  
+all < index < range < ref < eq_ref < const, system < NULL  
+从左到右, 性能由最差到最好  
+1. type=ALL，全表扫描，MySQL遍历全表来找到匹配的行.
+2. type=index，索引全扫描，
+3. type=range，索引范围扫描，常见于<、<=、>、>=、between等操作符.
+4. type=ref，使用非唯一索引扫或唯一索引的前缀扫描，返回匹配某个单独值的记录行. ref还经常出现在join操作中
+5. type=eq_ref，类似ref，区别就在使用的索引是唯一索引，对于每个索引键值，表中只有一条记录匹配；
+简单来说，就是多表连接中使用 primary key或者 unique index作为关联条件
+6. type=const/system，单表中最多有一个匹配行，查询起来非常迅速，所以这个匹配行中的其他列的值可以被优化
+7. type=NULL，MySQL不用访问表或者索引，直接就能够得到结果
+8. 类型type还有其他值，如ref_or_null（与ref类似，区别在于条件中包含对NULL的查询）、
+index_merge（索引合并优化）、
+unique_subquery（in 的后面是一个查询主键字段的子查询）、
+index_subquery（与 unique_subquery 类似，区别在于 in 的后面是查询非唯一索引字段的子查询）
+
+Using index也就是平常说的覆盖索引扫描  
+explain partitions: 命令查看SQL所访问的分区  
+
+[MySQL模拟Oralce闪回操作](http://www.cnblogs.com/gomysql/p/3713134.html)  
+使用下面的sql语句在mysql的客户端可以查看binlog日志是否开启  
+show master logs 或者 show binary logs  
+
+[MySQL常用SQL语句优化](http://www.cnblogs.com/gomysql/p/3632209.html)
+1. 优化大批量插入数据
+2. 优化INSERT语句
+3. 优化ORDER BY语句
+4. 优化GROUP BY 语句
+5. 优化子查询
+6. 优化OR条件
+7. 优化分页查询(LIMIT)
+8. 其他优化手段
+
 redo log 刷盘策略由 innodb_flush_log_at_trx_commit 参数控制:  
 0:每秒刷新一次  
 1：每次commit刷新一次(默认值,MySQL5.6)  
@@ -88,29 +123,11 @@ Next-key lock：前两种的组合，对记录及其前面的间隙加锁
 在用LOCK TABLES对 InnoDB表加锁时要注意，要将AUTOCOMMIT设为 0，否则MySQL不会给表加锁
 必须用UNLOCK TABLES释放表锁
 
-锁等待超时参数innodb_lock_wait_timeout来解决 锁等待超时阈值
+锁等待超时参数innodb_lock_wait_timeout来解决锁等待超时阈值
 
 在REPEATABLE-READ隔离级别下，如果两个线程同时对相同条件记录用SELECT…FOR UPDATE加排他锁，
 在没有符合该条件记录情况下，两个线程都会加锁成功程序发现记录尚不存在，就试图插入一条新记录
 如果两个线程都这么做，就会出现死锁 将隔离级别改成READ COMMITTED，就可避免问题.
-
-all < index < range < ref < eq_ref < const, system < NULL  
-从左到右, 性能由最差到最好  
-1. type=ALL，全表扫描，MySQL遍历全表来找到匹配的行.
-2. type=index，索引全扫描，
-3. type=range，索引范围扫描，常见于<、<=、>、>=、between等操作符.
-4. type=ref，使用非唯一索引扫或唯一索引的前缀扫描，返回匹配某个单独值的记录行. ref还经常出现在join操作中
-5. type=eq_ref，类似ref，区别就在使用的索引是唯一索引，对于每个索引键值，表中只有一条记录匹配；
-简单来说，就是多表连接中使用 primary key或者 unique index作为关联条件
-6. type=const/system，单表中最多有一个匹配行，查询起来非常迅速，所以这个匹配行中的其他列的值可以被优化
-7. type=NULL，MySQL不用访问表或者索引，直接就能够得到结果
-8. 类型type还有其他值，如ref_or_null（与ref类似，区别在于条件中包含对NULL的查询）、
-index_merge（索引合并优化）、
-unique_subquery（in 的后面是一个查询主键字段的子查询）、
-index_subquery（与 unique_subquery 类似，区别在于 in 的后面是查询非唯一索引字段的子查询）
-
-Using index也就是平常说的覆盖索引扫描
-explain partitions: 命令查看SQL所访问的分区
 
 通过 show profile分析SQL
 步骤:
