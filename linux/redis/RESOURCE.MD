@@ -1,3 +1,5 @@
+[Redis Cluster 3.0搭建与使用](http://www.cnblogs.com/gomysql/p/4395504.html)
+
 redis整个从库重做流程是这样的：
 主库bgsave自身数据到磁盘
 主库发送rdb文件到从库
