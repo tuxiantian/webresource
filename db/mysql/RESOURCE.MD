@@ -1,22 +1,33 @@
-redo log 刷盘策略由 innodb_flush_log_at_trx_commit 参数控制:
-0:每秒刷新一次
-1：每次commit刷新一次(默认值,MySQL5.6)
-2：每次commit都 write os cache，然后根据 innodb_flush_log_at_timeout 参数（默认为1s） flush disk
+[MySQL 5.6 Online DDL](http://www.cnblogs.com/gomysql/p/3776192.html)  
+在上线的时候，一定要观察是否有某个慢SQL或者比较大的结果集的SQL在运行，否则在执行ALTER TABLE时将会导致锁表发生。使用show processlist;语句查看。  
+FIC（Fast index Creation）可以让innodb存储引擎避免创建临时表，提高索引创建效率。虽然FIC不会阻塞读操作，但是DML操作还是照样阻塞的。MySQL 5.6版本开始支持Online DDL（在线数据定义）操作，其允许辅助索引创建的同时，  
+还允许其他诸如INSERT,UPDATE,DELETE这类DML操作。此外不仅是辅助索引，以下这几类DDL操作都可以通过”在线“的方式进行：  
+（1）辅助索引的创建于删除  
+（2）改变自增长值  
+（3）添加或删除外键约束  
+（4）列的重命名  
 
-ib_logfile0 and ib_logfile1两个文件,就是redo log（用于 崩溃时恢复）
+redo log 刷盘策略由 innodb_flush_log_at_trx_commit 参数控制:  
+0:每秒刷新一次  
+1：每次commit刷新一次(默认值,MySQL5.6)  
+2：每次commit都 write os cache，然后根据 innodb_flush_log_at_timeout 参数（默认为1s） flush disk  
 
-二进制日志会记录所有与mysql有关的日志记录(bin log)
+ib_logfile0 and ib_logfile1两个文件,就是redo log（用于崩溃时恢复）  
+
+二进制日志会记录所有与mysql有关的日志记录(bin log)  
 --------------------------------------------------------------------------------------
-MySQL 为生产环境在线添加字段
-create table new_table_name like old_table_name;
-alter table new_table_name add column new_column int not null default 0 comment 'your comment';
+MySQL 为生产环境在线添加字段  
+create table new_table_name like old_table_name;  
+alter table new_table_name add column new_column int not null default 0 comment 'your comment';  
+alter table t_user_2 add name2 varchar(15),add name3 varchar(4);  
+alter table t_user_2 drop name2, drop name3;  
 
-insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id < xxxx;
+insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id < xxxx;  
 
-begin;
-insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id >= xxxx
-rename old_table_name to old_table_bak, new_table_name to old_table_name;
-commit;
+begin;  
+insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id >= xxxx  
+rename old_table_name to old_table_bak, new_table_name to old_table_name;  
+commit;  
 
 --------------------------------------------------------------------------------------
 Mysql关于 字符串 与 整型对比 的查询与索引
@@ -48,12 +59,12 @@ MySIAM 在select前, 会自动给所涉及的表加上读锁, 在执行更新操
 MyISAM 的锁调度
 MyISAM存储引擎的读锁和写锁是互斥的，读写操作是串行的,读锁写锁同时加，写进程先获得锁
 
-InnoDB 的行锁及加锁方法
-行锁类型
-共享锁（S）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁
-排他锁（X）：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁
-意向共享锁（IS）：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁
-意向排他锁（IX）：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁
+InnoDB 的行锁及加锁方法  
+行锁类型  
+共享锁（S）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁  
+排他锁（X）：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁  
+意向共享锁（IS）：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁  
+意向排他锁（IX）：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁  
 
 共享锁（S）：SELECT * FROM table_name WHERE … LOCK IN SHARE MODE
 排他锁（X）：SELECT * FROM table_name WHERE … FOR UPDATE
@@ -83,8 +94,8 @@ Next-key lock：前两种的组合，对记录及其前面的间隙加锁
 在没有符合该条件记录情况下，两个线程都会加锁成功程序发现记录尚不存在，就试图插入一条新记录
 如果两个线程都这么做，就会出现死锁 将隔离级别改成READ COMMITTED，就可避免问题.
 
-all < index < range < ref < eq_ref < const, system < NULL
-从左到右, 性能由最差到最好
+all < index < range < ref < eq_ref < const, system < NULL  
+从左到右, 性能由最差到最好  
 1. type=ALL，全表扫描，MySQL遍历全表来找到匹配的行.
 2. type=index，索引全扫描，
 3. type=range，索引范围扫描，常见于<、<=、>、>=、between等操作符.
@@ -130,33 +141,9 @@ release: 断开和客户端的连接
 定点数不同于浮点数，定点数实际上是以字符串形式存放的  decimal(10,2)
 
 --------------------------------------------------------------------------------------
-mysql更改字符集
-alter table t1 convert to charset utf8mb4;
-alter table 改字符集的操作是阻塞写的
---------------------------------------------------------------------------------------
-mysql 当sql解释器遇到 start transaction 时候会触发commit
-mysql> starttransaction ;
-QueryOK, 0 rowsaffected (0.00 sec)
-
-mysql> insertintoceshivalues(3);
-QueryOK, 1 rowaffected (0.00 sec)
-
-mysql> commit;
-QueryOK, 0 rowsaffected (0.00 sec)
-
-mysql> rollback;
-QueryOK, 0 rowsaffected (0.00 sec)
---------------------------------------------------------------------------------------
-mysql union 使用IN查询不连续的数
-select *
-from (
-    select 1 as cid union all
-    select 5000 union all
-    select 50000 union all
-    select 500000 union all
-    select 955559
-) as tmp, t
-where tmp.cid = t.cid;
+mysql更改字符集  
+alter table t1 convert to charset utf8mb4;  
+alter table 改字符集的操作是阻塞写的  
 --------------------------------------------------------------------------------------
 mysql数据库的逻辑架构图
 客户端层(链接处理,授权认证,安全)、中间层(查询解析、分析、优化、缓存以及所有的内置函数)、存储引擎层(查询优化和执行 并发控制 事务处理)
@@ -387,9 +374,6 @@ max_heap_table_size: 指定用户创建的内存表的最大大小
 show variables like 'internal_tmp_disk_storage_engine%';
 
 --------------------------------------------------------------------------------------
-索引内部是怎么排序的 b+树
-B树了解过吗,内部是怎么排序的
-
 key_len 等于索引列类型字节长度,例如int类型为4-bytes,bigint为8-bytes；
 字符串类型,CHAR(30) UTF8则key_len至少是90-bytes；
 若该列类型定义时允许NULL,其key_len还需要再加 1-bytes；
@@ -461,11 +445,6 @@ profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
 
 批量插入
 useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
---------------------------------------------------------------------------------------
-mysql
-alter table t_user_2 add name2 varchar(15),add name3 varchar(4);
-
-alter table t_user_2 drop name2, drop name3;
 --------------------------------------------------------------------------------------
 查看最大连接数上限
 show variables like 'max_connections';
