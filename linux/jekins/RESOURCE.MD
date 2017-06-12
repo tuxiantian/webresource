@@ -28,3 +28,6 @@ Build periodically：周期进行项目构建（它不care源码是否发生变�
 修改/usr/local/maven/conf/setting.xml中的镜像，注释私服镜像，使用阿里巴巴镜像下载jar,使用jekins的立即构建触发下载jar  
 去/root/.jenkins/workspace/laijia/.repository/org/apache/activemq/activemq-client/5.9.0目录将后缀为.lastupdated的文件删除  
 再放开/usr/local/maven/conf/setting.xml注释私服镜像  
+#### 私服不能启动导致发布失败
+cd /home/nexus/nexus-2.14.0-01/bin  
+./nexus start  

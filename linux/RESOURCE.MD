@@ -119,6 +119,13 @@ unzip -o -d /home/sunny myfile.zip 把myfile.zip文件解压到 /home/sunny/
 -d:-d /home/sunny 指明将文件解压缩到/home/sunny目录下；  
 
 解压war：jar -xvf xxx.war  
+### 新解压的tomcat无执行权限问题
+>Cannot find ./catalina.sh  
+>The file is absent or does not have execute permission  
+>This file is needed to run this program  
+
+解决方法：tomcat的bin目录下执行下面的命令  
+chmod u+x *.sh
 ### sed命令
 sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14 截取一段时间的日志
 
