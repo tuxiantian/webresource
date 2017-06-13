@@ -632,3 +632,12 @@ wiki目录规划
 ![](/images/work/knowledgeDemo.png)
 api文档示例
 ![](/images/work/apiDemo.png)
+#### 原型图表达需求
+使用Axure RP 8画原型图
+![](/images/work/xuqiu.png)
+#### 项目整体开发计划
+下面是使用甘特图制作的项目整体开发计划
+![](/images/work/pony_dev_plan.jpg)
+#### 数据库设计
+下面是使用power designer设计的数据库
+![](/images/work/db_design.png)
