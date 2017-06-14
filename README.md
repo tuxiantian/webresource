@@ -27,5 +27,11 @@ visual studio code
 ### chrome上最好用的github网站的工具
 Octo Mate
 > Missing mate of GitHub, making single file download effortless and with more features
+
+![](/images/octomate.png)  
+Octotree
+> Code tree for GitHub
+
+![](/images/octotree.png)
 ### 关于浏览器上面图片显示不清晰的办法
 在浏览器上面查看图片，如看不清楚可以克隆下仓库到本地，本地查看的图片会更加清晰。
