@@ -15,7 +15,11 @@ ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no pass
 ![](/images/git/clone_error.png)  
 给新用户分配仓库的权限，操作示例图如下  
 ![](/images/git/assign_permission.png)  
-新用户使用gitbash客户端窗口配置用户名和邮箱，然后就可以克隆仓库，正常提交和更新仓库文件了。
+新用户使用gitbash客户端窗口配置用户名和邮箱，然后就可以克隆仓库，正常提交和更新仓库文件了。  
+##  git中文文件名、目录名乱码应该怎么解决？
+git config core.quotepath false  
+core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常  
+
 ## 常用的git命令
 > cd e:/webresource              //首先指定到你的项目目录下  
 > git init  
@@ -58,9 +62,6 @@ ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no pass
 > 2. git remote add origin git@github.com:tuxiantian/webresource.git
 > 3. git push -u origin master
 
-##  git中文文件名、目录名乱码应该怎么解决？
-git config core.quotepath false  
-core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常
 ## 查看远程仓库的地址
 > git remote -v
 ## 更改仓库远程地址
