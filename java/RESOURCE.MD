@@ -1,10 +1,9 @@
-### 线程的基本概念	
-> https://gold.xitu.io/post/58a1ba8786b599006b4877aa
-#### 深入理解 Java 线程池：ThreadPoolExecutor
-> https://juejin.im/entry/58fada5d570c350058d3aaad
-### spring自定义转换类
-> http://www.cnblogs.com/caoyc/p/5639652.html
+[java实现map和object互转的三种方法](http://www.open-open.com/code/view/1423280939826)  
+[线程的基本概念](https://gold.xitu.io/post/58a1ba8786b599006b4877aa)  
+[深入理解 Java 线程池：ThreadPoolExecutor](https://juejin.im/entry/58fada5d570c350058d3aaad)  
+[spring自定义转换类](http://www.cnblogs.com/caoyc/p/5639652.html)  
 > spring会自发去找自定义的转换类
+
 ### MyBatis中使用#和$书写占位符有什么区别？
 答：#将传入的数据都当成一个字符串，会对传入的数据自动加上引号；$将传入的数据直接显示生成在SQL中。注意：使用$占位符可能会导致SQL注射攻击，能用#的地方就不要使用$。
 ### 迭代map
