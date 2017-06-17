@@ -195,10 +195,11 @@ offer(e) poll()
 ArrayBlockingQueue中的锁是没有分离的,即生产和消费用的是同一个锁；
 LinkedBlockingQueue中的锁是分离的,即生产用的是putLock,消费是takeLock
 
-     抛出异常	特殊值	   阻塞	     超时
-插入	add(e)	offer(e)	put(e)	offer(e, time, unit)
-移除	remove()	poll()	take()	poll(time, unit)
-检查	element()	peek()	不可用	不可用
+    |抛出异常	|特殊值	  | 阻塞	     |超时
+----|----------|------------|------------|------
+插入	|add(e)	|offer(e)	|put(e)	|offer(e, time, unit)
+移除	|remove()	|poll()	|take()	|poll(time, unit)
+检查	|element()	|peek()	|不可用	|不可用
 
 --------------------------------------------------------------------------------------
 ```
