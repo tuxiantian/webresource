@@ -201,6 +201,7 @@ LinkedBlockingQueue中的锁是分离的,即生产用的是putLock,消费是take
 |移除	|remove()  |poll()	    |take()	   |poll(time, unit)      |
 |检查	|element() |peek()	    |不可用	 |不可用                |
 
+### Integer缓存
 ```
 Integer缓存 -127->127
 Integer a = Integer.valueOf(-127);
