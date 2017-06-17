@@ -8,7 +8,7 @@ http://192.168.0.254/users/sign_in
 
 生成ssh公私钥命令如下  
 ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no passphrase):注意在这一步的时候不要输入密码，后续提交才能不用输入密码  
-操作示例图如下
+操作示例图如下  
 ![](/images/git/nopassword.png)  
 在github网站上添加C:\Users\tuxt\.ssh\目录下生成的公钥  
 若出现下面的提示，就是尚未给新用户分配仓库的权限
