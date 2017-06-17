@@ -1,3 +1,21 @@
+# 新手快速使用git
+打开下面的网址注册一个用户
+http://192.168.0.254/users/sign_in
+生成ssh公私钥，参考下面的说明
+## github ssh无密钥登陆
+ ssh-keygen 不是内部或外部命令
+ > http://blog.csdn.net/zy_281870667/article/details/50443403
+
+生成ssh公私钥命令如下  
+ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no passphrase):注意在这一步的时候不要输入密码，后续提交才能不用输入密码  
+操作示例图如下
+![](/images/git/nopassword.png)  
+在github网站上添加C:\Users\tuxt\.ssh\目录下生成的公钥  
+若出现下面的提示，就是尚未给新用户分配仓库的权限
+![](/images/git/clone_error.png)  
+给新用户分配仓库的权限，操作示例图如下  
+![](/images/git/assign_permission.png)  
+新用户使用gitbash客户端窗口配置用户名和邮箱，然后就可以克隆仓库，正常提交和更新仓库文件了。
 ## 常用的git命令
 > cd e:/webresource              //首先指定到你的项目目录下  
 > git init  
@@ -32,11 +50,7 @@
 > git remote add origin https://github.com/tuxiantian/webresource.git
 > git push -u origin master
 > 注意在github网站上面先创建repository,否则会提交失败
-## github ssh无密钥登陆
- ssh-keygen 不是内部或外部命令
- > http://blog.csdn.net/zy_281870667/article/details/50443403
- ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no passphrase):注意在这一步的时候不要输入密码，后续提交才能不用输入密码  
-在github网站上添加C:\Users\tuxt\.ssh\目录下生成的公钥  
+
 ## 解决向github提交代码不用输入帐号密码
 > https://segmentfault.com/a/1190000008435592
 ### 下面把origin地址换成ssh方式的，这样才能提交代码不必输入用户名和密码。
