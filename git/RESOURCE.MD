@@ -1,6 +1,5 @@
 # 新手快速使用git
-打开下面的网址注册一个用户
-http://192.168.0.254/users/sign_in
+打开公司内网的git网址注册一个用户http://192.168.0.254/users/sign_in
 生成ssh公私钥，参考下面的说明
 ## github ssh无密钥登陆
  ssh-keygen 不是内部或外部命令
