@@ -4,6 +4,23 @@
 [spring自定义转换类](http://www.cnblogs.com/caoyc/p/5639652.html)  
 > spring会自发去找自定义的转换类
 
+### 数组和list相互转化
+数组转list  
+List<String> priStrList=Arrays.asList(priStrArr);  
+list转数组  
+priStrArr=(String[]) toSave.toArray(new String[toSave.size()]);  
+### split使用注意事项
+```
+String privelegs = (String)param.get("priveleges");
+if (StringUtil.isNull(privelegs)) {
+	return;
+}else {
+	if (privelegs.startsWith("|")) {
+		privelegs=privelegs.substring(1);
+	}
+}
+String[] priStrArr =privelegs.split("\\|");
+```
 ### MyBatis中使用#和$书写占位符有什么区别？
 答：#将传入的数据都当成一个字符串，会对传入的数据自动加上引号；$将传入的数据直接显示生成在SQL中。注意：使用$占位符可能会导致SQL注射攻击，能用#的地方就不要使用$。
 ### 迭代map
@@ -258,3 +275,79 @@ for(int i=0;i<10;i++)
 
 ### 使用%对%进行转义
 System.out.println(String.format("%d%%", 20));  
+
+### 反射的应用示例
+```
+public class MethodInvokeUtil {
+
+public static String messagePackageMethodInvoke(Map<String, String> interfaceInfo, Map<String, Object> interfaceDataMap) throws Exception{
+        String res = "";
+
+        String method_service_class = interfaceInfo.get("package_service");
+        //业务层方法
+        String method_name = interfaceInfo.get("package_method");
+
+        if(StringUtil.isNotEmpty(method_service_class)&&StringUtil.isNotEmpty(method_name)){
+            res = (String) methodInvoke(method_service_class, method_name, interfaceDataMap);
+
+        }else{
+            throw new Exception("接口调用失败，错误描述：接口"+interfaceInfo.get("interface_id")+"的配置出错，未配置报文封装实现。");
+        }
+
+
+        return res;
+    }
+
+/**
+     * 反射调用具体实现
+     * @param method_service_class
+     * @param method_name
+     * @param datas
+     * @return
+     * @throws Exception
+     */
+    public static Object methodInvoke(String method_service_class,String method_name,Map<String, Object> datas) throws Exception{
+        Object res = null;
+
+        Class<?> clazz = null;
+        Method method = null;
+
+        try {
+            clazz = Class.forName(method_service_class);
+
+
+            method = clazz.getDeclaredMethod(method_name, Map.class);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new Exception(" 没有找到类，类路径和类名： " + method_service_class +"，错误描述：" +e.getCause());
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new Exception("在类"+method_service_class+"中，没有找到方法"+method_name +"，错误描述：" +e.getCause());
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+        }
+
+        try {
+            res =  method.invoke(clazz.newInstance(), datas);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+        } catch(Exception e){
+            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getMessage());
+        }
+
+        return res;
+    }
+}
+
+```
