@@ -2,6 +2,7 @@
 useful website collections
 ## 使用频次最高的帮助链接
 [登陆微信公众平台](https://mp.weixin.qq.com/)  
+[罗辑思维](http://www.ljsw.cc/)  
 [Java Top 100 热门问答 (Stackoverflow)](https://juejin.im/entry/5937585d0ce46300574154cb)对应的[github地址](https://github.com/giantray/stackoverflow-java-top-qa)  
 [掘金](https://juejin.im/timeline)  
 [importnew](http://www.importnew.com/)  
