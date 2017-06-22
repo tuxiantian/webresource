@@ -2,7 +2,7 @@
 ```
     @Autowired
     private JedisUserService redisUserService;
-    
+
     JedisUser jedisUser = redisUserService.get(ControllerHelper.getMcpToken());
 ```
 ### 来驾分页查询模板代码
@@ -662,6 +662,9 @@ api文档示例
 #### java后端按模块划分工作
 使用xmind列出项目所有要做的模块（根据原型图列的），每个人可以去挑选自己做的模块。Java开发人员根据项目进度安排开发计划，接口要走在APP和前端开发的前面。  
 ![](/images/work/小马运营后台.png)
+#### java后端测试计划
+Java开发人员使用postman自测开发的接口  
+![](/images/work/postman.png)
 #### 最佳个人奖评选方案
 每个人发言说明自己工作做的好的地方，就是发言自己卓越的完成工作的地方。然后大家开始投票，每人投3个自己认为工作做的最好的人。累计票数最高者
 就得最佳个人奖。放弃发言的人将同时失去选举权和被选举权。放弃发言的人默认为不足够优秀，没有定义优秀的能力，需要向其它人学习，没有投票权。
