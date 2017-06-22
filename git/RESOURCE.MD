@@ -87,7 +87,7 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 [Git工作流指南：Gitflow工作流](http://blog.jobbole.com/76867/)  
 [Git工作流指南：Forking工作流](http://blog.jobbole.com/76861/)  
 [Git工作流指南：Pull Request工作流](http://blog.jobbole.com/76854/)  
-
+[git merge 和 git rebase 小结](http://blog.csdn.net/wh_19910525/article/details/7554489)  
 
 ### gitflow使用总结
 #### 为master分支配套一个develop分支
