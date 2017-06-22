@@ -35,6 +35,8 @@ core.quotepath设为false的话，就不会对0x80以上的字符进行quote。�
 > git checkout head readme.txt todo.txt//撤销1、2个文件  
 > git checkout head *.txt //撤销所有的txt文件  
 > git checkout head . //撤销所有文件  
+## 用远程的文件覆盖本地的文件
+> git checkout -- file
 ## 撤销提交
 ### 反转最近一次提交
 > git revert --no-commit head
