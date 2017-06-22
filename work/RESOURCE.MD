@@ -1,3 +1,10 @@
+### 从redis中获取用户信息
+```
+    @Autowired
+    private JedisUserService redisUserService;
+    
+    JedisUser jedisUser = redisUserService.get(ControllerHelper.getMcpToken());
+```
 ### 来驾分页查询模板代码
 #### 使用代码生成器生成的默认findPage方法
 ```
