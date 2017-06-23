@@ -99,6 +99,11 @@ vi 日志文件
 进程处理文件中的记录调用省端接口，常有超时的任务，要统计日志文件中超时任务的数量  
 sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException'|wc -l  
 
+### 设置tomcat自动启动
+[linux教程：[4]配置Tomcat开机启动](http://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html)  
+[Linux下chkconfig命令详解](http://www.cnblogs.com/panjun-Donet/archive/2010/08/10/1796873.html)  
+[服务不支持chkconfig的解决](http://blog.chinaunix.net/uid-10697776-id-3187846.html)  
+
 ### 查看磁盘、目录占用大小
 查看磁盘： df -lh
 
