@@ -1,8 +1,12 @@
 ### 我的行程详情
+#### 效果图
 ![](/images/db/mysql/sql/detail.png)
+#### 接口数据
 ![](/images/db/mysql/sql/interface_data.png)
+#### 表结构
 ![](/images/db/mysql/sql/table1.png)
 在做一个复杂的业务时，可以新建一个Physical Diagram，然后把相关的表复制过来，然后把表加上外键关联，这将非常有助于理解业务数据之间的关系。  
+#### sql语句
 ```
 <select id="myTripDetail" resultType="mb">
          SELECT
@@ -79,7 +83,7 @@
 
 ```
 班车车票表中的班车类型有班车、巴士。班车信息、巴士信息分别存在不同的表中，需要根据不同的类型去不同的表中取数据。这里的处理方式值得借鉴。  
-服务类代码编写  
+#### 服务类代码编写
 ```
 public Result myTripDetail(Long orderId){
 	MapBean data = this.mapper.myTripDetail(orderId);
