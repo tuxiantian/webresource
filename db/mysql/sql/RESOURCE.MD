@@ -78,3 +78,40 @@
     </select>
 
 ```
+服务类代码编写  
+```
+public Result myTripDetail(Long orderId){
+	MapBean data = this.mapper.myTripDetail(orderId);
+	//多张日票的情况
+	if (data.getInt("ticketType")==TicketType.day.getVal()&&data.getInt("ticketNum")>1){
+		List<MapBean> ticketList = busTicketService.myTripDetail(orderId);
+		for (MapBean mapBean:ticketList) {
+			mapBean.put("ticketDate",DateUtil.date2String(mapBean.get("ticketDate"),DateUtil.DATE_PATTERN.MM_YUE_DD_RI));
+		}
+		data.put("ticketList",ticketList);
+	}
+	//单张日票的情况
+	if(data.getInt("ticketType")==TicketType.day.getVal()&&data.getInt("ticketNum")==1){
+		List<MapBean> ticketList =new ArrayList<>();
+		MapBean temp=new MapBean();
+		temp.put("seatNum",data.getString("seatNum"));
+		temp.put("ticketDate",data.getString("ticketDate"));
+		ticketList.add(temp);
+		data.put("ticketList",ticketList);
+	}
+
+	if (data.getInt("ticketType")==TicketType.day.getVal()){//日票
+		data.put("pkgType",0);
+	}else {//套票
+		List<MapBean> ticketList =new ArrayList<>();
+		MapBean temp=new MapBean();
+		String pkgStartDate=DateUtil.date2String(data.get("pkgStartDate"),DateUtil.DATE_PATTERN.YYYY_MM_DD);
+		String pkgEndDate=DateUtil.date2String(data.get("pkgEndDate"),DateUtil.DATE_PATTERN.YYYY_MM_DD);
+		temp.put("ticketDate",String.format("%s-%s",pkgStartDate,pkgEndDate));
+		temp.put("seatNum",data.getString("seatNum"));
+		ticketList.add(temp);
+		data.put("ticketList",ticketList);
+	}
+	return Result.success("查询成功",data);
+}
+```
