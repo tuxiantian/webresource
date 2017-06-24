@@ -7,6 +7,7 @@
 ```
 ### 来驾分页查询模板代码
 #### 使用代码生成器生成的默认findPage方法
+##### 面向web端的服务类代码
 ```
 public McpPageResult queryLockDetailsPage(Integer pageNo,
                                           Integer pageSize,
@@ -20,6 +21,18 @@ public McpPageResult queryLockDetailsPage(Integer pageNo,
         List<Lock> result = page.getResult();
 
         return McpPageResult.success("查询成功",ParkingSpaceLockTrans.trans(result),pageNo,pageSize,page.getTotalPages(),page.getTotalCount());
+}
+```
+##### 面向APP端的服务类代码
+```
+public Result myList(String userId, Integer pageNo) {
+	MapBean params=new MapBean("userId",userId);
+	Page<MapBean> page= ControllerHelper.getPage();
+	page.setPageNo(pageNo);
+	page.setPageSize(10);
+	page=this.findPageSqlName("findUserHistoryBusTripPage",page,params);
+	MapBean data=new MapBean("tripList",page.getResult(),"pageNo", page.getPageNo(), "pageCount", page.getTotalPages());
+	return Result.success("查询成功",data);
 }
 ```
 #### 自定义分页代码示例
