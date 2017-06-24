@@ -2,6 +2,7 @@
 ![](/images/db/mysql/sql/detail.png)
 ![](/images/db/mysql/sql/interface_data.png)
 ![](/images/db/mysql/sql/table1.png)
+在做一个复杂的业务时，可以新建一个Physical Diagram，然后把相关的表复制过来，然后把表加上外键关联，这将非常有助于理解业务数据之间的关系。  
 ```
 <select id="myTripDetail" resultType="mb">
          SELECT
