@@ -7,7 +7,6 @@
 ```
 ### 来驾分页查询模板代码
 #### 使用代码生成器生成的默认findPage方法
-##### 面向web端的服务类代码
 ```
 public McpPageResult queryLockDetailsPage(Integer pageNo,
                                           Integer pageSize,
@@ -23,18 +22,7 @@ public McpPageResult queryLockDetailsPage(Integer pageNo,
         return McpPageResult.success("查询成功",ParkingSpaceLockTrans.trans(result),pageNo,pageSize,page.getTotalPages(),page.getTotalCount());
 }
 ```
-##### 面向APP端的服务类代码
-```
-public Result myList(String userId, Integer pageNo) {
-	MapBean params=new MapBean("userId",userId);
-	Page<MapBean> page= ControllerHelper.getPage();
-	page.setPageNo(pageNo);
-	page.setPageSize(10);
-	page=this.findPageSqlName("findUserHistoryBusTripPage",page,params);
-	MapBean data=new MapBean("tripList",page.getResult(),"pageNo", page.getPageNo(), "pageCount", page.getTotalPages());
-	return Result.success("查询成功",data);
-}
-```
+
 #### 自定义分页代码示例
 CarsMapper.java
 ```
@@ -71,6 +59,8 @@ carsMapper.xml
     </if>
 </select>
 ```
+
+##### 面向web端的服务类代码
 CarsService.java
 ```
 public McpPageResult myCarsPage(Integer pageNo, Integer pageSize, String orgNo){
@@ -93,6 +83,20 @@ public McpPageResult myCarsPage(Integer pageNo, Integer pageSize, String orgNo){
         return McpPageResult.success("查询成功", list, page.getPageNo(), pageSize, page.getTotalPages(), page.getTotalCount());
 }
 ```
+##### 面向APP端的服务类代码
+```
+public Result myList(String userId, Integer pageNo) {
+	MapBean params=new MapBean("userId",userId);
+	Page<MapBean> page= ControllerHelper.getPage();
+	page.setPageNo(pageNo);
+	page.setPageSize(10);
+	page=this.findPageSqlName("findUserHistoryBusTripPage",page,params);
+	MapBean data=new MapBean("tripList",page.getResult(),"pageNo", page.getPageNo(), "pageCount", page.getTotalPages());
+	return Result.success("查询成功",data);
+}
+```
+
+
 ### 统一维护配置系统错误返回码
 系统错误返回码使用4位数字字符串表示，前两位表示系统模块编码，后两位表示模块下分类错误编码  
 接口正确返回码因为频繁使用，使用0来表示  
