@@ -123,13 +123,13 @@ public Result myTripDetail(Long orderId){
 
 ### 营收统计
 效果图如下
-![](/images/db/mysql/sql/income.png)
+![](/images/db/mysql/sql/income.png)  
 接口
-![](/images/db/mysql/sql/income_interface.png)
+![](/images/db/mysql/sql/income_interface.png)  
 表结构如下
-![](/images/db/mysql/sql/bus_order.png)
+![](/images/db/mysql/sql/bus_order.png)  
 sql语句如下
-``
+```
 <select id="incomeStatistics" resultType="mb">
     SELECT SUM(CASE  WHEN bt.bus_type=1 AND o.pay_type=1 THEN o.pay_fee ELSE 0 END) rbAliFee,
     SUM(CASE  WHEN bt.bus_type=1 AND o.pay_type=2 THEN o.pay_fee ELSE 0 END) rbWxFee,
