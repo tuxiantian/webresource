@@ -120,3 +120,32 @@ public Result myTripDetail(Long orderId){
 	return Result.success("查询成功",data);
 }
 ```
+
+### 营收统计
+效果图如下
+![](/images/db/mysql/sql/income.png)
+接口
+![](/images/db/mysql/sql/income_interface.png)
+表结构如下
+![](/images/db/mysql/sql/bus_order.png)
+sql语句如下
+``
+<select id="incomeStatistics" resultType="mb">
+    SELECT SUM(CASE  WHEN bt.bus_type=1 AND o.pay_type=1 THEN o.pay_fee ELSE 0 END) rbAliFee,
+    SUM(CASE  WHEN bt.bus_type=1 AND o.pay_type=2 THEN o.pay_fee ELSE 0 END) rbWxFee,
+    SUM(CASE  WHEN bt.bus_type=1 AND (o.pay_type=1 OR o.pay_type=2)  THEN o.pay_fee ELSE 0 END) rbSumFee,
+    SUM(CASE  WHEN bt.bus_type=2 AND o.pay_type=1 THEN o.pay_fee ELSE 0 END) bAliFee,
+    SUM(CASE  WHEN bt.bus_type=2 AND o.pay_type=2 THEN o.pay_fee ELSE 0 END) bWxFee,
+    SUM(CASE  WHEN bt.bus_type=2 AND (o.pay_type=1 OR o.pay_type=2) THEN o.pay_fee ELSE 0 END) bSumFee,
+    SUM(CASE o.pay_type WHEN 1 THEN o.pay_fee WHEN 2 THEN o.pay_fee ELSE 0 END) sumFee FROM t_bus_order o
+    INNER JOIN (SELECT order_id,bus_type FROM  t_bus_ticket GROUP BY  order_id,bus_type) bt ON o.order_id=bt.order_id
+    WHERE o.center_id=#{centerId} AND o.pay_status=1
+    <if test="startDate !=null and startDate !=''">
+        AND o.pay_time <![CDATA[ >= ]]> #{startDate}
+    </if>
+    <if test="endDate !=null and endDate !=''">
+        AND o.pay_time <![CDATA[ <= ]]> #{endDate}
+    </if>
+
+</select>
+```
