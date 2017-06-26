@@ -67,7 +67,7 @@ public McpPageResult myCarsPage(Integer pageNo, Integer pageSize, String orgNo){
         if (pageNo == null || pageNo < 1) {
             return McpPageResult.fail(ERR_PARA_ERROR, null);
         }
-        MapBean params = new MapBean("orgNo", org.apache.commons.lang3.StringUtils.isBlank(orgNo) ? null : orgNo);
+        MapBean params = new MapBean("keyword", org.apache.commons.lang3.StringUtils.isBlank(keyword) ? null : keyword);
         Page<MapBean> page = ControllerHelper.getPage();
         page.setPageNo(pageNo);
         page.setPageSize(pageSize);
@@ -75,8 +75,7 @@ public McpPageResult myCarsPage(Integer pageNo, Integer pageSize, String orgNo){
 
         List<MapBean> list = page.getResult();
         if (page.getTotalCount()>0){
-            for (MapBean mapBean:list
-                 ) {
+            for (MapBean mapBean:list) {
                 mapBean.put("statusDesc",CarStatus.convert(mapBean.getInt("status")));
             }
         }
