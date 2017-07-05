@@ -140,6 +140,19 @@ public Set<String> getDistinctTags() {
 ```
 棒极了！flatmap 帮我把标签列表转为一个返回流，然后我们使用 collect 去创建一个集合作为返回值。
 
+理解flatmap
+```
+Map<String, List<Integer>> map = new LinkedHashMap<>();
+map.put("a", Arrays.asList(1, 2, 3));
+map.put("b", Arrays.asList(4, 5, 6));
+List<Integer> allValues = map.values() // Collection<List<Integer>>
+        .stream()                      // Stream<List<Integer>>
+        .flatMap(List::stream)         // Stream<Integer>
+        .collect(Collectors.toList());
+System.out.println(allValues);
+// [1, 2, 3, 4, 5, 6]
+```
+
 Stream综合示例
 ```
 class User
