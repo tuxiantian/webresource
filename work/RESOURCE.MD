@@ -23,6 +23,94 @@ public McpPageResult queryLockDetailsPage(Integer pageNo,
 }
 ```
 
+#### 使用框架的分页方法
+使用框架默认的分页，带有扩展属性的写法
+```
+@ResponseBody
+@RequestMapping(value = "page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+public McpPageResult page(String keyword, Integer modelId, Integer centerId) {
+    if (centerId == null){
+        JedisUser jedisUser = redisUserService.get(ControllerHelper.getMcpToken());
+        centerId = jedisUser.getCenterId();
+    }
+    if (centerId == 0){
+        centerId = null;
+    }
+    Page<Car> page = ControllerHelper.getPage();
+    return carService.findMcpPage(page, new MapBean("keyword", keyword, "modelId", modelId,
+            "centerId", centerId), new DefaultTransform());
+}
+```
+使用默认的转换器
+```
+public class DefaultTransform<T extends AbsBaseEntity> implements Transform<T> {
+
+    @Override
+    public MapBean trans(T entity) {
+        MapBean bean = BeanMapper.toMapBean(entity, "extend", "id");
+        bean.putAll(entity.getExtend());
+        return bean;
+    }
+
+}
+```
+将分公司名称等扩展属性放入extend
+```
+<resultMap id="entityMap" type="com.pony.biz.car.entity.Car">
+        <id property="carId" column="car_id"></id>
+        <result property="lpn" column="lpn"></result>
+        <result property="vin" column="vin"></result>
+        <result property="engineNum" column="engine_num"></result>
+        <result property="color" column="color"></result>
+        <result property="modelId" column="model_id"></result>
+        <result property="buyDate" column="buy_date"></result>
+        <result property="centerId" column="center_id"></result>
+        <result property="deviceId" column="device_id"></result>
+        <result property="rentalStatus" column="rental_status"></result>
+        <result property="status" column="status"></result>
+        <result property="postOperator" column="post_operator"></result>
+        <result property="postTime" column="post_time"></result>
+        <result property="remark" column="remark"></result>
+        <result property="annuallyId" column="annually_id"></result>
+        <result property="commInsuId" column="comm_insu_id"></result>
+        <result property="compInsuId" column="comp_insu_id"></result>
+        <result property="vehiclePic" column="vehicle_pic"></result>
+        <result property="illegalUpdateTime" column="illegal_update_time"></result>
+        <result property="lastQueryTime" column="last_query_time"></result>
+        <result property="offlineSn" column="offline_sn"></result>
+        <result property="extend.modelName" column="model_name"></result>
+        <result property="extend.centerName" column="center_name"></result>
+</resultMap>
+
+<sql id="selectHead">
+        SELECT
+                t.car_id,
+                t.lpn,
+                t.vin,
+                t.engine_num,
+                t.color,
+                t.model_id,
+        (SELECT model_name FROM t_car_model a WHERE a.model_id=t.model_id) AS model_name,
+                t.buy_date,
+                t.center_id,
+        (SELECT center_name FROM t_center a WHERE a.center_id=t.center_id) AS center_name,
+                t.device_id,
+                t.rental_status,
+                t.status,
+                t.post_operator,
+                t.post_time,
+                t.remark,
+                t.annually_id,
+                t.comm_insu_id,
+                t.comp_insu_id,
+                t.vehicle_pic,
+                t.illegal_update_time,
+                t.last_query_time,
+                t.offline_sn
+        FROM t_car t
+        WHERE 1=1
+    </sql>
+```
 #### 自定义分页代码示例
 CarsMapper.java
 ```
