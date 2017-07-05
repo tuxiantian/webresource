@@ -219,3 +219,27 @@ public class HelloWorld
     }
 }
 ```
+
+工作示例  
+使用for
+```
+List<MapBean> data = this.mapper.incomeStatistics(params);
+List<MapBean> yesterdayData = this.mapper.yesterdayIncomeStatistics(params);
+for (MapBean bean:data) {
+    for (MapBean beanYesterday:yesterdayData) {
+        if (bean.get("centerId").equals(beanYesterday.get("centerId"))){
+            bean.put("increaseRate",calculateIncreaseRate(beanYesterday.getDouble("sumFee"),bean.getDouble("sumFee")));
+        }
+    }
+}
+```
+使用stream
+```
+List<MapBean> data = this.mapper.incomeStatistics(params);
+		List<MapBean> yesterdayData = this.mapper.yesterdayIncomeStatistics(params);
+		for (MapBean bean:data)
+            yesterdayData.stream().filter(beanYesterday -> bean.get("centerId").equals(beanYesterday.get("centerId"))).
+                    forEachOrdered(beanYesterday -> {
+                        bean.put("increaseRate", calculateIncreaseRate(beanYesterday.getDouble("sumFee"), bean.getDouble("sumFee")));
+                    });
+```
