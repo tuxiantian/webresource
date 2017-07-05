@@ -153,6 +153,23 @@ System.out.println(allValues);
 // [1, 2, 3, 4, 5, 6]
 ```
 
+```
+List<Map<String, String>> list = new ArrayList<>();
+Map<String,String> map1 = new HashMap();
+map1.put("1", "one");
+map1.put("2", "two");
+Map<String,String> map2 = new HashMap();
+map2.put("3", "three");
+map2.put("4", "four");
+list.add(map1);
+list.add(map2);
+Set<String> output= list.stream()  //  Stream<Map<String, String>>
+    .map(Map::values)              // Stream<List<String>>
+    .flatMap(Collection::stream)   // Stream<String>
+    .collect(Collectors.toSet());  //Set<String>
+[one, two, three,four]
+```
+
 Stream综合示例
 ```
 class User
