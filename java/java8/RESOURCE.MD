@@ -139,3 +139,83 @@ public Set<String> getDistinctTags() {
 }
 ```
 棒极了！flatmap 帮我把标签列表转为一个返回流，然后我们使用 collect 去创建一个集合作为返回值。
+
+Stream综合示例
+```
+class User
+{
+    private String userID;
+    private boolean isVip;
+    private int balance;
+
+    public User(String userID, boolean isVip, int balance)
+    {
+        this.userID = userID;
+        this.isVip = isVip;
+        this.balance = balance;
+    }
+
+    public boolean isVip()
+    {
+        return this.isVip;
+    }
+
+    public String getUserID()
+    {
+        return this.userID;
+    }
+
+    public int getBalance()
+    {
+        return this.balance;
+    }
+}
+
+public class HelloWorld
+{    
+    public static void main(String[] args)
+    {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User("2017001", false, 0));
+        users.add(new User("2017002", true, 36));
+        users.add(new User("2017003", false, 98));
+        users.add(new User("2017004", false, 233));
+        users.add(new User("2017005", true, 68));
+        users.add(new User("2017006", true, 599));
+        users.add(new User("2017007", true, 1023));
+        users.add(new User("2017008", false, 9));
+        users.add(new User("2017009", false, 66));
+        users.add(new User("2017010", false, 88));
+
+        //普通实现方式
+        ArrayList<User> tempArray = new ArrayList<>();
+        ArrayList<String> idArray = new ArrayList<>(3);
+        for (User user: users)
+        {
+            if (user.isVip())
+            {
+                tempArray.add(user);
+            }
+        }
+        tempArray.sort(new Comparator<User>(){
+            public int compare(User o1, User o2) {
+                return o2.getBalance() - o1.getBalance();
+            }
+        });
+        for (int i = 0; i < 3; i++)
+        {
+            idArray.add(tempArray.get(i).getUserID());
+        }
+        for (int i = 0; i < idArray.size(); i++)
+        {
+            System.out.println(idArray.get(i));
+        }
+
+        //Stream API实现方式
+        //也可以使用parallelStream方法获取一个并发的stream，提高计算效率
+        Stream<User> stream = users.stream();
+        List<String> array = stream.filter(User::isVip).sorted((t1, t2) -> t2.getBalance() - t1.getBalance()).limit(3).map(User::getUserID).collect(Collectors.toList());
+        array.forEach(System.out::println);
+    }
+}
+```
