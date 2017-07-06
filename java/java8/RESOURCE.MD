@@ -140,7 +140,7 @@ public Set<String> getDistinctTags() {
 ```
 棒极了！flatmap 帮我把标签列表转为一个返回流，然后我们使用 collect 去创建一个集合作为返回值。
 
-理解flatmap
+## 理解flatmap
 ```
 Map<String, List<Integer>> map = new LinkedHashMap<>();
 map.put("a", Arrays.asList(1, 2, 3));
@@ -170,7 +170,7 @@ Set<String> output= list.stream()  //  Stream<Map<String, String>>
 [one, two, three,four]
 ```
 
-Stream综合示例
+## Stream综合示例
 ```
 class User
 {
@@ -250,7 +250,7 @@ public class HelloWorld
 }
 ```
 
-工作示例  
+## 工作示例  
 使用for
 ```
 List<MapBean> data = this.mapper.incomeStatistics(params);
@@ -266,10 +266,10 @@ for (MapBean bean:data) {
 使用stream
 ```
 List<MapBean> data = this.mapper.incomeStatistics(params);
-		List<MapBean> yesterdayData = this.mapper.yesterdayIncomeStatistics(params);
-		for (MapBean bean:data)
-            yesterdayData.stream().filter(beanYesterday -> bean.get("centerId").equals(beanYesterday.get("centerId"))).
-                    forEachOrdered(beanYesterday -> {
-                        bean.put("increaseRate", calculateIncreaseRate(beanYesterday.getDouble("sumFee"), bean.getDouble("sumFee")));
-                    });
+List<MapBean> yesterdayData = this.mapper.yesterdayIncomeStatistics(params);
+for (MapBean bean:data)
+    yesterdayData.stream().filter(beanYesterday -> bean.get("centerId").equals(beanYesterday.get("centerId"))).
+            forEachOrdered(beanYesterday -> {
+                bean.put("increaseRate", calculateIncreaseRate(beanYesterday.getDouble("sumFee"), bean.getDouble("sumFee")));
+            });
 ```
