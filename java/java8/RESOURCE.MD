@@ -250,7 +250,7 @@ public class HelloWorld
 }
 ```
 
-## 工作示例  
+## 工作示例1  
 使用for
 ```
 List<MapBean> data = this.mapper.incomeStatistics(params);
@@ -272,4 +272,22 @@ for (MapBean bean:data)
             forEachOrdered(beanYesterday -> {
                 bean.put("increaseRate", calculateIncreaseRate(beanYesterday.getDouble("sumFee"), bean.getDouble("sumFee")));
             });
+```
+## 工作示例2  
+```
+@ResponseBody
+@RequestMapping(value = "page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+public McpPageResult queryRegionParkPage(@RequestParam("pageNo") Integer pageNo,
+                                        @RequestParam("pageSize") Integer pageSize,
+                                        String regionId,String areaCode) {
+    JedisUser jedisUser = redisUserService.get(ControllerHelper.getMcpToken());
+    List<String> areaCodeList=new ArrayList<>();
+    if (areaCode==null){
+        List<OrgProduct> orgProductList = orgProductService.findByOrgNo(jedisUser.getOrgNo());
+        areaCodeList.addAll(orgProductList.stream().map(OrgProduct::getAreaCode).collect(Collectors.toList()));
+    }else {
+        areaCodeList.add(areaCode);
+    }
+    return runCityRegionParkService.queryRegionParkPage(pageNo, pageSize, regionId,areaCodeList);
+}
 ```
