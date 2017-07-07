@@ -150,3 +150,31 @@ public Result myTripDetail(Long orderId){
 
 </select>
 ```
+
+### EXISTS
+ORGNO表示组织结构代码，总部是10，大区、市级服务商、县级服务商、商户每级是四位数字代码。  
+AND T.ORGNO LIKE CONCAT(#{parentOrgNo},'____') 表示只看直属下级的信息，"'____'"是四位下划线  
+根据输入参数的不同使用不同的关联查询条件，使用EXISTS
+
+```
+<sql id="selectHead">
+    SELECT
+      T.ORGNO,
+      T.ORGNAME
+    FROM T_ORGANIZATION T
+    WHERE 1=1
+</sql>
+<sql id="condition">
+
+    <if test="parentOrgNo != null">
+        AND T.ORGNO LIKE CONCAT(#{parentOrgNo},'____')
+    </if>
+    <if test="areaCode != null">
+        AND EXISTS (SELECT 1 FROM t_org_product OP WHERE OP.`ORGNO`=T.`ORGNO` AND OP.`AREACODE`=#{areaCode})
+    </if>
+    <if test="productId != null">
+        AND EXISTS (SELECT 1 FROM t_org_product OP WHERE OP.`ORGNO`=T.`ORGNO` AND OP.`PRODUCTID`=#{productId})
+    </if>
+
+</sql>
+```
