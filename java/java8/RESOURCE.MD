@@ -1,4 +1,5 @@
 [Stream使用手册](https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
+[传统 for 循环的函数式替代方案](https://www.ibm.com/developerworks/cn/java/j-java8idioms3/index.html)
 
 在Java 8的新功能特性中，最棒的特性就是允许我们去表达我们想要完成什么而不是要怎样做。这正是循环的不足之处。要确保循环的灵活性是需要付出代价的。  
 return、break 或者 continue都会显著地改变循环的实际表现。这迫使我们不仅要清楚我们要实现怎样的代码，还要了解循环是怎样工作的。  
