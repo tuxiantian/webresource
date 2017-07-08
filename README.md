@@ -7,6 +7,7 @@ useful website collections
 [掘金](https://juejin.im/timeline)  
 [importnew](http://www.importnew.com/)  
 [简书](http://www.jianshu.com/)  
+[查找开发人员所需的教程、工具和社区](https://www.ibm.com/developerworks/cn/)  
 [bootstrap](http://www.bootcss.com/)  
 adminlte  
 * [官网示例](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html#)  
