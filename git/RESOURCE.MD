@@ -92,7 +92,7 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 ### gitflow使用总结
 #### 为master分支配套一个develop分支
 git branch develop master  
-git push -u origin develop  
+git push -u origin develop `git version 1.7.1 : git push --set-upstream origin develop`  
 #### 切换到develop分支
 git clone ssh://user@host/path/to/repo.git  
 git checkout -b develop origin/develop  
