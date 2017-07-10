@@ -70,10 +70,10 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 ## 查看远程仓库的地址
 > git remote -v
 ## 更改仓库远程地址
-> git version 1.7.1
-> git remote set-url --delete origin git@github.com:tuxiantian/mongodb.git
-> git remote set-url --add origin  git@192.168.0.254:server/mongodb.git
-> git push --set-upstream origin develop
+> git version 1.7.1  
+> git remote set-url --delete origin git@github.com:tuxiantian/mongodb.git  
+> git remote set-url --add origin  git@192.168.0.254:server/mongodb.git  
+> git push --set-upstream origin develop  
 ## 合并另一个分支的指定文件
 > git checkout <branch> -- <file>
 ## 查看当前所处分支
