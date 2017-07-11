@@ -57,8 +57,36 @@ log4j.appender.logfile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} [%t]
 </listener>
 ```
 ### java使用示例
+#### BaseTest
 ```
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-private static final Logger logger =LoggerFactory.getLogger(DeviceDataControler.class);
+
+@RunWith(SpringJUnit4ClassRunner.class)  //使用junit4进行测试
+@ContextConfiguration({"classpath*:/spring/applicationContext*.xml"}) //加载配置文件
+@Transactional
+public class BaseTest {
+
+    protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+}
 ```
+#### TestCase
+```
+
+public class DdtcServiceTest extends BaseTest{
+
+    @Autowired
+    private DdtcService ddtcService;
+
+    @Test
+    @Rollback(false)//测试完成时不回滚事务
+    public void queryAccessToken(){
+        logger.info("queryAccessToken:{}",ddtcService.queryAccessToken());
+
+    }
+
+}
+```
+### idea查看日志技巧
+Use Soft Wraps
+![](/images/java/idea_view_log.png)
