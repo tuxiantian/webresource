@@ -1,5 +1,6 @@
+### log4j日志级别
 log4j常见日志级别为：debug < info < warn < error < fatal
---------------------------------------------------------------------------------------
+
 ### log4j的常用配置
 ```
 log4j.rootLogger=debug,stdout,logfile
