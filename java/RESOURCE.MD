@@ -54,6 +54,22 @@ while (entries.hasNext()) {
     System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 }
 ```
+
+### 以,连接集合中的元素的写法
+```
+String productNames = "";
+String areaCode = "";
+if (productList != null && productList.size() > 0) {
+	for (MapBean productBean : productList) {
+		if (StringUtils.isBlank(productNames)) {
+			productNames = productBean.getString("productName");
+		} else {
+			productNames = productNames + "," + productBean.getString("productName");
+		}
+	}
+	areaCode = productList.get(0).getString("areaCode");
+}
+```
 ### 静态代理和动态代理
 ```
 /**
