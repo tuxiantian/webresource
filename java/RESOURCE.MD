@@ -70,6 +70,11 @@ if (productList != null && productList.size() > 0) {
 	areaCode = productList.get(0).getString("areaCode");
 }
 ```
+
+```
+List<String> productNameList= productList.stream().map(productBean -> productBean.getString("productName")).collect(Collectors.toList());
+StringUtils.join(productNameList,',');
+```
 ### 静态代理和动态代理
 ```
 /**
