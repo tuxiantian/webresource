@@ -32,7 +32,7 @@ git rm  -r -n --cached   */bin/\*  (注意：此命令会真正删除文件，�
 在你执行 “git status”查看当前状态，会发现 gen和bin文件夹下的文件会出现，提示没有在版本管理里面
 这就很烦人，我们既想把gen和bin移除版本管理库，
 但是这样的提示，会耽误我们的“git add”命令，也会干扰我们使用“git status”的结果列表
-我们想忽略这俩文件夹，
+我们想忽略这俩文件夹。
 
 我参考了下面的连接
 http://stackoverflow.com/questions/3325736/eclipse-android-and-gitignore
