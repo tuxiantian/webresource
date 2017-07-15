@@ -8,7 +8,7 @@ gen  和bin  文件夹下的文件是编译生成的，最好不要加到版本�
 
 //下面就以删除bin文件夹为例子，删除gen等文件，也是一样的道理，以此类推  
 1.刚开始 使用的是 git rm -r -n */gengen”)  
-参数解释：
+参数解释：  
 -r  递归移除目录，(Allow recursive removal when a leading directory name is given.)  
 -n：加上这个参数，执行命令时，是不会删除任何文件，而是展示此命令要删除的文件列表预览，所以一般用这个参数先看看要删除哪些文件，防止误删，确认之后，就去掉此参数，真正的删除文件。  （Don't actually remove any file(s). Instead, just show if they exist in the index and would otherwise be removed by the command.）
 
