@@ -40,7 +40,13 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 > git checkout head *.txt //撤销所有的txt文件  
 > git checkout head . //撤销所有文件  
 ## 用远程的文件覆盖本地的文件
-> git checkout -- file
+```
+git checkout -- file
+```
+## 合并另一个分支的指定文件
+```
+git checkout <branchbranch> -- <file>
+```
 ## 撤销提交
 ### 反转最近一次提交
 > git revert --no-commit head
@@ -74,8 +80,6 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 > git remote set-url --delete origin git@github.com:tuxiantian/mongodb.git  
 > git remote set-url --add origin  git@192.168.0.254:server/mongodb.git  
 > git push --set-upstream origin develop  
-## 合并另一个分支的指定文件
-> git checkout <branch> -- <file>
 ## 查看当前所处分支
 > git branch
 ## 查看所有分支
