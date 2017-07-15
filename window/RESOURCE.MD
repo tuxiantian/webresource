@@ -4,6 +4,7 @@
 结束端口的占用进程taskkill /f /t /im svchost.exe 。
 
 我的桌面路径 C:\Users\Administrator\Desktop
+qq文件下载目录 C:\Users\tuxt\Documents\Tencent Files\791978859\FileRecv
 
 [批量修改文件的后缀名](http://jingyan.baidu.com/article/e9fb46e196ea187521f7661a.html)  
 ren *.txt *.MD
