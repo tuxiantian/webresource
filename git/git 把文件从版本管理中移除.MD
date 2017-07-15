@@ -6,7 +6,7 @@ gen  和bin  文件夹下的文件是编译生成的，最好不要加到版本�
 可是，我已经加入到了版本管理中，怎么办？  
 一般来说，使用“git rm”命令  
 
-1.刚开始使用的是 git rm -r -n */bin  
+1. 刚开始使用的是 git rm -r -n */bin  
 参数解释：  
 -r  递归移除目录，(Allow recursive removal when a leading directory name is given.)  
 -n：加上这个参数，执行命令时，是不会删除任何文件，而是展示此命令要删除的文件列表预览，所以一般用这个参数先看看要删除哪些文件，防止误删，确认之后，就去掉此参数，真正的删除文件。  （Don't actually remove any file(s). Instead, just show if they exist in the index and would otherwise be removed by the command.）
@@ -17,7 +17,7 @@ gen  和bin  文件夹下的文件是编译生成的，最好不要加到版本�
 
 > 我们想把文件从 Git 仓库中删除(亦即从暂存区域移除),但仍然希 望保留在当前工作目录中。换句话说,仅是从跟踪清单中删除。比如一些大型日志文件或者 一堆 .a 编译文件,不小心纳入仓库后,要移除跟踪但不删除文件,以便稍后在 .gitignore 文件中补上,用 --cached 选项即可:
 
-2.按照上面的引用，我修改的命令如下：  
+2. 按照上面的引用，我修改的命令如下：  
 ```
 git rm  -r -n --cached   */bin  
 git rm *~  (只删除当前目录下以“~”结尾的文件)  
@@ -27,12 +27,11 @@ git rm \*~ （会递归的删除当前目录 以及 子目录下的以“~”结
 
 git rm  -r -n --cached   */bin/\*  (注意：此命令会真正删除文件，你可以加上"-n"参数 查看文件列表)
 
-3.删除gen文件夹 只要把上面的“bin”改为“gen”即可
-4.把这俩文件夹移除版本管理，但是 又有问题了，就是
+3. 删除gen文件夹 只要把上面的“bin”改为“gen”即可
+4. 把这俩文件夹移除版本管理，但是 又有问题了，就是
 在你执行 “git status”查看当前状态，会发现 gen和bin文件夹下的文件会出现，提示没有在版本管理里面
 这就很烦人，我们既想把gen和bin移除版本管理库，
-但是这样的提示，会耽误我们的“git add”命令，也会干扰我们使用“git status”的结果列表
-我们想忽略这俩文件夹。
+但是这样的提示，会耽误我们的“git add”命令，也会干扰我们使用“git status”的结果列表，我们想忽略这俩文件夹。
 
 我参考了下面的连接
 http://stackoverflow.com/questions/3325736/eclipse-android-and-gitignore
