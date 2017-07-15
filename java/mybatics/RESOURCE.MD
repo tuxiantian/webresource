@@ -4,10 +4,10 @@
 ```
 <choose>
 	<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='0'.toString()">
-				and SERVICE_PASSWORD_VERIFY in ('0','1','2')
+            and SERVICE_PASSWORD_VERIFY in ('0','1','2')
 	</when>
 	<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='1'.toString()">
-				and SERVICE_PASSWORD_VERIFY ='0'
+            and SERVICE_PASSWORD_VERIFY ='0'
 	</when>
 	<otherwise></otherwise>
 </choose>
