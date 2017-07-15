@@ -13,10 +13,11 @@ Aborting
 1）直接commit本地的修改
 
 2）通过git stash
-
+```
 git stash  
 git pull  
 git stash pop  
+```
 通过git stash将工作区恢复到上次提交的内容，同时备份本地所做的修改，之后就可以正常git pull了，git pull完成后，执行git stash pop将之前本地做的修改应用到当前工作区。
 
 git stash: 备份当前的工作区的内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前的工作区内容保存到Git栈中。
