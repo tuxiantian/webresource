@@ -245,7 +245,16 @@ date_sub日期减法操作
          ]]>
 	</select>	
 ```
---------------------------------------------------------------------------------------
 ### #{…}与${…}的区别
 MyBatis将 #{…} 解释为JDBC prepared statement 的一个参数标记。而将 ${…} 解释为字符串替换
---------------------------------------------------------------------------------------
+
+###  mybatis中使用Java8的日期LocalDate、LocalDateTime
+[mybatis中使用Java8的日期LocalDate、LocalDateTime](http://blog.csdn.net/mn960mn/article/details/53139216)  
+引入以下jar包即可解决，在mybatis 3.4.0版本及以上版本中测试有效。
+```
+<dependency>  
+    <groupId>org.mybatis</groupId>  
+    <artifactId>mybatis-typehandlers-jsr310</artifactId>  
+    <version>1.0.1</version>  
+</dependency>  
+```
