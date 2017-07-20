@@ -109,7 +109,7 @@ sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException
 
 查看目录占用大小：du -lh
 ### 根据端口号，查找对应的进程  
-netstat -alp | grep  2181  
+netstat -apn | grep  2181  
 ### 根据进程号查看进程信息
 ps aux | grep 3567  
 ### 压缩命令及解压缩命令
