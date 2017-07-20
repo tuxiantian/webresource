@@ -425,3 +425,35 @@ URLDecoder.decode(ssidNames [i], "UTF-8" )
  ```
 [一个springmvc的拦截器使用示例](http://blog.csdn.net/liuwenbo0920/article/details/7283757)  
 
+### Jackson与SpringMVC整合的MessageConverter配置
+maven依赖
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.7.1</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+    <version>2.7.1</version>
+</dependency>
+```
+springmvc-servlet.xml中配置
+```
+<mvc:annotation-driven>
+    <mvc:message-converters>
+        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+            <constructor-arg value="UTF-8"/>
+        </bean>
+    </mvc:message-converters>
+</mvc:annotation-driven>
+```
+注意若要springMvc支持java8的LocalDate和LocalDateTime,需要引入下面的jar
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jsr310</artifactId>
+    <version>2.8.5</version>
+</dependency>
+```
