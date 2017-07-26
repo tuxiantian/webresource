@@ -15,14 +15,20 @@
 > git checkout head readme.txt todo.txt//撤销1、2个文件  
 > git checkout head *.txt //撤销所有的txt文件  
 > git checkout head . //撤销所有文件  
-## 用远程的文件覆盖本地的文件
+## 使用远程仓库的文件
+### 用远程的文件覆盖本地的文件
 ```
 git checkout -- file
 ```
-## 合并另一个分支的指定文件
+### 合并另一个分支的指定文件
 ```
 git checkout <branchbranch> -- <file>
 ```
+## 快速提交
+git add .  
+git commit -m "commit description"  
+上面两个命令可以简写为下面的命令：  
+git commit -a -m "commit description"
 ## 撤销提交
 ### 反转最近一次提交
 > git revert --no-commit head
