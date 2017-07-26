@@ -72,14 +72,15 @@ if (productList != null && productList.size() > 0) {
 ```
 
 ```
+Optional<String> val = productList.stream().map(productBean -> productBean.getString("productName")).reduce((a, b) -> a + "," + b);
+System.out.println(val.get());
+```
+
+```
 List<String> productNameList= productList.stream().map(productBean -> productBean.getString("productName")).collect(Collectors.toList());
 StringUtils.join(productNameList,',');
 ```
 
-```
-Optional<String> val = productList.stream().map(productBean -> productBean.getString("productName")).reduce((a, b) -> a + "," + b);
-System.out.println(val.get());
-```
 ### Java将科学计数法数据转为字符串
 有些项目可能会涉及到从Excel导入数据，但如果Excel里单元格类型为数值，但内容数据太长时（如银行账号），导入时，会默认读取为科学计数法，用以下代码便轻松解决。
 ```
