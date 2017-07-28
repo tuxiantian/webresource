@@ -8,7 +8,7 @@
 ### 2、JDK中提供的不可变集合：真的做到了不可变？
 
 在JDK类库中很多集合(List、Set、Map等)都可以调用Collections类提供的静态方法unmodifiableXXX(…)来得到一个不可修改的视图，例如：
-```
+```java
 // 下面的代码利用Collections.unmodifiableList(list)得到一个不可修改的集合unmodifiableList
 List list = new ArrayList();
 list.add("wyp");
@@ -19,7 +19,7 @@ System.out.println(unmodifiableList);//[wyp, good]
 unmodifiableList.add("add");
 ```
 当unmodifiableList.add(“add”)时，运行代码将会出现以下异常：
-```
+```java
 Exception in thread "main" java.lang.UnsupportedOperationException
 at java.util.Collections$UnmodifiableCollection.add(Collections.java:1018)
 at com.wyp.test.testFiles(test.java:152)
@@ -27,7 +27,7 @@ at com.wyp.test.main(test.java:160)
 ```
 说明如果直接add是不可以的，符合不可变的定义。
 一切看起来很不错，因为调用unmodifiableList.add()会抛出一个java.lang.UnsupportedOperationException。但如果有用户修改了list，会发生什么情况？在上述代码的下面加入以下代码:
-```
+```java
 list.add("add");
 System.out.println(unmodifiableList);
 ```
@@ -47,7 +47,7 @@ ImmutableList immutableList = ImmutableList.of("wyp", "good");
 ```
 * 当你往immutableList 中添加元素，也会抛出java.lang.UnsupportedOperationException异常；
 * 修改原集合后，immutable集合不变：
-```
+```java
 public void testImmutable(){
     ArrayList<String> stringArrayList = Lists.newArrayList("wo","bu","ke","bian");
     ImmutableList<String> immutableList = ImmutableList.copyOf(stringArrayList);
@@ -87,7 +87,7 @@ public void testImmutable(){
 * T orNull() 返回Optional所包含的引用，若引用缺失，返回null
 * Set<T> asSet() 返回Optional所包含引用的单例不可变集，如果引用存在，返回一个只有单一元素的集合，如果引用缺失，返回一个空集合。
 ### 代码示例
-```
+```java
 //A
 public void sayHelloA(String name) {
     if (name == null) {
@@ -113,7 +113,7 @@ public void sayHelloB(String name) {
 > ListenableFuture可以帮我们检测Future是否完成了，如果完成就会自动调用回调函数，这样可以减少并发程序的复杂度。
 
 ### 使用示例
-```
+```java
  public static void main(String[] args) {
     ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
     // 执行任务
@@ -143,7 +143,7 @@ public void sayHelloB(String name) {
 }
 ```
 ## guava list 排序
-```
+```java
 List<RuleDataDto> ruleDataDtoList = defaultToolDataCache.get(activityId);
 
 //存放多个结果然后根据优先级排序(逆序排列)
@@ -158,7 +158,7 @@ ruleDataDtoList = new Ordering<RuleDataDto>() {
 
 如果接口可能会有突发访问情况，但又担心访问量太大造成崩溃，如抢购业务；这个时候就需要限制这个接口的总并发/请求数总请求数了；  
 因为粒度比较细，可以为每个接口都设置相应的阀值。可以使用Java中的AtomicLong进行限流：
-```
+```java
 try{
 
 if(atomic.incrementAndGet() > 限流数) {
@@ -180,14 +180,14 @@ atomic.decrementAndGet();
 ## 平滑限流某个接口的请求数
 > 聊聊高并发系统限流特技-1 http://www.jianshu.com/p/0d7ca597ebd2  
 `令牌桶算法` `漏桶算法`
-```
+```java
 RateLimiter limiter = RateLimiter.create(5);
 limiter.acquire();
 ```
 1、RateLimiter.create(5)表示桶容量为5且每秒新增5个令牌，即每隔200毫秒新增一个令牌；  
 2、limiter.acquire()表示消费一个令牌，如果当前桶中有足够令牌则成功（返回值为0），如果桶中没有令牌则暂停一段时间，比如发令牌间隔是200毫秒，则等待200毫秒后再去消费令牌，这种实现将突发请求速率平均为了固定请求速率。
 ## 集合数据分组
-```
+```java
 public static void main(String[] args) {
 		Person p1 = new Person("a", 10, "男", "china");
         Person p2 = new Person("b", 11, "女", "japan");
@@ -218,7 +218,7 @@ public static void main(String[] args) {
 }
 ```
 ## Joiner
-```
+```java
 //use java
 List<String> list = new ArrayList<String>();
 list.add("aa");
@@ -240,7 +240,7 @@ String result = Joiner.on("-").join(list2);
 System.out.println(result);
 ```
 ## Splitter
-```
+```java
 //use java
 List<String> list = new ArrayList<String>();
 String a = "1-2-3-4-5-6";

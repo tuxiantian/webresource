@@ -1,7 +1,7 @@
 ## 非自增主键的保存更新问题
 ![](/images/work/question1.png)  
 表结构信息如下
-```
+```sql
 CREATE TABLE `t_busline_map_data` (
   `line_id` int(10) unsigned NOT NULL COMMENT '线路id',
   `map_data` varchar(20000) DEFAULT NULL COMMENT '地图数据',

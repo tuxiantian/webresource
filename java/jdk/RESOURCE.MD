@@ -1,6 +1,6 @@
 ### 为什么1000 == 1000返回为False，而100 == 100会返回为True?
 如果你运行如下代码：
-```
+```java
 Integer a = 1000, b = 1000; 
 System.out.println(a == b);//1
 Integer c = 100, d = 100; 
@@ -21,7 +21,7 @@ Integer c = 100;
 Integer i = Integer.valueOf(100);
 
 如果我们观察valueOf()类函数，我们可以看到
- ```
+ ```java
  public static Integer valueOf(int i) {
         assert IntegerCache.high >= 127;
         if (i >= IntegerCache.low && i <= IntegerCache.high)

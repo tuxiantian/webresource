@@ -1,5 +1,5 @@
 ### spring-task
-```
+```xml
 <task:scheduled-tasks>  
     <task:scheduled ref="voiceFileClearJob" method="execute" initial-delay="5000" fixed-delay="3600000"/>  
     <task:scheduled ref="versionListenJob" method="execute" initial-delay="5000" fixed-delay="5000"/>  
@@ -12,7 +12,7 @@
 
 spring-task的周期执行任务，若下一个周期到来，而上一个周期的任务没有完成，那么任务不会再次执行直到上一个周期的任务执行完成。  
 测试代码如下：
-```
+```java
 <bean id="springTaskTest" class="com.laijia.biz.task.SpringTaskTest"/>
 <task:scheduled-tasks>
         <task:scheduled ref="springTaskTest" method="testTask" cron="0/10 * * * * ?"/>
@@ -148,7 +148,7 @@ Spring 支持两种类型的事务管理：
 声明式事务管理  
 #### spring编程事务示例
 
-```
+```java
 @Transactional(rollbackFor = Exception.class)
 public int method(Object obj) {
     try {
@@ -176,7 +176,7 @@ spring命名空间：context、beans、jdbc、tx、aop
 ### spring mvc异常统一处理
 [spring mvc异常统一处理（ControllerAdvice注解）](https://my.oschina.net/gef/blog/713722)
 ### spring mvc 静态资源
-```
+```xml
 <mvc:resources location="/WEB-INF/resources/**" mapping="/resources/**" />
 ```
 
@@ -191,7 +191,7 @@ SpringMVC 处理请求过程：
 6. 视图对象负责渲染返回给客户端
 
 web.xml中springmvc的启动配置
-```
+```xml
 <servlet>
       <servlet-name>springmvc</servlet-name>
       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -211,7 +211,7 @@ web.xml中springmvc的启动配置
 <url-pattern>/*</url-pattern>：会匹配所有的url
 ```
 <!-- 监听spring上下文容器 -->
- ```
+ ```xml
 <listener>
      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
  </listener>
@@ -221,7 +221,7 @@ web.xml中springmvc的启动配置
 </context-param>
 ```
 视图名称解析器和文件上传解析器
-```
+```xml
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
             id="internalResourceViewResolver">
         <!-- 前缀 -->
@@ -248,7 +248,7 @@ JAX-RS常用注解：
 @QueryParam来自于URL的查询参数  
 @HeaderParam来自于HTTP请求的头信息  
 @CookieParam来自于HTTP请求的Cookie  
-```
+```java
 @GET
 @Path("/books/{id}/")
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -265,7 +265,7 @@ public void createUser(@FormParam("loginID") String loginID, @FormParam("name") 
 Jersey RESTful 框架是开源的RESTful框架
 ```
 --------------------------------------------------------------------------------------
-```
+```xml
 @RestController 返回的 json 不包含值为 null 的字段
 <mvc:annotation-driven>
 	<mvc:message-converters>
@@ -281,7 +281,7 @@ Jersey RESTful 框架是开源的RESTful框架
 ```
 --------------------------------------------------------------------------------------
 ### springmvc文件上传配置
-```
+```xml
 <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           p:defaultEncoding="UTF-8"
@@ -295,7 +295,7 @@ Spring提供了以下四种集合类的配置元素：
 `<set>` :    该标签用来装配没有重复的set值  
 `<map>`:   该标签可用来注入键和值可以为任何类型的键值对  
 `<props>` : 该标签支持注入键和值都是字符串类型的键值对  
-```
+```xml
 <property name="customMap">
         <map>
            <entry key="1" value="INDIA"/>
@@ -323,7 +323,7 @@ Spring提供了以下四种集合类的配置元素：
 </util:properties>
 ```
 ### 设值注入和构造注入示例
-```
+```xml
 <bean id="people" class="com.abc.People">
 　　 <property name="name" value="张三" /> <!-- 设值注入 -->
 　　 <property name="school" ref="school" />
@@ -339,7 +339,7 @@ Spring提供了以下四种集合类的配置元素：
 ### 循环依赖的解决方案
 循环依赖就是循环引用,两个或多个Bean相互之间的持有对方,比如CircleA引用CircleB,CircleB引用CircleC,CircleC引用CircleA  
 解决 设值注入
-```
+```xml
 <bean id="circleA" class="cn.javass.spring.chapter3.bean.CircleA" scope="prototype">
      <property name="circleB" ref="circleB"/>
 </bean>
@@ -355,7 +355,7 @@ IOC技术的本质就是构建对象的技术。换句话说就是将一个类�
 
 
 ### spring配置注入
-```
+```xml
 <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
     <property name="locations">
         <list>
@@ -405,7 +405,7 @@ Spring提供了两种方式来生成代理对象: JDKProxy (接口)和Cglib
 springmvc框架在遇到这种同名参数提交,而参数中有逗号时,会出现问题：  
 比如我提交的值是 xname=123 和 xname=45,67  
 那么在进入action拿到参数时会变成string[] xname = ["123","45","67"]  
-```
+```js
 $("input[name='ssidName']").each(function(){
     $(this).val(encodeURIComponent($(this).val()));
 })
@@ -413,7 +413,7 @@ URLDecoder.decode(ssidNames [i], "UTF-8" )
 ```
 
 ### spring拦截器
-```
+```xml
 <mvc:interceptors>
    <mvc:interceptor>
      <mvc:mapping path="/**" />
@@ -427,7 +427,7 @@ URLDecoder.decode(ssidNames [i], "UTF-8" )
 
 ### Jackson与SpringMVC整合的MessageConverter配置
 maven依赖
-```
+```xml
 <dependency>
     <groupId>com.fasterxml.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
@@ -440,7 +440,7 @@ maven依赖
 </dependency>
 ```
 springmvc-servlet.xml中配置
-```
+```xml
 <mvc:annotation-driven>
     <mvc:message-converters>
         <bean class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -450,7 +450,7 @@ springmvc-servlet.xml中配置
 </mvc:annotation-driven>
 ```
 注意若要springMvc支持java8的LocalDate和LocalDateTime,需要引入下面的jar
-```
+```xml
 <dependency>
     <groupId>com.fasterxml.jackson.datatype</groupId>
     <artifactId>jackson-datatype-jsr310</artifactId>

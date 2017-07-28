@@ -10,7 +10,7 @@ List<String> priStrList=Arrays.asList(priStrArr);
 list转数组  
 priStrArr=(String[]) toSave.toArray(new String[toSave.size()]);  
 ### split使用注意事项
-```
+```java
 String privelegs = (String)param.get("priveleges");
 if (StringUtil.isNull(privelegs)) {
 	return;
@@ -25,14 +25,14 @@ String[] priStrArr =privelegs.split("\\|");
 答：#将传入的数据都当成一个字符串，会对传入的数据自动加上引号；$将传入的数据直接显示生成在SQL中。注意：使用$占位符可能会导致SQL注射攻击，能用#的地方就不要使用$。
 ### 迭代map
 #### 方法一
-```
+```java
 Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
     System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 }
 ```
 #### 方法二
-```
+```java
 Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
 //iterating over keys only
@@ -46,7 +46,7 @@ for (Integer value : map.values()) {
 }
 ```
 #### 方法三
-```
+```java
 Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 Iterator<Map.Entry<Integer, Integer>> entries = map.entrySet().iterator();
 while (entries.hasNext()) {
@@ -56,7 +56,7 @@ while (entries.hasNext()) {
 ```
 
 ### 以,连接集合中的元素的写法
-```
+```java
 String productNames = "";
 String areaCode = "";
 if (productList != null && productList.size() > 0) {
@@ -71,19 +71,19 @@ if (productList != null && productList.size() > 0) {
 }
 ```
 
-```
+```java
 Optional<String> val = productList.stream().map(productBean -> productBean.getString("productName")).reduce((a, b) -> a + "," + b);
 System.out.println(val.get());
 ```
 
-```
+```java
 List<String> productNameList= productList.stream().map(productBean -> productBean.getString("productName")).collect(Collectors.toList());
 StringUtils.join(productNameList,',');
 ```
 
 ### Java将科学计数法数据转为字符串
 有些项目可能会涉及到从Excel导入数据，但如果Excel里单元格类型为数值，但内容数据太长时（如银行账号），导入时，会默认读取为科学计数法，用以下代码便轻松解决。
-```
+```java
 BigDecimal bd = new BigDecimal("3.40256010353E11");  
 System.out.println(bd.toPlainString());
 ```
@@ -110,7 +110,7 @@ LinkedBlockingQueue中的锁是分离的,即生产用的是putLock,消费是take
 |检查	|element() |peek()	    |不可用	 |不可用                |
 
 ### Integer缓存
-```
+```java
 Integer缓存 -127->127
 Integer a = Integer.valueOf(-127);
 Integer b = Integer.valueOf(-127);
@@ -125,7 +125,7 @@ System.out.println(a == c); // false
 拦截器是基于java的反射机制的,而过滤器是基于函数回调  
 
 ### 重试机制代码
-```
+```java
 int retry = 3;
 while (retry > 0) {
     try {
@@ -168,7 +168,7 @@ for(int i=0;i<10;i++)
 System.out.println(String.format("%d%%", 20));  
 
 ### 反射的应用示例
-```
+```java
 public class MethodInvokeUtil {
 
 public static String messagePackageMethodInvoke(Map<String, String> interfaceInfo, Map<String, Object> interfaceDataMap) throws Exception{

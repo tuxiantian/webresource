@@ -69,7 +69,7 @@ eclipse添加dubbo xsd的支持
 </beans>
 ```
 #### 服务消费方代码示例
-```
+```java
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

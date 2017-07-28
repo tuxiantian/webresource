@@ -7,7 +7,7 @@
 ![](/images/db/mysql/sql/table1.png)
 在做一个复杂的业务时，可以新建一个Physical Diagram，然后把相关的表复制过来，然后把表加上外键关联，这将非常有助于理解业务数据之间的关系。  
 #### sql语句
-```
+```sql
 <select id="myTripDetail" resultType="mb">
          SELECT
               o.order_id orderId,o.bus_type busType,ticket_amount ticketAmount,discount_amount discountAmount,breakfast_fee breakfastFee,ticket_num ticketNum,pay_type payType,
@@ -84,7 +84,7 @@
 ```
 班车车票表中的班车类型有班车、巴士。班车信息、巴士信息分别存在不同的表中，需要根据不同的类型去不同的表中取数据。这里的处理方式值得借鉴。  
 #### 服务类代码编写
-```
+```java
 public Result myTripDetail(Long orderId){
 	MapBean data = this.mapper.myTripDetail(orderId);
 	//多张日票的情况
@@ -130,7 +130,7 @@ public Result myTripDetail(Long orderId){
 #### 表结构如下
 ![](/images/db/mysql/sql/bus_order.png)  
 #### sql语句如下
-```
+```sql
 <select id="incomeStatistics" resultType="mb">
     SELECT SUM(CASE  WHEN bt.bus_type=1 AND o.pay_type=1 THEN o.pay_fee ELSE 0 END) rbAliFee,
     SUM(CASE  WHEN bt.bus_type=1 AND o.pay_type=2 THEN o.pay_fee ELSE 0 END) rbWxFee,
@@ -156,7 +156,7 @@ ORGNO表示组织结构代码，总部是10，大区、市级服务商、县级�
 AND T.ORGNO LIKE CONCAT(#{parentOrgNo},'____') 表示只看直属下级的信息，"'____'"是四位下划线  
 根据输入参数的不同使用不同的关联查询条件，使用EXISTS
 
-```
+```sql
 <sql id="selectHead">
     SELECT
       T.ORGNO,

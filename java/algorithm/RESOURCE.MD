@@ -1,4 +1,4 @@
-```
+```java
 public static int search(int[] arr, int searchValue) {
 		int left = 0;
 		int right = arr.length - 1;
@@ -25,7 +25,7 @@ private static int binarySearch(int[] arr, int searchValue, int left, int right)
 }
 ```
 --------------------------------------------------------------------------------------
-```
+```java
 //冒泡排序
 public void bubbleSort(int[] arr){
 	for(int i=0;i<arr.length-1;i++){
@@ -54,4 +54,3 @@ public void bubbleSort_plus(int[] arr){
 	}
 }
 ```
---------------------------------------------------------------------------------------
