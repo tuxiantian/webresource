@@ -6,6 +6,7 @@
 关闭窗口： Ctrl+Shift+W  
 查看-切换编辑器组布局 控制横向拆分窗口还是纵向拆分窗口  
 Ctrl+` 切换终端面板  
+Alt+Shift+V 预览markdown文档  
 
 ## 光标相关
 移动到文件结尾：Ctrl+End  
