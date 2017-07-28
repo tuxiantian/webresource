@@ -1,5 +1,5 @@
 ### 从redis中获取用户信息
-```
+```java
     @Autowired
     private JedisUserService redisUserService;
 
@@ -7,7 +7,7 @@
 ```
 ### 来驾分页查询模板代码
 #### 使用代码生成器生成的默认findPage方法
-```
+```java
 public McpPageResult queryLockDetailsPage(Integer pageNo,
                                           Integer pageSize,
                                           String sortFiledName,String sortType,Integer remainBattery,Integer status){
@@ -25,7 +25,7 @@ public McpPageResult queryLockDetailsPage(Integer pageNo,
 
 #### 使用框架的分页方法
 使用框架默认的分页，带有扩展属性的写法
-```
+```java
 @ResponseBody
 @RequestMapping(value = "page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 public McpPageResult page(String keyword, Integer modelId, Integer centerId) {
@@ -42,7 +42,7 @@ public McpPageResult page(String keyword, Integer modelId, Integer centerId) {
 }
 ```
 使用默认的转换器
-```
+```java
 public class DefaultTransform<T extends AbsBaseEntity> implements Transform<T> {
 
     @Override
@@ -55,7 +55,7 @@ public class DefaultTransform<T extends AbsBaseEntity> implements Transform<T> {
 }
 ```
 将分公司名称等扩展属性放入extend
-```
+```sql
 <resultMap id="entityMap" type="com.pony.biz.car.entity.Car">
         <id property="carId" column="car_id"></id>
         <result property="lpn" column="lpn"></result>
@@ -113,7 +113,7 @@ public class DefaultTransform<T extends AbsBaseEntity> implements Transform<T> {
 ```
 #### 自定义分页代码示例
 CarsMapper.java
-```
+```java
 public interface CarsMapper extends EntityMapper<Cars> {
     List<MapBean> myCarsPage(MapBean params);
 
@@ -124,7 +124,7 @@ public interface CarsMapper extends EntityMapper<Cars> {
 否则会报找不到方法的异常。**  
 
 carsMapper.xml
-```
+```sql
 <select id="myCarsPage" resultType="mb">
     <include refid="sys.begin"/>
     SELECT C.CARID carId,C.LPN lpn,C.VIN vin,C.ENGINENUM engineNum,C.COLOR color,C.STATUS status,M.CARMODELNAME carModelName,
@@ -150,7 +150,7 @@ carsMapper.xml
 
 ##### 面向web端的服务类代码
 CarsService.java
-```
+```java
 public McpPageResult myCarsPage(Integer pageNo, Integer pageSize, String orgNo){
         if (pageNo == null || pageNo < 1) {
             return McpPageResult.fail(ERR_PARA_ERROR, null);
@@ -171,7 +171,7 @@ public McpPageResult myCarsPage(Integer pageNo, Integer pageSize, String orgNo){
 }
 ```
 ##### 面向APP端的服务类代码
-```
+```java
 public Result myList(String userId, Integer pageNo) {
 	MapBean params=new MapBean("userId",userId);
 	Page<MapBean> page= ControllerHelper.getPage();
@@ -188,7 +188,7 @@ public Result myList(String userId, Integer pageNo) {
 系统错误返回码使用4位数字字符串表示，前两位表示系统模块编码，后两位表示模块下分类错误编码  
 接口正确返回码因为频繁使用，使用0来表示  
 示例
-```
+```java
 public class ResultCode {
     //错误代码
     public static HashMap<String, String> codeMsg = new HashMap<String, String>();
@@ -296,7 +296,7 @@ public class ResultCode {
 经纬度对应的数据库字段类型是decimal(10,6)  
 ### 实体的状态使用枚举维护
 示例
-```
+```java
 public enum CarStatus {
     //车辆状态@0 维保 1 正常  2 事故 3 到期下线
     maintain(0, "维保"),
@@ -336,7 +336,7 @@ public enum CarStatus {
 ```
 若想使用枚举项的名称可以这样用：CarStatus.maintain.name()//maintain
 ### 全局参数配置表设计
-```
+```sql
 CREATE TABLE `t_globalparam` (
   `PARAMID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '参数ID',
   `PARAMNAME` varchar(50) DEFAULT NULL COMMENT '参数名称',
@@ -350,7 +350,7 @@ CREATE TABLE `t_globalparam` (
 数据示例
 ![](/images/work/t_globalparam.png)
 ### 全局字典表设计
-```
+```sql
 CREATE TABLE `t_globaldict` (
   `DICTID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '字典ID',
   `PARENTID` int(11) unsigned DEFAULT NULL COMMENT '父级字典ID',
@@ -367,7 +367,7 @@ CREATE TABLE `t_globaldict` (
 ![](/images/work/t_globaldict.png)
 ### 自定义异常处理
 无论在Controller层发生任何未知的异常，给前端用户返回的都是服务器繁忙，但是开发人员需要查明异常原因。
-```
+```java
 package com.laijia.core.web;
 
 import com.laijia.core.entity.Result;
@@ -408,7 +408,7 @@ public class BussinessHandlerExceptionResolver implements HandlerExceptionResolv
 
 ```
 ### 最有用的数据结构
-```
+```java
 package com.laijia.core.entity;
 
 import com.laijia.util.DataUtils;
@@ -736,7 +736,7 @@ public class MapBean extends HashMap<String, Object> implements Entity {
 ### 登陆的设计
 基于redis的令牌登陆，避免了多节点时的session同步问题，同时实现了避免重复登录。
 #### 登陆拦截器
-```
+```java
 package com.pony.core.web;
 
 import com.pony.core.cache.JedisService;
@@ -827,7 +827,7 @@ public class EnterpriseAuthInterceptorAdapter extends HandlerInterceptorAdapter 
 
 ```
 #### redis服务类
-```
+```java
 package com.pony.biz.base.service;
 
 import com.pony.biz.enterprise.entity.Enterprise;
@@ -882,7 +882,7 @@ public class JedisEnterpriseService {
 ```
 #### 登陆模块代码
 登陆成功后，将用户信息返回给前端，前端将这些信息保存进cookie中。每次前端调用接口要将token和用户名放在header域中传过来用于拦截器的校验。
-```
+```java
 @Service
 @Transactional
 public class EnterpriseService extends AbstractService<Enterprise>{
@@ -920,7 +920,7 @@ public class EnterpriseService extends AbstractService<Enterprise>{
 }
 ```
 #### springmvc的拦截器配置
-```
+```xml
 <mvc:interceptors>
     <mvc:interceptor>
             <mvc:mapping path="/enterprise/**"/>
@@ -930,7 +930,7 @@ public class EnterpriseService extends AbstractService<Enterprise>{
 </mvc:interceptors>
 ```
 #### 从redis中获取用户信息
-```
+```java
     @Autowired
     private JedisEnterpriseService redisUserService;
 
@@ -938,7 +938,7 @@ public class EnterpriseService extends AbstractService<Enterprise>{
 ```
 
 ### 拒绝魔法数字
-```
+```java
 public enum OrderType {
 //    订单类型@ 1 班车  2 企业班车  3  巴士
     regularBus(1,"班车"),enterpriseRegularBus(2,"企业班车"),bus(3,"巴士");
