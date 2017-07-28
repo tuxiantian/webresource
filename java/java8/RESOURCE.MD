@@ -6,7 +6,7 @@ return、break 或者 continue都会显著地改变循环的实际表现。这�
 现在我们要看看怎样把这些循环转换为更简洁，可读性更高的代码。  
 
 以文章为例子。一篇文章拥有一个标题，一个作者和几个标签。  
-```
+```java
 private class Article {
  
         private final String title;
@@ -37,7 +37,7 @@ private class Article {
 在第一个例子里，我们要在集合中查找包含“Java”标签的第一篇文章。
 
 看一下使用for循环的解决方案。
-```
+```java
 public Article getFirstJavaArticle() {
  
     for (Article article : articles) {
@@ -50,7 +50,7 @@ public Article getFirstJavaArticle() {
 }
 ```
 现在我们使用Stream API的相关操作来解决这个问题。
-```
+```java
 public Optional<Article> getFirstJavaArticle() {  
     return articles.stream()
         .filter(article -> article.getTags().contains("Java"))
@@ -62,7 +62,7 @@ public Optional<Article> getFirstJavaArticle() {
 现在，让我们获取所有匹配的元素而不是仅获取第一个。
 
 首先使用for循环方案。
-```
+```java
 public List<Article> getAllJavaArticles() {
  
     List<Article> result = new ArrayList<>();
@@ -77,7 +77,7 @@ public List<Article> getAllJavaArticles() {
 }
 ```
 使用Stream操作的方案。
-```
+```java
 public List<Article> getAllJavaArticles() {  
     return articles.stream()
         .filter(article -> article.getTags().contains("Java"))
@@ -91,7 +91,7 @@ public List<Article> getAllJavaArticles() {
 根据作者来把所有的文章分组。
 
 照旧，我们使用循环方案。
-```
+```java
 public Map<String, List<Article>> groupByAuthor() {
  
     Map<String, List<Article>> result = new HashMap<>();
@@ -110,7 +110,7 @@ public Map<String, List<Article>> groupByAuthor() {
 }
 ```
 我们能否找到一个使用流操作的简洁方案来解决这个问题？
-```
+```java
 public Map<String, List<Article>> groupByAuthor() {  
     return articles.stream()
         .collect(Collectors.groupingBy(Article::getAuthor));
@@ -121,7 +121,7 @@ public Map<String, List<Article>> groupByAuthor() {
 现在，我们查找集合中所有不同的标签。
 
 我们从使用循环的例子开始。
-```
+```java
 public Set<String> getDistinctTags() {
  
     Set<String> result = new HashSet<>();
@@ -134,7 +134,7 @@ public Set<String> getDistinctTags() {
 }
 ```
 好，我们来看看如何使用Stream操作来解决这个问题。
-```
+```java
 public Set<String> getDistinctTags() {  
     return articles.stream()
         .flatMap(article -> article.getTags().stream())
@@ -144,7 +144,7 @@ public Set<String> getDistinctTags() {
 棒极了！flatmap 帮我把标签列表转为一个返回流，然后我们使用 collect 去创建一个集合作为返回值。
 
 ## 理解flatmap
-```
+```java
 Map<String, List<Integer>> map = new LinkedHashMap<>();
 map.put("a", Arrays.asList(1, 2, 3));
 map.put("b", Arrays.asList(4, 5, 6));
@@ -156,7 +156,7 @@ System.out.println(allValues);
 // [1, 2, 3, 4, 5, 6]
 ```
 
-```
+```java
 List<Map<String, String>> list = new ArrayList<>();
 Map<String,String> map1 = new HashMap();
 map1.put("1", "one");
@@ -174,7 +174,7 @@ Set<String> output= list.stream()  //  Stream<Map<String, String>>
 ```
 
 ## Stream综合示例
-```
+```java
 class User
 {
     private String userID;
@@ -255,7 +255,7 @@ public class HelloWorld
 
 ## 工作示例1  
 使用for
-```
+```java
 List<MapBean> data = this.mapper.incomeStatistics(params);
 List<MapBean> yesterdayData = this.mapper.yesterdayIncomeStatistics(params);
 for (MapBean bean:data) {
@@ -267,7 +267,7 @@ for (MapBean bean:data) {
 }
 ```
 使用stream
-```
+```java
 List<MapBean> data = this.mapper.incomeStatistics(params);
 List<MapBean> yesterdayData = this.mapper.yesterdayIncomeStatistics(params);
 for (MapBean bean:data)
@@ -277,7 +277,7 @@ for (MapBean bean:data)
             });
 ```
 ## 工作示例2  
-```
+```java
 @ResponseBody
 @RequestMapping(value = "page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 public McpPageResult queryRegionParkPage(@RequestParam("pageNo") Integer pageNo,

@@ -7,7 +7,7 @@
 查看-切换编辑器组布局 控制横向拆分窗口还是纵向拆分窗口  
 Ctrl+` 切换终端面板  
 
-# 光标相关
+## 光标相关
 移动到文件结尾：Ctrl+End  
 移动到文件开头：Ctrl+Home  
 选中当前行Ctrl+i（双击）  
@@ -30,3 +30,22 @@ zoomIn/zoomOut：Ctrl + =/Ctrl + -
 ## 其他
 
 自动保存：File -> AutoSave ，或者Ctrl+Shift+P，输入 auto
+
+## 常用的vscode插件
+* Markdown Paste Image  
+* Markdown PasteURL  
+* Markdown Shortcuts  
+* Markdown Theme Kit  
+    给代码加上好看的颜色  
+* Markdown TOC  
+    生成markdown的目录  
+    markdown Toc:Insert/Update  
+* markdown-index  
+    给标题添加序号  
+    markdown add index  
+* Table Formatter  
+    pretty Markdown文件中的表格  
+    Table: format current  
+    Table: format all  
+* vscode-pandoc  
+    markdown文件生成PDF、Word、HTML文件
