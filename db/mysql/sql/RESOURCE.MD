@@ -14,6 +14,7 @@
 - [EXISTS](#exists)
 - [使用优化的分页查询语句](#使用优化的分页查询语句)
 - [find_in_set](#find_in_set)
+- [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 
 <!-- /TOC -->
 
@@ -317,3 +318,6 @@ CREATE TABLE `t_member_frozenseq` (
 </select>
 ```
 一种业务有多个请求源接入，如果这些请求源都要进行页面元素显示配置，那将会产生很多重复数据。在REQUEST_SOURCE中配置多个以逗号分隔的请求源。查询时使用find_in_set函数。这样减少了重复数据的配置。
+
+### mysql查表中有多少字段的sql语句
+SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
