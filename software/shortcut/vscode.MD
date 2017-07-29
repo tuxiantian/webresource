@@ -53,3 +53,8 @@ zoomIn/zoomOut：Ctrl + =/Ctrl + -
     Table: format all  
 * vscode-pandoc  
     markdown文件生成PDF、Word、HTML文件
+
+## 颜色主题
+推荐编辑时使用Dark+(default dark)  
+阅读时使用Markdown Editor  
+设置方式是文件-首选项-颜色主题
