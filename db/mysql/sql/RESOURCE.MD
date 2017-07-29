@@ -15,6 +15,7 @@
 - [使用优化的分页查询语句](#使用优化的分页查询语句)
 - [find_in_set](#find_in_set)
 - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
+- [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
 
 <!-- /TOC -->
 
@@ -321,3 +322,25 @@ CREATE TABLE `t_member_frozenseq` (
 
 ### mysql查表中有多少字段的sql语句
 SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
+
+### EXISTS关键字的一个使用示例
+1需求：为某些省份的重复的渠道做标记
+```sql
+--1查询需要做标记的总记录数
+SELECT   SUM(  aa.cou)  FROM (
+SELECT channel_id,  prov_code, COUNT(1) cou
+FROM db_ap_rgsh_channel
+GROUP BY channel_id , prov_code  HAVING COUNT(1) >1 ) aa ;
+--查询结果7120
+
+--2标记重复的渠道，渠道ID增加了REPEAT_前缀。
+UPDATE db_ap_rgsh_channel t SET t.`CHANNEL_ID` =  CONCAT('REPEAT_' ,t.`CHANNEL_ID`)  
+WHERE   EXISTS (
+SELECT * FROM (
+SELECT a.channel_id,  a.prov_code, COUNT(1) cou
+FROM db_ap_rgsh_channel a
+GROUP BY a.channel_id,a.prov_code  HAVING COUNT(1) >1 
+) aa  WHERE  aa.channel_id = t.`CHANNEL_ID` AND aa.prov_code =t.`PROV_CODE`
+ )
+--更新影响行数7120
+```
