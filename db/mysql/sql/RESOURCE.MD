@@ -178,3 +178,92 @@ AND T.ORGNO LIKE CONCAT(#{parentOrgNo},'____') 表示只看直属下级的信息
 
 </sql>
 ```
+
+### 使用优化的分页查询语句
+会员的封号记录单独存放在一张表中，会员信息与封号记录是一对多的关系，这样便于追踪会员的封号历史记录。高效分页的原理是
+先根据查询条件查出分页数据的主键集合，然后与其它表进行关联查询要展示的字段。
+
+```sql
+CREATE TABLE `t_member` (
+  `user_id` char(32) NOT NULL COMMENT '会员ID',
+  `mobile` varchar(15) DEFAULT NULL COMMENT '手机号码',
+  `nick_name` varchar(30) DEFAULT '小马用户' COMMENT '昵称@4~15位的中英文、数字',
+  `portrait` varchar(200) DEFAULT NULL COMMENT '头像',
+  `user_pass` varchar(32) DEFAULT NULL COMMENT '会员密码@6~16位的中英文、数字（不可为纯数字）',
+  `email` varchar(50) DEFAULT NULL COMMENT '电子邮箱',
+  `job` int(10) unsigned DEFAULT NULL COMMENT '职业ID',
+  `business` int(10) unsigned DEFAULT NULL COMMENT '行业ID',
+  `xgtoken` varchar(100) DEFAULT NULL COMMENT '信鸽TOKEN',
+  `reg_lat` decimal(10,6) DEFAULT NULL COMMENT '注册纬度',
+  `reg_lon` decimal(10,6) DEFAULT NULL COMMENT '注册经度',
+  `reg_city` varchar(30) DEFAULT NULL COMMENT '注册城市代码',
+  `app_type` tinyint(3) unsigned DEFAULT NULL COMMENT 'APP类型@1：苹果 2：安卓 3：window mobile',
+  `mobile_model` varchar(50) DEFAULT NULL COMMENT '手机型号',
+  `reg_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
+  `status` tinyint(4) DEFAULT NULL COMMENT '状态@ 0 封号 1 正常',
+  `froz_sn` bigint(20) DEFAULT NULL COMMENT '封号流水号',
+  `name` varchar(20) DEFAULT NULL COMMENT '姓名',
+  `driving_type` char(2) DEFAULT NULL COMMENT '准驾车型',
+  `license_valid_start_date` date DEFAULT NULL COMMENT '有效开始日期',
+  `license_valid_end_date` date DEFAULT NULL COMMENT '有效结束日期',
+  `id_number` char(18) DEFAULT NULL COMMENT '身份证号',
+  `sex` char(2) DEFAULT NULL COMMENT '性别',
+  `nation` varchar(50) DEFAULT NULL COMMENT '民族',
+  `birthday` date DEFAULT NULL COMMENT '出生年月',
+  `home_address` varchar(200) DEFAULT NULL COMMENT '家庭住址',
+  `curr_address` varchar(200) DEFAULT NULL COMMENT '当前住址',
+  `sign_org` varchar(100) DEFAULT NULL COMMENT '签发机关',
+  `id_valid_start_date` date DEFAULT NULL COMMENT '有效开始日期',
+  `id_valid_end_date` date DEFAULT NULL COMMENT '有效结束日期',
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `idx_account_mobile` (`mobile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员表'
+
+CREATE TABLE `t_member_frozenseq` (
+  `sn` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '封号明细流水号',
+  `user_id` char(32) NOT NULL COMMENT '会员ID',
+  `buss_type` tinyint(4) DEFAULT NULL COMMENT '业务类型@0 封号 1 解封',
+  `frozen_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '封号类型@1永久 2 一年 3 三个月  4 三天',
+  `frozen_end_date` date DEFAULT NULL COMMENT '封号截止日期',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `create_user` varchar(30) NOT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`sn`),
+  KEY `idx_membstopseq_memberid_time` (`user_id`,`create_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='会员封号解封明细'
+```
+
+```sql
+<!--会员封号列表-->
+<select id="frozenPage" resultType="mb">
+    SELECT
+            t.user_id userId,
+            t.mobile,
+            t.nick_name nickName,
+            t.status,
+            t.froz_sn frozSn,
+            t.name,
+            t.sex,
+            f.frozen_type frozenType,
+            f.create_time frozenTime,
+            f.frozen_end_date frozenEndDate,
+            f.remark
+    FROM t_member t,t_member_frozenseq f,
+    (
+    <include refid="sys.begin"/>
+    SELECT t.user_id FROM t_member t WHERE t.status=0
+    <include refid="condition"/>
+    ORDER BY t.froz_sn DESC
+    <include refid="sys.end"/>
+    ) B
+    WHERE t.user_id=B.user_id AND t.froz_sn=f.sn
+    ORDER BY t.froz_sn DESC
+</select>
+
+<select id="frozenPageCount" resultType="long">
+    SELECT count(1) FROM t_member t
+    INNER JOIN t_member_frozenseq f ON f.user_id=t.user_id AND t.froz_sn=f.sn
+    WHERE 1=1 AND t.status=0 AND f.buss_type=0
+    <include refid="condition"/>
+</select>
+```
