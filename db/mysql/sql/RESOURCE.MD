@@ -1,3 +1,22 @@
+<!-- TOC -->
+
+- [我的行程详情](#我的行程详情)
+    - [效果图](#效果图)
+    - [接口数据](#接口数据)
+    - [表结构](#表结构)
+    - [sql语句](#sql语句)
+    - [服务类代码编写](#服务类代码编写)
+- [营收统计](#营收统计)
+    - [效果图如下](#效果图如下)
+    - [接口](#接口)
+    - [表结构如下](#表结构如下)
+    - [sql语句如下](#sql语句如下)
+- [EXISTS](#exists)
+- [使用优化的分页查询语句](#使用优化的分页查询语句)
+- [find_in_set](#find_in_set)
+
+<!-- /TOC -->
+
 ### 我的行程详情
 #### 效果图
 ![](/images/db/mysql/sql/detail.png)
@@ -267,3 +286,34 @@ CREATE TABLE `t_member_frozenseq` (
     <include refid="condition"/>
 </select>
 ```
+
+### find_in_set
+```sql
+<!-- 获取 db_ap_rgsh_standard_order_page_element表所有字段 -->
+	<sql id="getPageElementValue">
+		ID id,
+		REQUEST_SOURCE requestSource,
+		ELEMENT_NAME `name`,
+		DESCRIPTION `desc`,
+		TYPE type,
+		EDIT_FLAG editFlag,
+		POSITION position,
+		STATE state,
+		FIELD_SORT fieldSort,
+		DECRYPT decrypt
+	</sql>
+<select id="queryPageElementByRequestSource" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			<include refid="getPageElementValue"/>
+		FROM
+			db_ap_rgsh_standard_order_page_element t
+		WHERE
+		t.state = '0'
+		<if test="requestSource != null and requestSource != 'null' and requestSource !='' ">
+			and find_in_set(#{requestSource},t.REQUEST_SOURCE) 
+		</if>
+		<if test="busiType != null and busiType != 'null' and busiType !='' ">and t.BUSI_TYPE=#{busiType}</if>	
+		ORDER BY FIELD_SORT ASC
+</select>
+```
+一种业务有多个请求源接入，如果这些请求源都要进行页面元素显示配置，那将会产生很多重复数据。在REQUEST_SOURCE中配置多个以逗号分隔的请求源。查询时使用find_in_set函数。这样减少了重复数据的配置。
