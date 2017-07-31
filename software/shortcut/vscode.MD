@@ -7,7 +7,19 @@
 查看-切换编辑器组布局 控制横向拆分窗口还是纵向拆分窗口  
 Ctrl+` 切换终端面板  
 Alt+Shift+V 预览markdown文档  
+## Ctrl+P 模式
 
+在Ctrl+P下输入>又可以回到主命令框 Ctrl+Shift+P模式。
+
+在Ctrl+P窗口下还可以
+
+直接输入文件名，快速打开文件
+* ? 列出当前可执行的动作
+* ! 显示Errors或Warnings，也可以Ctrl+Shift+M
+* : 跳转到行数，也可以Ctrl+G直接进入
+* @ 跳转到symbol（搜索变量或者函数），也可以Ctrl+Shift+O直接进入
+* @:根据分类跳转symbol，查找属性或函数，也可以Ctrl+Shift+O后输入:进入
+* \# 根据名字查找symbol，也可以Ctrl+T
 ## 光标相关
 移动到文件结尾：Ctrl+End  
 移动到文件开头：Ctrl+Home  
@@ -15,6 +27,7 @@ Alt+Shift+V 预览markdown文档
 
 Alt+Shift+鼠标左键 进入列编辑模式，同时编辑多列  
 Multi-Cursor：可以连续选择多处，然后一起修改，Alt+Click添加cursor  
+上下移动一行： Alt+Up 或 Alt+Down
 
 删除光标右侧的所有字Ctrl+Delete  
 删除光标所在行 Ctrl+Shift+K  
