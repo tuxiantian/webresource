@@ -1,5 +1,5 @@
 ## 非自增主键的保存更新问题
-![](/images/work/question1.png)  
+![](/images/work/question/question1.png)  
 表结构信息如下
 ```sql
 CREATE TABLE `t_busline_map_data` (
@@ -20,3 +20,7 @@ CREATE TABLE `t_busline_map_data` (
 ![](/images/work/question/question1.png)
 
 解决方法：前端传值为数值型，若没有值，则传null或不传。
+
+## postman使用
+
+![](/images/work/question/question2.png)  
