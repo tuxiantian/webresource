@@ -1,7 +1,7 @@
 ### 多条件判断语句choose
 注意：mybatis中的字符串比较对于单个字符要加toString()  
 代码片段
-```
+```sql
 <choose>
 	<when test="MYXJ_SERVICE_PASSWORD_VERIFY_SWITCH=='0'.toString()">
             and SERVICE_PASSWORD_VERIFY in ('0','1','2')
@@ -14,7 +14,7 @@
 ```
 ### 特殊符号的处理
 对于>、<、等特殊符号要用<![CDATA[]]>处理
-```
+```sql
 <if test="endDate != null and endDate != 'null' and endDate != ''">
 	<![CDATA[
 	and CREATE_DATE < date_add(str_to_date(#{endDate} , '%Y-%m-%d'), interval 1 day)
@@ -25,13 +25,13 @@
 年月日时分秒格式：%Y-%m-%d %H:%i:%s  
 DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 ### 日期比较
-```
+```sql
 <if test="expertDate != null and expertDate != 'null' and expertDate != ''">
 	and DATE_FORMAT(EXPERT_DATE,'%Y-%m-%d') = str_to_date(#{expertDate} , '%Y-%m-%d')
 </if>
 ```
 ### 日期字段加索引注意事项
-```
+```sql
 <if test="acceptDate != null and acceptDate != 'null' and acceptDate !='' ">
 	and DATE_FORMAT(ACCEPT_DATE,'%Y-%m-%d') &gt;= str_to_date(#{acceptDate} , '%Y-%m-%d')
 	and DATE_FORMAT(ACCEPT_DATE,'%Y-%m-%d') &lt;= date_add(str_to_date(#{acceptDate} , '%Y-%m-%d'), interval 1 day)
@@ -46,7 +46,7 @@ DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 > List: java.util.List
 ### 批量更新
 #### 示例一
-```
+```sql
 <update id="updateSysMarkToNullByPage" parameterType="java.util.Map">
 	update ${table}
 	set ${column} = null,
@@ -58,7 +58,7 @@ DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 </update>
 ```
 #### 示例二
-```
+```sql
 <update id="markOrder" parameterType="java.util.List">
 	<foreach collection="list" item="item" index="index" open="" close="" separator=";">
 		UPDATE
@@ -74,19 +74,19 @@ DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 ```
 ### like的使用
 #### oracle
-```
+```sql
 select *   
 from user  
 where username like '%'||#username#||'%'
 ```
 #### mysql
-```
+```sql
 select *   
 from user  
 where username like concat('%', #username#, '%')
 ```
 ### case when的使用
-```
+```sql
 select (case ext2
                    when '200' then
                     '广东'
@@ -159,7 +159,7 @@ select (case ext2
 date_sub日期减法操作  
 统计在当前一天、当前一个月、过去到现在、过去一周、当前月、过去一个月、过去3个月和过去一年的app注册用户数量  
 思路：每次只统计其中一项，其它的填充为0，完成各次统计后用union all合并。将和并的结果作为一个结果集。最后从这个结果集中查询各项。
-```
+```sql
 <select id="queryAppRegUserInfo" parameterType="java.util.Map"
 		resultType="java.util.HashMap">
 	   <![CDATA[	 
@@ -251,7 +251,7 @@ MyBatis将 #{…} 解释为JDBC prepared statement 的一个参数标记。而�
 ###  mybatis中使用Java8的日期LocalDate、LocalDateTime
 [mybatis中使用Java8的日期LocalDate、LocalDateTime](http://blog.csdn.net/mn960mn/article/details/53139216)  
 引入以下jar包即可解决，在mybatis 3.4.0版本及以上版本中测试有效。
-```
+```xml
 <dependency>  
     <groupId>org.mybatis</groupId>  
     <artifactId>mybatis-typehandlers-jsr310</artifactId>  
