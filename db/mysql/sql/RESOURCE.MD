@@ -18,6 +18,7 @@
 - [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
 - [if函数](#if函数)
+- [NOW()和CURDATE()](#now和curdate)
 
 <!-- /TOC -->
 
@@ -362,3 +363,11 @@ mysql的if函数，例如：IF(expr1,expr2,expr3)
 如果 expr1是TRUE，则IF()的返回值为expr2; 否则返回值则为expr3
 实例（如果video_id为null，则直接返回空字符，避免不必要的查询影响效率）：
 (SELECT if(isnull(video_id),'',(SELECT cover from topic_video tv where tv.id = video_id))) 别称,
+
+### NOW()和CURDATE()
+```sql
+SELECT NOW();
+//2017-08-04 17:57:59
+SELECT CURDATE();
+//2017-08-04
+```
