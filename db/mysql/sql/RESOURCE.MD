@@ -17,6 +17,7 @@
 - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 - [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
+- [if函数](#if函数)
 
 <!-- /TOC -->
 
@@ -354,3 +355,10 @@ GROUP BY a.channel_id,a.prov_code  HAVING COUNT(1) >1
    insert into 表1 (列名1,列  名2,列名3)  select  列1,列2,列3 from 表2
 3. 只从另外一个表取部分值  
 	insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
+
+### if函数
+
+mysql的if函数，例如：IF(expr1,expr2,expr3) 
+如果 expr1是TRUE，则IF()的返回值为expr2; 否则返回值则为expr3
+实例（如果video_id为null，则直接返回空字符，避免不必要的查询影响效率）：
+(SELECT if(isnull(video_id),'',(SELECT cover from topic_video tv where tv.id = video_id))) 别称,

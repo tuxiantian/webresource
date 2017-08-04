@@ -273,3 +273,11 @@ LocalDate转Date
 Date date = Date.from(LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 
 ```
+Date转LocalDate
+```java
+java.util.Date date = new java.util.Date();
+Instant instant = date.toInstant();
+ZoneId zone = ZoneId.systemDefault();
+LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+LocalDate localDate = localDateTime.toLocalDate();
+```
