@@ -16,6 +16,7 @@
 - [find_in_set](#find_in_set)
 - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 - [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
+- [左关联的使用误区](#左关联的使用误区)
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
 - [if函数](#if函数)
 - [NOW()和CURDATE()](#now和curdate)
@@ -347,7 +348,63 @@ GROUP BY a.channel_id,a.prov_code  HAVING COUNT(1) >1
  )
 --更新影响行数7120
 ```
-
+### 左关联的使用误区
+查询所有的套餐信息，若用户购买了某个套餐，isBuy的值为1，否则值为0.下面的sql是有问题的，若用户没有购买套餐，则查不出任何套餐信息。
+最外层的where条件是对left join起过滤作用的。
+```sql
+<select id="findAll" resultType="mb">
+    SELECT
+    T.PKGID pkgId,
+    T.areacode areaCode,
+    (SELECT a.areaName FROM t_area a WHERE a.AREACODE = t.AREACODE) AS areaName,
+    T.PKGNAME pkgName,
+    T.PKGAMOUNT pkgAmount,
+    T.PKGTIMELONG pkgTimeLong,
+    T.DAYFREETIMES dayFreeTimes,
+    T.ONCETIMELONG onceTimeLong,
+    T.REMARK remark,
+    p.pkg_end_date pkgEndDate,
+    if(isnull(p.userId),0,1) isBuy
+    FROM T_ACCOUNTPKG_CONFIG T
+    LEFT JOIN t_account_pkg p ON T.PKGID=p.PKGID
+    WHERE 1=1
+    <if test="userId !=null">
+        AND p.userId=#{userId}
+    </if>
+    <if test="areaCode !=null and areaCode !=''">
+        AND T.areacode=#{areaCode}
+    </if>
+    ORDER BY T.PKGID DESC
+</select>
+```
+正确的sql是下面这样写的：
+```sql
+<select id="findAll" resultType="mb">
+    SELECT
+    T.PKGID pkgId,
+    T.areacode areaCode,
+    (SELECT a.areaName FROM t_area a WHERE a.AREACODE = t.AREACODE) AS areaName,
+    T.PKGNAME pkgName,
+    T.PKGAMOUNT pkgAmount,
+    T.PKGTIMELONG pkgTimeLong,
+    T.DAYFREETIMES dayFreeTimes,
+    T.ONCETIMELONG onceTimeLong,
+    T.REMARK remark,
+    p.pkg_end_date pkgEndDate,
+    if(isnull(p.userId),0,1) isBuy
+    FROM T_ACCOUNTPKG_CONFIG T
+    LEFT JOIN (SELECT pkg_end_date,PKGID,userId FROM t_account_pkg WHERE
+    <if test="userId !=null">
+        userId=#{userId}
+    </if>
+    ) p ON T.PKGID=p.PKGID
+    WHERE 1=1
+    <if test="areaCode !=null and areaCode !=''">
+        AND T.areacode=#{areaCode}
+    </if>
+    ORDER BY T.PKGID DESC
+</select>
+```
 ### mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
 
 1. 表结构完全一样  
