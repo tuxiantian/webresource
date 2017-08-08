@@ -1,3 +1,12 @@
+<!-- TOC -->
+
+- [理解flatmap](#理解flatmap)
+- [Stream综合示例](#stream综合示例)
+- [工作示例1](#工作示例1)
+- [工作示例2](#工作示例2)
+
+<!-- /TOC -->
+
 [Stream使用手册](https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
 [传统 for 循环的函数式替代方案](https://www.ibm.com/developerworks/cn/java/j-java8idioms3/index.html)
 
