@@ -1,0 +1,2 @@
+1. [Jackson与SpringMVC整合的MessageConverter配置](/java/spring/RESOURCE.MD#Jackson与SpringMVC整合的MessageConverter配置)
+2. [mybatis中使用Java8的日期LocalDate、LocalDateTime](/java/mybatics/RESOURCE.MD#mybatis中使用Java8的日期LocalDate、LocalDateTime)
