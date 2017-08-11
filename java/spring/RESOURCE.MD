@@ -386,10 +386,6 @@ IOC技术的本质就是构建对象的技术。换句话说就是将一个类�
     <property name="properties" ref="configProperties" />
 </bean>
 
-@Value("#{configProperties['mysql.url']}")
-private String url;
-
-
 <bean id="placer2" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
     <property name="order" value="1"></property>
     <property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -410,6 +406,10 @@ private String url;
         </list>
     </property>
 </bean>
+```
+```java
+@Value("#{configProperties['mysql.url']}")
+private String url;
 ```
 ### spring的@Value注解使用示例
 @Value("${server.host:127.0.0.1}")  默认值
