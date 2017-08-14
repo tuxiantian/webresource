@@ -9,6 +9,7 @@ useful website collections
 [简书](http://www.jianshu.com/)  
 [查找开发人员所需的教程、工具和社区](https://www.ibm.com/developerworks/cn/)  
 [bootstrap](http://www.bootcss.com/)  
+[6TB视频(iOS，Java，c++更新版)](http://mp.weixin.qq.com/s/9nH6ORoE07MYMDMaq_BUaw)
 adminlte  
 * [官网示例](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html#)  
 * [参考文档](http://11140372.blog.51cto.com/)  
