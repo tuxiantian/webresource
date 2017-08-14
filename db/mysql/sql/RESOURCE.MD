@@ -20,6 +20,7 @@
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
 - [if函数](#if函数)
 - [NOW()和CURDATE()](#now和curdate)
+- [查找满足所有规则的活动](#查找满足所有规则的活动)
 
 <!-- /TOC -->
 
@@ -427,4 +428,30 @@ SELECT NOW();
 //2017-08-04 17:57:59
 SELECT CURDATE();
 //2017-08-04
+```
+### 查找满足所有规则的活动
+
+```sql
+<select id="find" resultMap="entityMap">
+    SELECT * from FROM t_activity t
+        WHERE 1=1
+    <if test="activityId != null">
+        AND t.activity_id=#{activityId}
+    </if>
+    <if test="isUse">
+        AND t.status != 3 and t.begin_time <![CDATA[ <= ]]> now() and t.end_time <![CDATA[ >= ]]> now()
+    </if>
+    <if test="rules!=null">
+        <foreach item="item" index="index" collection="rules" open="" separator="" close="">
+            AND EXISTS
+            (SELECT
+            activity_id
+            FROM
+            t_activity_rule r
+            WHERE 1=1
+            AND r.rule_code =#{item} AND r.`activity_id`=t.`activity_id`
+            )
+        </foreach>
+    </if>
+</select>
 ```
