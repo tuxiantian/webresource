@@ -21,6 +21,7 @@
 - [if函数](#if函数)
 - [NOW()和CURDATE()](#now和curdate)
 - [查找满足所有规则的活动](#查找满足所有规则的活动)
+- [同步消息推送配置步骤](#同步消息推送配置步骤)
 
 <!-- /TOC -->
 
@@ -454,4 +455,28 @@ SELECT CURDATE();
         </foreach>
     </if>
 </select>
+```
+### 同步消息推送配置步骤
+1. 将测试环境t_messageconfig表结构和数据导出
+2. 将开发环境t_messageconfig表结构和数据导出
+3. 重命名开发环境导出数据的表名为t_messageconfig1
+4. 分别将两份数据导入到本地环境
+5. 更新本地的t_messageconfig
+```sql
+UPDATE t_messageconfig o  SET `CONTENTTEMP`=(SELECT CONTENTTEMP FROM t_messageconfig1 n WHERE n.`BUSSTYPE`=o.BUSSTYPE)
+```
+6. 将新增的消息配置插入到t_messageconfig
+```sql
+insert into t_messageconfig
+select 
+  * 
+from
+  t_messageconfig1 t 
+where t.`BUSSTYPE` not in 
+  (select 
+    n.BUSSTYPE 
+  from
+    t_messageconfig o
+   left join t_messageconfig1 n  on 
+   o.`BUSSTYPE` = n.`BUSSTYPE`) ;
 ```
