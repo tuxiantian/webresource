@@ -1,3 +1,31 @@
+
+### 高效的工具
+org.springframework.beans.BeanUtils#copyProperties(java.lang.Object, java.lang.Object)  
+> Copy the property values of the given source bean into the target bean.  
+Note: The source and target classes do not have to match or even be derived from each other, as long as the properties match. Any bean properties that the source bean exposes but the target bean does not will silently be ignored.  
+This is just a convenience method. For more complex transfer needs, consider using a full BeanWrapper.
+
+注意事项
+1. 根据source的属性来向target同名属性设值。 
+* 若target无该属性，则不设
+* 名字相同，基本类型和封装类型可以完成映射
+* 若target有source无，则target属性值为null（基本类型则为初始值，如int 为 0）
+2. 调用原理 target.set + source的属性名（source.get + source的属性名）：所有source必须有get方法，target必须有set方法
+
+使用场景：对象的拷贝，在活动中心生成优惠券时，同样的优惠券会一次生成几张，这是就可以使用这个工具拷贝对象。
+```java
+Coupon coupon=new Coupon();
+coupon.setAmount(activityCoupon.getAmount());
+coupon.setValidDate(validDate);
+coupon.setValidStatus(CouponStatus.noUse.getVal());
+......
+for (int i=0;i<activityCoupon.getCouponNum();i++){
+    Coupon temp=new Coupon();
+    BeanUtils.copyProperties(coupon,temp);
+    couponService.saveOrUpdate(temp);
+}
+```
+### 知识链接
 [java实现map和object互转的三种方法](http://www.open-open.com/code/view/1423280939826)  
 [线程的基本概念](https://gold.xitu.io/post/58a1ba8786b599006b4877aa)  
 [深入理解 Java 线程池：ThreadPoolExecutor](https://juejin.im/entry/58fada5d570c350058d3aaad)  
@@ -190,54 +218,54 @@ public static String messagePackageMethodInvoke(Map<String, String> interfaceInf
     }
 
 /**
-     * 反射调用具体实现
-     * @param method_service_class
-     * @param method_name
-     * @param datas
-     * @return
-     * @throws Exception
-     */
-    public static Object methodInvoke(String method_service_class,String method_name,Map<String, Object> datas) throws Exception{
-        Object res = null;
+* 反射调用具体实现
+* @param method_service_class
+* @param method_name
+* @param datas
+* @return
+* @throws Exception
+*/
+public static Object methodInvoke(String method_service_class,String method_name,Map<String, Object> datas) throws Exception{
+    Object res = null;
 
-        Class<?> clazz = null;
-        Method method = null;
+    Class<?> clazz = null;
+    Method method = null;
 
-        try {
-            clazz = Class.forName(method_service_class);
+    try {
+        clazz = Class.forName(method_service_class);
 
 
-            method = clazz.getDeclaredMethod(method_name, Map.class);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new Exception(" 没有找到类，类路径和类名： " + method_service_class +"，错误描述：" +e.getCause());
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new Exception("在类"+method_service_class+"中，没有找到方法"+method_name +"，错误描述：" +e.getCause());
-        } catch (SecurityException e) {
-            e.printStackTrace();
-            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
-        }
+        method = clazz.getDeclaredMethod(method_name, Map.class);
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        throw new Exception(" 没有找到类，类路径和类名： " + method_service_class +"，错误描述：" +e.getCause());
+    } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+        throw new Exception("在类"+method_service_class+"中，没有找到方法"+method_name +"，错误描述：" +e.getCause());
+    } catch (SecurityException e) {
+        e.printStackTrace();
+        throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+    }
 
-        try {
-            res =  method.invoke(clazz.newInstance(), datas);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
-        } catch(Exception e){
-            throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getMessage());
-        }
+    try {
+        res =  method.invoke(clazz.newInstance(), datas);
+    } catch (IllegalAccessException e) {
+        e.printStackTrace();
+        throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+    } catch (IllegalArgumentException e) {
+        e.printStackTrace();
+        throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+    } catch (InvocationTargetException e) {
+        e.printStackTrace();
+        throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+    } catch (InstantiationException e) {
+        e.printStackTrace();
+        throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getCause());
+    } catch(Exception e){
+        throw new Exception("调用"+method_service_class+"."+method_name+"(...)方法出错" +"，错误描述：" +e.getMessage());
+    }
 
-        return res;
+    return res;
     }
 }
 
