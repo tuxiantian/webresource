@@ -71,3 +71,10 @@ zoomIn/zoomOut：Ctrl + =/Ctrl + -
 推荐编辑时使用Dark+(default dark)  
 阅读时使用Markdown Editor  
 设置方式是文件-首选项-颜色主题
+### 使用GitHub样式预览markdown文档
+```
+cd C:\Users\tuxt\.vscode\extensions
+git clone git@github.com:mjbvz/vscode-github-markdown-preview-style.git
+cd vscode-github-markdown-preview-style
+npm install
+```
