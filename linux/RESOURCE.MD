@@ -80,6 +80,7 @@ find tomcat_ol*/logs/ -name "catalina.20160628.out" | xargs grep "关键字"
 方法一  
 可以作为关键字的有时间和线程号。先根据日志关键字查找，然后选择其中一个日志关键字所在时间点，查看前后50行日志。  
 find -name "catalina.20170317.out" | xargs grep "call wuzhihua url"  
+find -name "catalina.20170317.out" | xargs grep "call wuzhihua url"|wc -l  
 find -name "catalina.20170317.out" | xargs grep  -A150 -B150 "2010-11-17 09:25:55,622"  
 find -name "catalina.20170317.out" | xargs grep  -A150 -B150 "call wuzhihua result"  
 方法二  
