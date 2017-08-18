@@ -11,6 +11,8 @@ This is just a convenience method. For more complex transfer needs, consider usi
 * 名字相同，基本类型和封装类型可以完成映射
 * 若target有source无，则target属性值为null（基本类型则为初始值，如int 为 0）
 2. 调用原理 target.set + source的属性名（source.get + source的属性名）：所有source必须有get方法，target必须有set方法
+3. 必须保证同名的两个成员变量类型相同.
+4. BeanUtils.copyProperties是浅拷贝
 
 使用场景：对象的拷贝，在活动中心生成优惠券时，同样的优惠券会一次生成几张，这是就可以使用这个工具拷贝对象。
 ```java
