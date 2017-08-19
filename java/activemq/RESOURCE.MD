@@ -30,3 +30,30 @@ ln -s /usr/local/apache-activemq-5.14.4/bin/activemq /etc/init.d/
 chkconfig activemq on  
 也可通过下面的方式启动activemq  
 service activemq start  
+插入防火墙规则  
+iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 8161 -j ACCEPT  
+iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 61616 -j ACCEPT  
+保存防火墙规则  
+/etc/rc.d/init.d/iptables save  
+查看保存的防火墙规则  
+vi /etc/sysconfig/iptables  
+重启防火墙  
+service iptables restart  
+在启动前先配置activemq。在bin目录下执行  
+./activemq  setup  /root/.activemqrc  
+提高activemq的权限  
+chmod 600 /root/.activemqrc  
+启动activeMQ  
+./bin/activemq start  
+验证是否安装成功
+```
+[root@localhost activemq]# ./bin/activemq status
+INFO: Loading '/opt/activemq//bin/env'
+INFO: Using java '/opt/jdk1.7.0_79/bin/java'
+ActiveMQ is running (pid '3535')
+```
+关闭/重启activeMQ
+```
+[root@localhost activemq]# ./bin/activemq stop
+[root@localhost activemq]# ./bin/activemq restart
+```
