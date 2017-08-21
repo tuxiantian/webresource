@@ -15,6 +15,8 @@ ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no pass
 给新用户分配仓库的权限，操作示例图如下  
 ![](/images/git/assign_permission.png)  
 新用户使用gitbash客户端窗口配置用户名和邮箱，然后就可以克隆仓库，正常提交和更新仓库文件了。  
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 ###  git中文文件名、目录名乱码应该怎么解决？
 git config core.quotepath false  
 core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常  
