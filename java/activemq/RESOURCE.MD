@@ -33,6 +33,9 @@ service activemq start
 插入防火墙规则  
 iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 8161 -j ACCEPT  
 iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 61616 -j ACCEPT  
+删除防火墙规则  
+iptables -D INPUT -m state --state NEW -m tcp -p tcp --dport 61616 -j ACCEPT  
+
 保存防火墙规则  
 /etc/rc.d/init.d/iptables save  
 查看保存的防火墙规则  
