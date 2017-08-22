@@ -26,6 +26,9 @@ bin目录中包含如下几个程序：
 6. mongoimport.exe，数据导入工具。  
 7. mongorestore.exe，数据库恢复工具。  
 8. mongos.exe，貌似是性能检测工具。  
+
+#### mongodb视图工具，免费的
+Robomongo 1.0.0-RC1
 #### MongoDB学习文档
 MongoDB入门学习     http://www.runoob.com/mongodb/mongodb-window-install.html  
 mongodb官网       http://docs.mongoing.com/manual-zh/sharding.html  
