@@ -24,6 +24,11 @@ git checkout -- file
 ```
 git checkout <branchbranch> -- <file>
 ```
+### git如何让单个文件回退到指定的版本
+git log MainActivity.java
+git reset a4e215234aa4927c85693dca7b68e9976948a35e MainActivity.java
+git commit -a -m "commit description"
+git push
 ## 快速提交
 git add .  
 git commit -m "commit description"  
