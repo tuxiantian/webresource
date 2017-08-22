@@ -65,6 +65,8 @@ MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/b
 show collections;
 查看集合的数量
 db.集合名.find().count();
+多个查询条件的查询示例
+db.getCollection('carLocation080').find({"gpsTime":{$gte:1492046406356},"gpsTime":{$lte:1492063371931}})
 #### Help查看命令提示
 ```
 help

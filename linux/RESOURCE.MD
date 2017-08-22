@@ -92,8 +92,11 @@ find /var/log/ -mtime -3 -type f -print  3天内
 find /var/log/ -mtime 3 -type f -print   第3天  
 find /var/log/ -mtime +2 -mtime -4 -type f -print  
 ### curl命令
-curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet
-注意后面的地址中若是有！，则需要使用\进行转义
+curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet  
+注意后面的地址中若是有！，则需要使用\进行转义  
+用@RequestParam接收多个参数的查询示例  
+curl -d sn="250006222" -d startTime=1503367557000 -d endTime=1503367857000 http://localhost:8083/mongodb/devicedata/findCarHistoryTrack  
+
 
 curl多次尝试连接
 curl --retry 10 --retry-delay 60 --retry-max-time 60 http://www.baidu.com/ -o baidu_html
@@ -109,6 +112,8 @@ curl -r 0-1024000 -o new_divide_1.mp3 http://vfile/55750a8be70.mp3
 
 查看头信息
 curl -I http://www.taobao.com/
+检测web容器是否正常启动
+wget http://localhost:8083/mongodb/index.html
 ### 日志操作
 tail -f tomcat_ol*/logs/catalina.20160628.out  
 tail -500f tomcat_ol*/logs/catalina.20160628.out    查看最后500行日志
