@@ -63,6 +63,8 @@ MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/b
 命令：db.集合名.stats()
 查看数据库所有的集合
 show collections;
+查看集合的数量
+db.集合名.find().count();
 #### Help查看命令提示
 ```
 help
