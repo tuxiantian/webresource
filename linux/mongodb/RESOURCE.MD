@@ -27,6 +27,10 @@ bin目录中包含如下几个程序：
 7. mongorestore.exe，数据库恢复工具。  
 8. mongos.exe，貌似是性能检测工具。  
 
+#### MongoDB数据导入和导出
+[MongoDB数据导入和导出](http://www.cnblogs.com/roland1982/archive/2013/12/04/3458032.html)
+./mongoexport -d xingtu -c carInfo250006222 -o carInfo250006222.dat  
+./mongoimport -d xingtu -c carInfo250006222 carInfo250006222.dat  
 #### mongodb视图工具，免费的
 Robomongo 1.0.0-RC1
 #### MongoDB学习文档
