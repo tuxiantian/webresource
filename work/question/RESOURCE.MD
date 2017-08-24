@@ -28,25 +28,19 @@ CREATE TABLE `t_busline_map_data` (
 ## Zookeeper连接不上导致web服务无法正常启动
 catalina.out日志中出现
 ```
-Jul 17, 2017 11:12:47 AM org.apache.catalina.core.ContainerBase addChildInternal
-SEVERE: ContainerBase.addChild: start:
-org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/mongodb]]
-        at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:154)
-        at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901)
-        at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877)
-        at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:649)
-        at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:1081)
-        at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1877)
-        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
-        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
-        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
-        at java.lang.Thread.run(Thread.java:745)
-Caused by: org.apache.catalina.LifecycleException: Error in resourceStart()
-        at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5327)
-        at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
-        ... 10 more
-
+08-24 17:46:39.055 [localhost-startStop-1-SendThread(192.168.0.254:2181)] org.apache.zookeeper.ClientCnxnSocketNIO org.apache.zookeeper.ClientCnxnSocketNIO.cleanup(ClientCnxnSocketNIO.java:203) DEBUG - Ignoring exception during shutdown input
+java.net.SocketException: Socket is not connected
+	at sun.nio.ch.Net.translateToSocketException(Net.java:123)
+	at sun.nio.ch.Net.translateException(Net.java:157)
+	at sun.nio.ch.Net.translateException(Net.java:163)
+	at sun.nio.ch.SocketAdaptor.shutdownInput(SocketAdaptor.java:401)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.cleanup(ClientCnxnSocketNIO.java:200)
+	at org.apache.zookeeper.ClientCnxn$SendThread.cleanup(ClientCnxn.java:1185)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1110)
+Caused by: java.nio.channels.NotYetConnectedException
+	at sun.nio.ch.SocketChannelImpl.shutdownInput(SocketChannelImpl.java:782)
+	at sun.nio.ch.SocketAdaptor.shutdownInput(SocketAdaptor.java:399)
+	... 3 more
 ```
 wget http://localhost:8083/mongodb/index.html
 服务器无响应输出
