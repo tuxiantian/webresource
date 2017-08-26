@@ -15,7 +15,6 @@
 - [新解压的tomcat无执行权限问题](#新解压的tomcat无执行权限问题)
 - [sed命令](#sed命令)
 - [linux防火墙](#linux防火墙)
-- [Linux将命令添加到PATH中](#linux将命令添加到path中)
 - [以字节、KB、MB 或 GB 输出：](#以字节kbmb-或-gb-输出)
 - [sar命令在这里可以查看网络设备的吞吐率。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和](#sar命令在这里可以查看网络设备的吞吐率在排查性能问题时可以通过网络设备的吞吐量判断网络设备是否已经饱和)
 - [TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。](#tcp连接数可以用来判断性能问题是否由于建立了过多的连接进一步可以判断是主动发起的连接还是被动接受的连接)
@@ -140,6 +139,23 @@ vi 日志文件
 ?关键字  
 从当前位置向上搜索，n搜索下一个匹配的关键字  
 根据日期找最近的日志，根据线程号找上下文日志  
+
+通过关键字查询日志  
+grep -nH "Excetion message" test.text  
+-n, --line-number 行号  
+-H, --with-filename 打印每个匹配的文件名  
+
+查找文件中字符串出现次数  
+grep -c 'httpSample' kmtest0924.jtl  
+
+查找`2013-08-08`到`2013-09-01`号之间的文件
+find /log/ -name 'production.log-2013*' -newermt '2013-08-08' ! -newermt '2013-09-0
+
+-newer   f1 !f2               #查更改时间比f1新但比f2旧的文件
+
+find -a 连接两个不同的条件（两个条件必须同时满足）
+     -o 连接两个不同的条件（两个条件满足其一即可）
+     -not 对条件取反的
 #### 统计日志文件中java.util.concurrent.TimeOutException的数量
 进程处理文件中的记录调用省端接口，常有超时的任务，要统计日志文件中超时任务的数量  
 sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException'|wc -l  
@@ -204,38 +220,6 @@ iptables -X 清除预设表filter中使用者自定链中的规则
 
 iptables -A INPUT  -p tcp --dport 22 -j ACCEPT  
 iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT  
-### Linux将命令添加到PATH中
-简单说PATH就是一组路径的字符串变量，当你输入的命令不带任何路径时，LINUX会在PATH记录的路径中查找该命令。有的话则执行，不存在则提示命令找不到。比如在根目录/下可以输入命令ls,在/usr目录下也可以输入ls,但其实ls命令根本不在这个两个目录下，当你输入ls命令时LINUX会去/bin,/usr/bin,/sbin等目录寻找该命令。而PATH就是定义/bin:/sbin:/usr/bin等这些路劲的变量，其中冒号为目录间的分割符。  
-如何自定义路径：  
-假设你新编译安装了一个apache在/usr/local/apache下，你希望每次启动的时候不用敲一大串字符（# /usr/local/apache/bin/apachectl start）才能使用它，而是直接像ls一样在任何地方都直接输入类似这样（# apachectl start）的简短命令。这时，你就需要修改环境变量PATH了，准确的说就是给PATH增加一个值/usr/local/apache/bin。将/usr/local/apache/bin添加到PATH中有三种方法：  
-
-1、直接在命令行中设置PATH  
-PATH=$PATH:/usr/local/apache/bin  
-使用这种方法,只对当前会话有效，也就是说每当登出或注销系统以后，PATH设置就会失效。  
-
-2、在profile中设置PATH  
-vi /etc/profile  
-找到export行，在下面新增加一行，内容为：export PATH=$PATH:/usr/local/apache/bin。  
-注：＝ 等号两边不能有任何空格。这种方法最好,除非手动强制修改PATH的值,否则将不会被改变。  
-编辑/etc/profile后PATH的修改不会立马生效，如果需要立即生效的话，可以执行# source profile命令。  
-
-3、在当前用户的profile中设置PATH  
-vi ~/.bash_profile  
-修改PATH行,把/usr/local/apache/bin添加进去,如：PATH=$PATH:$HOME/bin:/usr/local/apache/bin。  
-source ~/.bash_profile  
-让这次的修改生效。  
-注：这种方法只对当前用户起作用的,其他用户该修改无效。  
-
-去除自定义路径：  
-当你发现新增路径/usr/local/apache/bin没用或不需要时，你可以在以前修改的/etc/profile或~/.bash_profile文件中删除你曾今自定义的路径。  
---------------------------------------------------------------------------------------
-通过关键字查询日志  
-grep -nH "Excetion message" test.text  
- -n, --line-number 行号  
--H, --with-filename 打印每个匹配的文件名  
-
-查找文件中字符串出现次数  
-grep -c 'httpSample' kmtest0924.jtl  
 --------------------------------------------------------------------------------------
 Linux 删除除了某个文件之外的所有文件  
 rm -f !(a|b)
@@ -352,15 +336,6 @@ ls --sort=size
 ls --sort=time
 ls --sort=version
 ls --sort=none
---------------------------------------------------------------------------------------
-查找`2013-08-08`到`2013-09-01`号之间的文件
-find /log/ -name 'production.log-2013*' -newermt '2013-08-08' ! -newermt '2013-09-0
-
--newer   f1 !f2               #查更改时间比f1新但比f2旧的文件
-
-find -a 连接两个不同的条件（两个条件必须同时满足）
- -o 连接两个不同的条件（两个条件满足其一即可）
- -not 对条件取反的
 --------------------------------------------------------------------------------------
 pgrep -f program_name 列出进程名为 program_name 的ID，f参数可以匹配command中的关键字
 ps aux | grep -w program_name | grep -v grep | awk '{print $2}'
