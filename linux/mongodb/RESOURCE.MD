@@ -1,5 +1,5 @@
 #### linux下启动mongodb
-/usr/local/mongodb/bin/mongod  -port 27017 --dbpath /data/mongodb/ --logpath /var/mongodb/mongodb.log --fork  
+/usr/local/mongodb/bin/mongod  -port 27017 --dbpath /data/mongodb/db --logpath /data/mongodb/log/mongodb.log --fork  
 --fork 选项将会通知 mongod 在后台运行  
 mongodb默认端口 27017  
 --------------------------------------------------------------------------------------

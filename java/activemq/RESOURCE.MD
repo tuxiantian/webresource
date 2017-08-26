@@ -60,3 +60,25 @@ ActiveMQ is running (pid '3535')
 [root@localhost activemq]# ./bin/activemq stop
 [root@localhost activemq]# ./bin/activemq restart
 ```
+需要注意的是若是使用root用户安装的activemq,需要root用户启动
+```
+[tomcat@iZ2zecl4i8oy1rs7r025p8Z bin]$ ./activemq start
+INFO: Using default configuration
+(you can configure options in one of these file: /etc/default/activemq /home/tomcat/.activemqrc)
+
+INFO: Invoke the following command to create a configuration file
+./activemq setup [ /etc/default/activemq | /home/tomcat/.activemqrc ]
+
+INFO: Using java '/usr/bin/java'
+INFO: Starting - inspect logfiles specified in logging.properties and log4j.properties to get details
+;: line 2: /home/tomcat/activemq-5.9.0/data/activemq-iZ2zecl4i8oy1rs7r025p8Z.pid: Permission denied
+INFO: pidfile created : '/home/tomcat/activemq-5.9.0/data/activemq-iZ2zecl4i8oy1rs7r025p8Z.pid' (pid '818')
+[tomcat@iZ2zecl4i8oy1rs7r025p8Z bin]$ su root
+Password: 
+[root@iZ2zecl4i8oy1rs7r025p8Z bin]# ./activemq start
+INFO: Loading '/root/.activemqrc'
+INFO: Using java '/usr/bin/java'
+INFO: Starting - inspect logfiles specified in logging.properties and log4j.properties to get details
+INFO: pidfile created : '/home/tomcat/activemq-5.9.0/data/activemq-iZ2zecl4i8oy1rs7r025p8Z.pid' (pid '998')
+
+```
