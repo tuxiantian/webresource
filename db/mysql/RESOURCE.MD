@@ -1,3 +1,8 @@
+## mysql数据库恢复
+我更换了电脑的磁盘，装了新的数据库。在更换磁盘前忘了备份数据库了，只能将原来磁盘的数据库data目录一次性拷贝到新的数据库的data目录。
+在进行这个操作前，使用了net stop mysql命令停止了MySQL。我旧的磁盘数据库和新的磁盘数据库版本一样。这样就成功的恢复了数据库。若是
+只拷贝单个数据库目录过去，打开数据库表时就会提示表不存在。
+
 [MySQL 5.6 Online DDL](http://www.cnblogs.com/gomysql/p/3776192.html)  
 在上线的时候，一定要观察是否有某个慢SQL或者比较大的结果集的SQL在运行，否则在执行ALTER TABLE时将会导致锁表发生。使用show processlist;语句查看。  
 FIC（Fast index Creation）可以让innodb存储引擎避免创建临时表，提高索引创建效率。虽然FIC不会阻塞读操作，但是DML操作还是照样阻塞的。MySQL 5.6版本开始支持Online DDL（在线数据定义）操作，其允许辅助索引创建的同时，  
