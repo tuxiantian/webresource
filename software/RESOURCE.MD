@@ -9,6 +9,7 @@
 - [ ] maven  
 - [ ] tomcat  
 - [ ] everything  
+- [ ] FastStone Capture
 - [ ] foxmail  
 - [ ] jdgui  
 - [ ] jsonview  
@@ -90,3 +91,7 @@ ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole 
 ![](file:///E:/webresource/images/t_globalparam.png)
 ![](/images/t_globalparam.png)
 ```
+
+FastStone Capture注册码
+用户名：c1ikm
+注册码：AXMQX-RMMMJ-DBHHF-WIHTV      或   AXOQS-RRMGS-ODAQO-APHUU
