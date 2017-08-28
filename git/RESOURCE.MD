@@ -18,6 +18,8 @@
 - [更改仓库远程地址](#更改仓库远程地址)
 - [查看当前所处分支](#查看当前所处分支)
 - [查看所有分支](#查看所有分支)
+- [checkout](#checkout)
+    - [用已有分支初始化新分支](#用已有分支初始化新分支)
     - [gitflow使用总结](#gitflow使用总结)
         - [为master分支配套一个develop分支](#为master分支配套一个develop分支)
         - [切换到develop分支](#切换到develop分支)
@@ -107,6 +109,31 @@ git commit -a -m "commit description"
 > git branch
 ## 查看所有分支
 > git branch -a
+## checkout
+1）创建一个新分支，并切换到该分支上 
+       Git checkout –b 新分支名 
+2）切换到某个已经建立的本地分支local_branch 
+       Git checkout local_branch 
+（使用cat .git/HEAD后，显示refs:refs/heads/local_branch） 
+3) 切换到服务器上的某个分支remote_branch 
+       Git checkout remote_branch 
+（远程分支remote_branch可以通过 git branch –r 列出） 
+4) 切换到某个commit id 
+       Git checkout commit_id 
+（使用git log后，显示commit_id） 
+5) 切换到某个tag 
+       Git checkout tag 
+（使用git tag -l后，显示tag）       
+### 用已有分支初始化新分支 
+执行下面的命令，在切换到某个已经建立的local branch或者某个remote branch或者某个commit id 或者某个tag的同时，创建新分支new_branch，并且挂到这个新分支上。 
+1） 切换到某个已经建立的本地分支local_branch，并且使用此分支初始化一个新分支new_branch。 
+       git checkout –b new_branch local_branch 
+2) 切换到某个远程分支remote_branch，并且用此分支初始化一个新分支new_branch。 
+       Git checkout –b new_branch remote_branch 
+3) 切换到某个commit id，并建立新分支new_branch 
+       Git checkout –b new_branch commit_id 
+4) 切换到某个tag，并建立新分支new_branch 
+       Git checkout –b new_branch tag 
 
 [Git工作流指南](http://blog.jobbole.com/76843/)  
 [Git工作流指南：集中式工作流](http://blog.jobbole.com/76847/)  
