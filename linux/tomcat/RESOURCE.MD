@@ -84,3 +84,5 @@ Tomcat的session过期时间修改
 ### linux下解压tomcat后执行startup.sh提示没有权限
 apache-tomcat-7.0.59/bin下执行  
 chmod 777 *.sh  
+## 设置tomcat自动启动
+[设置tomcat自动启动](/linux/RESOURCE.MD#设置tomcat自动启动)
