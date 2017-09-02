@@ -20,6 +20,7 @@
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
 - [if函数](#if函数)
 - [NOW()和CURDATE()](#now和curdate)
+- [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
 - [查找满足所有规则的活动](#查找满足所有规则的活动)
 - [同步消息推送配置步骤](#同步消息推送配置步骤)
 
@@ -429,6 +430,14 @@ SELECT NOW();
 //2017-08-04 17:57:59
 SELECT CURDATE();
 //2017-08-04
+```
+### 计算时间差-TIMESTAMPDIFF
+大于指定间隔时间方可以提现
+```sql
+<select id="queryIncomeDraw" resultMap="entityMap">
+    <include refid="selectHead"/>
+    AND  TIMESTAMPDIFF(DAY,createTime,NOW())>=#{intervalDay}
+</select>
 ```
 ### 查找满足所有规则的活动
 
