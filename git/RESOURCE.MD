@@ -6,6 +6,7 @@
     - [用远程的文件覆盖本地的文件](#用远程的文件覆盖本地的文件)
     - [合并另一个分支的指定文件](#合并另一个分支的指定文件)
     - [git如何让单个文件回退到指定的版本](#git如何让单个文件回退到指定的版本)
+    - [清除屏幕](#清除屏幕)
 - [快速提交](#快速提交)
 - [撤销提交](#撤销提交)
     - [反转最近一次提交](#反转最近一次提交)
@@ -67,6 +68,8 @@ git reset a4e215234aa4927c85693dca7b68e9976948a35e MainActivity.java
 git commit -a -m "commit description"
 git push
 ```
+### 清除屏幕
+clear
 ## 快速提交
 git add .  
 git commit -m "commit description"  
