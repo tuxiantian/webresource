@@ -17,6 +17,8 @@
 - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 - [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
 - [左关联的使用误区](#左关联的使用误区)
+    - [示例1](#示例1)
+    - [示例2](#示例2)
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
 - [if函数](#if函数)
 - [NOW()和CURDATE()](#now和curdate)
@@ -352,6 +354,7 @@ GROUP BY a.channel_id,a.prov_code  HAVING COUNT(1) >1
 --更新影响行数7120
 ```
 ### 左关联的使用误区
+#### 示例1
 查询所有的套餐信息，若用户购买了某个套餐，isBuy的值为1，否则值为0.下面的sql是有问题的，若用户没有购买套餐，则查不出任何套餐信息。
 最外层的where条件是对left join起过滤作用的。
 ```sql
@@ -407,6 +410,25 @@ GROUP BY a.channel_id,a.prov_code  HAVING COUNT(1) >1
     </if>
     ORDER BY T.PKGID DESC
 </select>
+```
+#### 示例2
+查询已用车的会员,一个会员会多次用车，会查出多条记录
+```
+<select id="findHaveUsedCarAccount" resultType="mb">
+    SELECT T.USERID userId,T.MOBILE mobile FROM T_ACCOUNT T
+    LEFT JOIN t_orders O ON T.USERID=O.USERID
+    WHERE O.STATUS=699
+    <if test="areaCode != null and areaCode != ''">
+        AND T.REGCITY=#{areaCode}
+    </if>
+</select>
+```
+正确的写法
+```
+SELECT T.USERID userId,T.MOBILE mobile FROM T_ACCOUNT T
+LEFT JOIN (SELECT USERID FROM t_orders WHERE STATUS=699 GROUP BY userId)O ON T.USERID=O.USERID;
+或者下面这样，推荐下面的写法         
+SELECT * FROM t_account t WHERE EXISTS (SELECT 1 FROM t_orders o WHERE o.`USERID`=t.`USERID` AND o.`STATUS`=699);
 ```
 ### mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
 
