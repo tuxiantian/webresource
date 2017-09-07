@@ -25,6 +25,9 @@
 - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
 - [查找满足所有规则的活动](#查找满足所有规则的活动)
 - [同步消息推送配置步骤](#同步消息推送配置步骤)
+- [行变列例子](#行变列例子)
+    - [解决方法一](#解决方法一)
+    - [解决方法二](#解决方法二)
 
 <!-- /TOC -->
 
@@ -510,4 +513,78 @@ where t.`BUSSTYPE` not in
     t_messageconfig o
    left join t_messageconfig1 n  on 
    o.`BUSSTYPE` = n.`BUSSTYPE`) ;
+```
+### 行变列例子
+```sql
+USE csdn;  
+DROP TABLE IF EXISTS csdn.tb;  
+CREATE TABLE tb(`cname` VARCHAR(10),cource VARCHAR(10),score INT) ENGINE=INNODB;  
+  
+INSERT INTO tb VALUES('张三','语文',74);  
+INSERT INTO tb VALUES('张三','数学',83);  
+INSERT INTO tb VALUES('张三','物理',93);  
+INSERT INTO tb VALUES('李四','语文',74);  
+INSERT INTO tb VALUES('李四','数学',84);  
+INSERT INTO tb VALUES('李四','物理',94);  
+  
+SELECT * FROM tb;  
+```
+需要得到的结果是：
+|     姓名     | 语文  | 数学  | 物理  | 总成绩 | 平均成绩 |
+| ------------ | ----- | ----- | ----- | ------ | -------- |
+| 张三         | 74.00 | 83.00 | 93.00 | 250.00 | 83.33    |
+| 李四         | 74.00 | 84.00 | 94.00 | 252.00 | 84.00    |
+| 总成绩平均数 | 74.00 | 83.50 | 93.50 | 251.00 | 83.67    |
+#### 解决方法一
+```sql
+SELECT cname AS "姓名",  
+    SUM(IF(cource="语文",score,0)) AS "语文",  
+    SUM(IF(cource="数学",score,0)) AS "数学",  
+    SUM(IF(cource="物理",score,0)) AS "物理",  
+    SUM(score) AS "总成绩",  
+    ROUND(AVG(score),2) AS "平均成绩"  
+FROM tb   
+GROUP BY cname  
+UNION ALL  
+SELECT  
+    "总成绩平均数",  
+    ROUND(AVG(`语文`),2) , ROUND(AVG(`数学`),2), ROUND(AVG(`物理`),2), ROUND(AVG(`总成绩`),2), ROUND(AVG(`平均成绩`),2)  
+FROM(  
+    SELECT "all",cname AS "姓名",  
+        SUM(IF(cource="语文",score,0)) AS "语文",  
+        SUM(IF(cource="数学",score,0)) AS "数学",  
+        SUM(IF(cource="物理",score,0)) AS "物理",  
+        SUM(score) AS "总成绩",  
+        AVG(score) AS "平均成绩"  
+    FROM tb   
+    GROUP BY cname  
+)tb2   
+GROUP BY tb2.all;  
+```
+#### 解决方法二
+```sql
+SELECT   
+    cname AS "姓名",  
+    MAX(CASE cource WHEN "语文" THEN score ELSE 0 END) AS "语文",   
+    MAX(CASE cource WHEN "数学" THEN score ELSE 0 END) AS "数学",   
+    MAX(CASE cource WHEN "物理" THEN score ELSE 0 END) AS "物理",   
+    SUM(score) AS "总成绩",  
+    ROUND(AVG(score) ,2) AS "平均成绩"  
+FROM tb   
+GROUP BY `cname`  
+UNION ALL  
+SELECT  
+    "总成绩平均数",  
+    ROUND(AVG(`语文`),2) , ROUND(AVG(`数学`),2), ROUND(AVG(`物理`),2), ROUND(AVG(`总成绩`),2), ROUND(AVG(`平均成绩`),2)  
+FROM(   SELECT 'all' ,    
+        cname AS "姓名",  
+        MAX(CASE cource WHEN "语文" THEN score ELSE 0 END) AS "语文",   
+        MAX(CASE cource WHEN "数学" THEN score ELSE 0 END) AS "数学",   
+        MAX(CASE cource WHEN "物理" THEN score ELSE 0 END) AS "物理",   
+        SUM(score) AS "总成绩",  
+        ROUND(AVG(score) ,2) AS "平均成绩"  
+    FROM tb   
+    GROUP BY `cname`   
+)tb2 GROUP BY tb2.all  
+
 ```
