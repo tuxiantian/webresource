@@ -50,3 +50,8 @@ app和web端调用接口出现问题立即反馈到我这边，我查看日志�
 ### wiki使用技巧
 #### 接口api中插入示例响应json报文
 ![](/images/work/codeBlock.png)
+#### 快速变更page页目录
+**以层级方式查看**  
+![](/images/work/以层级方式查看.png)  
+**拖动page标题到不同目录**  
+![](/images/work/拖动page标题到不同目录.png)  
