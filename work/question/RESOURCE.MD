@@ -46,3 +46,18 @@ wget http://localhost:8083/mongodb/index.html
 服务器无响应输出
 本地启动正常，项目发到服务器上面就出现了上面陈述的问题。
 最后检查发现是spring-dubbo.xml文件中的zookeeper连接地址配置错误。地址改正后，服务正常启动了，上面两个问题就都不存在了。这真是一个诡异的问题。
+## MySQL两个无符号的数字想减出现问题
+次卡的打包次数-剩余次数=次卡使用次数。但是次卡参加活动后，剩余次数大于打包次数，想减之后会报错。
+```sql
+ SELECT a.`NICKNAME` nickName,a.`MOBILE` mobile,c.`card_name` cardName,ar.`AREANAME` areaName,pc.`pay_time` payTime,
+ac.`card_end_date` cardEndDate,ac.card_num cardNum,ac.`surplus_times` surplusTimes,(ac.`card_num`-ac.`surplus_times`) usedTimes
+	from `t_account_paycard` pc
+	inner join `t_card` c on pc.`card_id`=c.`card_id`
+	inner join t_account a on a.`USERID`=pc.`userid`
+	inner join `t_account_card` ac on ac.`card_id`=pc.`card_id` and pc.`userid`=ac.`userid`
+	left join t_area ar on ar.`AREACODE`=c.`areacode`
+	where 1=1
+```
+![](/images/work/question/question3.png)  
+表结构如下：
+![](/images/work/question/question4.png)  
