@@ -1,5 +1,6 @@
 <!-- TOC -->
 
+- [快速将本地项目提交到远程git仓库](#快速将本地项目提交到远程git仓库)
 - [常用的git命令](#常用的git命令)
 - [撤销尚未提交的修改](#撤销尚未提交的修改)
 - [使用远程仓库的文件](#使用远程仓库的文件)
@@ -36,14 +37,17 @@
         - [Git中文件的4种状态](#git中文件的4种状态)
 
 <!-- /TOC -->
-## 常用的git命令
+
+## 快速将本地项目提交到远程git仓库
+> 首先登陆git管理系统创建git仓库或是git项目，创建完毕后在本地执行以下操作  
 > cd e:/webresource              //首先指定到你的项目目录下  
 > git init  
 > touch README.md  
+> git remote add origin https://github.com/tuxiantian/webresource.git   //用你仓库的url  
 > git add README.md  
 > git commit -m "first commit"  
-> git remote add origin https://github.com/tuxiantian/webresource.git   //用你仓库的url  
 > git push -u origin master  //提交到你的仓库  
+## 常用的git命令
 > git diff master origin/master //比较本地仓库与远程仓库的异同,修改或新加的文件要添加到暂存区或提交到本地仓库，差异内容会在终端上显示  
 > git diff master origin/master >> e:diff/webResource.log //比较本地仓库与远程仓库的异同,修改或新加的文件要添加到暂存区或提交到本地仓库，差异内容输出到文件便于查看  
 > git <command> --help //查看某个命令的帮助文档  
