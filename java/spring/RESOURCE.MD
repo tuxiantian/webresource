@@ -1,6 +1,7 @@
 <!-- TOC -->
 
 - [spring-task](#spring-task)
+    - [spring-task的周期执行任务测试](#spring-task的周期执行任务测试)
 - [关于在spring容器初始化bean和销毁前所做的操作定义方式有三种：](#关于在spring容器初始化bean和销毁前所做的操作定义方式有三种)
 - [spring容器的加载方式](#spring容器的加载方式)
 - [Spring Aop](#spring-aop)
@@ -28,45 +29,52 @@
 第一个任务表示程序启动5s后调用voiceFileClearJob类中的execute方法，然后每隔一个小时再调用execute一次  
 第三个任务表示每天的23点59分调用statJob类中的statLgj方法  
 
-spring-task的周期执行任务，若下一个周期到来，而上一个周期的任务没有完成，那么任务不会再次执行直到上一个周期的任务执行完成。  
+#### spring-task的周期执行任务测试
+spring-task的周期执行任务，若下一个周期到来，而上一个周期的任务没有完成，那么下个周期也会执行。  
 测试代码如下：
 ```java
-<bean id="springTaskTest" class="com.laijia.biz.task.SpringTaskTest"/>
+<bean id="testJob" class="com.laijia.biz.task.TestJob"></bean>
 <task:scheduled-tasks>
-        <task:scheduled ref="springTaskTest" method="testTask" cron="0/10 * * * * ?"/>
+        <!--<task:scheduled ref="testJob" method="execute" initial-delay="1000" fixed-rate="1000"/>-->
+        <task:scheduled ref="testJob" method="execute" cron="0/1 * * * * ? "/>
 </task:scheduled-tasks>
-public class SpringTaskTest {
+public class TestJob {
 
-    public void testTask() throws InterruptedException {
-        System.out.println("task start");
-        Thread.sleep(15*1000);
-
-        Thread wait=new Thread(new Runnable() {
+    public void execute(){
+        System.out.println("开始执行："+DateUtil.date2String(new Date()));
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.currentThread().sleep(15*1000);
+                    Thread.currentThread().sleep(3000);
+                    System.out.println("执行完成");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("task finish");
             }
-        });
-        wait.start();
-        System.out.println("task finish main");
+        }).start();
     }
-
 }
 运行结果：
-task start
-task finish
-task finish main
-task start
-task finish
-task finish main
-task start
-task finish
-task finish main
+开始执行：2017-09-18 17:10:02
+执行完成
+执行完成
+开始执行：2017-09-18 17:10:03
+开始执行：2017-09-18 17:10:04
+执行完成
+开始执行：2017-09-18 17:10:05
+执行完成
+开始执行：2017-09-18 17:10:06
+执行完成
+执行完成
+开始执行：2017-09-18 17:10:07
+执行完成
+开始执行：2017-09-18 17:10:08
+执行完成
+开始执行：2017-09-18 17:10:09
+开始执行：2017-09-18 17:10:10
+执行完成
+执行完成
 ```
 
 ref是工作类  
