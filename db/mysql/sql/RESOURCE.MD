@@ -28,6 +28,7 @@
 - [行变列例子](#行变列例子)
     - [解决方法一](#解决方法一)
     - [解决方法二](#解决方法二)
+- [查询不在热区的车辆](#查询不在热区的车辆)
 
 <!-- /TOC -->
 
@@ -587,4 +588,29 @@ FROM(   SELECT 'all' ,
     GROUP BY `cname`   
 )tb2 GROUP BY tb2.all  
 
+```
+### 查询不在热区的车辆
+查询当前不在热区的车辆信息保存到日报表中
+```
+SELECT c.AREACODE areaCode,c.CARID carId,c.LPN lpn,e.last_location lastCarLocation,e.last_charge_time lastStartChargeTime,
+CURDATE() rbDate,ti.create_time taskCreateTime,ti.send_time taskSendTime,ti.sender sendUser,
+(SELECT z.`zone_name` FROM t_zone z WHERE z.`zone_id`=e.zone_id) zoneName,
+(SELECT o.ENDTIME FROM t_orders o WHERE o.`CARID`=c.carid ORDER BY o.ENDTIME DESC LIMIT 1) lastBackTime
+FROM t_cars c
+INNER JOIN t_car_ext e ON c.carid=e.carid AND e.hot_area_id=0
+LEFT JOIN (SELECT t.car_id,create_time,send_time,sender FROM  t_task_info t WHERE  t.`task_type`=3 ORDER BY t.create_time DESC LIMIT 1) ti ON ti.car_id=c.carid
+
+```
+通过减少关联查询t_task_info表记录的数量提高查询性能，优化后的sql如下
+```
+<select id="findNoInHotArea" resultType="com.laijia.biz.operation.entity.RbNoHotArea">
+    SELECT c.AREACODE areaCode,c.CARID carId,c.LPN lpn,e.last_location lastCarLocation,e.last_charge_time lastStartChargeTime,
+    CURDATE() rbDate,tti.create_time taskCreateTime,tti.send_time taskSendTime,tti.sender sendUser,
+    (SELECT z.`zone_name` FROM t_zone z WHERE z.`zone_id`=e.zone_id) zoneName,
+    (SELECT o.ENDTIME FROM t_orders o WHERE o.`CARID`=c.carid ORDER BY o.ENDTIME DESC LIMIT 1) lastBackTime
+    FROM t_cars c
+    INNER JOIN t_car_ext e ON c.carid=e.carid AND e.hot_area_id=0
+    LEFT OUTER JOIN (SELECT t.car_id,MAX(t.task_id) task_id FROM  t_task_info t WHERE t.create_time > DATE_SUB(NOW(),INTERVAL 3 DAY) AND t.`task_type`=3 GROUP BY t.car_id) ti ON ti.car_id=c.carid
+    LEFT OUTER JOIN t_task_info tti ON ti.task_id=tti.task_id
+</select>
 ```
