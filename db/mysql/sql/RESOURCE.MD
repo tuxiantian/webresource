@@ -12,6 +12,7 @@
     - [表结构如下](#表结构如下)
     - [sql语句如下](#sql语句如下)
 - [EXISTS](#exists)
+    - [你真的会用EXISTS吗](#你真的会用exists吗)
 - [使用优化的分页查询语句](#使用优化的分页查询语句)
 - [find_in_set](#find_in_set)
 - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
@@ -28,6 +29,7 @@
 - [行变列例子](#行变列例子)
     - [解决方法一](#解决方法一)
     - [解决方法二](#解决方法二)
+- [查询不在热区的车辆](#查询不在热区的车辆)
 
 <!-- /TOC -->
 
@@ -210,6 +212,107 @@ AND T.ORGNO LIKE CONCAT(#{parentOrgNo},'____') 表示只看直属下级的信息
     </if>
 
 </sql>
+```
+#### 你真的会用EXISTS吗
+查询不限制购买次数的次卡或购买次数小于限定次数的次卡
+```sql
+SELECT t.card_id,
+       t.areacode,
+       (SELECT a.areaName  FROM t_area a WHERE a.AREACODE= t.AREACODE) AS areaName,
+       t.card_name,
+       t.price,
+       t.use_time,
+       t.card_num,
+       t.card_amount,
+       t.valid_unit,
+       t.valid_num,
+       t.create_time,
+       t.remark,
+       t.limit_buy_num,
+       t.buy_start_time,
+       t.buy_end_time,
+       t.status
+  FROM t_card t
+ WHERE 1= 1
+   AND t.areacode= '370724'
+   AND t.status= 1
+   AND( EXISTS(
+            SELECT COUNT(1) buyCount
+            FROM t_account_paycard ap
+            WHERE ap.card_id= t.card_id
+            AND ap.status= 1
+            AND ap.`userid`= '746b2506d64adfcce8ee9ffc510bb529'
+            GROUP BY ap.userid, ap.card_id
+            HAVING buyCount<= t.limit_buy_num
+            )
+            OR t.limit_buy_num= 0
+    )
+ ORDER BY t.card_id ASC;
+
+```
+上面的查询语句，若用户尚未购买次卡，则查询不到可以购买的次卡。下面的sql则可以满足需求。
+```sql
+SELECT t.card_id,
+       t.areacode,
+       (
+       SELECT a.areaName  FROM t_area a WHERE a.AREACODE= t.AREACODE) AS areaName,
+       t.card_name,
+       t.price,
+       t.use_time,
+       t.card_num,
+       t.card_amount,
+       t.valid_unit,
+       t.valid_num,
+       t.create_time,
+       t.remark,
+       t.limit_buy_num,
+       t.buy_start_time,
+       t.buy_end_time,
+       t.status
+  FROM t_card t
+ WHERE 1= 1
+   AND t.areacode= '370724'
+   AND t.status= 1
+   AND (NOT EXISTS (
+       SELECT COUNT(1) buyCount FROM t_account_paycard ap WHERE ap.card_id=t.card_id AND ap.status=1 AND ap.`userid`='0c496a01770e2c9b71c781f990c66894'
+            GROUP BY ap.card_id HAVING  buyCount >= t.limit_buy_num)
+            OR t.limit_buy_num=0)
+ ORDER BY t.card_id ASC;
+```
+或者也可以使用下面的写法
+```sql
+SELECT t.card_id,
+       t.areacode,
+       (
+SELECT a.areaName
+  FROM t_area a
+ WHERE a.AREACODE= t.AREACODE) AS areaName,
+       t.card_name,
+       t.price,
+       t.use_time,
+       t.card_num,
+       t.card_amount,
+       t.valid_unit,
+       t.valid_num,
+       t.create_time,
+       t.remark,
+       t.limit_buy_num,
+       t.buy_start_time,
+       t.buy_end_time,
+       t.status
+  FROM t_card t
+left outer join (SELECT ap.card_id,COUNT(1) buyCount
+  FROM t_account_paycard ap
+ WHERE  ap.status= 1
+   AND ap.`userid`= '746b2506d64adfcce8ee9ffc510bb529'
+ GROUP BY  ap.card_id) b on t.`card_id` =b.card_id
+ WHERE 1= 1
+   AND t.areacode= '370724'
+   AND t.status= 1
+   AND (ifnull(b.buyCount,0) < t.`limit_buy_num` 
+    OR t.limit_buy_num= 0)
+ ORDER BY t.card_id ASC;
+
 ```
 
 ### 使用优化的分页查询语句
@@ -587,4 +690,29 @@ FROM(   SELECT 'all' ,
     GROUP BY `cname`   
 )tb2 GROUP BY tb2.all  
 
+```
+### 查询不在热区的车辆
+查询当前不在热区的车辆信息保存到日报表中
+```
+SELECT c.AREACODE areaCode,c.CARID carId,c.LPN lpn,e.last_location lastCarLocation,e.last_charge_time lastStartChargeTime,
+CURDATE() rbDate,ti.create_time taskCreateTime,ti.send_time taskSendTime,ti.sender sendUser,
+(SELECT z.`zone_name` FROM t_zone z WHERE z.`zone_id`=e.zone_id) zoneName,
+(SELECT o.ENDTIME FROM t_orders o WHERE o.`CARID`=c.carid ORDER BY o.ENDTIME DESC LIMIT 1) lastBackTime
+FROM t_cars c
+INNER JOIN t_car_ext e ON c.carid=e.carid AND e.hot_area_id=0
+LEFT JOIN (SELECT t.car_id,create_time,send_time,sender FROM  t_task_info t WHERE  t.`task_type`=3 ORDER BY t.create_time DESC LIMIT 1) ti ON ti.car_id=c.carid
+
+```
+通过减少关联查询t_task_info表记录的数量提高查询性能，优化后的sql如下
+```
+<select id="findNoInHotArea" resultType="com.laijia.biz.operation.entity.RbNoHotArea">
+    SELECT c.AREACODE areaCode,c.CARID carId,c.LPN lpn,e.last_location lastCarLocation,e.last_charge_time lastStartChargeTime,
+    CURDATE() rbDate,tti.create_time taskCreateTime,tti.send_time taskSendTime,tti.sender sendUser,
+    (SELECT z.`zone_name` FROM t_zone z WHERE z.`zone_id`=e.zone_id) zoneName,
+    (SELECT o.ENDTIME FROM t_orders o WHERE o.`CARID`=c.carid ORDER BY o.ENDTIME DESC LIMIT 1) lastBackTime
+    FROM t_cars c
+    INNER JOIN t_car_ext e ON c.carid=e.carid AND e.hot_area_id=0
+    LEFT OUTER JOIN (SELECT t.car_id,MAX(t.task_id) task_id FROM  t_task_info t WHERE t.create_time > DATE_SUB(NOW(),INTERVAL 3 DAY) AND t.`task_type`=3 GROUP BY t.car_id) ti ON ti.car_id=c.carid
+    LEFT OUTER JOIN t_task_info tti ON ti.task_id=tti.task_id
+</select>
 ```
