@@ -1,3 +1,8 @@
+### 解决Maven报Plugin execution not covered by lifecycle configuration
+> Plugin execution not covered by lifecycle configuration: org.apache.maven.plugins:maven-antrun-plugin:1.3:run (execution: default, phase: compile)
+
+<plugins> 标签外再套一个 <pluginManagement> 标签，我试验是成功的。详情如下：  
+[ 解决Maven报Plugin execution not covered by lifecycle configuration](http://blog.csdn.net/xxd851116/article/details/25197373)
 ### The Central Repository
 > https://search.maven.org/
 > http://mvnrepository.com/tags/maven
