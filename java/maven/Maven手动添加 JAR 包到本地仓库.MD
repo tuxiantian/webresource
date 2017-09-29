@@ -33,12 +33,13 @@ spring-context-support-3.1.0.RELEASE.jar 的 JAR 包，我把它安装到本地�
 以 spring-context-support-3.1.0.RELEASE.jar 为例，在 @3图中已经给出这个 jar 包的 groupId，artifactId，version信息，
 手动安装的时候这些信息不要改，否则 Maven 项目移植的话，jar 包下载就会失败。顺便把这信息帖下面，方便对照：
 
-
+```xml
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-context-support</artifactId>
     <version>3.1.0.RELEASE</version>
 </dependency>
+```
 
 Maven 安装 JAR 包的命令是：
 
