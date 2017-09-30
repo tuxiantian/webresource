@@ -167,12 +167,7 @@ exclusions排除依赖
     <spring>2.5.6</spring>
 </properties>
 ```
---------------------------------------------------------------------------------------
-maven具有三个独立的生命周期：clean、defeat、site
---------------------------------------------------------------------------------------
-mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId
--DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar
---------------------------------------------------------------------------------------
+
 ```
 <groupId>org.apache.maven.plugins</groupId>
 <artifactId>maven-compiler-plugin</artifactId>

@@ -55,8 +55,8 @@ redo log 刷盘策略由 innodb_flush_log_at_trx_commit 参数控制:
 ib_logfile0 and ib_logfile1两个文件,就是redo log（用于崩溃时恢复）  
 
 二进制日志会记录所有与mysql有关的日志记录(bin log)  
---------------------------------------------------------------------------------------
-MySQL 为生产环境在线添加字段  
+
+## MySQL 为生产环境在线添加字段  
 create table new_table_name like old_table_name;  
 alter table new_table_name add column new_column int not null default 0 comment 'your comment';  
 alter table t_user_2 add name2 varchar(15),add name3 varchar(4);  
@@ -163,7 +163,7 @@ release: 断开和客户端的连接
 定点数不同于浮点数，定点数实际上是以字符串形式存放的  decimal(10,2)
 
 --------------------------------------------------------------------------------------
-mysql更改字符集  
+## mysql更改字符集  
 alter table t1 convert to charset utf8mb4;  
 alter table 改字符集的操作是阻塞写的  
 --------------------------------------------------------------------------------------
@@ -447,17 +447,13 @@ metadata lock主要为了保证元数据的一致性,用于处理不同线程操
 事务隔离问题 可重复隔离级别下,会话A在2次查询期间,会话B对表结构做了修改
 数据复制问题 如会话A执行了多条更新语句期间,另外一个会话B做了表结构变更并且先提交
 
-查看临时文件存储目录
-show variables like '%tmp%';
-tmpdir=path
-
-find_in_set(3,'1,2,3')
 --------------------------------------------------------------------------------------
 
 记录不使用索引的语句
 mysql> set global log_queries_not_using_indexes = 'ON';
 FLUSH LOGS;
---------------------------------------------------------------------------------------
+
+## mysql数据库连接的写法
 jdbc:mysql://10.0.0.40:3308/unidsp?profileSQL=true&gatherPerfMetrics=true&
 reportMetricsIntervalMillis=500&useUnicode=true&zeroDateTimeBehavior=convertToNull
 &allowMultiQueries=true&characterEncoding=UTF-8
@@ -468,6 +464,7 @@ profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
 批量插入
 useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
 --------------------------------------------------------------------------------------
+## MySQL常用变量
 查看最大连接数上限
 show variables like 'max_connections';
 
@@ -475,4 +472,8 @@ show variables like 'max_connections';
 show global status like 'Max_used_connections';
 
 max_connections=1500
+
+查看临时文件存储目录
+show variables like '%tmp%';
+tmpdir=path
 --------------------------------------------------------------------------------------
