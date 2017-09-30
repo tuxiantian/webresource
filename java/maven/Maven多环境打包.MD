@@ -98,3 +98,5 @@ Maven多环境打包
     </build>
 </project>
 ```
+打包命令
+mvn package -P queue -P test
