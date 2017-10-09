@@ -22,3 +22,13 @@
 ## 通过idea修改全局maven配置文件
 ![](/images/software/idea/9.png)  
 需要从远程下载新的jar包时，需要注释掉私服xingtu的镜像地址。
+## 从git上面导入项目
+![](/images/software/idea/从git上面导入项目/1.png)  
+![](/images/software/idea/从git上面导入项目/2.png)  
+![](/images/software/idea/从git上面导入项目/3.png)  
+![](/images/software/idea/从git上面导入项目/4.png)  
+![](/images/software/idea/从git上面导入项目/5.png)  
+![](/images/software/idea/从git上面导入项目/6.png)  
+![](/images/software/idea/从git上面导入项目/7.png)
+![](/images/software/idea/从git上面导入项目/8.png)  
+![](/images/software/idea/从git上面导入项目/9.png)
