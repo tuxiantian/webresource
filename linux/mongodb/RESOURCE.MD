@@ -48,7 +48,7 @@ MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/b
 > 如果与服务器连接成功，就开始数据传输了。  
 > 如果服务器处理数据用时过长，超过了SocketTimeOut，就会抛出SocketTimeOutExceptin，即服务器响应超时，服务器没有在规定的时间内返回给客户端数据。  
 #### 查看数据库信息
-
+查看所有的数据库 show dbs
 ```
  命令：db.stats()
  执行结果如下：
