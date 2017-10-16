@@ -50,7 +50,13 @@ MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/b
 #### 查看数据库信息
 查看所有的数据库 show dbs
 ```
- 命令：db.stats()
+Warning  0.000GB
+local    0.000GB
+xingtu   0.040GB
+```
+查看当前数据库的统计信息  
+命令：db.stats()
+```
  执行结果如下：
  {
         "db" : "test",  //当前数据库
