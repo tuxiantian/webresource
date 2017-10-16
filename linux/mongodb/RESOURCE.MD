@@ -195,7 +195,11 @@ insert query update delete getmore command dirty used flushes vsize  res qrw arw
 ```
 输出说明：
 > insert query update delete getmore command        每种操作发生的次数  
+> getmore：每秒执行getmore次数(查询时游标的getmore操作)  
 > flushes  mongod将数据刷新到磁盘的次数  
+> command：一秒钟执行的命令数。如批量插入，只认为是一条命令，意义不大。  
+> dirty：这个是Wried Tiger引擎所特有的参数，数值是缓存中无效数据所占的百分比.  
+> used:这个是WriedTiger引擎所特有的参数，数值是正在使用的缓存百分比。  
 > vsize     mongod正在使用的虚拟内存的大小，通常为数据目录的2倍大小（一次用于映射文件，一次用于日记系统）  
 > res        mongod正在使用的内存的大小，通常该值应该尽量接近机器所有内存的大小。  
 > qr | qw  读写操作队列大小，即有多少读写操作被阻塞，等待进行处理。  
