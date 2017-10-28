@@ -19,7 +19,8 @@
 
 ### spring-task
 ```xml
-<task:scheduled-tasks>  
+<task:scheduler id="taskScheduler" pool-size="50" />
+<task:scheduled-tasks  scheduler="taskScheduler">  
     <task:scheduled ref="voiceFileClearJob" method="execute" initial-delay="5000" fixed-delay="3600000"/>  
     <task:scheduled ref="versionListenJob" method="execute" initial-delay="5000" fixed-delay="5000"/>  
     <task:scheduled ref="statJob" method="statLgj" cron="0 59 23 * * ?"/>  
