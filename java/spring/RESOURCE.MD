@@ -1,5 +1,6 @@
 <!-- TOC -->
 
+- [ThreadPoolTaskExecutor](#threadpooltaskexecutor)
 - [spring-task](#spring-task)
     - [spring-task的周期执行任务测试](#spring-task的周期执行任务测试)
 - [关于在spring容器初始化bean和销毁前所做的操作定义方式有三种：](#关于在spring容器初始化bean和销毁前所做的操作定义方式有三种)
@@ -16,7 +17,24 @@
 - [Jackson与SpringMVC整合的MessageConverter配置](#jackson与springmvc整合的messageconverter配置)
 
 <!-- /TOC -->
+### ThreadPoolTaskExecutor
 
+```xml
+<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+    <!-- 线程池维护线程的最少数量 -->
+    <property name="corePoolSize" value="10"/>
+    <!-- 允许的空闲时间 -->
+    <property name="keepAliveSeconds" value="200"/>
+    <!-- 线程池维护线程的最大数量 -->
+    <property name="maxPoolSize" value="50"/>
+    <!-- 缓存队列 -->
+    <property name="queueCapacity" value="100"/>
+    <!-- 对拒绝task的处理策略 -->
+    <property name="rejectedExecutionHandler">
+        <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+    </property>
+</bean>
+```
 ### spring-task
 ```xml
 <task:scheduler id="taskScheduler" pool-size="50" />
