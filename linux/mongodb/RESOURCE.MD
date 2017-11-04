@@ -80,6 +80,7 @@ show collections;
 db.集合名.find().count();
 多个查询条件的查询示例
 db.getCollection('carLocation080').find({"gpsTime":{$gte:1492046406356,$lte:1503543971000}})
+db.carLocation217361300000115.find().sort({gpsTime:-1}).limit(1).pretty()
 #### Help查看命令提示
 ```
 help
