@@ -38,18 +38,18 @@ select id,group_concat(name order by name desc) from aa group by id;
 ## find_in_set
 ```sql
 <!-- 获取 db_ap_rgsh_standard_order_page_element表所有字段 -->
-	<sql id="getPageElementValue">
-		ID id,
-		REQUEST_SOURCE requestSource,
-		ELEMENT_NAME `name`,
-		DESCRIPTION `desc`,
-		TYPE type,
-		EDIT_FLAG editFlag,
-		POSITION position,
-		STATE state,
-		FIELD_SORT fieldSort,
-		DECRYPT decrypt
-	</sql>
+<sql id="getPageElementValue">
+	ID id,
+	REQUEST_SOURCE requestSource,
+	ELEMENT_NAME `name`,
+	DESCRIPTION `desc`,
+	TYPE type,
+	EDIT_FLAG editFlag,
+	POSITION position,
+	STATE state,
+	FIELD_SORT fieldSort,
+	DECRYPT decrypt
+</sql>
 <select id="queryPageElementByRequestSource" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			<include refid="getPageElementValue"/>
