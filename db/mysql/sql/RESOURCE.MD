@@ -14,7 +14,6 @@
 - [EXISTS](#exists)
     - [你真的会用EXISTS吗](#你真的会用exists吗)
 - [使用优化的分页查询语句](#使用优化的分页查询语句)
-- [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 - [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
 - [左关联的使用误区](#左关联的使用误区)
     - [示例1](#示例1)
@@ -398,9 +397,6 @@ CREATE TABLE `t_member_frozenseq` (
     <include refid="condition"/>
 </select>
 ```
-
-### mysql查表中有多少字段的sql语句
-SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
 
 ### EXISTS关键字的一个使用示例
 1需求：为某些省份的重复的渠道做标记

@@ -7,6 +7,7 @@
 - [if函数](#if函数)
 - [NOW()和CURDATE()](#now和curdate)
 - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
+    - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 
 <!-- /TOC -->
 
@@ -112,3 +113,6 @@ TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
 7. MONTH。月
 8. QUARTER。季度
 9. YEAR。年
+
+### mysql查表中有多少字段的sql语句
+SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
