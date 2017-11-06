@@ -24,6 +24,9 @@
     - [解决方法一](#解决方法一)
     - [解决方法二](#解决方法二)
 - [查询不在热区的车辆](#查询不在热区的车辆)
+- [待下发任务统计](#待下发任务统计)
+- [班次任务统计](#班次任务统计)
+- [历史任务统计](#历史任务统计)
 
 <!-- /TOC -->
 
@@ -707,5 +710,126 @@ FROM
     ON ti.car_id = c.carid 
   LEFT OUTER JOIN t_task_info tti 
     ON ti.task_id = tti.task_id 
+</select>
+```
+
+### 待下发任务统计
+![](/images/db/mysql/sql/to_process.png)
+```sql
+<select id="toProcessTaskCount" resultType="com.laijia.biz.operation.entity.TaskCount">
+select ifnull(MAX((case u.task_type when 1 then u.num else 0 end)),0) 'maintain',
+IFNULL(MAX((case u.task_type when 2 then u.num else 0 end)),0) 'wash',
+IFNULL(MAX((case u.task_type when 3 then u.num else 0 end)),0) 'dispatch',
+IFNULL(MAX((case u.task_type when 4 then u.num else 0 end)),0) 'charge',
+IFNULL(MAX((case u.task_type when 5 then u.num else 0 end)),0) 'accident'
+    from
+    (SELECT t.task_type,COUNT(1) num FROM `t_task_info` t WHERE t.area_code=#{areaCode}  AND t.status=1 group by t.task_type) u
+</select>
+```
+### 班次任务统计
+![](/images/db/mysql/sql/shift_statics.png)
+```sql
+<select id="findShiftStatistics" resultType="mb">
+SELECT z.zone_name zoneName,mu.name,
+ifnull(bat.autoViewCount,0) autoViewCount,
+ifnull(bat.autoDispatchCount,0) autoDispatchCount,
+ifnull(ti.disFinishCount,0) disFinishCount,
+ifnull(ti.disSendCount,0) disSendCount,
+ifnull(bat.autoChargeCount,0) autoChargeCount,
+ifnull(ti.chargeFinishCount,0) chargeFinishCount,
+ifnull(ti.chargeSendCount,0) chargeSendCount,
+ifnull(ti.mainFinishCount,0) mainFinishCount,
+ifnull(ti.mainFinishingCount,0) mainFinishingCount,
+ifnull(ti.mainSendCount,0) mainSendCount,
+ifnull(ti.accFinishCount,0) accFinishCount,
+ifnull(ti.accFinishingCount,0) accFinishingCount,
+ifnull(ti.accSendCount,0) accSendCount
+FROM t_arrange a
+INNER JOIN t_zone z ON a.zone_id=z.zone_id
+INNER JOIN t_main_user mu ON a.user_id=mu.user_id
+LEFT OUTER JOIN(SELECT tat.reporter_id,
+        SUM(case tat.task_type WHEN 1 THEN 1 ELSE 0 END) autoViewCount,
+        SUM(case tat.task_type WHEN 3 THEN 1 ELSE 0 END) autoDispatchCount,
+        SUM(case tat.task_type WHEN 4 THEN 1 ELSE 0 END) autoChargeCount
+FROM t_auto_task tat  WHERE  tat.finish_time <![CDATA[>=]]> #{startDate} AND tat.finish_time <![CDATA[<]]>  #{endDate} GROUP BY tat.reporter_id) bat ON a.user_id=bat.reporter_id
+LEFT OUTER JOIN(SELECT tti.rece_id,
+    SUM(case tti.task_type WHEN 3 THEN 1 ELSE 0 end) disSendCount,
+    SUM(case  WHEN tti.task_type=3 AND tti.status=9 THEN 1 ELSE 0 end) disFinishCount,
+    SUM(case tti.task_type WHEN 4 THEN 1 ELSE 0 end) chargeSendCount,
+    SUM(case  WHEN tti.task_type=4 AND tti.status=9 THEN 1 ELSE 0 end) chargeFinishCount,
+    SUM(case  WHEN tti.task_type=1 AND tti.status=9 THEN 1 ELSE 0 end) mainFinishCount,
+    SUM(case  WHEN tti.task_type=1 AND tti.status=3 THEN 1 ELSE 0 end) mainFinishingCount,
+    SUM(case  WHEN tti.task_type=1 THEN 1 ELSE 0 end) mainSendCount,
+    SUM(case  WHEN tti.task_type=5 AND tti.status=9 THEN 1 ELSE 0 end) accFinishCount,
+    SUM(case  WHEN tti.task_type=5 AND tti.status=3 THEN 1 ELSE 0 end) accFinishingCount,
+    SUM(case  WHEN tti.task_type=5 THEN 1 ELSE 0 end) accSendCount
+FROM t_task_info tti   WHERE tti.status>1 and tti.send_time <![CDATA[>=]]> #{startDate} AND tti.send_time <![CDATA[<]]> #{endDate} GROUP BY tti.rece_id) ti ON a.user_id=ti.rece_id
+WHERE a.status=1  AND a.area_code=#{areaCode}
+<if test="shiftId !=null">
+    and a.shift_id=#{shiftId}
+</if>
+</select>
+```
+### 历史任务统计
+![](/images/db/mysql/sql/history_task_statics.png)
+```sql
+<select id="findHistoryStatistics" resultType="mb">
+    select userId ,zone_name zoneName,name,ifnull(sum(autoViewCount),0) autoViewCount,ifnull(sum(autoDispatchCount),0) autoDispatchCount
+    ,ifnull(sum(disFinishCount),0) disFinishCount,ifnull(sum(disSendCount),0) disSendCount,
+    ifnull(sum(autoChargeCount),0) autoChargeCount,
+    ifnull(sum(chargeFinishCount),0) chargeFinishCount,ifnull(sum(chargeSendCount),0) chargeSendCount,
+    ifnull(sum(mainFinishCount),0) mainFinishCount,ifnull(sum(mainFinishingCount),0) mainFinishingCount,
+    ifnull(sum(mainSendCount),0) mainSendCount,ifnull(sum(accFinishCount),0) accFinishCount,
+    ifnull(sum(accFinishingCount),0) accFinishingCount,ifnull(sum(accSendCount),0) accSendCount
+    from (
+        select tat.reporter_id userId,z.zone_name,mu.name,
+        (case tat.task_type WHEN 1 THEN 1 ELSE 0 END) autoViewCount,
+        (case tat.task_type WHEN 3 THEN 1 ELSE 0 END) autoDispatchCount,
+        0 disFinishCount,
+        0 disSendCount,
+        (case tat.task_type WHEN 4 THEN 1 ELSE 0 END) autoChargeCount ,
+        0 chargeFinishCount,
+        0 chargeSendCount,
+        0 mainFinishCount,
+        0 mainFinishingCount,
+        0 mainSendCount,
+        0 accFinishCount,
+        0 accFinishingCount,
+        0 accSendCount
+        FROM t_auto_task tat
+        INNER JOIN t_zone z ON tat.zone_id=z.zone_id
+        INNER JOIN t_main_user mu ON tat.reporter_id=mu.user_id
+        WHERE  1=1
+        <if test="startDate !=null and startDate !=''">AND tat.finish_time <![CDATA[>=]]> #{startDate}</if>
+        <if test="endDate !=null and endDate !=''">AND tat.finish_time <![CDATA[<]]> #{endDate} </if>
+        AND tat.area_code=#{areaCode}
+    union all
+        SELECT tti.rece_id userId,z.zone_name,mu.name,
+        0 autoViewCount,
+        0 autoDispatchCount,
+        (case  WHEN tti.task_type=3 AND tti.status=9 THEN 1 ELSE 0 end) disFinishCount,
+        (CASE tti.task_type WHEN 3 THEN 1 ELSE 0 END) disSendCount,
+        0 autoChargeCount ,
+        (CASE  WHEN tti.task_type=4 AND tti.status=9 THEN 1 ELSE 0 END) chargeFinishCount,
+        (case tti.task_type WHEN 4 THEN 1 ELSE 0 end) chargeSendCount,
+        (case  WHEN tti.task_type=1 AND tti.status=9 THEN 1 ELSE 0 end) mainFinishCount,
+        (case  WHEN tti.task_type=1 AND tti.status=3 THEN 1 ELSE 0 end) mainFinishingCount,
+        (case  WHEN tti.task_type=1 THEN 1 ELSE 0 end) mainSendCount,
+        (CASE  WHEN tti.task_type=5 AND tti.status=9 THEN 1 ELSE 0 END) accFinishCount,
+        (case  WHEN tti.task_type=5 AND tti.status=3 THEN 1 ELSE 0 end) accFinishingCount,
+        (case  WHEN tti.task_type=5 THEN 1 ELSE 0 end) accSendCount
+        FROM t_task_info tti
+        INNER JOIN t_zone z ON tti.zone_id=z.zone_id
+        INNER JOIN t_main_user mu ON tti.rece_id=mu.user_id
+        WHERE tti.status>1
+        <if test="startDate !=null and startDate !=''">
+            AND tti.send_time <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="endDate !=null and endDate !=''">
+            AND tti.send_time <![CDATA[<]]> #{endDate}
+        </if>
+        AND tti.area_code=#{areaCode}
+    ) t
+    group by zone_name,userId
 </select>
 ```
