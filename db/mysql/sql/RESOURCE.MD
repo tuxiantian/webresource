@@ -668,7 +668,7 @@ FROM
     ON ti.car_id = c.carid 
 
 ```
-通过减少关联查询t_task_info表记录的数量提高查询性能，优化后的sql如下
+通过减少关联查询t_task_info表记录的数量和使用分组取最大值的方式避免排序，提高查询性能，优化后的sql如下
 ```sql
 <select id="findNoInHotArea" resultType="com.laijia.biz.operation.entity.RbNoHotArea">
     SELECT 
