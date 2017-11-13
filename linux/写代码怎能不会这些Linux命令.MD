@@ -12,6 +12,8 @@ cp -rf sourcefile targetdir或cp -r -f sourcefile targetdir
 rsync -avzu --progress -e "ssh -p 62100" /home/tomcat/tomcat7/webapps/ROOT/upload   root@10.80.80.98:/home/tomcat/tomcat8/webapps/ROOT
 输入目的主机的密码  
 
+u选项，指定不覆盖原目录内容
+
 rsync同步两台主机上面的目录，与scp的差别就是已存在的文件不会被覆盖，注意目的主机不要指定要同步的目录，而是指定要同步的目录的父级目录。
 yum install rsync -y
 若报rsync : command not found，则是因为没有安装rsync，执行上面的命令安装即可。
