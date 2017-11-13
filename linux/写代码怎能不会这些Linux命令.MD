@@ -15,3 +15,6 @@ rsync -avzu --progress -e "ssh -p 62100" /home/tomcat/tomcat7/webapps/ROOT/uploa
 rsync同步两台主机上面的目录，与scp的差别就是已存在的文件不会被覆盖，注意目的主机不要指定要同步的目录，而是指定要同步的目录的父级目录。
 yum install rsync -y
 若报rsync : command not found，则是因为没有安装rsync，执行上面的命令安装即可。
+### scp使用示例
+scp local_file remote_username@remote_ip:remote_file
+scp -P62100 -r /home/tomcat/publish root@39.107.32.220:/home/tomcat/
