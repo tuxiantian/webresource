@@ -61,3 +61,15 @@ ac.`card_end_date` cardEndDate,ac.card_num cardNum,ac.`surplus_times` surplusTim
 ![](/images/work/question/question3.png)  
 表结构如下：
 ![](/images/work/question/question4.png)  
+## 磁盘空间不足导致的问题
+查看磁盘空间的使用情况：df -h
+```
+[root@iZ2zecl4i8oy1rs7r025p8Z tomcat_mongo]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        40G   33G  4.8G  88% /
+tmpfs           3.9G     0  3.9G   0% /dev/shm
+
+```
+当时有一个bug需要修复，管控数据统计的合计和按日统计是两段查询语句，它们的查询条件不一致导致统计的结果不一致。mapper文件是可以直接覆盖生效的，我在本地改过mapper文件后直接上传覆盖生产环境的mapper文件，正常情况下，这样做是没有问题的，但是由于磁盘空间已满，ftp上传文件失败直接导致生产环境的mapper文件被清空了，紧接着就是服务崩溃了。当时我还以为是那个目录对于tomcat用户没有写权限呢？去看了一下是有写权限的。然后我根据以往经验判断是mapper文件加载失败导致服务崩溃，然后重启服务发现服务还是启动失败了。此刻我就慌了，压力很大。生产环境处于崩溃状态，我是没有时间排查问题的。我的应激反应就是执行发布脚本将上次发布的内容重新发布一次，这是服务正常可用了。
+
+监控磁盘空间使用情况真的是很有必要啊。
