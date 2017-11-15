@@ -13,6 +13,8 @@
     - [sql语句如下](#sql语句如下)
 - [EXISTS](#exists)
     - [你真的会用EXISTS吗](#你真的会用exists吗)
+        - [查询不限制购买次数的次卡或购买次数小于限定次数的次卡](#查询不限制购买次数的次卡或购买次数小于限定次数的次卡)
+        - [查询当前时段的热区](#查询当前时段的热区)
 - [使用优化的分页查询语句](#使用优化的分页查询语句)
 - [EXISTS关键字的一个使用示例](#exists关键字的一个使用示例)
 - [左关联的使用误区](#左关联的使用误区)
@@ -211,7 +213,7 @@ AND T.ORGNO LIKE CONCAT(#{parentOrgNo},'____') 表示只看直属下级的信息
 </sql>
 ```
 #### 你真的会用EXISTS吗
-查询不限制购买次数的次卡或购买次数小于限定次数的次卡
+##### 查询不限制购买次数的次卡或购买次数小于限定次数的次卡
 ```sql
 SELECT t.card_id,
        t.areacode,
@@ -233,17 +235,17 @@ SELECT t.card_id,
  WHERE 1= 1
    AND t.areacode= '370724'
    AND t.status= 1
-   AND ( EXISTS(
-            SELECT COUNT(1) buyCount
-            FROM t_account_paycard ap
-            WHERE ap.card_id= t.card_id
-            AND ap.status= 1
-            AND ap.`userid`= '746b2506d64adfcce8ee9ffc510bb529'
-            GROUP BY ap.userid, ap.card_id
-            HAVING buyCount<= t.limit_buy_num
-            )
+   AND ( EXISTS (
+                SELECT COUNT(1) buyCount
+                FROM t_account_paycard ap
+                WHERE ap.card_id= t.card_id
+                AND ap.status= 1
+                AND ap.`userid`= '746b2506d64adfcce8ee9ffc510bb529'
+                GROUP BY ap.userid, ap.card_id
+                HAVING buyCount<= t.limit_buy_num
+                )
             OR t.limit_buy_num= 0
-    )
+        )
  ORDER BY t.card_id ASC;
 
 ```
@@ -271,7 +273,8 @@ SELECT t.card_id,
    AND t.areacode= '370724'
    AND t.status= 1
    AND (NOT EXISTS (
-       SELECT COUNT(1) buyCount FROM t_account_paycard ap WHERE ap.card_id=t.card_id AND ap.status=1 AND ap.`userid`='0c496a01770e2c9b71c781f990c66894'
+       SELECT COUNT(1) buyCount FROM t_account_paycard ap 
+       WHERE ap.card_id=t.card_id AND ap.status=1 AND ap.`userid`='0c496a01770e2c9b71c781f990c66894'
             GROUP BY ap.card_id HAVING  buyCount >= t.limit_buy_num)
             OR t.limit_buy_num=0)
  ORDER BY t.card_id ASC;
@@ -311,7 +314,53 @@ left outer join (SELECT ap.card_id,COUNT(1) buyCount
  ORDER BY t.card_id ASC;
 
 ```
-
+##### 查询当前时段的热区
+错误的查询语句如下
+```sql
+SELECT
+t.hot_area_id hotAreaId,
+t.area_code areaCode,
+t.hot_area_name hotAreaName,
+t.remark,
+date_format(t.create_time, '%Y-%m-%d %H:%i:%s') createTime,
+t.create_user createUser,
+b.hot_area_border hotAreaBorder,
+(SELECT count(1) from t_car_ext e WHERE e.hot_area_id=t.hot_area_id) currCarCount,
+ifnull(i.car_count,0) carCount
+FROM t_hot_area t
+LEFT join t_hot_border b on b.hot_area_id=t.hot_area_id
+left JOIN t_hot_area_inte i ON i.hot_area_id=t.hot_area_id
+WHERE 1=1
+<if test="areaCode != null">
+    AND t.area_code=#{areaCode}
+</if>
+<if test="currHaid != null and currHaid">
+    AND EXISTS (SELECT 1 FROM t_hot_area_inte i WHERE i.hot_area_id=t.hot_area_id 
+    AND i.start_time <![CDATA[<=]]> DATE_FORMAT(now(),'%H:%i') 
+    AND i.end_time <![CDATA[>=]]> DATE_FORMAT(now(),'%H:%i')
+    )
+</if>
+```
+当currHaid为true时并未过滤出当前时段的热区，而是查询出多条相同的热区。
+```sql
+SELECT
+t.hot_area_id hotAreaId,
+t.area_code areaCode,
+t.hot_area_name hotAreaName,
+t.remark,
+date_format(t.create_time, '%Y-%m-%d %H:%i:%s') createTime,
+t.create_user createUser,
+b.hot_area_border hotAreaBorder,
+(SELECT count(1) from t_car_ext e WHERE e.hot_area_id=t.hot_area_id) currCarCount,
+ifnull(i.car_count,0) carCount
+FROM t_hot_area t
+LEFT join t_hot_border b on b.hot_area_id=t.hot_area_id
+left JOIN (SELECT hot_area_id,car_count FROM t_hot_area_inte WHERE start_time <![CDATA[<=]]> DATE_FORMAT(now(),'%H:%i') AND end_time <![CDATA[>=]]> DATE_FORMAT(now(),'%H:%i')) i ON i.hot_area_id=t.hot_area_id
+WHERE 1=1
+<if test="areaCode != null">
+    AND t.area_code=#{areaCode}
+</if>
+```
 ### 使用优化的分页查询语句
 会员的封号记录单独存放在一张表中，会员信息与封号记录是一对多的关系，这样便于追踪会员的封号历史记录。高效分页的原理是
 先根据查询条件查出分页数据的主键集合，然后与其它表进行关联查询要展示的字段。
