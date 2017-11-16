@@ -90,6 +90,9 @@ find /var/log/ -mtime +3 -type f -print  3天前
 find /var/log/ -mtime -3 -type f -print  3天内  
 find /var/log/ -mtime 3 -type f -print   第3天  
 find /var/log/ -mtime +2 -mtime -4 -type f -print  
+
+find   ./   -type   d   |   wc   -l     (目录个数)
+find   ./   -type   f   |   wc   -l     (文件个数)
 ### curl命令
 curl -d 'req_json={"beans":[],"busiId":"queryVertifyLogs","params":{}}'  http://10.96.18.213:30001/ol_java/RealnameServlet  
 注意后面的地址中若是有！，则需要使用\进行转义  

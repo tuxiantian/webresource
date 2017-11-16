@@ -355,7 +355,7 @@ b.hot_area_border hotAreaBorder,
 ifnull(i.car_count,0) carCount
 FROM t_hot_area t
 LEFT join t_hot_border b on b.hot_area_id=t.hot_area_id
-left JOIN (SELECT hot_area_id,car_count FROM t_hot_area_inte WHERE start_time <![CDATA[<=]]> DATE_FORMAT(now(),'%H:%i') AND end_time <![CDATA[>=]]> DATE_FORMAT(now(),'%H:%i')) i ON i.hot_area_id=t.hot_area_id
+INNER JOIN (SELECT hot_area_id,car_count FROM t_hot_area_inte WHERE start_time <![CDATA[<=]]> DATE_FORMAT(now(),'%H:%i') AND end_time <![CDATA[>=]]> DATE_FORMAT(now(),'%H:%i')) i ON i.hot_area_id=t.hot_area_id
 WHERE 1=1
 <if test="areaCode != null">
     AND t.area_code=#{areaCode}
