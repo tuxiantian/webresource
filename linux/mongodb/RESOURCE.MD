@@ -82,6 +82,15 @@ db.集合名.find().count();
 db.getCollection('carLocation080').find({"gpsTime":{$gte:1492046406356,$lte:1503543971000}})
 db.carLocation217361300000115.find().sort({gpsTime:-1}).limit(1).pretty()
 db.carLocation217361300000095.find({"gpsTime":{$gte:1510110480000,$lte:1510111680000}}).sort({gpsTime:1}).pretty() //查询某个时间点的经纬度.limit(1)
+db.carInfo217361300000153.find({"receivedTime":{$gte:1508064540000,$lte:1508067120000}}).sort({receivedTime:1}).pretty()
+db.carInfo217361300000035.find({"receivedTime":{$gte:1508399040000,$lte:1508399580000}}).sort({receivedTime:1}).pretty()
+db.carInfo217361300000006.find({"receivedTime":{$gte:1508635020000,$lte:1508635620000}}).sort({receivedTime:1}).pretty() 
+
+db.carInfo217361300000280.find({"receivedTime":{$gte:1510960980000,$lte:1510963980000}}).sort({receivedTime:1}).pretty() 
+
+db.carInfo217361300000280.find().count()
+
+db.carInfo217361300000280.find().sort({receivedTime:-1}).limit(1).pretty()
 #### Help查看命令提示
 ```
 help

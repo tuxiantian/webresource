@@ -73,3 +73,43 @@ tmpfs           3.9G     0  3.9G   0% /dev/shm
 当时有一个bug需要修复，管控数据统计的合计和按日统计是两段查询语句，它们的查询条件不一致导致统计的结果不一致。mapper文件是可以直接覆盖生效的，我在本地改过mapper文件后直接上传覆盖生产环境的mapper文件，正常情况下，这样做是没有问题的，但是由于磁盘空间已满，ftp上传文件失败直接导致生产环境的mapper文件被清空了，紧接着就是服务崩溃了。当时我还以为是那个目录对于tomcat用户没有写权限呢？去看了一下是有写权限的。然后我根据以往经验判断是mapper文件加载失败导致服务崩溃，然后重启服务发现服务还是启动失败了。此刻我就慌了，压力很大。生产环境处于崩溃状态，我是没有时间排查问题的。我的应激反应就是执行发布脚本将上次发布的内容重新发布一次，这是服务正常可用了。
 
 监控磁盘空间使用情况真的是很有必要啊。
+## 前后端传值规范
+以优惠券为例说明前后端传值接收值的规范。  
+若使用@RequestParam接收传参，对应的页面是表单传值，表单传值‘’表示全国，若数据库约定null值表示全国，接口方面要做处理把''转为null。  
+若使用@RequestBody接收传参，对应的页面是json对象传值，页面可以直接将参数赋值为null表示全国。  
+优惠券的查询比较特殊，对于既支持查询全国又支持查询全部的情况可以这样处理：  
+前端传0表示查询全国，传''表示全部。  
+后台接口做如下处理：  
+方式一  
+```sql
+<if test="areaCode !=null and areaCode !='' and areaCode !='0'.toString()">AND c.CITYCODE=#{areaCode}</if>
+<if test="areaCode =='0'.toString()">AND c.CITYCODE IS NULL </if>
+```
+方式二  
+```java
+if ("0".equals(areaCode)) {
+	paras.put("areaCode4QG", true);
+} else {
+	paras.put("areaCode", areaCode);
+}
+```
+
+```sql
+<if test="areaCode != null and areaCode!= ''">
+	AND T.CITYCODE=#{areaCode}
+</if>
+<if test="areaCode4QG">
+	AND T.CITYCODE IS NULL
+</if>
+```
+目前页面上的查询条件一般都是@RequestParam接收传参,查询全部传‘’，接口方面要判断处理。处理方式如下：
+方式一  
+```java
+ MapBean params = new MapBean("keyword", StringUtils.isBlank(keyword) ? null : keyword);
+```
+方式二  
+```sql
+<if test="areaCode != null and areaCode!= ''">
+	AND T.CITYCODE=#{areaCode}
+</if>
+```
