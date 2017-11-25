@@ -9,3 +9,7 @@
 查看节点内容  get /zk/testnode  
 设置节点内容  set /zk/testnode abc  
 删除节点      delete /zk/testnode  
+## centOS设置zookeeper开机自动启动
+在/etc/rc.local文件中追加：  
+/home/cent2014/zookeeper/zookeeper-3.4.6/bin/zkServer.sh start
+nexus的开机自启动与此相似。
