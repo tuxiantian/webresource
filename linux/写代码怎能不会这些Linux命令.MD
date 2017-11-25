@@ -21,3 +21,12 @@ yum install rsync -y
 ### scp使用示例
 scp local_file remote_username@remote_ip:remote_file  
 scp -P62100 -r /home/tomcat/publish root@39.107.32.220:/home/tomcat/  
+### Linux快速清屏
+Ctrl+l 清屏
+### 查看当前目录的各个子目录大小
+du -h --max-depth=1  有当前目录的总大小  
+du -sh *  显示当前目录的各子目录大小，不包含当前目录的总大小  
+du -sh *|sort -rh  显示当前目录的各子目录大小并排序  
+### 查看当前主机对应的外网ip
+curl ipinfo.io  
+curl ifconfig.me  
