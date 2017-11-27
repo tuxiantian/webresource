@@ -193,3 +193,17 @@ private JmsTemplate carInfoQueueTemplate;
 
 carInfoQueueTemplate.send(session -> session.createTextMessage(JsonUtil.toJson(event.getCar())));
 ```
+
+## 延迟消息
+延迟队列能做什么？
+
+延迟队列多用于需要延迟工作的场景。最常见的是以下两种场景：
+
+1. 延迟消费。比如：
+用户生成订单之后，需要过一段时间校验订单的支付状态，如果订单仍未支付则需要及时地关闭订单。
+用户注册成功之后，需要过一段时间比如一周后校验用户的使用情况，如果发现用户活跃度较低，则发送邮件或者短信来提醒用户使用。
+2. 延迟重试。比如消费者从队列里消费消息时失败了，但是想要延迟一段时间后自动重试。
+
+如果不使用延迟队列，那么我们只能通过一个轮询扫描程序去完成。这种方案既不优雅，也不方便做成统一的服务便于开发人员使用。但是使用延迟队列的话，我们就可以轻而易举地完成。
+
+[官方使用介绍](http://activemq.apache.org/delay-and-schedule-message-delivery.html)
