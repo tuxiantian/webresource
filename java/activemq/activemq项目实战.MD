@@ -207,3 +207,6 @@ carInfoQueueTemplate.send(session -> session.createTextMessage(JsonUtil.toJson(e
 如果不使用延迟队列，那么我们只能通过一个轮询扫描程序去完成。这种方案既不优雅，也不方便做成统一的服务便于开发人员使用。但是使用延迟队列的话，我们就可以轻而易举地完成。
 
 [官方使用介绍](http://activemq.apache.org/delay-and-schedule-message-delivery.html)
+
+ActiveMQ from version 5.4 has an optional persistent scheduler built into the ActiveMQ message broker. It is enabled by setting the broker schedulerSupport attribute to true in the xml configuration.  
+意思是说要在mq的xml配置文件中，broker节点处加入schedulerSupport属性，才能使mq的任务计划生效，于是，我尝试加入该属性修改activemq.xml 在`<broker>`里添加属性schedulerSupport="true" 重启mq后果然生效了。
