@@ -5,8 +5,10 @@
 - [find_in_set](#find_in_set)
 - [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
 - [if函数](#if函数)
-- [NOW()和CURDATE()](#now和curdate)
-- [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
+- [mysql日期函数](#mysql日期函数)
+    - [DATE_ADD和DATE_SUB](#date_add和date_sub)
+    - [NOW()和CURDATE()](#now和curdate)
+    - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
     - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 
 <!-- /TOC -->
@@ -80,15 +82,30 @@ mysql的if函数，例如：IF(expr1,expr2,expr3)
 如果 expr1是TRUE，则IF()的返回值为expr2; 否则返回值则为expr3  
 实例（如果video_id为null，则直接返回空字符，避免不必要的查询影响效率）：  
 (SELECT if(isnull(video_id),'',(SELECT cover from topic_video tv where tv.id = video_id))) 别称,  
-
-## NOW()和CURDATE()
+## mysql日期函数
+### DATE_ADD和DATE_SUB
+DATE_ADD(date,INTERVAL expr type)  
+DATE_SUB(date,INTERVAL expr type)  
+ADDDATE(date,INTERVAL expr type)  
+SUBDATE(date,INTERVAL expr type)  
+　对日期时间进行加减法运算  
+　(ADDDATE()和SUBDATE()是DATE_ADD()和DATE_SUB()的同义词,也可以用运算符+ 和-而不是函数  
+　date是一个DATETIME或DATE值,expr对date进行加减法的一个表达式字符串，type指明表达式，expr应该如何被解释  
+　[type值 含义 期望的expr格式]:  
+　* SECOND 秒  
+　* MINUTE 分钟  
+　* HOUR 时间  
+　* DAY 天  
+　* MONTH 月  
+　* YEAR 年  
+### NOW()和CURDATE()
 ```sql
 SELECT NOW();
 //2017-08-04 17:57:59
 SELECT CURDATE();
 //2017-08-04
 ```
-## 计算时间差-TIMESTAMPDIFF
+### 计算时间差-TIMESTAMPDIFF
 大于指定间隔时间方可以提现
 ```sql
 <select id="queryIncomeDraw" resultMap="entityMap">
