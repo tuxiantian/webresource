@@ -1,4 +1,4 @@
-[IntelliJ IDEA 12创建Maven管理的Java Web项目（图解）](http://blog.csdn.net/zht666/article/details/8673609)
+[Intellij IDEA创建Maven Web项目](http://www.cnblogs.com/winkey4986/p/5279820.html)
 ## idea配置一个项目的步骤
 ![](/images/software/idea/1.png)
 
