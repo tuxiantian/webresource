@@ -113,3 +113,23 @@ if ("0".equals(areaCode)) {
 	AND T.CITYCODE=#{areaCode}
 </if>
 ```
+## 接口使用@RequestBody保存数据要注意的问题
+```
+@ResponseBody
+@RequestMapping(value = "save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+public McpResult save(@RequestBody TripCard tripCard){
+//...
+}
+
+public class TripCard extends AbsBaseEntity  {
+	//次卡id
+	private Integer cardId;
+	//0  下线  1 上线
+	private Integer status;
+	public TripCard(Integer cardId, Integer status) {
+		this.cardId = cardId;
+		this.status = status;
+	}
+}
+```
+像上面那样使用@RequestBody保存数据时自定义了构造函数而没有添加空的构造函数，那么前端调用接口时就会报400错误。所以在自定义实体类的构造函数时必须保留空的构造函数。

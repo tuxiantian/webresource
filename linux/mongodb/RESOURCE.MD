@@ -29,8 +29,8 @@ bin目录中包含如下几个程序：
 
 #### MongoDB数据导入和导出
 [MongoDB数据导入和导出](http://www.cnblogs.com/roland1982/archive/2013/12/04/3458032.html)
-./mongoexport -d xingtu -c carInfo250006222 -o carInfo250006222.dat  
-./mongoimport -d xingtu -c carInfo250006222 carInfo250006222.dat  
+./mongoexport -d xingtu -c carInfo217361300000098 -o carInfo217361300000098.dat  
+./mongoimport -d xingtu -c carInfo217361300000098 carInfo217361300000098.dat  
 #### mongodb视图工具，免费的
 Robomongo 1.0.0-RC1
 #### MongoDB学习文档
