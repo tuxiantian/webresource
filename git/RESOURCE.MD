@@ -13,7 +13,6 @@
     - [反转最近一次提交](#反转最近一次提交)
         - [取消暂存](#取消暂存)
         - [复位head之前的那个版本](#复位head之前的那个版本)
-- [提交本地项目到github仓库的方法](#提交本地项目到github仓库的方法)
 - [解决向github提交代码不用输入帐号密码](#解决向github提交代码不用输入帐号密码)
     - [下面把origin地址换成ssh方式的，这样才能提交代码不必输入用户名和密码。](#下面把origin地址换成ssh方式的这样才能提交代码不必输入用户名和密码)
 - [查看远程仓库的地址](#查看远程仓库的地址)
@@ -63,7 +62,7 @@ git checkout -- file
 ```
 ### 合并另一个分支的指定文件
 ```
-git checkout <branchbranch> -- <file>
+git checkout <branch> -- <file>
 ```
 ### git如何让单个文件回退到指定的版本
 ```
@@ -86,17 +85,6 @@ git commit -a -m "commit description"
 > git reset head或git reset head <file name>
 #### 复位head之前的那个版本
 > git reset --hard head^^ //不会再版本库中留下痕迹。我使用的这个版本两个"^"相当于一个"^"。
- 
-## 提交本地项目到github仓库的方法
-> git init  
-> 在.gitigonre文件中编写过滤规则  
-> 1. git add .	//添加所有文件到暂存区，对于untracked文件会接受.gitigonre文件的过滤  
-> 2. git status	//查看暂存区中添加的所有文件  
-> 3. git rm --cache *	//移除暂存区中的所有文件  
-> 重复上面三步确定项目要提交的文件  
-> git remote add origin https://github.com/tuxiantian/webresource.git  
-> git push -u origin master  
-> 注意在github网站上面先创建repository,否则会提交失败  
 
 ## 解决向github提交代码不用输入帐号密码
 > https://segmentfault.com/a/1190000008435592
