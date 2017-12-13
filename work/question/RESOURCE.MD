@@ -133,3 +133,35 @@ public class TripCard extends AbsBaseEntity  {
 }
 ```
 像上面那样使用@RequestBody保存数据时自定义了构造函数而没有添加空的构造函数，那么前端调用接口时就会报400错误。所以在自定义实体类的构造函数时必须保留空的构造函数。
+## 联合主键的findBy查询问题
+联合主键的表结构
+```sql
+CREATE TABLE `t_account_trip_card` (
+  `userid` char(32) NOT NULL COMMENT '会员id',
+  `card_id` int(11) NOT NULL COMMENT '次卡id',
+  `card_name` varchar(30) DEFAULT NULL COMMENT '次卡名称',
+  `area_code` varchar(30) DEFAULT NULL COMMENT '运营地区代码',
+  `use_time` int(11) DEFAULT NULL COMMENT '用车时长',
+  `surplus_times` int(11) DEFAULT NULL COMMENT '剩余次卡张数',
+  `card_sum_times` int(11) DEFAULT NULL COMMENT '次卡累计使用张数',
+  PRIMARY KEY (`userid`,`card_id`),
+  KEY `idx_account_numcard_areacode` (`area_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员次卡'
+```
+使用默认的findBy方法出现的问题
+![](/images/work/question/findOne.png)
+默认的findBy方法
+```
+public T findBy(MapBean params) {
+	if (params != null) {
+		return this.getMapper().findOne(params);
+	}
+	return null;
+}
+```
+在业务service中重写findBy查询方法
+```java
+public AccountTripCard findBy(String userId,Integer cardId){
+	return this.find(new MapBean("userId", userId, "cardId",cardId)).stream().findFirst().orElse(null);
+}
+```
