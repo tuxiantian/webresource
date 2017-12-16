@@ -54,3 +54,6 @@ public void bubbleSort_plus(int[] arr){
 	}
 }
 ```
+
+[https://juejin.im/post/5a2ff8c651882533d0230a85](最小栈的实现)
+[https://juejin.im/post/5a29d52cf265da43333e4da7](漫画：什么是动态规划？)
