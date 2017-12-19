@@ -98,6 +98,11 @@ SUBDATE(date,INTERVAL expr type)
 　* DAY 天  
 　* MONTH 月  
 　* YEAR 年  
+
+```
+SELECT OrderId,DATE_SUB(OrderDate,INTERVAL 2 DAY) AS OrderPayDate
+FROM Orders
+```
 ### NOW()和CURDATE()
 ```sql
 SELECT NOW();

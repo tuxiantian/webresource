@@ -3,7 +3,15 @@
 #!/bin/sh
 
 
-filename="com.`date +%Y%m%d%H%M%S`.tar.gz"
+read -t 60 -p "请输入代码tag:" tag
+echo "你输入的版本号是：$tag"
+if [ -n "$tag" ]
+then
+   filename="com.$tag.tar.gz"
+else
+   filename="com.`date +%Y%m%d%H%M%S`.tar.gz"
+fi
+echo $filename
 tar zcvf $filename /home/tomcat/tomcat_test/webapps/ROOT/WEB-INF/classes/com
 mv  $filename /home/tomcat/tomcat_test/webapps/ROOT/WEB-INF/classes
 kill -9 $(ps aux | grep tomcat_test | awk '{print $2}')
