@@ -38,7 +38,7 @@ for (int i=0;i<activityCoupon.getCouponNum();i++){
 [深入理解 Java 线程池：ThreadPoolExecutor](https://juejin.im/entry/58fada5d570c350058d3aaad)  
 [spring自定义转换类](http://www.cnblogs.com/caoyc/p/5639652.html)  
 > spring会自发去找自定义的转换类
-
+[基于 Spring Cloud 完整的微服务架构实战](https://github.com/souyunku/spring-boot-cloud)
 ### 数组和list相互转化
 数组转list  
 List<String> priStrList=Arrays.asList(priStrArr);  
