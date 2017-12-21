@@ -320,16 +320,15 @@ maven的仲裁
 </properties>
 
 mvn dependency:analyze,使用该命令就可以看到maven分析的结果和建议
+mvn dependency:tree -Dverbose,maven依赖jar包冲突
 mvn dependency:tree,使用该命令可以看到maven的依赖树
 mvn dependency:tree -Doutput=tree.txt,将maven的依赖树导出到tree.txt
+mvn clean package -Dmaven.test.skip=true 忽略测试进行打包
 ```
 --------------------------------------------------------------------------------------
 Maven对重复依赖的解决方案
 最短路径原则
 声明优先原则 按照依赖包在pom.xml中声明的先后顺序,优先选择先声明的包
---------------------------------------------------------------------------------------
-maven依赖jar包冲突
-mvn dependency:tree -Dverbose
 --------------------------------------------------------------------------------------
 Maven常见的依赖范围有哪些?
 compile:编译依赖,默认的依赖方式,在编译（编译项目和编译测试用例）,运行测试用例,运行（项目实际运行）三个阶段都有效,
