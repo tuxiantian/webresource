@@ -266,7 +266,7 @@ System.out.println(list4);
 
 ## cache使用示例
 移动端操控丁丁地锁升降需要丁丁的accessToken，应用服务器获取丁丁的accessToken后3600秒过期，使用guava的cache避免频繁调用丁丁的接口。
-```
+```java
 @Service
 public class DdtcService {
 
