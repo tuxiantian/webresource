@@ -165,3 +165,46 @@ public AccountTripCard findBy(String userId,Integer cardId){
 	return this.find(new MapBean("userId", userId, "cardId",cardId)).stream().findFirst().orElse(null);
 }
 ```
+## 使用eventBus的功能单元测试
+在单元测试方法执行结束时，整个应用也就结束了，这时event的订阅方法还没有执行完成，所以测试达不到期望的结果，这时必须使测试方法阻塞一段时间。
+```java
+@Service
+@Lazy(false)
+public class GiveCouponToVipAccountJob {
+    @Autowired
+    private AccountExtService accountExtService;
+    @Autowired
+    private EventBus eventBus;
+    
+    public void execute(){
+        List<String> redVipAccountList = accountExtService.findVipAccount(UserType.redVip.getVal());
+        for (String redVipAccount:redVipAccountList
+        ) {
+            List<RulePara> ruleParaList = Lists.newArrayList(new RulePara(Rules.redVipAccount,new MapBean("userType",UserType.redVip.getVal())));
+            eventBus.post(new ActivityEvent(redVipAccount,ruleParaList, CouponSource.zq,null));
+        }
+
+        List<String> lyVipAccountList = accountExtService.findVipAccount(UserType.lyVip.getVal());
+        for (String lyVipAccount:lyVipAccountList){
+            List<RulePara> ruleParaList = Lists.newArrayList(new RulePara(Rules.lyVipAccount,new MapBean("userType",UserType.lyVip.getVal())));
+            eventBus.post(new ActivityEvent(lyVipAccount,ruleParaList,CouponSource.zq,null));
+        }
+    }
+}
+
+public class GiveCouponToVipAccountJobTest extends BaseTest{
+    @Autowired
+    private GiveCouponToVipAccountJob giveCouponToVipAccountJob;
+    
+    @Test
+    @Rollback(false)
+    public void execute(){
+        giveCouponToVipAccountJob.execute();
+        try {
+            TimeUnit.SECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
