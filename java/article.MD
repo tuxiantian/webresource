@@ -6,3 +6,6 @@
 [让人疑惑的Java代码](https://juejin.im/post/59c876926fb9a00a67615445)  
 [Java的Fork/Join任务，你写对了吗？](https://www.liaoxuefeng.com/article/001493522711597674607c7f4f346628a76145477e2ff82000)  
 [动态规划](https://juejin.im/post/5a29d52cf265da43333e4da7)
+
+[Mockito测试](http://www.cnblogs.com/lyy-2016/p/6155445.html)
+若是使用spring-boot，则默认集成了mockito的jar
