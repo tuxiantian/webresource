@@ -189,32 +189,32 @@ limiter.acquire();
 ## 集合数据分组
 ```java
 public static void main(String[] args) {
-		Person p1 = new Person("a", 10, "男", "china");
-        Person p2 = new Person("b", 11, "女", "japan");
-        Person p3 = new Person("c", 12, "男", "japan");
-        Person p4 = new Person("d", 14, "男", "USA");
-        Person p5 = new Person("e", 14, "女", "china");
-        List<Person> persons = Lists.newArrayList(p1,p2,p3,p4,p5);
-        Multimap<String,Person> multimap1 = ArrayListMultimap.create();
-        Multimap<Integer,Person> multimap2 = ArrayListMultimap.create();
-        Multimap<String,Person> multimap3 = ArrayListMultimap.create();
-        for (Person p : persons) {
-            multimap1.put(p.getSex(), p);
-            multimap2.put(p.getAge(), p);
-            multimap3.put(p.getContry(), p);
-        }
-        Map<String, Collection<Person>> sex = multimap1.asMap();
-        for (Entry<String, Collection<Person>> p : sex.entrySet()) {
-            System.out.println("按性别分组 = " +p.getKey()+"--"+ p.getValue());
-        }
-        Map<Integer, Collection<Person>> age = multimap2.asMap();
-        for (Entry<Integer, Collection<Person>> p : age.entrySet()) {
-            System.out.println("按年龄分组 = " +p.getKey()+"岁"+"--"+ p.getValue());
-        }
-        Map<String, Collection<Person>> country = multimap3.asMap();
-        for (Entry<String, Collection<Person>> p : country.entrySet()) {
-            System.out.println("按国家分组 = " +p.getKey() +"--" + p.getValue());
-        }
+    Person p1 = new Person("a", 10, "男", "china");
+    Person p2 = new Person("b", 11, "女", "japan");
+    Person p3 = new Person("c", 12, "男", "japan");
+    Person p4 = new Person("d", 14, "男", "USA");
+    Person p5 = new Person("e", 14, "女", "china");
+    List<Person> persons = Lists.newArrayList(p1,p2,p3,p4,p5);
+    Multimap<String,Person> multimap1 = ArrayListMultimap.create();
+    Multimap<Integer,Person> multimap2 = ArrayListMultimap.create();
+    Multimap<String,Person> multimap3 = ArrayListMultimap.create();
+    for (Person p : persons) {
+        multimap1.put(p.getSex(), p);
+        multimap2.put(p.getAge(), p);
+        multimap3.put(p.getContry(), p);
+    }
+    Map<String, Collection<Person>> sex = multimap1.asMap();
+    for (Entry<String, Collection<Person>> p : sex.entrySet()) {
+        System.out.println("按性别分组 = " +p.getKey()+"--"+ p.getValue());
+    }
+    Map<Integer, Collection<Person>> age = multimap2.asMap();
+    for (Entry<Integer, Collection<Person>> p : age.entrySet()) {
+        System.out.println("按年龄分组 = " +p.getKey()+"岁"+"--"+ p.getValue());
+    }
+    Map<String, Collection<Person>> country = multimap3.asMap();
+    for (Entry<String, Collection<Person>> p : country.entrySet()) {
+        System.out.println("按国家分组 = " +p.getKey() +"--" + p.getValue());
+    }
 }
 ```
 ## Joiner
@@ -263,3 +263,59 @@ System.out.println(list4);
 ```
 ## 优质资源
 使用Google Guava快乐编程  http://www.jianshu.com/p/97778b21bd00  
+
+## cache使用示例
+移动端操控丁丁地锁升降需要丁丁的accessToken，应用服务器获取丁丁的accessToken后3600秒过期，使用guava的cache避免频繁调用丁丁的接口。
+```
+@Service
+public class DdtcService {
+
+    private static final Logger logger= LoggerFactory.getLogger(DdtcService.class);
+
+    @Value("${ddtc.appId}")
+    private String appId;
+    @Value("${ddtc.appSecret}")
+    private String appSecret;
+    @Value("${ddtc.queryAccessTokenUrl}")
+    private String queryAccessTokenUrl;
+
+    private static Cache<String, String> cache;
+
+    @PostConstruct
+    private void init(){
+        AccessTokenResult accessTokenResult;
+        try {
+            String result = HttpUtil.get(queryAccessTokenUrl, new MapBean("appSecret", appSecret, "appId", appId));
+            logger.info(result);
+            accessTokenResult = JsonUtil.toObject(result, AccessTokenResult.class);
+            if ("200".equals(accessTokenResult.getErrNo())) {
+                cache= CacheBuilder.newBuilder().
+                        maximumSize(1)
+                        .expireAfterWrite(Long.parseLong(accessTokenResult.getExpiresIn()), TimeUnit.SECONDS)
+                        .recordStats()
+                        .build();
+                cache.put("accessToken",accessTokenResult.getAccessToken());
+            }
+        } catch (Exception e) {
+            logger.error("",e);
+        }
+    }
+
+    /**
+     * 获取accessToken
+     * @return
+     */
+    public String getAccessToken(){
+        try {
+            return cache.get("accessToken", () -> {
+                String result = HttpUtil.get(queryAccessTokenUrl, new MapBean("appSecret", appSecret, "appId", appId));
+                AccessTokenResult accessTokenResult = JsonUtil.toObject(result, AccessTokenResult.class);
+                return accessTokenResult.getAccessToken();
+            });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+```
