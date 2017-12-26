@@ -256,8 +256,10 @@ Instant instant = date.toInstant();
 Date转换为LocalDateTime
 
 ```java
-LocalDateTime localDateTime = LocalDateTime.from(new Date());
-System.out.println(localDateTime);
+java.util.Date date = new java.util.Date();
+Instant instant = date.toInstant();
+ZoneId zone = ZoneId.systemDefault();
+LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
 
 ```
 
