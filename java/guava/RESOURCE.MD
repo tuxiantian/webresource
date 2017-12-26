@@ -186,6 +186,9 @@ limiter.acquire();
 ```
 1、RateLimiter.create(5)表示桶容量为5且每秒新增5个令牌，即每隔200毫秒新增一个令牌；  
 2、limiter.acquire()表示消费一个令牌，如果当前桶中有足够令牌则成功（返回值为0），如果桶中没有令牌则暂停一段时间，比如发令牌间隔是200毫秒，则等待200毫秒后再去消费令牌，这种实现将突发请求速率平均为了固定请求速率。
+
+[guava RateLimiter限流实战](http://blog.csdn.net/Yin_Tang/article/details/78851825)
+[guava RateLimiter限流实战 代码](https://github.com/yinTang/TokenBucket)
 ## 集合数据分组
 ```java
 public static void main(String[] args) {
