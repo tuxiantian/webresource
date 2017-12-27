@@ -6,6 +6,7 @@
 - [4. Windows系统如何清除DNS缓存？](#4-windows系统如何清除dns缓存)
 - [检查网络的常用ping命令](#检查网络的常用ping命令)
 - [复印身份证攻略](#复印身份证攻略)
+- [修改域名](#修改域名)
 
 <!-- /TOC -->
 ## 1. 如何查看某个端口被谁占用
@@ -27,11 +28,20 @@ cmd窗口执行下面的命令
 ipconfig /flushdns
 
 ## 检查网络的常用ping命令
-ipconfig/all 查看网络配置详细信息
-ping 127.0.0.1 检验本地网络协议是否装好
-ping 本机ip 检验本地网络适配是否正常
-ping 默认网关 检验本机到最近的路由器连接是否正常
-选择自动获取ip时，本机ip是由dhcp服务器分配的ip
+ipconfig/all 查看网络配置详细信息  
+ping 127.0.0.1 检验本地网络协议是否装好  
+ping 本机ip 检验本地网络适配是否正常  
+ping 默认网关 检验本机到最近的路由器连接是否正常  
+选择自动获取ip时，本机ip是由dhcp服务器分配的ip  
 
 ## 复印身份证攻略
 ![](/images/window/复印身份证的攻略.png)
+
+## 修改域名
+
+像Linux的/etc/hosts一样，windows也有一个类似的hosts文件，C:/WINDOWS/system32/drivers/etc/hosts
+添加如下域名与IP的映射：
+```
+127.0.0.1       www.mytest.com
+```
+在这里可以设置本地域名，让域名指向你想要的ip,启动Tomcat，如果是8080默认域名的话，在浏览器输入 http://www.test.com:8080， 就可以访问看到那只猫了。
