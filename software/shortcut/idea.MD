@@ -24,3 +24,4 @@ Ctrl+H find in path
 Ctrl+Alt+U show diagram popup  
 Ctrl+Alt+Shift+U show diagram  
 Ctrl+Alt+B 导航到接口方法的实现位置
+Ctrl+Alt+L 格式化代码快捷键
