@@ -4,17 +4,17 @@ MySQL联合查询效率较高，以下例子来说明联合查询（内联、左
 
 
 T1表结构（用户名,密码）   
-| userid（int） | username varchar（20） | password varchar（20） |     |
-| ------------- | ---------------------- | ---------------------- | --- |
-| 1             | jack                   | jackpwd                |     |
-| 2             | owen                   | owenpwd                |     |
+| userid（int） | username varchar（20） | password varchar（20） |
+| ----------- | -------------------- | -------------------- |
+| 1           | jack                 | jackpwd              |
+| 2           | owen                 | owenpwd              |
 
 
 T2表结构（用户名,密码）   
 | userid（int） | jifen varchar（20） | dengji varchar（20） |
-| ------------- | ------------------- | -------------------- |
-| 1             | 20                  | 3                    |
-| 3             | 50                  | 6                    |
+| ----------- | ----------------- | ------------------ |
+| 1           | 20                | 3                  |
+| 3           | 50                | 6                  |
 
 
 第一：内联（inner join）
@@ -29,9 +29,9 @@ SQL语句：
 select * from T1 inner join T2 on T1.userid = T2.userid
 
 运行结果   
-| T1.userid | username | password | T2.userid | jifen | dengji |     |
-| --------- | -------- | -------- | --------- | ----- | ------ | --- |
-| 1         | jack     | jackpwd  | 1         | 20    | 3      |     |
+| T1.userid | username | password | T2.userid | jifen | dengji |
+| --------- | -------- | -------- | --------- | ----- | ------ |
+| 1         | jack     | jackpwd  | 1         | 20    | 3      |
 
 
 
@@ -43,10 +43,10 @@ SQL语句：
 select * from T1 left outer join T2 on T1.userid = T2.userid
 
 运行结果   
-| T1.userid | username | password | T2.userid | jifen | dengji |     |
-| --------- | -------- | -------- | --------- | ----- | ------ | --- |
-| 1         | jack     | jackpwd  | 1         | 20    | 3      |     |
-| 2         | owen     | owenpwd  | NULL      | NULL  | NULL   |     |
+| T1.userid | username | password | T2.userid | jifen | dengji |
+| --------- | -------- | -------- | --------- | ----- | ------ |
+| 1         | jack     | jackpwd  | 1         | 20    | 3      |
+| 2         | owen     | owenpwd  | NULL      | NULL  | NULL   |
 
 
 
@@ -58,10 +58,10 @@ SQL语句：
 select * from T1 right outer join T2 on T1.userid = T2.userid
 
 运行结果   
-| T1.userid | username | password | T2.userid | jifen | dengji |     |
-| --------- | -------- | -------- | --------- | ----- | ------ | --- |
-| 1         | jack     | jackpwd  | 1         | 20    | 3      |     |
-| NULL      | NULL     | NULL     | 3         | 50    | 6      |     |
+| T1.userid | username | password | T2.userid | jifen | dengji |
+| --------- | -------- | -------- | --------- | ----- | ------ |
+| 1         | jack     | jackpwd  | 1         | 20    | 3      |
+| NULL      | NULL     | NULL     | 3         | 50    | 6      |
 
 
 
@@ -70,12 +70,12 @@ select * from T1 right outer join T2 on T1.userid = T2.userid
 
 SQL语句：
 select * from T1 full outer join T2 on T1.userid = T2.userid
- 
+
 运行结果   
-| T1.userid | username | password | T2.userid | jifen | dengji |     |
-| --------- | -------- | -------- | --------- | ----- | ------ | --- |
-| 1         | jack     | jackpwd  | 1         | 20    | 3      |     |
-| 2         | owen     | owenpwd  | NULL      | NULL  | NULL   |     |
-| NULL      | NULL     | NULL     | 3         | 50    | 6      |     |
+| T1.userid | username | password | T2.userid | jifen | dengji |
+| --------- | -------- | -------- | --------- | ----- | ------ |
+| 1         | jack     | jackpwd  | 1         | 20    | 3      |
+| 2         | owen     | owenpwd  | NULL      | NULL  | NULL   |
+| NULL      | NULL     | NULL     | 3         | 50    | 6      |
 
 总结，关于联合查询，效率的确比较高，4种联合方式如果可以灵活使用，基本上复杂的语句结构也会简单起来。
