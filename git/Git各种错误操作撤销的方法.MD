@@ -1,3 +1,7 @@
+---
+typora-root-url: ..
+---
+
 <!-- TOC -->
 
 - [Git各种错误操作撤销的方法](#git各种错误操作撤销的方法)
@@ -99,8 +103,8 @@ git reset --hard HEAD~1
 ### 如何避免
 * git status: 查看是否有不需要的文件被add进来
 * git diff: 查看文件的变化部分，是否是想提交的
-查看更多
-Git如何取消最新一次的commit
+  查看更多
+  Git如何取消最新一次的commit
 
 ## 如何删除分支
 好，现在有个很严重的问题，我的分支里代码不用了，现在要删除，怎么整。
@@ -116,7 +120,7 @@ git branch -d branch_name
 ### 分支已经push到远程
 我现在本地和远程都有一个test分支，如下图：  
 ![](/images/git/Git各种错误操作撤销的方法/10.png)
- 
+
 
 执行如下的命令删除本地和远程的test分支：
 
@@ -129,6 +133,6 @@ git branch -d test
 ```
 执行完效果如下：  
 ![](/images/git/Git各种错误操作撤销的方法/11.png)
- 
+
 
 可以看到都删掉了。

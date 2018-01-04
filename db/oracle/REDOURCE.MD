@@ -1,10 +1,11 @@
 oracle分组取最大
+```sql
 select *
   from (select *,
                row_number() over(partition by gid order by col2 desc) as cc
           from t2) tt2
  where tt2.cc <= 1
---------------------------------------------------------------------------------------
+```
 oracle DML操作和单行SELECT语句会使用隐式游标
 插入操作：INSERT
 更新操作：UPDATE
@@ -22,6 +23,7 @@ sql%isopen(布尔类型)
 2打开游标
 3提取数据
 4关闭游标
+```
 declare
   --定义游标c_job
   cursor c_job is
@@ -51,4 +53,4 @@ begin
     dbms_output.put_line(emprow.source_code);
   end loop;
 end;
---------------------------------------------------------------------------------------
+```

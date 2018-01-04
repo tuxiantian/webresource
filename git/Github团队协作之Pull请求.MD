@@ -1,9 +1,13 @@
+---
+typora-root-url: ..
+---
+
 # Github团队协作之Pull请求
 
 Pull请求(Pull request)
 ## 1 综述
     协作者通过fork一个新的代码库用来独立开发，并通过Github上的Pull Request，将变更贡献回原始代码库。这其中对Github的要求较低，至少免费使用，操作也相对简单，是一种不错的协作方式。以下将图文并茂的展示整个协作过程！
- 
+
 ## 2 步骤
 ### 2.1 Fork拷贝原始代码仓库
 
@@ -27,16 +31,16 @@ git push -u origin master
 ### 2.4 最后一步：Pull request
 
     进入我们fork的代码库的GitHub页面，选择需要提交给原始代码仓库的分支，然后点击Pull Request按钮，再点击new pull request按钮，最后再确认。如图1，图2，图3。至此你作为协作者的任务已经完成，接下来的事就是等待原始仓库拥有者合并你提交的代码。
- 
+
 ![](/images/git/Github团队协作之Pull请求/1.png)  
 图1
- 
+
 ![](/images/git/Github团队协作之Pull请求/2.png)  
 图2
- 
+
 ![](/images/git/Github团队协作之Pull请求/3.png)  
 图3
- 
+
 ### 2.5 原始仓库拥有者合并收到的Pull请求
 
     作为原始仓库拥有者有两种方式合并收到的Pull请求。说明：推荐在本地计算机上进行合并方式，灵活性较强。
@@ -56,12 +60,12 @@ git pull https://github.com/HengStruggle/GitTest.git master
 1 git checkout master  
 2 git merge --no-ff HengStruggle-master  
 3 git push origin master  
- 
+
 ![](/images/git/Github团队协作之Pull请求/4.png)  
 图4
- 
+
 ![](/images/git/Github团队协作之Pull请求/5.png)  
 图5
- 
+
 ![](/images/git/Github团队协作之Pull请求/6.png)  
 图6

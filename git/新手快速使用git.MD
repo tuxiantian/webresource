@@ -1,3 +1,7 @@
+---
+typora-root-url: ..
+---
+
 ## 新手快速使用git
 打开公司内网的git网址注册一个用户http://192.168.0.254/users/sign_in
 生成ssh公私钥，参考下面的说明
@@ -29,9 +33,9 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 > git init  
 > 在.gitigonre文件中编写过滤规则  
 > 1. git add .	//添加所有文件到暂存区，对于untracked文件会接受.gitigonre文件的过滤  
-> 2. git status	//查看暂存区中添加的所有文件  
-> 3. git rm --cache *	//移除暂存区中的所有文件  
-> 重复上面三步确定项目要提交的文件  
-> git remote add origin https://github.com/tuxiantian/webresource.git  
-> git push -u origin master  
-> 注意在github网站上面先创建repository,否则会提交失败  
+>   2. git status//查看暂存区中添加的所有文件  
+>   3. git rm --cache *//移除暂存区中的所有文件  
+>     重复上面三步确定项目要提交的文件  
+>     git remote add origin https://github.com/tuxiantian/webresource.git  
+>     git push -u origin master  
+>     注意在github网站上面先创建repository,否则会提交失败  

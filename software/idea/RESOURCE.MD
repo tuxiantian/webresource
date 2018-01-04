@@ -1,3 +1,7 @@
+---
+typora-root-url: ..\..
+---
+
 [Intellij IDEA创建Maven Web项目](http://www.cnblogs.com/winkey4986/p/5279820.html)
 ## idea配置一个项目的步骤
 ![](/images/software/idea/1.png)

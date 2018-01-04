@@ -1,3 +1,7 @@
+---
+typora-root-url: ..\..
+---
+
 # excle数据导入mysql数据库
 
 ![](/images/db/mysql/excle数据导入mysql数据库/1.png)  
