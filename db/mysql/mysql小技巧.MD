@@ -147,4 +147,6 @@ TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
 9. YEAR。年
 
 ### mysql查表中有多少字段的sql语句
+```sql
 SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
+```
