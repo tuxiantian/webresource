@@ -8,6 +8,7 @@
 - [mysql日期函数](#mysql日期函数)
     - [DATE_ADD和DATE_SUB](#date_add和date_sub)
     - [NOW()和CURDATE()](#now和curdate)
+    - [年龄的计算](#年龄的计算)
     - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
     - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 
@@ -109,6 +110,16 @@ SELECT NOW();
 //2017-08-04 17:57:59
 SELECT CURDATE();
 //2017-08-04
+```
+### 年龄的计算
+```sql
+select  
+    id,  
+    DATE_FORMAT(birthday,"%Y-%m-%d") birthday,  
+    CURDATE() ,  
+    (year(now())-year(birthday)-1) + ( DATE_FORMAT(birthday, '%m%d') <= DATE_FORMAT(NOW(), '%m%d') ) as age  
+from  
+    t_user
 ```
 ### 计算时间差-TIMESTAMPDIFF
 大于指定间隔时间方可以提现

@@ -30,6 +30,7 @@ tail -200f /home/tomcat/tomcat_test/logs/catalina.out
 yum install -y tcl tclx tcl-devel
 cd /usr/local
 tar -zxvf expect5.45.3.tar.gz
+cd expect5.45.3
 ./configure --with-tcl=/usr/lib64/
 make && make install
 ln -sf /usr/lib/expect5.45.3/libexpect5.45.3.so /usr/lib64/libexpect5.45.3.so
