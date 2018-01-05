@@ -71,11 +71,11 @@ select id,group_concat(name order by name desc) from aa group by id;
 ## mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
 
 1. 表结构完全一样  
- 	insert into 表1  select * from 表2
+   insert into 表1  select * from 表2
 2. 表结构不一样（这种情况下得指定列名）  
    insert into 表1 (列名1,列  名2,列名3)  select  列1,列2,列3 from 表2
 3. 只从另外一个表取部分值  
-	insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
+  insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
 
 ## if函数
 
@@ -93,12 +93,12 @@ SUBDATE(date,INTERVAL expr type)
 　(ADDDATE()和SUBDATE()是DATE_ADD()和DATE_SUB()的同义词,也可以用运算符+ 和-而不是函数  
 　date是一个DATETIME或DATE值,expr对date进行加减法的一个表达式字符串，type指明表达式，expr应该如何被解释  
 　[type值 含义 期望的expr格式]:  
-　* SECOND 秒  
-　* MINUTE 分钟  
-　* HOUR 时间  
-　* DAY 天  
-　* MONTH 月  
-　* YEAR 年  
+ * SECOND 秒  
+ * MINUTE 分钟  
+ * HOUR 时间  
+ * DAY 天  
+ * MONTH 月  
+ * YEAR 年  
 
 ```
 SELECT OrderId,DATE_SUB(OrderDate,INTERVAL 2 DAY) AS OrderPayDate
@@ -117,9 +117,8 @@ select
     id,  
     DATE_FORMAT(birthday,"%Y-%m-%d") birthday,  
     CURDATE() ,  
-    (year(now())-year(birthday)-1) + ( DATE_FORMAT(birthday, '%m%d') <= DATE_FORMAT(NOW(), '%m%d') ) as age  
-from  
-    t_user
+    (year(now())-year(birthday)-1) + (DATE_FORMAT(birthday, '%m%d') <= DATE_FORMAT(NOW(), '%m%d')) as age  
+from  t_user
 ```
 ### 计算时间差-TIMESTAMPDIFF
 大于指定间隔时间方可以提现
