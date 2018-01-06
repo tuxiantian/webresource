@@ -25,9 +25,6 @@ CREATE TABLE `t_busline_map_data` (
 
 解决方法：前端传值为数值型，若没有值，则传null或不传。
 
-## postman使用
-
-![](/images/work/question/question2.png)  
 
 ## Zookeeper连接不上导致web服务无法正常启动
 catalina.out日志中出现
