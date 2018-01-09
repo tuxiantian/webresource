@@ -83,3 +83,12 @@ http://blog.720ui.com/columns/springboot_all/
     </root>
 </configuration>
 ```
+## spring-boot项目热部署
+```
+<dependency>  
+    <groupId>org.springframework.boot</groupId>  
+    <artifactId>spring-boot-devtools</artifactId>  
+    <optional>true</optional>  
+</dependency>  
+```
+在idea编译后，会自动重启启
