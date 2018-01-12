@@ -62,8 +62,8 @@ Maven多环境打包
                         <configuration>
                             <tasks>
                                 <!-- 可以显示打包的环境 -->
-                                <echo>@@@@@@@@@@@@@@@@@@${package.environment}@@@@@@@@@@@@@@@@@@@@@</echo>
-                                <echo>@@@@@@@@@@@@@@@@@@${release.file}@@@@@@@@@@@@@@@@@@@@@</echo>
+                           			<echo>@@@@@@@@@@@@@@@@@@${package.environment}@@@@@@@@@@@@@@@@@@@@@</echo>
+                                	<echo>@@@@@@@@@@@@@@@@@@${release.file}@@@@@@@@@@@@@@@@@@@@@</echo>
                             </tasks>
                         </configuration>
                     </execution>
@@ -79,7 +79,7 @@ Maven多环境打包
                     </archive>
                     <warName>rgshcore</warName>
                     <!-- 过滤不打的文件 -->
-                    <packagingExcludes>WEB-INF/classes/spring/app/**,WEB-INF/classes/spring/queue/**,WEB-INF/classes/config/product/**,WEB-INF/classes/config/test/**</packagingExcludes>
+                    <packagingExcludes>WEB-INF/classes/spring/app/**,WEB-INF/classes/spring/queue/**,WEB-INF/classes/config/product/**,WEB-INF/classes/config/test/**					</packagingExcludes>
                     <webResources>
                         <resource>
                             <directory>src/main/resources/spring/${package.environment}/</directory>
