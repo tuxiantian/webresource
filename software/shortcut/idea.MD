@@ -26,3 +26,4 @@ Ctrl+Alt+Shift+U show diagram
 Ctrl+Alt+B 导航到接口方法的实现位置
 Ctrl+Alt+L 格式化代码快捷键  
 Ctrl+Alt+O 优化导入的类和包
+Ctrl+shift+. 折叠选中的代码
