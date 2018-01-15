@@ -220,6 +220,7 @@ public int method(Object obj) {
 #### spring编程事务实战
 业务场景
 > 会员支付代缴费用完成后，产生分公司的资金账户流水。要求产生分公司的资金账户流水出现异常回滚事务而不影响上传的事务。
+
 方式一
 ```java
 @Service
@@ -419,6 +420,9 @@ public class CompanyService {
     }
 }
 ```
+在方式二中若不在allocationIncome方法上面加事务注解，即便外层调用的地方加了try-catch,那么外层的事务也会回滚。异常信息如下：
+logback [http-nio-6002-exec-3] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only] with root cause
+org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only
 ### spring命名空间
 spring命名空间：context、beans、jdbc、tx、aop
 ### spring mvc异常统一处理
