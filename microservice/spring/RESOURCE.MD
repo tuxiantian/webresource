@@ -220,6 +220,7 @@ public int method(Object obj) {
 #### spring编程事务实战
 业务场景
 > 会员支付代缴费用完成后，产生分公司的资金账户流水。要求产生分公司的资金账户流水出现异常回滚事务而不影响上传的事务。
+方式一
 ```java
 @Service
 @Transactional
@@ -300,9 +301,124 @@ public class CompanyService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
     }
+
+    private void extFee(Long refid, String orgNo,BigDecimal allocationAmount) {
+        CustAccount companyCustAccount = custAccountService.findCustAccountByOrgNo(orgNo);
+        BigDecimal companyAmount = allocationAmount;
+        CustAccountIncome companyIncome = new CustAccountIncome(companyCustAccount.getCustId(), companyCustAccount.getCustName(), BussType.extFee.getVal(), companyAmount, refid, CanWithDraw.no.getVal());
+        custAccountIncomeService.saveOrUpdate(companyIncome);
+       if (true){
+           throw new RuntimeException("test");
+       }
+        CustAccountSeq companySeq = new CustAccountSeq(companyCustAccount.getCustId(), companyCustAccount.getCustName(), SeqFlag.in.getVal(), ChangeType.extFee.getVal(), companyCustAccount.getAmount(), companyCustAccount.getAmount().add(companyAmount), companyAmount, companyIncome.getSn());
+        custAccountSeqService.saveOrUpdate(companySeq);
+
+        companyCustAccount.setSumAmount(companyCustAccount.getSumAmount().add(companyAmount));
+        companyCustAccount.setAmount(companyCustAccount.getAmount().add(companyAmount));
+        custAccountService.saveOrUpdate(companyCustAccount);
+    }
 }
 ```
 allocationIncome的传播行为可以设置为REQUIRES_NEW或NESTED都可以实现本方法的事务回滚。
+方式二
+```java
+@Service
+@Transactional
+public class AccountExtFeeService extends AbstractService<AccountExtFee> {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountExtFeeService.class);
+    public void updatePayExtFeeResult(PayStatus status, String tradeNo,
+                                      String otherOrderNum, String payUser, Double totalFee) {
+        if (status == null || StringUtils.isBlank(tradeNo)) {
+            throw new ServiceException("信息不足，无法更新会员套餐支付记录");
+        }
+        List<AccountExtFeePay> extFeePayList = accountExtFeePayService.find(new MapBean("tradeNo", tradeNo));
+        if (extFeePayList != null && extFeePayList.size() == 1) {
+            AccountExtFeePay extFeePay = extFeePayList.get(0);
+            if (extFeePay.getPayAmount().doubleValue() != totalFee.doubleValue()) {
+                throw new ServiceException("回调金额与支付金额不相同. tradeNO:" + tradeNo + ", " + "totalFee:" + totalFee);
+            }
+            AccountExtFeePay newExtFeePay = new AccountExtFeePay();
+            newExtFeePay.setPayId(extFeePay.getPayId());
+            newExtFeePay.setPayTime(new Date());
+            newExtFeePay.setBuyUser(payUser);
+            newExtFeePay.setOtherOrderNum(otherOrderNum);
+            newExtFeePay.setPayStatus(status.getVal());
+            accountExtFeePayService.saveOrUpdate(newExtFeePay);
+
+            if (status == PayStatus.success) {
+                List<AccountExtFee> list = this.mapper.find(new MapBean("payId", extFeePay.getPayId()));
+                String orgNo = null;
+                if (list != null && list.size() > 0) {
+                    for (AccountExtFee accountExtFee : list) {
+                        AccountExtFee newExtFee = new AccountExtFee();
+                        newExtFee.setFeeId(accountExtFee.getFeeId());
+                        newExtFee.setStatus(ExtFeeStatus.payed.getVal());
+                        this.saveOrUpdate(newExtFee);
+                        orgNo=accountExtFee.getOrgNo();
+                    }
+                }
+                //解锁保证金
+                depositPayService.operateExtfeeLock(extFeePay.getUserId(), LockStatus.unlocked);
+                try{
+                    companyService.allocationIncome(AllocationType.extFee,extFeePay.getPayId(),orgNo,extFeePay.getPayAmount(),null);
+                }catch(Exception e){}
+                
+            }
+        } else {
+            throw new ServiceException("会员待缴费用支付记录不存在");
+        }
+    }
+}
+@Service
+@Transactional
+public class CompanyService {
+    private static final Logger logger= LoggerFactory.getLogger(CompanyService.class);
+    @Transactional(propagation = NESTED)
+    public void allocationIncome(AllocationType allocationType, Long refid, String orgNo,BigDecimal allocationAmount,Integer couponId){
+        logger.info("allocationIncome parameters allocationType:{},refid:{},orgNo:{}",allocationType.name(),refid,orgNo);
+       
+        switch (allocationType){
+            case coupon:
+                coupon(refid, orgNo,allocationAmount,couponId);
+                break;
+            case amount:
+                amount(refid,orgNo,allocationAmount);
+                break;
+            case extFee:
+                extFee(refid,orgNo,allocationAmount);
+                break;
+            case violation:
+                violation(refid,orgNo,allocationAmount);
+                break;
+            case subsidy:
+                subsidy(refid,orgNo);
+                break;
+            case withDraw:
+                withDraw(refid,orgNo);
+                break;
+            default:;
+        }
+        
+    }
+    
+    private void extFee(Long refid, String orgNo,BigDecimal allocationAmount) {
+        CustAccount companyCustAccount = custAccountService.findCustAccountByOrgNo(orgNo);
+        BigDecimal companyAmount = allocationAmount;
+        CustAccountIncome companyIncome = new CustAccountIncome(companyCustAccount.getCustId(), companyCustAccount.getCustName(), BussType.extFee.getVal(), companyAmount, refid, CanWithDraw.no.getVal());
+        custAccountIncomeService.saveOrUpdate(companyIncome);
+       if (true){
+           throw new RuntimeException("test");
+       }
+        CustAccountSeq companySeq = new CustAccountSeq(companyCustAccount.getCustId(), companyCustAccount.getCustName(), SeqFlag.in.getVal(), ChangeType.extFee.getVal(), companyCustAccount.getAmount(), companyCustAccount.getAmount().add(companyAmount), companyAmount, companyIncome.getSn());
+        custAccountSeqService.saveOrUpdate(companySeq);
+
+        companyCustAccount.setSumAmount(companyCustAccount.getSumAmount().add(companyAmount));
+        companyCustAccount.setAmount(companyCustAccount.getAmount().add(companyAmount));
+        custAccountService.saveOrUpdate(companyCustAccount);
+    }
+}
+```
 ### spring命名空间
 spring命名空间：context、beans、jdbc、tx、aop
 ### spring mvc异常统一处理
