@@ -110,3 +110,15 @@ $rsync -avz root@192.168.0.1:/home/redhat/filename2 filename1
 ```
 $ rsync -avz '-e ssh -p 4000' root@192.168.0.1:/home/redhat/filename2 filename1
 ```
+### spawn scp示例
+
+```
+#!/usr/bin/expect
+
+spawn scp -P62100 /home/tomcat/publish/file/main-1.0-SNAPSHOT.jar root@10.80.80.98:/home/cloud/main/
+expect "root@10.80.80.98's password:"
+set timeout 300
+send "Lai\$2017jia\r"
+interact
+
+```
