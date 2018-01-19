@@ -1,5 +1,4 @@
-Spring Boot 揭秘与实战 系列
-http://blog.720ui.com/columns/springboot_all/
+[Spring Boot 揭秘与实战 系列](http://blog.720ui.com/columns/springboot_all/)
 
 [springmvc常用注解标签详解(转载)](http://www.cnblogs.com/zheting/p/6582931.html)
 [Spring Boot干货系列：（一）优雅的入门篇](http://www.cnblogs.com/zheting/p/6707032.html)
