@@ -23,6 +23,10 @@
 - [ ] PowerDesigner
 - [ ] sublimit
 - [ ] nodeJs
+- [ ] xshell
+- [ ] postman
+- [ ] Typora
+- [ ] chroom
 #### 环境搭建流程
 1. 下载软件:MSCODE、有道云笔记、有道词典、qq、微信、谷歌浏览器、foxmail、git、maven
 2. 安装现有软件：mysql、mysql客户端、tomcat、eclipse、jdk、everything、jdgui、jsonview

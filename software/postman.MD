@@ -1,3 +1,7 @@
+---
+typora-root-url: ..
+---
+
 ## @RequestParam示例
 ![](/images/software/postman_demo1.png)
 
