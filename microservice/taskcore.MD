@@ -108,3 +108,16 @@ public class OrderBookTimeOutJob {
     }
 }
 ```
+
+非在租车辆每2分钟刷新一次车辆位置和gps位置信息，但是刷新一次需要240秒，这时定时任务会阻塞，并且定时任务阻塞后不能够恢复正常。
+这时的解决办法就是把定时任务的执行计划改为5分钟执行一次。为了更合理的制定执行计划需要统计定时任务的执行时间。示例如下：
+```java
+@RequestMapping(value = "orderBookTimeOut", method = RequestMethod.POST)
+public void orderBookTimeOut(){
+    long startTime=System.currentTimeMillis();
+    orderBookTimeOutJob.execute();
+    long endTime=System.currentTimeMillis();
+    float excTime=(float)(endTime-startTime)/1000;
+    logger.info("orderBookTimeOut执行时间：{}秒",excTime);
+}
+```
