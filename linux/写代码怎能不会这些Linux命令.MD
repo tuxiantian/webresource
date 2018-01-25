@@ -1,3 +1,7 @@
+---
+typora-root-url: ..
+---
+
 ![](/images/linux/写代码怎能不会这些Linux命令.png)
 
 ### 更改目录的所有者权限

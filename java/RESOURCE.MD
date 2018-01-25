@@ -7,8 +7,8 @@ java -jar cfr_0_122.jar CarsService.class --outputpath result
 ### 高效的工具
 org.springframework.beans.BeanUtils#copyProperties(java.lang.Object, java.lang.Object)  
 > Copy the property values of the given source bean into the target bean.  
-Note: The source and target classes do not have to match or even be derived from each other, as long as the properties match. Any bean properties that the source bean exposes but the target bean does not will silently be ignored.  
-This is just a convenience method. For more complex transfer needs, consider using a full BeanWrapper.
+> Note: The source and target classes do not have to match or even be derived from each other, as long as the properties match. Any bean properties that the source bean exposes but the target bean does not will silently be ignored.  
+> This is just a convenience method. For more complex transfer needs, consider using a full BeanWrapper.
 
 注意事项
 1. 根据source的属性来向target同名属性设值。 
@@ -38,7 +38,7 @@ for (int i=0;i<activityCoupon.getCouponNum();i++){
 [深入理解 Java 线程池：ThreadPoolExecutor](https://juejin.im/entry/58fada5d570c350058d3aaad)  
 [spring自定义转换类](http://www.cnblogs.com/caoyc/p/5639652.html)  
 > spring会自发去找自定义的转换类
-[基于 Spring Cloud 完整的微服务架构实战](https://github.com/souyunku/spring-boot-cloud)
+> [基于 Spring Cloud 完整的微服务架构实战](https://github.com/souyunku/spring-boot-cloud)
 ### 数组和list相互转化
 数组转list  
 List<String> priStrList=Arrays.asList(priStrArr);  
@@ -138,11 +138,11 @@ offer(e) poll()
 ArrayBlockingQueue中的锁是没有分离的,即生产和消费用的是同一个锁；
 LinkedBlockingQueue中的锁是分离的,即生产用的是putLock,消费是takeLock
 
-|    |抛出异常	|特殊值       | 阻塞       |超时                  |
-|----|:--------:|:----------:|:---------:|:--------------------:|
-|插入	|add(e)    |offer(e)	|put(e)	   |offer(e, time, unit)  |
-|移除	|remove()  |poll()	    |take()	   |poll(time, unit)      |
-|检查	|element() |peek()	    |不可用	 |不可用                |
+|      |   抛出异常    |   特殊值    |   阻塞   |          超时          |
+| ---- | :-------: | :------: | :----: | :------------------: |
+| 插入   |  add(e)   | offer(e) | put(e) | offer(e, time, unit) |
+| 移除   | remove()  |  poll()  | take() |   poll(time, unit)   |
+| 检查   | element() |  peek()  |  不可用   |         不可用          |
 
 ### Integer缓存
 ```java
