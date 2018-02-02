@@ -190,7 +190,6 @@ sed -n '1p' filename
 删除文件中的空行  
 ```shell
 sed '/^$/d' file  
-
 ```
 1. 替换并输出（不修改源文件）： 
 ``` 
@@ -200,7 +199,7 @@ dog被替换的内容，cat替换的内容
 2. 备份后直接替换至源文件：  
 ```
 sed -i.bak 's/dog/cat/g' file 
-``` 
+```
 ### linux防火墙
 开启： chkconfig iptables on  
 关闭： chkconfig iptables off  
