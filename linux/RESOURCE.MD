@@ -175,15 +175,32 @@ unzip -o -d /home/sunny myfile.zip 把myfile.zip文件解压到 /home/sunny/
 解决方法：tomcat的bin目录下执行下面的命令  
 chmod u+x *.sh
 ### sed命令
-sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14 截取一段时间的日志
+截取一段时间的日志
+```shell
+sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out > ~/catalina.out.20140604-14 
+```
+只查看文件的第5行到第10行  
+```shell
+sed –n '5,10p' /etc/passwd 
+```
+显示第一行
+```shell
+sed -n '1p' filename 
+```
+删除文件中的空行  
+```shell
+sed '/^$/d' file  
 
-sed –n '5,10p' /etc/passwd 这样你就可以只查看文件的第5行到第10行  
-sed -n '1p' filename 显示第一行  
-sed '/^$/d' file 删除文件中的空行  
-1、替换并输出（不修改源文件）：  
-sed  's/dog/cat/g' file dog被替换的内容，cat替换的内容  
-2、备份后直接替换至源文件：  
-sed -i.bak 's/dog/cat/g' file  
+```
+1. 替换并输出（不修改源文件）： 
+``` 
+sed  's/dog/cat/g' file 
+```
+dog被替换的内容，cat替换的内容  
+2. 备份后直接替换至源文件：  
+```
+sed -i.bak 's/dog/cat/g' file 
+``` 
 ### linux防火墙
 开启： chkconfig iptables on  
 关闭： chkconfig iptables off  
