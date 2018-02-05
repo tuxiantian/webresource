@@ -9,6 +9,7 @@
     - [DATE_ADD和DATE_SUB](#date_add和date_sub)
     - [NOW()和CURDATE()](#now和curdate)
     - [年龄的计算](#年龄的计算)
+    - [收益T+N可提现](#收益tn可提现)
     - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
     - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
 
@@ -119,6 +120,10 @@ select
     CURDATE() ,  
     (year(now())-year(birthday)-1) + (DATE_FORMAT(birthday, '%m%d') <= DATE_FORMAT(NOW(), '%m%d')) as age  
 from  t_user
+```
+### 收益T+N可提现
+```sql
+TIMESTAMPDIFF(DAY,DATE_FORMAT(T.createTime,'%Y-%m-%d'),CURDATE())>=#{intervalDay}
 ```
 ### 计算时间差-TIMESTAMPDIFF
 大于指定间隔时间方可以提现
