@@ -65,3 +65,13 @@ crontab -e
 
 使用crontab命令监控，crontab用法参考
 [每天一个linux命令（50）：crontab命令](https://www.cnblogs.com/peida/archive/2013/01/08/2850483.html)
+
+### 设置Linux系统时间
+比如将系统时间设定成1996年6月10日的命令如下。
+```
+#date -s 06/10/96
+```
+将系统时间设定成下午1点12分0秒的命令如下。
+```
+#date -s 13:12:00
+```
