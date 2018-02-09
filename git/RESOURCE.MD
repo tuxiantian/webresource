@@ -100,6 +100,8 @@ git commit -a -m "commit description"
 > git remote set-url --delete origin git@github.com:tuxiantian/mongodb.git  
 > git remote set-url --add origin  git@192.168.0.254:server/mongodb.git  
 > git push --set-upstream origin develop  
+更改仓库远程地址要注意的是使用上面的命令只能将当前分支的代码推到新的远程仓库，如果要将其它分支的代码也推到新的远程仓库，那么需要切回原来的远程仓库地址，再次推送。
+另外tag是需要单独推送的。
 ## 查看当前所处分支
 > git branch
 ## 查看所有分支
