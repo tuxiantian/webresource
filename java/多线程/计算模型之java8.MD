@@ -1,3 +1,7 @@
+---
+typora-root-url: ..\..
+---
+
 # 计算模型之Java8
 ## 简述
 Java 8发行版是自Java 5（发行于2004，已经过了相当一段时间了）以来最具革命性的版本。Java 8我认为带来的最核心的变化主要体现在三个方面：Lambda(函数式编程)、Stream(流)和并发/并行编程简易化。其中Lamdba特性是最具革命性，为Stream、并行/并发编程等新特性提供基础支撑。
@@ -196,7 +200,7 @@ public Set<String> findLongTracks(List<Album> albums) {
 对比总结：
 1. 代码量减少
 2. 结构更加清晰，一方面是收益于代码量的减少；另一方面，主要是使用类似描述性语言让代码的逻辑更加清晰。比如看到filter就晓得是进行过滤处理，看到map就晓得是一对一处理、看到collect就晓得是将流收集到集合中等等，这些接口本身就具有很强的描述性，简化了开发人员对代码的理解
-    
+  
     
 flatMap、filter、map、collect等等，这些就是Stream提供的声明式的类似描述性语言的API接口，搞过Spark开发的人看着这些函数名称应该很熟悉了，和Spark编程提供的算子很类似，在语义上基本一致，对大数据开发人员具有很好的亲和力。
 
@@ -204,7 +208,7 @@ flatMap、filter、map、collect等等，这些就是Stream提供的声明式的
 1. Spark中对数据集封装成RDD，然后使用一堆map、flatMap、filter等算子对RDD中的数据元素进行中间层处理，最后使用reduce、count、collect、foreach等聚合操作输出最终结果；
 2. Java 8中使用Stream对数据集进行封装，使用map、flatMap、filter等lambda表达式对Stream中元素进行中间层处理，最后使用reduce、count、collect、foreach等lambda表达式进行结果的聚合输出。
 3. 而且中间层map、flatMap、filter等操作它们都具有惰性特性，只有在遇到需要对结果进行聚合输出时才会正在的执行。
- 
+
 当然了这里只是列举的Spark Core编程思想，Spark还提供了Spark SQL、Spark Stream、Spark MLlib等模块，提供了大数据“一站式”的基于分布式的解决方案，显然是Stream无法比拟的。但是parallel和sequential可轻易的让Stream在并行流和串行流之间进行转换，也提供了丰富的“算子”操作，因此，你也可以把Stream看着是“轻量级”、“单机版”的Spark编程框架实现。
 进一步延伸
 
@@ -259,7 +263,7 @@ public void test() throws Exception {
   }).get();
 }
 
-``` 
+```
 这是一个多核的时代，并行流对提系统整体升性能是极具价值，最关键的是并行流和串行流间切换如此的简单，一个函数就可搞定，这是传统Java进行并行编程无法想象的。
 
 ## Stream总结
@@ -270,10 +274,10 @@ java 8的流式处理极大的简化了对于集合的操作，实际上不光�
 
 蒙特卡洛模拟案例(出至《Java8函数式编程》)
 如果公平地掷两次骰子，然后将赢的一面上的点数相加，就会得到一个2~12的数字。点数的和至少是2，因为骰子六个面上最小的点数是1，而我们将骰子掷了两次；点数的和最大超不过12，因为骰子点数最多的一面也不过6点。我们想要得出点数落在2~12之间每个值的概率。
-  
+
 方式一：求出掷骰子的所有组合，比如，得到2点的方式是第一次掷得1点，第二次也掷得1点。总共有36种可能的组合，因此，掷得2点的概率就是1/36。
 方式二：使用1到6的随机数模拟掷骰子事件，然后用得到每个点数的次数除以总的投掷次数。这就是一个简单的蒙特卡洛模拟。模拟投掷骰子的次数越多，得到的结果越准确，因此，我们希望尽可能多地增加模拟次数(Spark案例中SparkPi，就是利用蒙特卡洛模拟求π值)。
-  
+
 ```java
 /**
   * 模拟公平投掷两次筛子，赢面上点数和
@@ -444,7 +448,7 @@ public long parallelSum(long n) {
 
 ```
 使用parallel()可以把流转换成并行流，从而让前面的函数归约过程（也就是求和）并行运行。Stream在内部分成了几块。因此可以对不同的块独立并行进行归纳操作，最后，同一个归纳操作会将各个子流的部分归纳结果合并起来，得到整个原始流的归纳结果。
-  
+
 配置并行流使用的线程池
 看看流的parallel方法，你可能会想，并行流用的线程是从哪儿来的？有多少个？怎么自定义这个过程呢？
 并行流内部使用了默认的ForkJoinPool，它默认的线程数量就是你的处理器数量， 这个值是由Runtime.getRuntime().availableProcessors()得到的。
@@ -453,7 +457,7 @@ public long parallelSum(long n) {
 System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","12");
 ```
 这是一个全局设置，因此它将影响代码中所有的并行流。反过来说，目前还无法专为某个并行流指定这个值。一般而言，让ForkJoinPool的大小等于处理器数量是个不错的默认值，除非你有很好的理由，否则我们强烈建议你不要修改它。
-  
+
 我们声称并行求和方法应该比顺序和迭代方法性能好。然而在软件工程上，靠猜绝对不是什么好办法！特别是在优化性能时，你应该始终遵循三个黄金规则：测量，测量，再测量。为此，你可以开发一个方法，如下所示(调用10次，取耗时最短一次)：
 ```java
 public long measureSumPerf(Function<Long, Long> adder, long n) {
@@ -481,7 +485,7 @@ public long iterativeSum1(long n) {
 
 ```
 输出内容：for -> 原生类型耗时(毫秒):5
-  
+
 测试二：for循环装箱类型：
 ```java
 public long iterativeSum2(Long n) {
@@ -494,7 +498,7 @@ public long iterativeSum2(Long n) {
 
 ```
 输出内容：for -> 装箱类型耗时(毫秒):126
- 
+
 测试三：iterator串行
 ```java
 public long sequentialSum(long n) {
@@ -525,9 +529,9 @@ public static long rangedSum(long n) {
       .reduce(0L, Long::sum);
 }
 
-```  
+```
 输出内容：LongStream.rangeClosed -> 串行(毫秒):4
- 
+
 测试六：LongStream.rangeClosed并行
 ```java
 public static long parallelRangedSum(long n) {
@@ -538,8 +542,8 @@ public static long parallelRangedSum(long n) {
 
 ```
 输出内容：LongStream.rangeClosed -> 并行(毫秒):1
-  
-  
+
+
 结果分析：
 1. 测试一和测试二对比：5ms VS 126 ms  
       分析：
@@ -606,7 +610,7 @@ try {
 CompletableFuture类（它实现了Future接口）如何利用Java 8的新特性以更直观的方式将上述需求都变为可能。Stream和CompletableFuture的设计都遵循了类似的模式：它们都使用了Lambda表达式以及流水线的思想。从这个角度，你可以说CompletableFuture和Future的关系就跟Stream和Collection的关系一样。
 
 使用CompletableFuture很容易就构造出一个异步方法，而Java 8之前只能面向接口Callable构造，如果存在多个异步方法，就需要定义构造多个Callable接口的实现类，显然要繁琐很多：
-  
+
 ```java
 public Future<Double> getPriceAsync(String product) {
   CompletableFuture<Double> futurePrice = new CompletableFuture<>();
@@ -623,7 +627,7 @@ public Future<Double> getPriceAsync(String product) {
 
 ```
 我们已经了解了如何通过CompletableFuture编程方式构建异步方法，看起来这些操作也比较方便，但还有进一步提升的空间，CompletableFuture类自身提供了大量精巧的工厂方法，使用这些方法能更容易地完成整个流程，还不用担心实现的细节。比如，可以将上面的代码进一步简化：
-    
+​    
 ```java
 public Future<Double> getPriceAsync(String product) {
   return CompletableFuture.supplyAsync(() -> calculatePrice(product));
@@ -661,7 +665,7 @@ public List<String> findPrices(String product) {
 
 ```
 假如商家查询价格是个比较耗时的接口，可能也是最快的改善方法是使用并行流来避免顺序计算。但是注意：Stream并行流使用的是内置的ForkJoinPool连接池中的执行线程（Executor）运行，直线线程默认等于CPU核数，如果商家列表比较多且查询价格接口存在IO阻塞情况，使用并行流并不能完全利用好CPU资源，当然也可以修改线程数使线程数加大，但是这个修改是全局性的，所以一般是不建议修改的，毕竟全局性的修改可能会导致对其它地方的使用造成影响。这就是为什么Stream叫做并行流而不是并发流。
-  
+
 方式三：使用CompletableFuture发起异步请求
 ```java
 //自定义线程池执行器
@@ -696,7 +700,7 @@ private final Executor executor =
   1. 要么将其转化为并行流，利用map这样的操作开展工作
   2. 要么枚举出集合中的每一个元素，创建新的线程，在CompletableFuture内对其进行操作。后者提供了更多的灵活性，你可以调整线程池的大小，而这能帮助
 你确保整体的计算不会因为线程都在等待I/O而发生阻塞。
-  
+
 我们对使用这些API的建议如下。
   1. 如果你进行的是计算密集型的操作，并且没有I/O，那么推荐使用Stream接口，因为实现简单，同时效率也可能是最高的（如果所有的线程都是计算密集型的，那就没有必要创建比处理器核数更多的线程）。
   2. 反之，如果你并行的工作单元还涉及等待I/O的操作（包括网络连接等待），那么使用CompletableFuture灵活性更好，你可以像前文讨论的那样，依据等待计算，或者W/C的比率设定需要使用的线程数。
@@ -718,7 +722,7 @@ CompletableFuture.supplyAsync(() -> shop.getPrice(product))
   1. 任务1是将数据写入数据库
   2. 任务2是将数据推送到第三方接口
   3. 任务1和任务2没有任何依赖关系，可以并行执行，通过join保证这两个任务都执行完成后才继续向下执行，如果不需要也可以不使用join进行阻塞
-  
+
 ```java
 CompletableFuture.runAsync(() -> writeDb(alarmData), cachedThreadPool)//写入DB
             .runAsync(() -> transferParallel(alarmData, uidSet), cachedThreadPool)//传送到推送服务器
@@ -734,7 +738,7 @@ String result = CompletableFuture.supplyAsync(() -> doTask1())
 ```
 
 CompletableFuture类提供了将两个CompletableFuture建立联系功能，通过迭代方式，可以让更多个CompletableFuture建立起关系，构建出更加复杂的业务逻辑，这就形成了类似Stream流式处理功能，只不过它内部元素不再是数据，而是一个个异步任务，而且通过内部抽象出来的语义接口，可以灵活实现这些异步任务间的依赖关系等，这就是流式编程模型的哲学：让程序只关注一个目标，并尽可能把它做好，让程序能够互相协同工作完成复杂任务。这才是真正体现CompletableFuture版本实现所具备的巨大优势，用CompletableFuture在代码简洁性、可读性上带来的巨大提升，提高了开发人员进行并发/并行编程的积极性。
-  
+
 CompletableFuture类提供的接口方法还是比较多的，但是这些接口原理上大致相同，理解上也不复杂，关键是要理解这些思想背后的逻辑及它的优势。
 Fork/Join
 ForkJoin框架是在Java 7中引入的，即分支/合并框架，Stream并行流就是依赖ForkJoin将一个操作切分为多个子操作，在多个不同的核上并行地执行这些子操作，所以还是有必要简单认识下。
@@ -765,7 +769,7 @@ if (任务足够小或不可分) {
 ```
 你可能已经注意到，这只不过是著名的分递归治算法的并行版本而已。
 
-  
+
 案例如下：
 
 ```java
