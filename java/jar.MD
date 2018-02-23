@@ -4,3 +4,7 @@ jar解压
 unzip main-1.0-SNAPSHOT.jar -d main
 查看jar内容
 jar tf test.jar
+
+> -bash: jar: command not found
+
+yum install java-devel
