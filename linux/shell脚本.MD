@@ -112,7 +112,7 @@ $ rsync -avz '-e ssh -p 4000' root@192.168.0.1:/home/redhat/filename2 filename1
 ```
 ### spawn scp示例
 
-```
+```shell
 #!/usr/bin/expect
 
 spawn scp -P62100 /home/tomcat/publish/file/main-1.0-SNAPSHOT.jar root@10.80.80.98:/home/cloud/main/
@@ -121,4 +121,23 @@ set timeout 300
 send "Lai\$2017jia\r"
 interact
 
+```
+### spawn scp参数示例
+transfer.sh的脚本内容如下
+```shell    
+#!/usr/bin/expect
+
+set APP_NAME [lindex $argv 0]
+set APP_VERSION 1.0-SNAPSHOT
+
+spawn scp -P62100 /var/lib/jenkins/workspace/rent_micro/$APP_NAME/target/$APP_NAME-$APP_VERSION.jar   root@10.81.29.189:/home/cloud
+
+expect "root@10.81.29.189's password:"
+set timeout 300
+send "Lai\$2017jia\r"
+interact
+```
+执行脚本示例
+```shell
+./transfer.sh taskcore
 ```
