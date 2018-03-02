@@ -130,14 +130,23 @@ transfer.sh的脚本内容如下
 set APP_NAME [lindex $argv 0]
 set APP_VERSION 1.0-SNAPSHOT
 
-spawn scp -P62100 /var/lib/jenkins/workspace/rent_micro/$APP_NAME/target/$APP_NAME-$APP_VERSION.jar   root@10.81.29.189:/home/cloud
+spawn scp -P62100 /var/lib/jenkins/workspace/rent_micro/$APP_NAME/target/$APP_NAME-$APP_VERSION.jar  root@10.81.29.189:/home/cloud
 
 expect "root@10.81.29.189's password:"
-set timeout 300
+set timeout 5000
 send "Lai\$2017jia\r"
+interact
+
+spawn scp -P62100 /var/lib/jenkins/workspace/rent_micro/$APP_NAME/target/$APP_NAME-$APP_VERSION.jar   root@10.80.80.98:/home/cloud
+
+expect "root@10.80.80.98's password:"
+set timeout 5000
+send "Lai\$2017jia\r"
+
 interact
 ```
 执行脚本示例
 ```shell
 ./transfer.sh taskcore
 ```
+注意以上脚本中有2个expect，相对应的就要有两个interact
