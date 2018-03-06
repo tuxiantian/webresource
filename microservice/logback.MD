@@ -1,0 +1,1 @@
+[log4j.properties to logback.xml Translator](https://logback.qos.ch/translator/)
