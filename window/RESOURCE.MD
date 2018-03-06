@@ -49,3 +49,5 @@ ping 默认网关 检验本机到最近的路由器连接是否正常
 127.0.0.1       www.mytest.com
 ```
 在这里可以设置本地域名，让域名指向你想要的ip,启动Tomcat，如果是8080默认域名的话，在浏览器输入 http://www.test.com:8080， 就可以访问看到那只猫了。
+
+[Win10笔记本关闭盖子不自动休眠不关屏幕设置](https://jingyan.baidu.com/article/6b182309add5b9ba59e15972.html)
