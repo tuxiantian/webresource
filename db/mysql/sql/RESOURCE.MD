@@ -33,6 +33,7 @@ typora-root-url: ..\..\..
 - [待下发任务统计](#待下发任务统计)
 - [班次任务统计](#班次任务统计)
 - [历史任务统计](#历史任务统计)
+- [查询用户最后一次缴纳保证金的时间](#查询用户最后一次缴纳保证金的时间)
 
 <!-- /TOC -->
 
@@ -885,4 +886,15 @@ WHERE a.status=1  AND a.area_code=#{areaCode}
     ) t
     group by zone_name,userId
 </select>
+```
+### 查询用户最后一次缴纳保证金的时间
+用户可能会缴退保证金多次，如何查找最后一次缴纳的保证金
+```sql
+select 
+    p.`USERID` ,DATE_FORMAT(p.PAYTIME,'%Y-%m-%d %H:%i:%s') payTime,DATE_FORMAT(APPLYTIME,'%Y-%m-%d %H:%i:%s') applyTime,
+    (CASE WHEN p.ISBACK=0 THEN 1 ELSE 0 END ) STATUS 
+from
+(select max(`DEPOSITPAYID`)  depositypayid from `t_depositpay` WHERE STATUS=1 group by userid) a
+left outer join `t_depositpay` p on a.depositypayid=p.`DEPOSITPAYID`
+left outer join `t_depositback` b on a.depositypayid=b.`DEPOSITPAYID`
 ```
