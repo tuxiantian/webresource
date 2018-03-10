@@ -50,19 +50,19 @@ chmod 600 /root/.activemqrc
 启动activeMQ  
 ./bin/activemq start  
 验证是否安装成功
-```
+```shell
 [root@localhost activemq]# ./bin/activemq status
 INFO: Loading '/opt/activemq//bin/env'
 INFO: Using java '/opt/jdk1.7.0_79/bin/java'
 ActiveMQ is running (pid '3535')
 ```
 关闭/重启activeMQ
-```
+```shell
 [root@localhost activemq]# ./bin/activemq stop
 [root@localhost activemq]# ./bin/activemq restart
 ```
 需要注意的是若是使用root用户安装的activemq,需要root用户启动
-```
+```shell
 [tomcat@iZ2zecl4i8oy1rs7r025p8Z bin]$ ./activemq start
 INFO: Using default configuration
 (you can configure options in one of these file: /etc/default/activemq /home/tomcat/.activemqrc)
@@ -82,4 +82,13 @@ INFO: Using java '/usr/bin/java'
 INFO: Starting - inspect logfiles specified in logging.properties and log4j.properties to get details
 INFO: pidfile created : '/home/tomcat/activemq-5.9.0/data/activemq-iZ2zecl4i8oy1rs7r025p8Z.pid' (pid '998')
 
+```
+### 同一台机器上配置activemq集群
+```
+配置多个mq除了要改端口号外，还要配置共享目录。
+D:\activemq\apache-activemq-5.12.1\conf\activemq.xml
+<persistenceAdapter>
+    <kahaDB directory="${activemq.data}/kahadb"/>
+</persistenceAdapter>
+directory配置为两个mq的共享路径。
 ```
