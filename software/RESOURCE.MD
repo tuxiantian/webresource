@@ -44,25 +44,6 @@
 @ 可以在文档中@某个人  
 [ 可以快速输入链接
 
-### sublime配置
-
-#### sublime text 添加到鼠标右键功能
-把以下内容复制并保存到文件，重命名为：sublime_addright.reg，然后双击就可以了。  
-```
-Windows Registry Editor Version 5.00
-[HKEY_CLASSES_ROOT\*\shell\SublimeText3]
-@="use SublimeText3 open"
-"Icon"="C:\\Program Files (x86)\\Sublime Text3\\sublime_text.exe,0"
-[HKEY_CLASSES_ROOT\*\shell\SublimeText3\command]
-@="C:\\Program Files (x86)\\Sublime Text3\\sublime_text.exe %1"
-[HKEY_CLASSES_ROOT\Directory\shell\SublimeText3]
-@="use SublimeText3 open"
-"Icon"="C:\\Program Files (x86)\\Sublime Text3\\sublime_text.exe,0"
-[HKEY_CLASSES_ROOT\Directory\shell\SublimeText3\command]
-@="C:\\Program Files (x86)\\Sublime Text3\\sublime_text.exe %1"
-```
-**注意：需要把下面代码中的Sublime的安装目录（标粗部分），替换成自已实际的Sublime安装目录**
-
 ### eclipse配置
 
 #### eclipse代码自动提示
