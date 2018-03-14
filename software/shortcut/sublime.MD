@@ -24,3 +24,10 @@ Windows Registry Editor Version 5.00
 3. 输入DeleteBlankLines后回车进行安装
 4. 选中要删除空白行的文本范围，一般是ctrl+A直接全选 
 5. 通过ctrl+alt+backspace执行一键去除空白行功能
+### sublimeTmpl插件
+* 使用Ctrl + Alt +H快捷键生成html文件
+* 使用Ctrl + Alt +J快捷键生成javascript文件
+* 使用Ctrl + Alt +C快捷键生成css文件
+* 使用Ctrl + Alt +P快捷键生成php文件
+* 使用Ctrl + Alt +R快捷键生成ruby文件
+* 使用Ctrl + Alt +Shift+P快捷键生成pyhton文件
