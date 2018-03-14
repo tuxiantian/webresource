@@ -92,3 +92,7 @@
 </dependency>  
 ```
 在idea编译后，会自动重启启
+
+## idea调试spring-boot项目
+[](http://www.cnblogs.com/GarfieldEr007/p/7041654.html)
+[](https://stacktrace.tech/2017-03-21/spring-boot-idea-remote-debug/)
