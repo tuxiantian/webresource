@@ -13,6 +13,7 @@ FIC（Fast index Creation）可以让innodb存储引擎避免创建临时表，�
 （4）列的重命名  
 
 [SQL优化之【类型转换】](http://www.cnblogs.com/gomysql/p/4450928.html)  
+[java处理emoji（转）](https://www.cnblogs.com/eric-fang/p/4939058.html)
 
 [EXPLAIN 命令详解](http://www.cnblogs.com/gomysql/p/3720123.html)  
 all < index < range < ref < eq_ref < const, system < NULL  
