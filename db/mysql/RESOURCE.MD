@@ -464,7 +464,6 @@ profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
 
 批量插入
 useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
---------------------------------------------------------------------------------------
 ## MySQL常用变量
 查看最大连接数上限
 show variables like 'max_connections';
@@ -477,4 +476,3 @@ max_connections=1500
 查看临时文件存储目录
 show variables like '%tmp%';
 tmpdir=path
---------------------------------------------------------------------------------------

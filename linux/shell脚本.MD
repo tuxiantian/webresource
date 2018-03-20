@@ -150,3 +150,5 @@ interact
 ./transfer.sh taskcore
 ```
 注意以上脚本中有2个expect，相对应的就要有两个interact
+## 使用脚本切换路径
+![](/images/linux/使用脚本切换路径.png)
