@@ -10,6 +10,7 @@
     - [日期周期](#日期周期)
     - [与遗留代码转换](#与遗留代码转换)
     - [JSON Java 8 LocalDateTime format in Spring Boot](#json-java-8-localdatetime-format-in-spring-boot)
+    - [@DateTimeFormat](#datetimeformat)
 
 <!-- /TOC -->
 
@@ -317,5 +318,13 @@ public class JacksonConfig {
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return objectMapper;
     }
+}
+```
+## @DateTimeFormat
+```java
+@ResponseBody
+@RequestMapping(value = "process", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+public McpResult process(@RequestParam List<Long> damageIdList,@RequestParam String dealer,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime dealTime){
+    return carDamageService.process(damageIdList,dealer,dealTime);
 }
 ```
