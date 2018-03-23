@@ -9,6 +9,7 @@
     - [日期格式化](#日期格式化)
     - [日期周期](#日期周期)
     - [与遗留代码转换](#与遗留代码转换)
+    - [JSON Java 8 LocalDateTime format in Spring Boot](#json-java-8-localdatetime-format-in-spring-boot)
 
 <!-- /TOC -->
 
@@ -282,4 +283,39 @@ Instant instant = date.toInstant();
 ZoneId zone = ZoneId.systemDefault();
 LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
 LocalDate localDate = localDateTime.toLocalDate();
+```
+## JSON Java 8 LocalDateTime format in Spring Boot
+1. Dependency
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jsr310</artifactId>
+    <version>2.8.5</version>
+</dependency>
+```
+2. Annotation with date-time format.
+```java
+public class RestObject {
+
+    private LocalDateTime timestamp;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+}
+```
+3. Spring Config.
+```java
+@Configuration
+public class JacksonConfig {
+
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
+        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        return objectMapper;
+    }
+}
 ```
