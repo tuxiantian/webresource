@@ -42,3 +42,6 @@ typora-root-url: ..\..
 #### 安装插件
 Intellij IDEA File——>Settings——>IDE setttings——>Plugins
 搜索GsonFormat，安装后重启idea。
+
+## 激活方法
+[Win10中Clion的安装-注册-MinGW环境配置-运行C++](https://blog.csdn.net/qq_33956051/article/details/79463757)
