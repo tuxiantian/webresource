@@ -36,4 +36,9 @@ typora-root-url: ..\..
 ![](/images/software/idea/从git上面导入项目/6.png)  
 ![](/images/software/idea/从git上面导入项目/7.png)
 ![](/images/software/idea/从git上面导入项目/8.png)  
-![](/images/software/idea/从git上面导入项目/9.png)
+## plugins
+### GsonFormat
+这个插件根据json数据生成pojo，复制接口响应数据，创建entity类，在创建类的窗口，Alt+Insert,选择GsonFormat，粘贴json，生成。
+#### 安装插件
+Intellij IDEA File——>Settings——>IDE setttings——>Plugins
+搜索GsonFormat，安装后重启idea。
