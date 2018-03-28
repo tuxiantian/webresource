@@ -83,3 +83,5 @@ FastStone Capture注册码
 
 ### 访问国外网站方式
 [lantern](https://github.com/getlantern/lantern)
+### Google play store DF-DFERH-01
+我的安卓设备死活连不上Google play store,报DF-DFERH-01错误。我想了一下，我用Google play store只不过是下载应用而已。我在chroom浏览器里可以搜索应用安装，这样当我手机使用VPN时，我的手机依然可以下载最新的应用，并且可以安装我在pc端chroom中选择安装的应用。那这样的话，即使这个错误解决不了，也不影响我使用Google。
