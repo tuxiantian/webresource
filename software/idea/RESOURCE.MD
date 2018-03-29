@@ -48,6 +48,7 @@ Intellij IDEA File——>Settings——>IDE setttings——>Plugins
 ## 使用for的正确姿势
 Settings->Completion 
 1. for
+
 Before
 ```java
 public class Foo {
@@ -69,6 +70,7 @@ public class Foo {
 }
 ```
 2. fori
+
 Before
 ```java
 public class Foo {
@@ -90,6 +92,7 @@ public class Foo {
 }
 ```
 3. forr
+
 Before
 ```java
 public class Foo {
