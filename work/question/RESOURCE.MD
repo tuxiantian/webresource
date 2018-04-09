@@ -11,7 +11,6 @@ typora-root-url: ..\..
 - [前后端传值规范](#前后端传值规范)
 - [接口使用@RequestBody保存数据要注意的问题](#接口使用requestbody保存数据要注意的问题)
 - [联合主键的findBy查询问题](#联合主键的findby查询问题)
-- [使用eventBus的功能单元测试](#使用eventbus的功能单元测试)
 - [isEmptyNotNull](#isemptynotnull)
 - [实体类的包装类型赋予默认值带来的问题](#实体类的包装类型赋予默认值带来的问题)
 
@@ -181,49 +180,7 @@ public AccountTripCard findBy(String userId,Integer cardId){
 	return this.find(new MapBean("userId", userId, "cardId",cardId)).stream().findFirst().orElse(null);
 }
 ```
-## 使用eventBus的功能单元测试
-在单元测试方法执行结束时，整个应用也就结束了，这时event的订阅方法还没有执行完成，所以测试达不到期望的结果，这时必须使测试方法阻塞一段时间。
-```java
-@Service
-@Lazy(false)
-public class GiveCouponToVipAccountJob {
-    @Autowired
-    private AccountExtService accountExtService;
-    @Autowired
-    private EventBus eventBus;
-    
-    public void execute(){
-        List<String> redVipAccountList = accountExtService.findVipAccount(UserType.redVip.getVal());
-        for (String redVipAccount:redVipAccountList
-        ) {
-            List<RulePara> ruleParaList = Lists.newArrayList(new RulePara(Rules.redVipAccount,new MapBean("userType",UserType.redVip.getVal())));
-            eventBus.post(new ActivityEvent(redVipAccount,ruleParaList, CouponSource.zq,null));
-        }
 
-        List<String> lyVipAccountList = accountExtService.findVipAccount(UserType.lyVip.getVal());
-        for (String lyVipAccount:lyVipAccountList){
-            List<RulePara> ruleParaList = Lists.newArrayList(new RulePara(Rules.lyVipAccount,new MapBean("userType",UserType.lyVip.getVal())));
-            eventBus.post(new ActivityEvent(lyVipAccount,ruleParaList,CouponSource.zq,null));
-        }
-    }
-}
-
-public class GiveCouponToVipAccountJobTest extends BaseTest{
-    @Autowired
-    private GiveCouponToVipAccountJob giveCouponToVipAccountJob;
-    
-    @Test
-    @Rollback(false)
-    public void execute(){
-        giveCouponToVipAccountJob.execute();
-        try {
-            TimeUnit.SECONDS.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
 ## isEmptyNotNull
 ![](/images/work/isEmptyNotNull.png)
 ## 实体类的包装类型赋予默认值带来的问题
@@ -241,3 +198,14 @@ this.saveOrUpdate(new Partner(partner.getPartnerId(),sumIncome,amount));
 ![](/images/work/notOptionalVersion.png)
 可以借助java8的Optional解决这个问题
 ![](/images/work/optionalVersion.png)
+注意下面的做法也是不行的
+```java
+public class Partner extends AbsBaseEntity  {
+    //投车数量
+    private Integer investNum =0;
+    public Integer getInvestNum(){
+	    return Optional.ofNullable(investNum).orElse(0);
+	}
+}
+
+```
