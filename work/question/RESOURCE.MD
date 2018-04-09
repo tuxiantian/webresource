@@ -1,6 +1,21 @@
 ---
 typora-root-url: ..\..
 ---
+<!-- TOC -->
+
+- [非自增主键的保存更新问题](#非自增主键的保存更新问题)
+- [HttpMessageNotReadableException: Could not read JSON: java.lang.NumberFormatException: empty String;](#httpmessagenotreadableexception-could-not-read-json-javalangnumberformatexception-empty-string)
+- [Zookeeper连接不上导致web服务无法正常启动](#zookeeper连接不上导致web服务无法正常启动)
+- [MySQL两个无符号的数字想减出现问题](#mysql两个无符号的数字想减出现问题)
+- [磁盘空间不足导致的问题](#磁盘空间不足导致的问题)
+- [前后端传值规范](#前后端传值规范)
+- [接口使用@RequestBody保存数据要注意的问题](#接口使用requestbody保存数据要注意的问题)
+- [联合主键的findBy查询问题](#联合主键的findby查询问题)
+- [使用eventBus的功能单元测试](#使用eventbus的功能单元测试)
+- [isEmptyNotNull](#isemptynotnull)
+- [实体类的包装类型赋予默认值带来的问题](#实体类的包装类型赋予默认值带来的问题)
+
+<!-- /TOC -->
 
 ## 非自增主键的保存更新问题
 ![](/images/work/question/question1.png)  
@@ -209,3 +224,20 @@ public class GiveCouponToVipAccountJobTest extends BaseTest{
     }
 }
 ```
+## isEmptyNotNull
+![](/images/work/isEmptyNotNull.png)
+## 实体类的包装类型赋予默认值带来的问题
+```java
+public class Partner extends AbsBaseEntity  {
+    //投车数量
+	private Integer investNum =0;
+}
+```
+使用框架的saveOrUpdate方法更新合伙人收益，由于investNum被赋予了默认值null，它将作为一个更新项，在执行更新操作时将数据库相应字段的值置为0.
+```java
+this.saveOrUpdate(new Partner(partner.getPartnerId(),sumIncome,amount));
+```
+但是若不给这个字段赋予默认值，那么下面的代码将会报NullPointerException
+![](/images/work/notOptionalVersion.png)
+可以借助java8的Optional解决这个问题
+![](/images/work/optionalVersion.png)

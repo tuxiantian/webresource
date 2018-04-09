@@ -1,3 +1,27 @@
+<!-- TOC -->
+
+- [从redis中获取用户信息](#从redis中获取用户信息)
+- [来驾分页查询模板代码](#来驾分页查询模板代码)
+    - [使用代码生成器生成的默认findPage方法](#使用代码生成器生成的默认findpage方法)
+    - [使用框架的分页方法](#使用框架的分页方法)
+    - [自定义分页代码示例](#自定义分页代码示例)
+        - [面向web端的服务类代码](#面向web端的服务类代码)
+        - [面向APP端的服务类代码](#面向app端的服务类代码)
+- [统一维护配置系统错误返回码](#统一维护配置系统错误返回码)
+- [数据库类型](#数据库类型)
+- [实体的状态使用枚举维护](#实体的状态使用枚举维护)
+- [全局参数配置表设计](#全局参数配置表设计)
+- [全局字典表设计](#全局字典表设计)
+- [自定义异常处理](#自定义异常处理)
+- [最有用的数据结构](#最有用的数据结构)
+- [登陆的设计](#登陆的设计)
+    - [登陆拦截器](#登陆拦截器)
+    - [redis服务类](#redis服务类)
+    - [登陆模块代码](#登陆模块代码)
+    - [springmvc的拦截器配置](#springmvc的拦截器配置)
+- [拒绝魔法数字](#拒绝魔法数字)
+
+<!-- /TOC -->
 ### 从redis中获取用户信息
 ```java
     @Autowired
@@ -928,13 +952,6 @@ public class EnterpriseService extends AbstractService<Enterprise>{
             <bean class="com.pony.core.web.EnterpriseAuthInterceptorAdapter"/>
         </mvc:interceptor>
 </mvc:interceptors>
-```
-#### 从redis中获取用户信息
-```java
-    @Autowired
-    private JedisEnterpriseService redisUserService;
-
-    JedisEnterprise jedisUser = redisUserService.get(ControllerHelper.getMcpToken());
 ```
 
 ### 拒绝魔法数字
