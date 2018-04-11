@@ -32,13 +32,7 @@ for (int i=0;i<activityCoupon.getCouponNum();i++){
     couponService.saveOrUpdate(temp);
 }
 ```
-### 知识链接
-[java实现map和object互转的三种方法](http://www.open-open.com/code/view/1423280939826)  
-[线程的基本概念](https://gold.xitu.io/post/58a1ba8786b599006b4877aa)  
-[深入理解 Java 线程池：ThreadPoolExecutor](https://juejin.im/entry/58fada5d570c350058d3aaad)  
-[spring自定义转换类](http://www.cnblogs.com/caoyc/p/5639652.html)  
-> spring会自发去找自定义的转换类
-> [基于 Spring Cloud 完整的微服务架构实战](https://github.com/souyunku/spring-boot-cloud)
+
 ### 数组和list相互转化
 数组转list  
 List<String> priStrList=Arrays.asList(priStrArr);  
@@ -302,3 +296,12 @@ private void process(int i) {
 }
 ```
 个人认为最后一种方法最好，通过抽取方法让方法变小，程序的可读性更高了。由此可以得出更一般的结论：方法中不允许有3层及以上的for循环。
+### 两位数相除保留2位小数
+2位小数相除保留2位小数
+```java
+new BigDecimal(26).divide(new BigDecimal(23),2, RoundingMode.HALF_UP).toPlainString()
+```
+2位整数相除保留2位小数
+```java
+new BigDecimal((float)new Integer(1)/new Integer(3)).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
+```

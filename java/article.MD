@@ -9,3 +9,10 @@
 
 [Mockito测试](http://www.cnblogs.com/lyy-2016/p/6155445.html)
 若是使用spring-boot，则默认集成了mockito的jar
+
+[java实现map和object互转的三种方法](http://www.open-open.com/code/view/1423280939826)  
+[线程的基本概念](https://gold.xitu.io/post/58a1ba8786b599006b4877aa)  
+[深入理解 Java 线程池：ThreadPoolExecutor](https://juejin.im/entry/58fada5d570c350058d3aaad)  
+[spring自定义转换类](http://www.cnblogs.com/caoyc/p/5639652.html)  
+> spring会自发去找自定义的转换类
+> [基于 Spring Cloud 完整的微服务架构实战](https://github.com/souyunku/spring-boot-cloud)
