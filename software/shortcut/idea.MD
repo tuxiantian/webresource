@@ -27,3 +27,5 @@ Ctrl+Alt+B 导航到接口方法的实现位置
 Ctrl+Alt+L 格式化代码快捷键  
 Ctrl+Alt+O 优化导入的类和包
 Ctrl+shift+. 折叠选中的代码
+Ctrl+shift+F12 窗口最大化
+keymap设置里查找Hide All Tool Windows
