@@ -68,15 +68,6 @@ ctrl+f里面有个"whole word"选项，但只能单个文件用,怎么以"whole 
 
 2. 右侧头部的“type filter text”编辑框中分别输入Copy Lines以及Duplicate Lines，并在底部的Binding编辑框将原有组合键删除，并保持光标停留在此编辑框中，再按下自定义的组合键。  
 
-### markdown语法
-
-#### 插入图片
-```
-插入本地图片
-![](file:///E:/webresource/images/t_globalparam.png)
-![](/images/t_globalparam.png)
-```
-
 FastStone Capture注册码
 用户名：c1ikm
 注册码：AXMQX-RMMMJ-DBHHF-WIHTV      或   AXOQS-RRMGS-ODAQO-APHUU
@@ -85,3 +76,7 @@ FastStone Capture注册码
 [lantern](https://github.com/getlantern/lantern)
 ### Google play store DF-DFERH-01
 我的安卓设备死活连不上Google play store,报DF-DFERH-01错误。我想了一下，我用Google play store只不过是下载应用而已。我在chroom浏览器里可以搜索应用安装，这样当我手机使用VPN时，我的手机依然可以下载最新的应用，并且可以安装我在pc端chroom中选择安装的应用。那这样的话，即使这个错误解决不了，也不影响我使用Google。
+
+### 搜狗输入法
+Ctrl + Shift + F是搜狗输入法的简体中文与繁体切换的快捷键。如果你无意中按下这组快捷键，然后在输入文字时发现输入法提示的都是繁体字。
+在win10系统中修改搜狗输入法的配置很麻烦。最简单的方法是再次按下Ctrl + Shift + F快捷键把输入法切换为简体中文。[win10设置搜狗输入法的方式](https://jingyan.baidu.com/article/363872ec38183d6e4ba16ffe.html)
