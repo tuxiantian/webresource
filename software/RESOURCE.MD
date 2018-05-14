@@ -80,3 +80,6 @@ FastStone Capture注册码
 ### 搜狗输入法
 Ctrl + Shift + F是搜狗输入法的简体中文与繁体切换的快捷键。如果你无意中按下这组快捷键，然后在输入文字时发现输入法提示的都是繁体字。
 在win10系统中修改搜狗输入法的配置很麻烦。最简单的方法是再次按下Ctrl + Shift + F快捷键把输入法切换为简体中文。[win10设置搜狗输入法的方式](https://jingyan.baidu.com/article/363872ec38183d6e4ba16ffe.html)
+**win10最佳的搜狗输入法设置**
+![](/images/software/sougouin.png)
+这种设置方式可以方便的在任务栏右键，表情&符号，方便输入特殊符号。
