@@ -6,6 +6,7 @@
     - [LocalDate](#localdate)
     - [LocalTime](#localtime)
     - [LocalDateTime](#localdatetime)
+        - [LocalDateTime获取时间戳（毫秒/秒）](#localdatetime获取时间戳毫秒秒)
     - [日期格式化](#日期格式化)
     - [日期周期](#日期周期)
     - [与遗留代码转换](#与遗留代码转换)
@@ -208,6 +209,13 @@ System.out.println("两小时前: " + minusTowHour);
 ```java
 Month month = now.getMonth();
 System.out.println("当前月份: " + month);
+```
+### LocalDateTime获取时间戳（毫秒/秒）
+```java
+//获取秒数  
+Long second = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));  
+//获取毫秒数  
+Long milliSecond = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli(); 
 ```
 ## 日期格式化
 
