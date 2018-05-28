@@ -1,5 +1,6 @@
 <!-- TOC -->
 
+- [Invalid bound statement (not found)](#invalid-bound-statement-not-found)
 - [多条件判断语句choose](#多条件判断语句choose)
 - [特殊符号的处理](#特殊符号的处理)
 - [对数据库日期字段格式化](#对数据库日期字段格式化)
@@ -18,6 +19,8 @@
 - [mybatis中使用Java8的日期LocalDate、LocalDateTime](#mybatis中使用java8的日期localdatelocaldatetime)
 
 <!-- /TOC -->
+### Invalid bound statement (not found)
+[mybatis绑定错误-- Invalid bound statement (not found)](https://www.jianshu.com/p/800fe918cc7a)
 
 ### 多条件判断语句choose
 注意：mybatis中的字符串比较对于单个字符要加toString()  
