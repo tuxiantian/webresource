@@ -141,15 +141,15 @@ TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
 
 返回日期或日期时间表达式datetime_expr1 和datetime_expr2the 之间的整数差。其结果的单位由interval 参数给出。该参数必须是以下值的其中一个：
 
-1. FRAC_SECOND。表示间隔是毫秒
-2. SECOND。秒
-3. MINUTE。分钟
-4. HOUR。小时
-5. DAY。天
-6. WEEK。星期
-7. MONTH。月
-8. QUARTER。季度
-9. YEAR。年
+1. FRAC_SECOND 。表示间隔是毫秒
+2. SECOND 。秒
+3. MINUTE 。分钟
+4. HOUR 。小时
+5. DAY 。天
+6. WEEK 。星期
+7. MONTH 。月
+8. QUARTER 。季度
+9. YEAR 。年
 
 ### mysql查表中有多少字段的sql语句
 ```sql
