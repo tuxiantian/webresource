@@ -4,7 +4,6 @@
 - [find命令汇总](#find命令汇总)
 - [curl命令](#curl命令)
 - [日志操作](#日志操作)
-    - [统计日志文件中java.util.concurrent.TimeOutException的数量](#统计日志文件中javautilconcurrenttimeoutexception的数量)
 - [设置tomcat自动启动](#设置tomcat自动启动)
 - [查看磁盘、目录占用大小](#查看磁盘目录占用大小)
 - [根据端口号，查找对应的进程](#根据端口号查找对应的进程)
@@ -104,17 +103,22 @@ find tomcat_ol*/logs/ -name "catalina.20160628.out" | xargs grep "关键字"
 由于测试环境多人看日志，所以会互相干扰，现在总结以下看日志的方法。  
 方法一  
 可以作为关键字的有时间和线程号。先根据日志关键字查找，然后选择其中一个日志关键字所在时间点，查看前后50行日志。  
+```
 find -name "catalina.out" | xargs grep "call wuzhihua url"  
 find -name "catalina.out" | xargs grep "call wuzhihua url"|wc -l  
 find -name "catalina.out" | xargs grep  -A150 -B150 "2010-11-17 09:25:55,622"  
 find -name "catalina.out" | xargs grep  -A150 -B150 "call wuzhihua result"  
+```
 方法二  
 过滤出时间区间段的日志  
+```
 sed -n '/时间戳1/,/时间戳2/p' catalina.out>catalina.txt  
+```
 实例操作：  
+```
 sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out>catalina.txt  
 sed -n '/2014-06-04 14:[0-5][0-5]:/,/2014-06-04 15:[0-5][0-5]:/p' catalina.out>catalina.txt    可以使用正则表达式  
-
+```
 vi 日志文件  
 /关键字  
 从当前位置向下搜索，n搜索下一个匹配的关键字  
@@ -128,7 +132,13 @@ grep -nH "Excetion message" test.text
 -H, --with-filename 打印每个匹配的文件名  
 
 查找文件中字符串出现次数  
+```
 grep -c 'httpSample' kmtest0924.jtl  
+```
+过滤日志文件中含有`app_net_log, userId:`的内容，输出到ff.log文件中
+```
+grep  -i 'app_net_log, userId:' main*.log > ff.log
+```
 
 查找`2013-08-08`到`2013-09-01`号之间的文件
 find /log/ -name 'production.log-2013*' -newermt '2013-08-08' ! -newermt '2013-09-0
@@ -138,9 +148,6 @@ find /log/ -name 'production.log-2013*' -newermt '2013-08-08' ! -newermt '2013-0
 find -a 连接两个不同的条件（两个条件必须同时满足）
      -o 连接两个不同的条件（两个条件满足其一即可）
      -not 对条件取反的
-#### 统计日志文件中java.util.concurrent.TimeOutException的数量
-进程处理文件中的记录调用省端接口，常有超时的任务，要统计日志文件中超时任务的数量  
-sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException'|wc -l  
 
 ### 设置tomcat自动启动
 [linux教程：[4]配置Tomcat开机启动](http://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html)  
@@ -191,14 +198,20 @@ sed -n '1p' filename
 ```shell
 sed '/^$/d' file  
 ```
+替换内容
 1. 替换并输出（不修改源文件）： 
-``` 
+```shell
 sed  's/dog/cat/g' file 
 ```
-dog被替换的内容，cat替换的内容  
+dog被替换的内容，cat替换的内容 
+ 
 2. 备份后直接替换至源文件：  
-```
+```shell
 sed -i.bak 's/dog/cat/g' file 
+```
+进程处理文件中的记录调用省端接口，常有超时的任务，要统计日志文件中超时任务的数量  
+```shell
+sed -n '起始行号,结束行号p'| grep 'java.util.concurrent.TimeOutException'|wc -l  
 ```
 ### linux防火墙
 开启： chkconfig iptables on  
