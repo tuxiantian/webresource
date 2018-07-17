@@ -8,6 +8,7 @@
 - [mysql日期函数](#mysql日期函数)
     - [DATE_ADD和DATE_SUB](#date_add和date_sub)
     - [NOW()和CURDATE()](#now和curdate)
+    - [查询当前时刻的排班](#查询当前时刻的排班)
     - [年龄的计算](#年龄的计算)
     - [收益T+N可提现](#收益tn可提现)
     - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
@@ -111,6 +112,20 @@ SELECT NOW();
 //2017-08-04 17:57:59
 SELECT CURDATE();
 //2017-08-04
+```
+### 查询当前时刻的排班
+```sql
+......
+AND (
+	(
+		s.stat_time <![CDATA[<=]]> date_format(now(),'%H:%i') AND s.end_time <![CDATA[>]]> date_format(now(),'%H:%i')
+	)
+	or (
+		s.end_time <![CDATA[<]]> s.stat_time and s.stat_time <![CDATA[<=]]> date_format(now(),'%H:%i')
+	) OR (
+		s.end_time <![CDATA[<]]> s.stat_time and date_format(now(),'%H:%i') <![CDATA[<]]> s.end_time
+	)
+)
 ```
 ### 年龄的计算
 ```sql
