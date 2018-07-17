@@ -108,10 +108,8 @@ FROM Orders
 ```
 ### NOW()和CURDATE()
 ```sql
-SELECT NOW();
-//2017-08-04 17:57:59
-SELECT CURDATE();
-//2017-08-04
+SELECT NOW(); //2017-08-04 17:57:59
+SELECT CURDATE(); //2017-08-04
 ```
 ### 查询当前时刻的排班
 ```sql
