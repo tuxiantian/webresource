@@ -174,8 +174,7 @@ git checkout develop
 git merge release-0.1  
 git push  
 git branch -d release-0.1  
-git push origin :branch-name
-冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。
+git push origin :branch-name //冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。
 #### 打上线的tag
 git tag -a 0.1 -m "Initial public release" master  
 git push --tags  

@@ -75,7 +75,7 @@ docker version
 可通过以下命令启动 Docker 服务：
 
 ```
-ervice docker start
+service docker start
 ```
 做法
 
