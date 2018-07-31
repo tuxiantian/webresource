@@ -3,7 +3,8 @@ typora-root-url: ..
 ---
 
 ## 新手快速使用git
-打开公司内网的git网址注册一个用户http://192.168.0.254/users/sign_in
+[git下载地址](https://git-scm.com/downloads)
+打开[公司内网的git网址](http://192.168.0.254/users/sign_in)注册一个用户
 生成ssh公私钥，参考下面的说明
 ### github ssh无密钥登陆
  ssh-keygen 不是内部或外部命令
