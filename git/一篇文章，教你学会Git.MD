@@ -157,7 +157,7 @@ git push [remote] --force	强行推送当前分支到远程仓库，即使有冲
 git push [remote] --all	推送所有分支到远程仓库
 ```
 其他命令
-```
+```git
 git status	显示有变更的文件
 git log	显示当前分支的版本历史
 git diff	显示暂存区和工作区的差异
