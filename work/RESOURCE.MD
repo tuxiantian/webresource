@@ -1,3 +1,7 @@
+---
+typora-root-url: ..
+---
+
 <!-- TOC -->
 
 - [从redis中获取用户信息](#从redis中获取用户信息)
@@ -144,8 +148,7 @@ public interface CarsMapper extends EntityMapper<Cars> {
     Long myCarsPageCount(MapBean params);
 }
 ```
-**需要注意的地方mapper接口中要声明自定义分页的查询方法，且要定义入参MapBean，即便carsMapper.xml中的自定义分页查询sql片段不需要入参，
-否则会报找不到方法的异常。**  
+**需要注意的地方mapper接口中要声明自定义分页的查询方法，且要定义入参MapBean，即便carsMapper.xml中的自定义分页查询sql片段不需要入参，否则会报找不到方法的异常。**
 
 carsMapper.xml
 ```sql
