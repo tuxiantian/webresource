@@ -134,8 +134,8 @@
             "caption": "_PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ -- _CAPTION_"
         },
         "donate": {
-            "wechat": "https://github.com/tuxiantian/webresource/styles/img/微信收款.jpg",
-            "alipay": "https://github.com/tuxiantian/webresource/styles/img/支付宝收款.jpg",
+            "wechat": "https://github.com/tuxiantian/webresource/blob/master/styles/img/微信收款.jpg",
+            "alipay": "https://github.com/tuxiantian/webresource/blob/master/styles/img/支付宝收款.jpg",
             "title": "",
             "button": "赞赏 👍  ",
             "alipayText": "支付宝打赏",
