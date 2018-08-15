@@ -1,3 +1,7 @@
+---
+typora-root-url: ..
+---
+
 使用spring cloud架构后，定时任务需要分离出来，做集群。
 taskcore工程只管执行计划和作业，作业的内容放在业务工程实现。
 
@@ -125,3 +129,5 @@ public void orderBookTimeOut(){
 ![](/images/microservice/issue1.png)
 ![](/images/microservice/answer1.png)
 由于在加新的定时任务配置时，复制了其它的定时任务配置，忘记修改了触发器的名字就导致上面的问题了。
+
+来驾http://task.ilaijia.com/映射到39.107.15.174节点服务，下次升级请先升级这个节点。
