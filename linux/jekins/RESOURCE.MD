@@ -1,4 +1,8 @@
-### 触发远程构建:触发远程构建
+---
+typora-root-url: ..\..
+---
+
+### 触发远程构建
 Build after other projects are built:在其他项目触发的时候触发，里面有分为三种情况，也就是其他项目构建成功、失败、或者不稳定（这个不稳定我这里还木有理解）时候触发项目  
 Poll SCM：定时检查源码变更（根据SCM软件的版本号），如果有更新就checkout最新code下来，然后执行构建动作。我的配置如下：  
 */5 * * * * （每5分钟检查一次源码变化）  
@@ -27,7 +31,30 @@ Build periodically：周期进行项目构建（它不care源码是否发生变�
 可行的解决办法如下:  
 修改/usr/local/maven/conf/setting.xml中的镜像，注释私服镜像，使用阿里巴巴镜像下载jar,使用jekins的立即构建触发下载jar  
 去/root/.jenkins/workspace/laijia/.repository/org/apache/activemq/activemq-client/5.9.0目录将后缀为.lastupdated的文件删除  
-再放开/usr/local/maven/conf/setting.xml注释私服镜像  
-#### 私服不能启动导致发布失败
+再放开/usr/local/maven/conf/setting.xml注释，默认使用私服镜像  
+#### 私服未启动导致发布失败
 cd /home/nexus/nexus-2.14.0-01/bin  
 ./nexus start  
+### 工作中使用脚本实现的发布
+Goals
+```
+clean
+compile
+package
+-DskipTests=true
+-P dev
+-Dmaven.compile.fork=true
+-T 1C
+```
+Execute  shell Commond
+```
+#!/bin/sh
+#升级
+workspace_dir=/var/lib/jenkins/workspace/rent_micro
+cd $workspace_dir
+#添加执行权限
+chmod +x -R *.sh
+#执行每个项目中的update.sh命令
+./update.sh
+```
+![](/images/linux/jekins/2018-09-24_145542.png)
