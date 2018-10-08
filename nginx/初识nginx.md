@@ -9,7 +9,7 @@ Nginx 及其模块的工作方式由配置文件确定。 默认情况下，配�
 Nginx 启动之后，可以使用以下命令控制:
 
 ```
-Copynginx -s <signal>
+nginx -s <signal>
 ```
 
 其中`-s`意思是向主进程发送信号，`signal`可以为以下四个中的一个:
@@ -46,7 +46,7 @@ Web 服务器一个重要的功能是服务静态文件（图像或静态HTML页
 接下来，打开配置文件。 创建一个 `server` 块：
 
 ```
-Copyhttp {
+http {
     server {
     }
 }
@@ -58,7 +58,7 @@ Copyhttp {
 将以下位置块添加到服务器块：
 
 ```
-Copylocation / {
+location / {
     root /data/www;
 }
 ```
@@ -68,7 +68,7 @@ Copylocation / {
 接下来，添加第二个位置块：
 
 ```
-Copylocation /images/ {
+location /images/ {
     root /data;
 }
 ```
@@ -78,7 +78,7 @@ Copylocation /images/ {
 `server` 块的最终配置如下：
 
 ```
-Copyserver {
+server {
     location / {
         root /data/www;
     }
@@ -100,7 +100,7 @@ Nginx 的一个常见应用是将其设置为代理服务器（Proxy Server）�
 首先，向 Nginx 的配置文件中添加一个 `server` 块来定义代理服务器：
 
 ```
-Copyserver {
+server {
     listen 8080;
     root /data/up1;
 
@@ -114,7 +114,7 @@ Copyserver {
 接下来，使用上一节中的服务器配置，并将其修改为代理服务器配置。 在第一个位置块中，加上`proxy_pass`指令：
 
 ```
-Copyserver {
+server {
     location / {
            # proxy_pass指令的参数为：协议+主机名+端口号
         proxy_pass http://localhost:8080;
@@ -129,7 +129,7 @@ Copyserver {
 修改第二个 匹配 `/images/` 前缀的 `location` 块，使其与请求图像文件的扩展名相匹配：
 
 ```
-Copylocation ~ \.(gif|jpg|png)$ {
+location ~ \.(gif|jpg|png)$ {
     root /data/images;
 }
 ```
@@ -141,7 +141,7 @@ Copylocation ~ \.(gif|jpg|png)$ {
 代理服务器的最终配置如下：
 
 ```
-Copyserver {
+server {
     location / {
         proxy_pass http://localhost:8080/;
     }
@@ -163,7 +163,7 @@ Nginx 可用于将请求路由到 FastCGI 服务器。快速通用网关接口�
 使用 FastCGI 服务器的最基本的 Nginx 配置包括使用 `fastcgi_pass` 指令而不是 `proxy_pass` 指令，以及使用 `fastcgi_param` 指令来设置传递给 FastCGI 服务器的参数。 假设FastCGI服务器可在 `localhost:9000` 上访问。 以上一节中的代理服务器配置为基础，使用`fastcgi_pass`指令替换`proxy_pass`指令，并将参数更改为 `localhost:9000` 。 在 PHP 中， `SCRIPT_FILENAME` 参数用于确定脚本名称，而 `QUERY_STRING` 参数用于传递请求参数。 生成的配置将是：
 
 ```
-Copyserver {
+server {
     location / {
         fastcgi_pass  localhost:9000;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
