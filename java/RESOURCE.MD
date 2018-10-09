@@ -19,7 +19,7 @@ org.springframework.beans.BeanUtils#copyProperties(java.lang.Object, java.lang.O
 3. 必须保证同名的两个成员变量类型相同.
 4. BeanUtils.copyProperties是浅拷贝
 
-使用场景：对象的拷贝，在活动中心生成优惠券时，同样的优惠券会一次生成几张，这是就可以使用这个工具拷贝对象。
+使用场景：对象的拷贝，在活动中心生成优惠券时，同样的优惠券会一次生成几张，可以使用这个工具拷贝对象。
 ```java
 Coupon coupon=new Coupon();
 coupon.setAmount(activityCoupon.getAmount());
