@@ -13,6 +13,7 @@
     - [收益T+N可提现](#收益tn可提现)
     - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
     - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
+    - [大小写严格匹配的模糊查询](#大小写严格匹配的模糊查询)
 
 <!-- /TOC -->
 
@@ -167,4 +168,9 @@ TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
 ### mysql查表中有多少字段的sql语句
 ```sql
 SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
+```
+###大小写严格匹配的模糊查询
+需要使用`binary`关键字
+```sql
+SELECT * FROM `t_car_insurance` WHERE `insurance_pic` like binary '%upload/insurance/2018/09/j%';
 ```
