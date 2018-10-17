@@ -14,8 +14,9 @@ typora-root-url: ..
 
 事后，我们商量的方案是：
 
-1. 前端增加遮罩层，在数据返回前禁止用户操作。
-2. 后端优化慢sql查询语句。
+1. **前端增加遮罩层，在数据返回前禁止用户操作。**
+2. **后端优化慢sql查询语句。**
+3. **为查询语句设置超时时间**
 
 所在，在开发的过程中一定要警惕慢sql。在这点上，阿里云服务提供了服务很友好。下面是它的慢日志明细查询：
 
@@ -138,8 +139,10 @@ LEFT JOIN(
 ```
 执行成功，当前返回：[7]行，耗时：[2,674]ms.
 
+由于保证金2000转999的统计要和直接缴纳999保证金的统计区分开，所以使用了exists语句处理，这导致执行特别耗时。通过赠加保证金类型字段（t_depositpay中的deposit_type含义是'保证金类型@  1  正常   2   2000转999'），将这两种保证金区分开，大大简化了sql，查询速度提高了2个数量级。这是一个通过增加冗余字段提高sql查询效率的典型示例。
 
-由于保证金2000转999的统计要和直接缴纳999保证金的统计区分开，所以使用了exists语句处理，这导致执行特别耗时。通过赠加保证金类型字段（t_depositpay中的deposit_type含义是'保证金类型@  1  正常   2   2000转999'），将这两种保证金区分开，大大简化了sql，查询速度提高了2个数量级。这是一个通过增加冗余字段提高sql查询效率的典型示例。优化后的sql如下：
+优化后的sql如下：
+
 ```sql
 SELECT a.date,
 ​       IFNULL(dp.alipay999Amount, 0) alipay999Amount,
@@ -241,4 +244,87 @@ SELECT ADDDATE(SUBSTR('2018-07-30 00:00:00', 1, 10), numlist.id) AS 'date'
 ```
 执行成功，当前返回：[7]行，耗时：[32]ms.
 
+**Mybatis设置sql超时时间**
 
+java中,如果不指定,默认超时时间是不做限制的,默认值为0.
+
+由于我们的项目采用Mybatis进行数据库操作,经过查看Mybaits相关文档,配置sql超时时间有两种方法
+
+**1 全局配置**
+在mybatis配置文件的settings节点中,增加如下配置
+```xml
+<settings>
+  <setting name="defaultStatementTimeout" value="25"/>
+</settings>
+```
+这是以秒为单位的全局sql超时时间设置,当超出了设置的超时时间时,会抛出SQLTimeoutException
+
+**2 Mapper XML配置**
+还有一种方法是在mapper xml文件中对具体一个sql进行设置,方法为在select/update/insert节点中配置timeout属性,依然是以秒为单位表示超时时间并只作用于这一个sql.
+```xml
+<insert
+  id="insertAuthor"
+  parameterType="domain.blog.Author"
+  flushCache="true"
+  statementType="PREPARED"
+  keyProperty=""
+  keyColumn=""
+  useGeneratedKeys=""
+  timeout="20">
+```
+**3 实践中的示例**
+```xml
+<select id="statistics" resultType="com.laijia.biz.report.entity.AllModule" timeout="10">
+  ......
+</select>
+
+<select id="statisticsCount" resultType="com.laijia.biz.report.entity.AllModule" timeout="10">
+  ......
+</select>
+```
+
+```java
+/**
+  * 管控运营数据统计
+  * 总部使用
+  *
+  * @param startDate
+  * @param endDate
+  * @return
+  */
+public McpResult statistics(String startDate, String endDate,String areaCode) {
+    List<AllModule> data = null;
+    try {
+        CompletableFuture<List<AllModule>> completableFuture1 = CompletableFuture.supplyAsync(() -> 
+        this.mapper.statistics(startDate, endDate, areaCode));
+        CompletableFuture<AllModule> completableFuture2 = CompletableFuture.supplyAsync(() -> 
+        this.mapper.statisticsCount(startDate, endDate, areaCode));
+        data = completableFuture1.join();
+        AllModule allModule = completableFuture2.join();
+        data.add(allModule);
+        data.parallelStream().forEach(module -> {
+            if (module.getCarNum() != 0) {
+                module.setAvgCarOrderCount(new BigDecimal(module.getOrderCount()).divide(new BigDecimal(module.getCarNum()), 2, RoundingMode.HALF_UP).toPlainString());
+            }
+            if (module.getOrderCount() != 0) {
+                module.setAvgOrderAmount(new BigDecimal(module.getOrderAmount().replaceAll(",", "")).
+                divide(new BigDecimal(module.getOrderCount()), 2, RoundingMode.HALF_UP).toPlainString());
+            }
+            if (module.getCarNum() != 0) {
+                module.setAvgCarOrderAmount(new BigDecimal(module.getOrderAmount().replaceAll(",", "")).
+                divide(new BigDecimal(module.getCarNum()), 2, RoundingMode.HALF_UP).toPlainString());
+                module.setAvgOrderMileage(new BigDecimal((float) module.getOrderSumMileage() / module.getCarNum()).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+            }
+            if (module.getOrderSumTime() != 0) {
+                module.setAvgOrderTime(new BigDecimal((float) module.getOrderSumTime() / module.getOrderCount()).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+            }
+        });
+    } catch (CompletionException e) {
+        logger.error("", e);
+        if (e.getMessage().contains("org.springframework.dao.QueryTimeoutException")) {
+            return McpResult.fail("查询超时");
+        }
+    }
+    return McpResult.success("查询成功", data);
+}
+```

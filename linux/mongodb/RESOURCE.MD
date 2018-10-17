@@ -1,14 +1,20 @@
 #### linux下启动mongodb
+```
 /usr/local/mongodb/bin/mongod  -port 27017 --dbpath /data/mongodb/db --logpath /data/mongodb/log/mongodb.log --fork  
+```
 --fork 选项将会通知 mongod 在后台运行  
 mongodb默认端口 27017  
 
 mongodb不支持Timestamp
 
 #### 启动MongoDB
+```
 mongod.exe --dbpath C:\mongod_data\db
+```
 #### 将MongoDB服务器作为Windows服务运行
+```
 mongod.exe --bind_ip localhost --logpath "C:\mongod_data\dbConf\mongodb.log" --logappend --dbpath "C:\mongod_data\db" --port 27017 --serviceName "mongodb" --serviceDisplayName "mongodb" --install  
+```
 **注意以管理员身份运行**
 net start mongodb  启动服务  
 net stop mongodb   停止服务  
@@ -29,8 +35,12 @@ bin目录中包含如下几个程序：
 
 #### MongoDB数据导入和导出
 [MongoDB数据导入和导出](http://www.cnblogs.com/roland1982/archive/2013/12/04/3458032.html)
+
+```
 ./mongoexport -d xingtu -c carInfo217361300000098 -o carInfo217361300000098.dat  
 ./mongoimport -d xingtu -c carInfo217361300000098 carInfo217361300000098.dat  
+```
+
 #### mongodb视图工具，免费的
 Robomongo 1.0.0-RC1
 #### MongoDB学习文档
@@ -48,7 +58,11 @@ MongoDB查询超时异常SocketTimeoutException   https://my.oschina.net/gooke/b
 > 如果与服务器连接成功，就开始数据传输了。  
 > 如果服务器处理数据用时过长，超过了SocketTimeOut，就会抛出SocketTimeOutExceptin，即服务器响应超时，服务器没有在规定的时间内返回给客户端数据。  
 #### 查看数据库信息
-查看所有的数据库 show dbs
+查看所有的数据库 
+```
+show dbs
+```
+
 ```
 Warning  0.000GB
 local    0.000GB
@@ -72,13 +86,21 @@ xingtu   0.040GB
         "ok" : 1
 }
 ```
-#### 查看集合信息
-命令：db.集合名.stats()
+#### 命令
+查看集合信息
+```
+db.集合名.stats()
+```
 查看数据库所有的集合
+```
 show collections;
+```
 查看集合的数量
+```
 db.集合名.find().count();
+```
 多个查询条件的查询示例
+```
 db.getCollection('carLocation080').find({"gpsTime":{$gte:1492046406356,$lte:1503543971000}})
 db.carLocation217361300000115.find().sort({gpsTime:-1}).limit(1).pretty()
 db.carLocation217361300000095.find({"gpsTime":{$gte:1510110480000,$lte:1510111680000}}).sort({gpsTime:1}).pretty() //查询某个时间点的经纬度.limit(1)
@@ -91,6 +113,7 @@ db.carInfo217361300000280.find({"receivedTime":{$gte:1510960980000,$lte:15109639
 db.carInfo217361300000280.find().count()
 
 db.carInfo217361300000280.find().sort({receivedTime:-1}).limit(1).pretty()
+```
 #### Help查看命令提示
 ```
 help
@@ -177,9 +200,9 @@ db.your_collection.find({ x : 123, y : 456 }).explain("allPlansExecution")，查
 
 db.setProfilingLevel( profile, slowms )
 // 第一个参数表示慢日志的级别，取值是 0 1 2
-        profile=0  表示不记录慢日志
-        profile=1  表示只记录慢日志
-        profile=2  表示所有日志都记录
+​        profile=0  表示不记录慢日志
+​        profile=1  表示只记录慢日志
+​        profile=2  表示所有日志都记录
 // 第二个参数表示慢日志的时间阀值，单位是毫秒
 
 db.getProfilingStatus()
