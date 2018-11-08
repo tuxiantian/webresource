@@ -29,3 +29,12 @@ Ctrl+Alt+O 优化导入的类和包
 Ctrl+shift+. 折叠选中的代码
 Ctrl+shift+F12 窗口最大化
 keymap设置里查找Hide All Tool Windows
+
+### 折叠代码块
+
+有点人写的代码非常的长，一个方法中好几层的for和if，这时想在其中的一个if后面加else语句就很容易加错地方，可以采用折叠代码的方式让代码的层次更清晰，避免出错。
+
+Ctrl+shift+. 折叠选中的代码，Ctrl+shift+NumPad +展开所有的代码
+
+idea中设置上述快捷键对应的地方分别是Code-Folding-Expand All，Code-Folding-Fole Code Block
+
