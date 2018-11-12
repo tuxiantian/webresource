@@ -39,5 +39,5 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 >    重复上面三步确定项目要提交的文件  
 >    git remote add origin https://github.com/tuxiantian/webresource.git  
 >    git push -u origin master  
->    注意在github网站上面先创建repository,否则会提交失败  
+>    注意在github网站上面先创建repository,并且创建repository时不要选择初始化README.MD，否则会提交失败  
 
