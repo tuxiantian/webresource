@@ -27,6 +27,7 @@ ctrl+N:新建文件
 ctrl+W:关闭当前选项卡
 Windows下鼠标右键＋shift或ctrl+shift+L:列编辑模式
 ctrl+J:多行转为一行
+ctrl+shift+d 快速复制当前行代码并插入到下一行
 
 ### sublime插件
 
