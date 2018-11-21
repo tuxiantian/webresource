@@ -31,6 +31,18 @@ Ctrl+l 清屏
 du -h --max-depth=1  有当前目录的总大小  
 du -sh *  显示当前目录的各子目录大小，不包含当前目录的总大小  
 du -sh *|sort -rh  显示当前目录的各子目录大小并排序  
+查看"/usr/local/"路径下，所有文件大小总和。只列出总和，不显示该路径下各子文件的大小。
+```
+du -sh /usr/local/
+```
+如果要详细显示出各子文件的大小情况，去掉"s"选项即可，如下：
+```
+du -h /usr/local/
+```
+查看各分区占用情况
+```
+df -h
+```
 ### 查看当前主机对应的外网ip
 curl ipinfo.io  
 curl ifconfig.me  
