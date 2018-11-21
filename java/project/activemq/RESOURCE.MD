@@ -29,7 +29,11 @@ ln -s /usr/local/apache-activemq-5.14.4/bin/activemq /etc/init.d/
 /etc/init.d/activemq start  
 添加activemq自启动  
 chkconfig activemq on  
-也可通过下面的方式启动activemq  
+关闭activemq自启动  
+chkconfig activemq off
+查看activemq的自启动状态  
+chkconfig --list|grep activemq
+也可通过下面的方式启动activemq    
 service activemq start  
 插入防火墙规则  
 iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 8161 -j ACCEPT  
