@@ -41,6 +41,11 @@ zoomIn/zoomOut：Ctrl + =/Ctrl + -
 侧边栏显/隐：Ctrl+B  
 预览markdown Ctrl+Shift+V  
 
+## 删除空行
+使用正则表达式替换空行
+```
+^\s*$\n
+```
 ## 其他
 
 自动保存：File -> AutoSave ，或者Ctrl+Shift+P，输入 auto
