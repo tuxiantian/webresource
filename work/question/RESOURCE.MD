@@ -1,21 +1,6 @@
 ---
 typora-root-url: ..\..
 ---
-<!-- TOC -->
-
-- [非自增主键的保存更新问题](#非自增主键的保存更新问题)
-- [HttpMessageNotReadableException: Could not read JSON: java.lang.NumberFormatException: empty String;](#httpmessagenotreadableexception-could-not-read-json-javalangnumberformatexception-empty-string)
-- [Zookeeper连接不上导致web服务无法正常启动](#zookeeper连接不上导致web服务无法正常启动)
-- [MySQL两个无符号的数字想减出现问题](#mysql两个无符号的数字想减出现问题)
-- [磁盘空间不足导致的问题](#磁盘空间不足导致的问题)
-- [前后端传值规范](#前后端传值规范)
-- [接口使用@RequestBody保存数据要注意的问题](#接口使用requestbody保存数据要注意的问题)
-- [联合主键的findBy查询问题](#联合主键的findby查询问题)
-- [isEmptyNotNull](#isemptynotnull)
-- [实体类的包装类型赋予默认值带来的问题](#实体类的包装类型赋予默认值带来的问题)
-
-<!-- /TOC -->
-
 ## 非自增主键的保存更新问题
 ![](/images/work/question/question1.png)  
 表结构信息如下
@@ -209,3 +194,23 @@ public class Partner extends AbsBaseEntity  {
 }
 
 ```
+## springMvc输出json出现isWarn变为warn的问题的解决办法
+idea会默认将Bean的isWarn生成如下的getter和setter
+```java
+public boolean isWarn() {
+	return isWarn;
+}
+public void setWarn(boolean warn) {
+	isWarn = warn;
+}
+```
+但是向前端输出json的时候isWarn变为warn了
+解决办法如下
+```java
+public boolean getIsWarn() {
+	return isWarn;
+}
+```
+main->mongodb存数据时是isWarn  
+前端->main->mongodb查询数据时，由mongodb返回数据输出的json是warn，在main中将json解析为对象进行处理时，就对应不上Bean的isWarn属性，没法赋值了。
+所以这种带is前缀的属性，不能使用默认生成的getter和setter。
