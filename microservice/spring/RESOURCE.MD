@@ -27,13 +27,6 @@
 ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");  
 FileSystemXmlApplicationContext
 ```
-### Spring Aop
-Spring 切面可以应用五种类型的通知：  
-​    * before ：前置通知，在一个方法执行前被调用  
-​    * after:  在方法执行之后调用的通知，无论方法执行是否成功  
-​    * after-returning:  仅当方法成功完成后执行的通知  
-​    * after-throwing:  在方法抛出异常退出时执行的通知  
-​    * around:  在方法执行之前和之后调用的通知  
 
 ### spring命名空间
 spring命名空间：context、beans、jdbc、tx、aop
