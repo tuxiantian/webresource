@@ -1,22 +1,3 @@
-<!-- TOC -->
-
-- [INSTR](#instr)
-- [多列合并成一列](#多列合并成一列)
-- [find_in_set](#find_in_set)
-- [mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子](#mysql-如何用一条sql将一张表里的数据插入到另一张表的3个例子)
-- [if函数](#if函数)
-- [mysql日期函数](#mysql日期函数)
-    - [DATE_ADD和DATE_SUB](#date_add和date_sub)
-    - [NOW()和CURDATE()](#now和curdate)
-    - [查询当前时刻的排班](#查询当前时刻的排班)
-    - [年龄的计算](#年龄的计算)
-    - [收益T+N可提现](#收益tn可提现)
-    - [计算时间差-TIMESTAMPDIFF](#计算时间差-timestampdiff)
-    - [mysql查表中有多少字段的sql语句](#mysql查表中有多少字段的sql语句)
-    - [大小写严格匹配的模糊查询](#大小写严格匹配的模糊查询)
-
-<!-- /TOC -->
-
 ## INSTR
 ```sql
 SELECT INSTR('foobarbar', 'bar');
@@ -173,4 +154,13 @@ SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名
 需要使用`binary`关键字
 ```sql
 SELECT * FROM `t_car_insurance` WHERE `insurance_pic` like binary '%upload/insurance/2018/09/j%';
+```
+### 删除多个字段
+```sql
+alter table T_54  drop ( name2,name3);
+```
+### 更新
+```sql
+update a set 员工=(select 员工 from (select 员工 from a where id=1) as b) where id>2
+update a inner join b on a.员工=b.代码 set a.员工=b.姓名
 ```

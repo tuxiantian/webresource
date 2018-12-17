@@ -37,3 +37,7 @@ logback的filter使用示例
     <OnMatch>DENY</OnMatch>   
 </filter>   
 ```
+Logback支持格式化日志
+```java
+logger.error("one two three: {} {} {}", "a", "b", "c", new Exception("something went wrong"));
+```
