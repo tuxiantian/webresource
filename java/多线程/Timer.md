@@ -17,7 +17,7 @@
 </bean>
 
 <!--线程监控-->
-<bean id="threadPoolMonitor" class="com.laijia.biz.task.ThreadPoolMonitor">
+<bean id="threadPoolMonitor" class="com.laijia.biz.task.ThreadPoolMonitor" destroy-method="destory">
     <constructor-arg name="time" value="20"></constructor-arg>
     <constructor-arg name="taskExecutor" ref="taskExecutor"></constructor-arg>
 </bean>
@@ -43,6 +43,13 @@ public class ThreadPoolMonitor {
         this.taskExecutor = taskExecutor;
         timer = new Timer();
         timer.schedule(new ThreadTimerTask(taskExecutor), 1000 * 60 * 1, time * 1000);
+    }
+
+    public void destory(){
+        logger.info("ThreadPoolMonitor is shutdown");
+        if(this.timer!=null ) {
+            this.timer.cancel();
+        }
     }
 
 
