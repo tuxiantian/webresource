@@ -1,3 +1,4 @@
+二分查找法
 ```java
 public static int search(int[] arr, int searchValue) {
 		int left = 0;
@@ -24,7 +25,7 @@ private static int binarySearch(int[] arr, int searchValue, int left, int right)
 	}
 }
 ```
---------------------------------------------------------------------------------------
+冒泡排序
 ```java
 //冒泡排序
 public void bubbleSort(int[] arr){
