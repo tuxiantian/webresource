@@ -3,5 +3,6 @@ _book
 node_modules
 阿里云负载均衡配置.md
 来驾项目本地启动.md
+分页查询.md
 images/nginx/阿里云负载均衡配置/网关权重设置.png
 images/nginx/阿里云负载均衡配置/阿里云负载均衡配置 (1).png
