@@ -164,3 +164,10 @@ alter table T_54  drop ( name2,name3);
 update a set 员工=(select 员工 from (select 员工 from a where id=1) as b) where id>2
 update a inner join b on a.员工=b.代码 set a.员工=b.姓名
 ```
+### 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
+1. 表结构完全一样
+ 	insert into 表1  select * from 表2
+2. 表结构不一样（这种情况下得指定列名）
+   insert into 表1 (列名1,列名2,列名3)  select  列1,列2,列3 from 表2
+3. 只从另外一个表取部分值
+	insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
