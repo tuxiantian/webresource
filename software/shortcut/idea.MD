@@ -37,4 +37,3 @@ keymap设置里查找Hide All Tool Windows
 Ctrl+shift+. 折叠选中的代码，Ctrl+shift+NumPad +展开所有的代码
 
 idea中设置上述快捷键对应的地方分别是Code-Folding-Expand All，Code-Folding-Fole Code Block
-
