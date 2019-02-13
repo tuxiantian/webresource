@@ -86,60 +86,6 @@ curl -r 0-1024000 -o new_divide_1.mp3 http://vfile/55750a8be70.mp3
 curl -I http://www.taobao.com/
 检测web容器是否正常启动
 wget http://localhost:8083/mongodb/index.html
-### 日志操作
-tail -f tomcat_ol*/logs/catalina.20160628.out  
-tail -500f tomcat_ol*/logs/catalina.20160628.out    查看最后500行日志
-查看各个节点最新的日志  
-find tomcat_ol*/logs/ -name "catalina.20160628.out" | xargs grep "关键字"
-
-由于测试环境多人看日志，所以会互相干扰，现在总结以下看日志的方法。  
-方法一  
-可以作为关键字的有时间和线程号。先根据日志关键字查找，然后选择其中一个日志关键字所在时间点，查看前后50行日志。  
-```
-find -name "catalina.out" | xargs grep "call wuzhihua url"  
-find -name "catalina.out" | xargs grep "call wuzhihua url"|wc -l  
-find -name "catalina.out" | xargs grep  -A150 -B150 "2010-11-17 09:25:55,622"  
-find -name "catalina.out" | xargs grep  -A150 -B150 "call wuzhihua result"  
-```
-方法二  
-过滤出时间区间段的日志  
-```
-sed -n '/时间戳1/,/时间戳2/p' catalina.out>catalina.txt  
-```
-实例操作：  
-```
-sed -n '/2014-06-04 14:00:/,/2014-06-04 15:00:/p' catalina.out>catalina.txt  
-sed -n '/2014-06-04 14:[0-5][0-5]:/,/2014-06-04 15:[0-5][0-5]:/p' catalina.out>catalina.txt    可以使用正则表达式  
-```
-vi 日志文件  
-/关键字  
-从当前位置向下搜索，n搜索下一个匹配的关键字  
-?关键字  
-从当前位置向上搜索，n搜索下一个匹配的关键字  
-根据日期找最近的日志，根据线程号找上下文日志  
-
-通过关键字查询日志  
-grep -nH "Excetion message" test.text  
--n, --line-number 行号  
--H, --with-filename 打印每个匹配的文件名  
-
-查找文件中字符串出现次数  
-```
-grep -c 'httpSample' kmtest0924.jtl  
-```
-过滤日志文件中含有`app_net_log, userId:`的内容，输出到ff.log文件中
-```
-grep  -i 'app_net_log, userId:' main*.log > ff.log
-```
-
-查找`2013-08-08`到`2013-09-01`号之间的文件
-find /log/ -name 'production.log-2013*' -newermt '2013-08-08' ! -newermt '2013-09-0
-
--newer   f1 !f2               #查更改时间比f1新但比f2旧的文件
-
-find -a 连接两个不同的条件（两个条件必须同时满足）
-     -o 连接两个不同的条件（两个条件满足其一即可）
-     -not 对条件取反的
 
 ### 设置tomcat自动启动
 [linux教程：[4]配置Tomcat开机启动](http://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html)  
@@ -150,10 +96,7 @@ find -a 连接两个不同的条件（两个条件必须同时满足）
 查看磁盘： df -lh
 
 查看目录占用大小：du -lh
-### 根据端口号，查找对应的进程  
-netstat -apn | grep  2181  
-### 根据进程号查看进程信息
-ps aux | grep 3567  
+
 ### 压缩命令及解压缩命令
 tar压缩：tar -zcvf file.tar.zip file  
 
