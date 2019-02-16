@@ -1,7 +1,7 @@
 ## Timer和ThreadPoolTaskExecutor配合使用的案例
 每隔20秒打印一次线程池的线程使用情况。每隔一段时间使用线程池做一件事，可以参考这里的实现方式。
 ```xml
-<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+<bean id="taskExecutor" class="com.laijia.core.web.MyThreadPoolExecutor">
     <!-- 线程池维护线程的最少数量 -->
     <property name="corePoolSize" value="20"/>
     <!-- 允许的空闲时间 -->
@@ -21,6 +21,61 @@
     <constructor-arg name="time" value="20"></constructor-arg>
     <constructor-arg name="taskExecutor" ref="taskExecutor"></constructor-arg>
 </bean>
+```
+```java
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
+public class MyThreadPoolExecutor extends ThreadPoolTaskExecutor {
+
+    private static final Logger logger = LoggerFactory.getLogger(MyThreadPoolExecutor.class);
+
+    public MyThreadPoolExecutor() {
+        super();
+    }
+
+    @Override
+    public void execute(Runnable task) {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        super.execute(task);
+        watch.stop();
+        logger.info("pool task:{}, use_time: {} sec", task.getClass(), watch.getTime()/1000);
+    }
+
+
+    @Override
+    public void execute(Runnable task, long startTimeout) {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        super.execute(task, startTimeout);
+        watch.stop();
+        logger.info("task:{}, use_time: {} sec", task.getClass(), watch.getTime()/1000);
+    }
+
+    @Override
+    public Future<?> submit(Runnable task) {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        Future<?> ret =  super.submit(task);
+        logger.info("task:{}, use_time: {} sec", task.getClass(), watch.getTime()/1000);
+        return ret;
+    }
+
+    @Override
+    public <T> Future<T> submit(Callable<T> task) {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        Future<T> ret =  super.submit(task);
+        logger.info("task:{}, use_time: {} sec", task.getClass(), watch.getTime()/1000);
+        return ret;
+    }
+}
 ```
 
 ```java
