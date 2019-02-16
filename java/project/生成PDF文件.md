@@ -32,7 +32,6 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        //下面这行代码注释后，会在谷歌浏览器预览PDF文件，启用这行代码会下载文件
 //        response.setHeader("content-disposition", "attachment;filename=" + fileName);
         MapBean ret = reportKcbssByEnterpriseId(enterprise_id, nf);
         if (ret.getInt("oerror") == 0) {
@@ -47,8 +46,9 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
                     document.open();
                     PdfPTable table=new PdfPTable(6);
 
-                   table.addCell(getTitleCellNoBorder("郑州市2019年度科创板上市后备申报",6));
-                    table.addCell(getCell("企业基本信息",6));
+                    table.addCell(getTitleCellNoBorder("郑州市2019年度科创板上市后备申报",6));
+
+                    table.addCell(getCellBackgroundColor("企业基本信息",6));
 
                     table.addCell(getCell("企业名称",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("enterprise_name"),"") ,3));
@@ -92,30 +92,37 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
 
                     table.addCell(getCell("法定代表人",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("legal"),""),1));
-                    table.addCell(getCell("法定代表人办公电话",1));
+                    table.addCell(getCell("办公电话",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("legal_office_phone"),""),1));
-                    table.addCell(getCell("法定代表人手机",1));
+                    table.addCell(getCell("手机",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("legal_phone"),""),1));
 
                     table.addCell(getCell("总经理",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("general_manager"),""),1));
-                    table.addCell(getCell("总经理办公电话",1));
+                    table.addCell(getCell("办公电话",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("general_manager_office_phone"),""),1));
-                    table.addCell(getCell("总经理手机",1));
+                    table.addCell(getCell("手机",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("general_manager_phone"),""),1));
 
-                    table.addCell(getCell("主营业务",1,40));
+                    table.addCell(getCell("董秘",1));
+                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("secretary"),""),1));
+                    table.addCell(getCell("办公电话",1));
+                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("secretary_office_phone"),""),1));
+                    table.addCell(getCell("手机",1));
+                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("secretary_phone"),""),1));
+
+                    table.addCell(getCell("主营业务",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("legal"),""),5,40));
-                    table.addCell(getCell("基本情况(商业盈利模式及竞争力分析)",1,40));
+                    table.addCell(getCell("基本情况(商业盈利模式及竞争力分析)",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("basic_situation"),""),5,40));
 
-                    table.addCell(getCell("上市基本情况",6));
+                    table.addCell(getCellBackgroundColor("上市基本情况",6));
 
-                    table.addCell(getCell("发行前股本",1));
+                    table.addCell(getCell("发行前股本（亿股）",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("pre_issue_equity"),""),1));
-                    table.addCell(getCell("拟发股份",1));
+                    table.addCell(getCell("拟发股份（亿股）",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("ready_stock"),""),1));
-                    table.addCell(getCell("拟筹资额",1));
+                    table.addCell(getCell("拟筹资额（亿元）",1));
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("ready_premium"),""),1));
 
                     List<MapBean> gbjgsList=first.get("gbjgs");
@@ -147,7 +154,7 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
 
 
                     table.addCell(getCell("融资意向",1));
-                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("financing_intention"),""),5));
+                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("financing_intention"),""),5,20));
 
                     table.addCell(getCell("上市意向",1));
                     PdfPTable table2=new PdfPTable(4);
@@ -230,7 +237,7 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
                     cell7.setColspan(2);
                     table.addCell(cell7);
 
-                    table.addCell(getCell("近三年财务状况（单位：亿元）",6));
+                    table.addCell(getCellBackgroundColor("近三年财务状况（单位：亿元）",6));
 
                     table.addCell(getCell("财务数据期（年/月/日）",1));
                     table.addCell(getCell("总资产",1));
@@ -283,7 +290,7 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
                     table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("yfzb_yfryzb"),""),3));
 
                     table.addCell(getCell("目前存在问题",1));
-                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("current_problems"),""),5));
+                    table.addCell(getCell(StringUtils.defaultIfBlank(first.getString("current_problems"),""),5,40));
 
                     table.addCell(getCell("保荐情况",1));
                     PdfPTable table7=new PdfPTable(2);
@@ -349,6 +356,20 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
 
     }
 
+    private PdfPCell getCellBackgroundColor(String c, int colspan) throws IOException, DocumentException {
+        //中文字体
+        BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+        Font font = new Font(bfChinese, 8, Font.NORMAL);
+        PdfPCell cell = new PdfPCell(new Phrase(c, font));
+        cell.setUseAscender(true); // 设置可以居中
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER); // 设置水平居中
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE); // 设置垂直居中
+        cell.setColspan(colspan);
+        cell.setMinimumHeight(20);
+        cell.setBackgroundColor(new BaseColor(221,217,195));
+        return cell;
+    }
+
     private PdfPCell getCell(String c, int colspan) throws IOException, DocumentException {
         //中文字体
         BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
@@ -358,26 +379,14 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
         cell.setHorizontalAlignment(Element.ALIGN_CENTER); // 设置水平居中
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE); // 设置垂直居中
         cell.setColspan(colspan);
+        cell.setMinimumHeight(20);
         return cell;
     }
 
     private PdfPCell getCell(String c,int colspan,float fixedHeight) throws IOException, DocumentException {
         PdfPCell cell=getCell(c,colspan);
         cell.setFixedHeight(fixedHeight);
-        return cell;
-    }
-    
-    private PdfPCell getTitleCellNoBorder(String c,int colspan) throws IOException, DocumentException {
-        //中文字体
-        BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-        Font font = new Font(bfChinese, 16, Font.NORMAL);
-        PdfPCell cell = new PdfPCell(new Phrase(c, font));
-        cell.setUseAscender(true); // 设置可以居中
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER); // 设置水平居中
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE); // 设置垂直居中
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setColspan(colspan);
-
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         return cell;
     }
 
@@ -391,7 +400,21 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE); // 设置垂直居中
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setColspan(colspan);
+        cell.setMinimumHeight(20);
+        return cell;
+    }
 
+    private PdfPCell getTitleCellNoBorder(String c,int colspan) throws IOException, DocumentException {
+        //中文字体
+        BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+        Font font = new Font(bfChinese, 16, Font.NORMAL);
+        PdfPCell cell = new PdfPCell(new Phrase(c, font));
+        cell.setUseAscender(true); // 设置可以居中
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER); // 设置水平居中
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE); // 设置垂直居中
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(colspan);
+        cell.setMinimumHeight(30);
         return cell;
     }
 
@@ -414,7 +437,7 @@ public void export(Integer enterprise_id, String nf, HttpServletResponse respons
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE); // 设置垂直居中
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setColspan(colspan);
-
+        cell.setMinimumHeight(20);
         return cell;
     }
 ```
@@ -438,3 +461,7 @@ $("#daochu").click(function () {
 ```
 <a class="btn btn-blue btn-xs" target="_blank" href="http://192.168.0.200:8081/sys/front/common/detail/export?nf=2019&enterprise_id=' + id+'">详情</a>
 ```
+
+参考资料
+
+http://www.anyrt.com/blog/list/itextpdf.html#2
