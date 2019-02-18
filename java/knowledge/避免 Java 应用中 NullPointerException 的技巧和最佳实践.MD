@@ -24,7 +24,7 @@ if("knownObject".equals(unknownObject)){
 BigDecimal bd = getPrice();
 System.out.println(String.valueOf(bd)); //不会抛出空指针异常
 System.out.println(bd.toString()); //抛出 "Exception in thread "main" java.lang.NullPointerException"
- ```
+```
 3) 使用null安全的方法和库 
 
 有很多开源库已经为您做了繁重的空指针检查工作。其中最常用的一个的是Apache commons 中的StringUtils。你可以使用StringUtils.isBlank()，isNumeric()，isWhiteSpace()以及其他的工具方法而不用担心空指针异常。
@@ -37,12 +37,12 @@ System.out.println(StringUtils.isAllUpperCase(null));
 ```
 
 Output:
-
+```
 true
 true
 false
 false
-
+```
 但是在做出结论之前，不要忘记阅读空指针方法的类的文档。这是另一个不需要下大功夫就能得到很大改进的Java最佳实践。
 
 4) 避免从方法中返回空指针，而是返回空collection或者空数组。

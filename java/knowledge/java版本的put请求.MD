@@ -1,3 +1,7 @@
+---
+typora-root-url: ..\..
+---
+
 ![](/images/java/httpput.jpg)
 ```java
 @Test

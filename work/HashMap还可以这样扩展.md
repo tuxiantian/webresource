@@ -1,4 +1,3 @@
-### 最有用的数据结构
 ```java
 package com.laijia.core.entity;
 

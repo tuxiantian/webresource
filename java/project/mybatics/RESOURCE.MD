@@ -1,24 +1,3 @@
-<!-- TOC -->
-
-- [Invalid bound statement (not found)](#invalid-bound-statement-not-found)
-- [多条件判断语句choose](#多条件判断语句choose)
-- [特殊符号的处理](#特殊符号的处理)
-- [对数据库日期字段格式化](#对数据库日期字段格式化)
-- [日期比较](#日期比较)
-- [日期字段加索引注意事项](#日期字段加索引注意事项)
-- [parameterType和resultType](#parametertype和resulttype)
-- [批量更新](#批量更新)
-    - [示例一](#示例一)
-    - [示例二](#示例二)
-- [like的使用](#like的使用)
-    - [oracle](#oracle)
-    - [mysql](#mysql)
-- [case when的使用](#case-when的使用)
-- [常用的统计sql](#常用的统计sql)
-- [#{…}与${…}的区别](#与的区别)
-- [mybatis中使用Java8的日期LocalDate、LocalDateTime](#mybatis中使用java8的日期localdatelocaldatetime)
-
-<!-- /TOC -->
 ### Invalid bound statement (not found)
 [mybatis绑定错误-- Invalid bound statement (not found)](https://www.jianshu.com/p/800fe918cc7a)
 
@@ -46,8 +25,11 @@
 </if>
 ```
 ### 对数据库日期字段格式化
+```
 年月日时分秒格式：%Y-%m-%d %H:%i:%s  
 DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
+```
+
 ### 日期比较
 ```sql
 <if test="expertDate != null and expertDate != 'null' and expertDate != ''">
