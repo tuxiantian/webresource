@@ -293,8 +293,7 @@ public class DdtcService {
             accessTokenResult = JsonUtil.toObject(result, AccessTokenResult.class);
             if ("200".equals(accessTokenResult.getErrNo())) {
                 cache= CacheBuilder.newBuilder().
-                        maximumSize(1)
-                        .expireAfterWrite(Long.parseLong(accessTokenResult.getExpiresIn()), TimeUnit.SECONDS)
+                        maximumSize(1)                       .expireAfterWrite(Long.parseLong(accessTokenResult.getExpiresIn()), TimeUnit.SECONDS)
                         .recordStats()
                         .build();
                 cache.put("accessToken",accessTokenResult.getAccessToken());
