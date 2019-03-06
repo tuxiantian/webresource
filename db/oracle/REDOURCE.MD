@@ -1,4 +1,16 @@
+分页
+```sql
+SELECT *
+  FROM (SELECT A.*, ROWNUM AS NUM_
+          FROM (
+              
+              ) A WHERE ROWNUM <= #{end} 
+       )
+	WHERE NUM_ >= #{first} 
+```
+
 oracle分组取最大
+
 ```sql
 select *
   from (select *,
