@@ -2,6 +2,7 @@
 typora-root-url: ..
 ---
 
+
 # Github团队协作之Pull请求
 
 Pull请求(Pull request)
@@ -54,12 +55,16 @@ Github上合并，首先要找到合并页面。进入合并页面的方式有�
 
 合并前先在本地仓库里新建一个分支  
 git checkout -b HengStruggle-master master  
-拉取协作者远程仓库的Pull请求分支到本地仓库，注意这里的Pull请求分支不一定总是master，要视具体情况而定。注意：这里拉取的是协作者的代码仓库的Pull请求分支！  
+拉取协作者远程仓库的Pull请求分支到本地仓库，注意这里的Pull请求分支不一定总是master，要视具体情况而定。注意：这里拉取的是协作者的代码仓库的Pull请求分支！ 
+```
 git pull https://github.com/HengStruggle/GitTest.git master  
+```
 常规的合并分支并Push代码  
-1 git checkout master  
-2 git merge --no-ff HengStruggle-master  
-3 git push origin master  
+```
+git checkout master  
+git merge --no-ff HengStruggle-master  
+git push origin master  
+```
 
 ![](/images/git/Github团队协作之Pull请求/4.png)  
 图4

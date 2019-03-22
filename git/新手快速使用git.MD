@@ -13,22 +13,24 @@ typora-root-url: ..
 生成ssh公私钥命令如下  
 ssh-keygen -t rsa -C "tuxiantian@163.com"  //Enter passphrase (empty for no passphrase):注意在这一步的时候不要输入密码，后续提交才能不用输入密码  
 操作示例图如下  
-![](/images/git/nopassword.png)  
-在github网站上添加C:\Users\tuxt\.ssh\目录下生成的公钥  
+![](/images/git/nopassword.png)
+
+在github网站上添加C:\Users\tuxiantian\.ssh目录下生成的公钥  
 若出现下面的提示，就是尚未给新用户分配仓库的权限
-![](/images/git/clone_error.png)  
+![](../images/git/clone_error.png)  
 给新用户分配仓库的权限，操作示例图如下  
-![](/images/git/assign_permission.png)  
+![](../images/git/assign_permission.png)  
 新用户使用gitbash客户端窗口配置用户名和邮箱，然后就可以克隆仓库，正常提交和更新仓库文件了。  
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
+
 ###  git中文文件名、目录名乱码应该怎么解决？
 git config core.quotepath false  
 core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常  
 
 ## 设置idea使用rebase提交
 rebase提交方式可以让git log显示为一条直线，更加方便提交记录的查看
-![](/images/git/git_idea.png)
+![](../images/git/git_idea.png)
 
 ## 提交本地项目到github仓库的方法
 > git init  
