@@ -222,3 +222,25 @@ echo $LANG
 
 ### 去除特殊字符
 sed -i 's/^M//g’ env.sh  去除文件的特殊字符, 比如^M
+
+启动和停止脚步的编码问题导致服务不能够启动的解决办法
+
+## 将文件的系统编码由dos改为unix
+
+set ff?
+
+设置文件的字符集编码是unix
+
+set ff=unix
+
+## 设置系统编码
+
+export LANG=zh_CN.UTF-8
+
+vim /etc/sysconfig/i18n
+
+LANG=zh_CN.UTF-8
+
+source /etc/sysconfig/i18n
+
+echo $LANG

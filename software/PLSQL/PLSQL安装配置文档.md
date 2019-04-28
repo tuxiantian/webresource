@@ -54,7 +54,7 @@ yun_od =
 
 代码助手
 
-```
+```sql
 sf=select * from
 sfr=select a.*, rowid from
 

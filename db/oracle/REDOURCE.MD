@@ -21,7 +21,7 @@ select *
           from t2) tt2
  where tt2.cc <= 1
 ```
-## **查看****数据库中的空****表**
+## 查看数据库中的空表
 
 ```sql
 select table_name, num_rows
@@ -35,7 +35,7 @@ select table_name, num_rows
 
 
 
-## **查询****过去****20分钟****的数据**
+## 查询过去20分钟的数据
 
 create_date是date类型，1/24表示一小时，1/24/3表示20分钟
 
@@ -131,3 +131,4 @@ begin
   end loop;
 end;
 ```
+

@@ -16,7 +16,10 @@ qq文件下载目录 C:\Users\tuxt\Documents\Tencent Files\791978859\FileRecv
 
 ## 3. 批量修改文件的后缀名
 [批量修改文件的后缀名](http://jingyan.baidu.com/article/e9fb46e196ea187521f7661a.html)  
+
+```
 ren *.txt *.MD
+```
 
 ## 4. Windows系统如何清除DNS缓存？
 cmd窗口执行下面的命令  
