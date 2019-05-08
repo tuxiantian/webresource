@@ -5,6 +5,8 @@ docker cp od_data.dmp yunnan_od:/
 
 docker exec -it yunnan_od /bin/bash
 
+#这一步要输入密码，密码是oracle
+#system/oracle
 sqlplus sys as sysdba
 
 create user ocdm identified by ocdm;
@@ -16,7 +18,14 @@ exit
 imp ocdm/ocdm file=od_data.dmp log=/od_data.log full=y
 
 ```
+# [ORA-28000: the account is locked-的解决办法](https://www.cnblogs.com/jianqiang2010/archive/2011/09/01/2162574.html)
+
+```sql
+ALTER USER ocdm ACCOUNT UNLOCK;
+```
+
 查看容器的日志
+
 ```
 docker logs -f yunnan_od
 ```
@@ -41,13 +50,19 @@ local_12c_yunnan =
 
 # Oracle导出表（即DMP文件）的两种方法
 
-方法一：利用PL/SQL Developer工具导出：
+## 方法一：利用PL/SQL Developer工具导出
+
 菜单栏---->Tools---->Export Tables，如下图，设置相关参数即可：
 
 ![](https://img-my.csdn.net/uploads/201205/18/1337329645_5175.jpg)
 
-方法二：利用cmd的操作命令导出，详情如下（备注：方法二是转载网上的教程）：
-1:G:\Oracle\product\10.1.0\Client_1\NETWORK\ADMIN目录下有个tnsname.ora文件，内容如下：
+## 方法二：利用cmd的操作命令导出，详情如下
+
+### 1:配置数据库连接
+
+G:\Oracle\product\10.1.0\Client_1\NETWORK\ADMIN目录下有个tnsname.ora文件，内容如下：
+
+```
 CMSTAR =
   (DESCRIPTION =
     (ADDRESS_LIST =
@@ -57,39 +72,89 @@ CMSTAR =
       (SERVICE_NAME = cmstar)
     )
   )
+```
 其中：CMSTAR为数据库名，HOST为IP地址，所以可以仿效上面的例子手动添加数据录连接。
-2：用cmd进入命令行
+
+### 2：用cmd进入命令行
+
 输入：tnsping cmstar
 就是测试172.18.13.200是否连接成功
-3：导入与导出，如下：
 
-数据导出：
+### 3：导入与导出
+
+#### 数据导出
+
  1 将数据库TEST完全导出,用户名system 密码manager 导出到D:\daochu.dmp中
+
+ ```
    exp system/manager@TEST file=d:\daochu.dmp full=y
+ ```
+
  2 将数据库中system用户与sys用户的表导出
+   ```
    exp system/manager@TEST file=d:\daochu.dmp owner=(system,sys)
+   ```
  3 将数据库中的表table1 、table2导出
+   ```
    exp system/manager@TEST file=d:\daochu.dmp tables=(table1,table2) 
+   ```
  4 将数据库中的表table1中的字段filed1以"00"打头的数据导出
+   ```
    exp system/manager@TEST file=d:\daochu.dmp tables=(table1) query=\" where filed1 like '00%'\"
-
+   ```
  上面是常用的导出，对于压缩我不太在意，用winzip把dmp文件可以很好的压缩。  不过在上面命令后面 加上 compress=y  就可以了 。
-数据的导入
- 1 将D:\daochu.dmp 中的数据导入 TEST数据库中。
-   imp system/manager@TEST  file=d:\daochu.dmp
-   上面可能有点问题，因为有的表已经存在，然后它就报错，对该表就不进行导入。
-   在后面加上 ignore=y 就可以了。
- 2 将d:\daochu.dmp中的表table1 导入
- imp system/manager@TEST  file=d:\daochu.dmp  tables=(table1) 
 
+#### 数据的导入
+
+ 1 将D:\daochu.dmp 中的数据导入 TEST数据库中。
+ ```
+   imp system/manager@TEST  file=d:\daochu.dmp
+ ```
+上面可能有点问题，因为有的表已经存在，然后它就报错，对该表就不进行导入。   在后面加上 ignore=y 就可以了。
+ 2 将d:\daochu.dmp中的表table1 导入
+
+ ```
+ imp system/manager@TEST  file=d:\daochu.dmp  tables=(table1) 
+ ```
 注意事项：导出dmp数据时需要有导出表的权限的用户，否则不能导出。 
 
 11g远程导库
-
+```
 exp od/Ztesoft123@iom file=/home/oracle/expdata/od_data_20190418.dmp owner=od
-
+```
 11g本地导库
 
+ ```
 create or replace directory iom_dir as '/home/oracle/iom';
 
-expdp iom/yniombss31108 directory=iom_dir dumpfile=iom_data_20190419.dmp include=table query=\"where rownum \< 100001\"
+expdp iom/yniombss31108 directory=iom_dir dumpfile=iom_data_20190419.dmp include=table query=\"where rownum < 100001\"
+
+ ```
+
+##### ORA-00959: tablespace 'TBS_OD_ORDER_INST' does not exist
+
+验证表空间是否存在
+
+```
+select * from dba_data_files where tablespace_name = 'TBS_OD_ORDER_INST';
+```
+
+  查询数据库datafile路径
+
+```
+select * from dba_data_files;  
+```
+
+ 手动创建表空间
+
+```
+create tablespace TBS_OD_ORDER_INST   
+  logging   
+  datafile  '/u01/app/oracle/oradata/xe/users02.dbf'     
+  size 32m    
+  autoextend on    
+  next 32m maxsize 2048m   
+  extent management local; 
+```
+
+这时候再用imp导入dmp文件就可以成功了。使用exp和imp这组命令进行导入导出的好处是表中的clob类型的字段数据也可以导入成功。
