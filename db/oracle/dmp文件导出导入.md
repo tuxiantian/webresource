@@ -112,7 +112,7 @@ select * from user_all_tables;
 4 将数据库中的表table1中的字段filed1以"00"打头的数据导出
 
    ```
-   exp system/manager@TEST file=d:\daochu.dmp tables=(table1) query=\" where filed1 like '00%'\"
+exp system/manager@TEST file=d:\daochu.dmp tables=(table1) query=\" where filed1 like '00%'\"
    ```
  上面是常用的导出，对于压缩我不太在意，用winzip把dmp文件可以很好的压缩。  不过在上面命令后面 加上 compress=y  就可以了 。
 
@@ -120,7 +120,7 @@ select * from user_all_tables;
 
  1 将D:\daochu.dmp 中的数据导入 TEST数据库中。
  ```
-   imp system/manager@TEST  file=d:\daochu.dmp
+imp system/manager@TEST  file=d:\daochu.dmp
  ```
 上面可能有点问题，因为有的表已经存在，然后它就报错，对该表就不进行导入。   在后面加上 ignore=y 就可以了。
  2 将d:\daochu.dmp中的表table1 导入
