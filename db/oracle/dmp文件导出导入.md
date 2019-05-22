@@ -98,7 +98,19 @@ CMSTAR =
    ```
    exp system/manager@TEST file=d:\daochu.dmp tables=(table1,table2) 
    ```
- 4 将数据库中的表table1中的字段filed1以"00"打头的数据导出
+  将生产库导出一份放在本地调试，分2次导出，一次导出配置数据表，包含配置数据，一次导出业务表，不包含业务数据。整理配置表和业务表时需要查出所有的表，一般使用下面的查询语句。
+
+**查询数据库中有哪些表**
+
+  ```
+select table_name from tabs;
+
+select * from dba_all_tables;
+select * from user_all_tables;
+  ```
+
+4 将数据库中的表table1中的字段filed1以"00"打头的数据导出
+
    ```
    exp system/manager@TEST file=d:\daochu.dmp tables=(table1) query=\" where filed1 like '00%'\"
    ```
