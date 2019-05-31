@@ -1,5 +1,5 @@
 ---
-typora-root-url: ..
+typora-root-url: ..\..
 ---
 
 # 安装
@@ -15,13 +15,19 @@ password: xs374ca
 
 系统变量
 
-ORACLE_HOME=D:\Oracle\instantclient_11_2 
+ORACLE_HOME=C:\Oracle\instantclient_11_2 
 TNS_ADMIN=%ORACLE_HOME%\network\admin 
 NLS_LANG=SIMPLIFIED CHINESE_CHINA.ZHS16GBK 
 
 配置plsql
 
 ![89C79CEF-1F18-44df-BA83-824B0AA34C7B](/images/software/PLSQL安装文档/89C79CEF-1F18-44df-BA83-824B0AA34C7B.jpg)
+
+设置Oracle客户端的路径后，若打开plsql,发现界面上面没有连接为，那是因为客户端没有装好。Oracle客户端是有前置依赖的，确保前置依赖安装了，才能安装成功。
+
+![TIM截图20190529142919](D:\webresource\images\software\PLSQL安装文档\TIM截图20190529142919.png)
+
+![TIM截图20190529143013](D:\webresource\images\software\PLSQL安装文档\TIM截图20190529143013.png)
 
 配置tnsnames.ora
 
