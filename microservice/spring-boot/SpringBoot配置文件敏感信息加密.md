@@ -96,7 +96,7 @@ jasypt:
 
 到此，我们就实现了springboot配置文件里的敏感信息加密。是不是很简单。
 
-#五，使用命令加密
+# 五，使用命令加密
 
 ```
 java -cp jasypt-1.9.4.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input=ocdm password=123456 algorithm=PBEWithMD5AndDES
