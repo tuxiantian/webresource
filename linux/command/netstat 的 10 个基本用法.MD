@@ -1,6 +1,7 @@
 ---
-typora-root-url: ..
+typora-root-url: ..\..
 ---
+
 
 # netstat 的 10 个基本用法
 
