@@ -28,3 +28,42 @@ public Document createXMLDocument(){
 }
 ```
 
+# 美化xml
+
+```
+private String xmlPretty(Document document) {
+   OutputFormat format = OutputFormat.createPrettyPrint();
+   format.setEncoding(document.getXMLEncoding());
+   try {
+      StringWriter out = new StringWriter();
+      XMLWriter writer = new XMLWriter(out, format);
+      writer.write(document);
+      writer.flush();
+      return out.toString();
+   } catch (IOException e) {
+      String xml = document.asXML();
+      log.warn("format xml failed, use doc.asXml(). xml : [{}]", xml);
+      return xml;
+   }
+}
+```
+
+# 使用dom4j需要引入的jar 
+
+```
+<dependency>
+   <groupId>org.dom4j</groupId>
+   <artifactId>dom4j</artifactId>
+   <version>2.1.1</version>
+</dependency>
+
+<dependency><!-- XPath依赖 -->
+    <groupId>jaxen</groupId>
+    <artifactId>jaxen</artifactId>
+    <version>1.1.6</version>
+</dependency>
+```
+
+缺少jaxen可能会引起下面的错误
+
+![图片](D:\webresource\images\java\project\dom4j\图片.png)

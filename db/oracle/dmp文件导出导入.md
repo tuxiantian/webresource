@@ -1,5 +1,5 @@
 ```
-docker run -d -p 1522:1521 --name yunnan_od sath89/oracle-12c
+docker run -d -p 1522:1521 --name yunnan_od sath89/oracle-12c -v /etc/timezone:/etc/timezone \
 
 docker cp od_data.dmp yunnan_od:/
 
@@ -170,3 +170,10 @@ create tablespace TBS_OD_ORDER_INST
 ```
 
 这时候再用imp导入dmp文件就可以成功了。使用exp和imp这组命令进行导入导出的好处是表中的clob类型的字段数据也可以导入成功。
+
+删除表空间
+
+```
+  drop tablespace TBS_OCDM4BP_NEIMENG_INST including contents and datafiles;
+```
+
