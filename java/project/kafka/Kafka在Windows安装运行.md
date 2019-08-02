@@ -1,4 +1,6 @@
-一、安装JDK
+[TOC]
+
+# 一、安装JDK
 
 过程比较简单，这里不做说明。
 
@@ -6,7 +8,7 @@
 
 ![](https://img-blog.csdn.net/20160903092900940)
 
-二、安装zooeleeper
+# 二、安装zooeleeper
 
 下载安装包：http://zookeeper.apache.org/releases.html#download
 
@@ -58,8 +60,7 @@ clientPort=2181
 
    ![](https://img-blog.csdn.net/20160903093442306)
 
-
-三、安装与运行Kafka
+# 三、安装与运行Kafka
 
 下载
 
@@ -91,15 +92,16 @@ http://kafka.apache.org/downloads.html。注意要下载二进制版本的
 
 ![](https://img-blog.csdn.net/20160903100506319)
 
-四、测试
+# 四、测试
 
 上面的Zookeeper和kafka一直打开
 
-（1）、创建主题
+（1）创建主题
 
 1.进入Kafka安装目录D:\Java\Tool\kafka_2.11-0.10.0.1
 2.按下Shift+右键，选择“打开命令窗口”选项，打开命令行。
 3.现在输入
+
 ```
 .\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic linlin
 ```
