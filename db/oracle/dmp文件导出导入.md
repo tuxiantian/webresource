@@ -46,7 +46,39 @@ local_12c_yunnan =
   )
 ```
 
+本机导出实战
 
+```
+mkdir /dmp
+chmod -R 777 /dmp
+sqlplus sys as sysdba  
+create or replace directory dmp  as '/dmp';
+grant read,write on directory dmp to ocdm;
+
+expdp ocdm/ocdm@127.0.0.1:1521/xe directory=dmp dumpfile=ocdm_neimeng.dmp logfile=ocdm_neimeng.log  version=11.2;
+```
+
+本地导入实战
+
+```
+impdp ocdm/ocdm@127.0.0.1:1521/xe  directory=dmp dumpfile=ocdm_neimeng.dmp log=od_data.log schemas=ocdm
+```
+
+导入时ocdm_neimeng.dmp要在dmp目录中，否则会提示找不到文件。
+
+ip:port不能省略，否则会报这个错误
+
+> ORA-12154: TNS:could not resolve the connect identifier specified
+
+**expdp/impdp和exp/imp的区别**
+
+1、exp和imp是客户端工具程序，它们既可以在客户端使用，也可以在服务端使用。
+
+2、expdp和impdp是服务端的工具程序，他们只能在[Oracle](https://www.linuxidc.com/topicnews.aspx?tid=12)服务端使用，不能在客户端使用。
+
+3、imp只适用于exp导出的文件，不适用于expdp导出文件；impdp只适用于expdp导出的文件，而不适用于exp导出文件。
+
+4、对于10g以上的服务器，使用exp通常不能导出0行数据的空表，而此时必须使用expdp导出。
 
 # Oracle导出表（即DMP文件）的两种方法
 
@@ -171,9 +203,15 @@ create tablespace TBS_OD_ORDER_INST
 
 这时候再用imp导入dmp文件就可以成功了。使用exp和imp这组命令进行导入导出的好处是表中的clob类型的字段数据也可以导入成功。
 
+查询数据库表空间
+
+```sql
+select a.TABLESPACE_NAME from user_tables a group by a.TABLESPACE_NAME;
+```
+
 删除表空间
 
 ```
-  drop tablespace TBS_OCDM4BP_NEIMENG_INST including contents and datafiles;
+drop tablespace TBS_OCDM4BP_NEIMENG_INST including contents and datafiles;
 ```
 
