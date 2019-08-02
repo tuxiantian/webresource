@@ -1,6 +1,5 @@
 使用过SpringBoot配置文件的朋友都知道，资源文件中的内容通常情况下是明文显示，安全性就比较低一些。打开application.properties或application.yml，比如mysql登陆密码，redis登陆密码以及第三方的密钥等等一览无余，这里介绍一个加解密组件，提高一些属性配置的安全性。
- jasypt由一个国外大神写了一个springboot下的工具包，
- 下面直接看代码：
+ jasypt由一个国外大神写了一个springboot下的工具包， 下面直接看代码：
 
 # 这里以数据用户名和数据库密码加密为例
 
