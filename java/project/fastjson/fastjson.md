@@ -1,6 +1,8 @@
 jsonpath使用示例
 
-```
+## 字符串和数字类型的处理方式的区别
+
+```java
 JSONPath jsonPath = JSONPath.compile("$.prodOrderItems.ordProdInsts[0:][prodInstId=370008142710].accNum");
 //language=JSON
 String str2="{\n" +
@@ -41,3 +43,30 @@ true
 
 筛选结果是`JSONArray`
 
+## 多条件筛选的写法
+
+```java
+String json="{\n" +
+                "  \"students\":[\n" +
+                "    {\n" +
+                "      \"name\":\"Bob\",\n" +
+                "      \"gender\":\"male\",\n" +
+                "      \"age\":10\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\":\"Bob\",\n" +
+                "      \"gender\":\"female\",\n" +
+                "      \"age\":11\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}\n"
+    ;
+JSONPath jsonPath = JSONPath.compile("$.students[0:][name='Bob'][gender='male'].age");
+Object result = jsonPath.eval(JSONObject.parseObject(json));
+if (result instanceof JSONArray){    
+    JSONArray array= (JSONArray) result;    
+    Assert.assertEquals(array.get(0),10);
+}
+```
+
+想从students集合中筛选name='Bob'并且gender='male'的学生，就要这样写`$.students[0:][name='Bob'][gender='male'].age`
