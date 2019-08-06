@@ -111,7 +111,6 @@ git push origin --delete test
 git checkout master
 git branch -d test
 #git branch -D test 如果有未提交的文件，用它
-
 ```
 执行完效果如下：  
 ![](/images/git/Git各种错误操作撤销的方法/11.png)

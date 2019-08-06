@@ -120,8 +120,8 @@ rebase又称为衍合，是合并的另外一种选择。
 
 现在我们有这样的两个分支,test和master，提交如下：
 
-      D---E test
-     /
+     D---E test
+    /
 A---B---C---F master  
 在master执行git merge test,然后会得到如下结果：  
 
