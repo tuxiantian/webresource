@@ -1,7 +1,10 @@
 ---
 typora-root-url: ..\..
 ---
+[TOC]
+
 ## 非自增主键的保存更新问题
+
 ![](/images/work/question/question1.png)  
 表结构信息如下
 ```sql

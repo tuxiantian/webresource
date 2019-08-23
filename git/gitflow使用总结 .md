@@ -1,3 +1,4 @@
+[TOC]
 [Git工作流指南](http://blog.jobbole.com/76843/)  
 [Git工作流指南：集中式工作流](http://blog.jobbole.com/76847/)  
 [Git工作流指南：功能分支工作流](http://blog.jobbole.com/76857/)  
