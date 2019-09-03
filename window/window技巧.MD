@@ -22,8 +22,8 @@ ren *.txt *.MD
 ```
 
 ## 4. Windows系统如何清除DNS缓存？
-cmd窗口执行下面的命令  
-ipconfig /flushdns
+cmd窗口执行下面的命令 
+> ipconfig /flushdns
 
 ## 检查网络的常用ping命令
 ipconfig/all 查看网络配置详细信息  

@@ -13,7 +13,7 @@ alter table ERR_CODE
   add constraint PK_ERR_CODE primary key (ERR_CODE)
 ```
 
-## 删除表中的财富记录
+## 删除表中的重复记录
 
 表结构如下
 
