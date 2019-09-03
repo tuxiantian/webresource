@@ -1,3 +1,44 @@
+## 修改表结构
+
+修改srv_order 表字段DEAL_TIMES 的默认值为0
+
+```sql
+alter table srv_order modify (DEAL_TIMES default 0)
+```
+
+给表添加主键
+
+```sql
+alter table ERR_CODE
+  add constraint PK_ERR_CODE primary key (ERR_CODE)
+```
+
+## 删除表中的财富记录
+
+表结构如下
+
+```sql
+create table ERR_CODE
+(
+  err_code    VARCHAR2(255) not null,
+  err_name    VARCHAR2(4000) not null,
+  err_desc    VARCHAR2(4000),
+  create_date DATE default sysdate not null,
+  remark      VARCHAR2(4000)
+)
+```
+
+这是系统的错误编码配置表。前期`err_code`未加主键标识，表中出现了重复的错误编码配置数据。使用下面的sql进行清理
+
+```sql
+delete from ERR_CODE t1 where rowid >(
+       select min(t2.rowid) from ERR_CODE  t2
+       where t1.ERR_CODE=t2.ERR_CODE
+)
+```
+
+
+
 ## 分页
 
 ```sql
