@@ -22,11 +22,7 @@ public class MyClass {
 }
 ```
 
-
-
 Vector 与 ArrayList 类似，只是它们支持自动同步，这也使得 Vector 线程安全，但同时会带来一些性能损耗。
-
-
 
 **3. 内部实现**
 

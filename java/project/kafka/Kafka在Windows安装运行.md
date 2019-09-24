@@ -14,13 +14,13 @@
 
 下载后解压到一个目录：
 
-1.进入Zookeeper设置目录，笔者D:\Java\Tool\zookeeper-3.4.6\conf
+1. 进入Zookeeper设置目录，笔者D:\Java\Tool\zookeeper-3.4.6\conf
 2. 将“zoo_sample.cfg”重命名为“zoo.cfg”
 3. 在任意文本编辑器（如notepad）中打开zoo.cfg
 4. 找到并编辑dataDir=D:\\Java\\Tool\\zookeeper-3.4.6\\tmp
 5. 与Java中的做法类似，我们在系统环境变量中添加：
     a. 在系统变量中添加ZOOKEEPER_HOME = D:\Java\Tool\zookeeper-3.4.6
-    　　b. 编辑path系统变量，添加为路径%ZOOKEEPER_HOME%\bin;
+    b. 编辑path系统变量，添加为路径%ZOOKEEPER_HOME%\bin;
 6. 在zoo.cfg文件中修改默认的Zookeeper端口（默认端口2181）
 
 这是笔者最终的文件内容：
