@@ -58,6 +58,7 @@ ib_logfile0 and ib_logfile1两个文件,就是redo log（用于崩溃时恢复�
 二进制日志会记录所有与mysql有关的日志记录(bin log)  
 
 ## MySQL 为生产环境在线添加字段  
+```sql
 create table new_table_name like old_table_name;  
 alter table new_table_name add column new_column int not null default 0 comment 'your comment';  
 alter table t_user_2 add name2 varchar(15),add name3 varchar(4);  
@@ -69,6 +70,7 @@ begin;
 insert into new_table_name (col1, col2, col3...) select (col1, col2, col3...) from old_table_name where id >= xxxx  
 rename old_table_name to old_table_bak, new_table_name to old_table_name;  
 commit;  
+```
 
 --------------------------------------------------------------------------------------
 Mysql关于 字符串 与 整型对比 的查询与索引

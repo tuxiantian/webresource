@@ -1,14 +1,5 @@
 # SQL 语句中关于 NULL 的那些坑
 
-<!-- TOC -->
-
-- [SQL 语句中关于 NULL 的那些坑](#sql-语句中关于-null-的那些坑)
-    - [问题描述](#问题描述)
-    - [原因追溯](#原因追溯)
-    - [问题延伸](#问题延伸)
-
-<!-- /TOC -->
-
 ## 问题描述
 
 今天在跟进公司内部测试平台线上问题的时候，发现一个忽略已久的问题。
@@ -70,7 +61,9 @@ SELECT * FROM qms_branch WHERE types IS NULL or types != 'dashboard'
 
 那么，我们采用IN操作符，通过如下SQL语句进行查询。
 
+```sql
 SELECT * FROM table_foo WHERE value_field IN ('value1', 'value2', NULL)
+```
 
 这会存在问题么？我们并没有采用=, <, <>, !=对NULL进行比较哦。
 
@@ -78,10 +71,15 @@ SELECT * FROM table_foo WHERE value_field IN ('value1', 'value2', NULL)
 
 因为在SQL中，IN语句会被转换为多个=语句。例如，上面例子中的SQL在执行时就会被转换为如下SQL语句：
 
+```sql
 SELECT * FROM table_foo WHERE value_field = 'value1' OR value_field = 'value2' OR value_field = NULL
+```
 
 而这个时候，执行value_field = NULL时就会出现问题了。
 
 正确的做法应该是将NULL相关的判断独立出来，如下SQL才是正确的写法。
 
+```sql
 SELECT * FROM table_foo WHERE value_field IN ('value1', 'value2') OR value_field IS NULL
+```
+
