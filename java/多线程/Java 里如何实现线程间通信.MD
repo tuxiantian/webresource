@@ -14,9 +14,10 @@ https://github.com/wingjay/HelloJava/blob/master/multi-thread/src/ForArticle.jav
 - 那如何让 两个线程按照指定方式有序交叉运行呢？
 - 四个线程 A B C D，其中 D 要等到 A B C 全执行完毕后才执行，而且 A B C 是同步运行的
 - 三个运动员各自准备，等到三个人都准备好后，再一起跑
+- 资源的多副本的并发访问控制
 - 子线程完成某件任务后，把得到的结果回传给主线程
 
-如何让两个线程依次执行？
+## 如何让两个线程依次执行？
 
 假设有两个线程，一个是线程 A，另一个是线程 B，两个线程分别依次打印 1-3 三个数字即可。我们来看下代码：
 ```java
@@ -104,7 +105,7 @@ B print: 3
 ```
 所以我们能看到 A.join() 方法会让 B 一直等待直到 A 运行完毕。
 
-那如何让两个线程按照指定方式有序交叉运行呢？
+## 那如何让两个线程按照指定方式有序交叉运行呢？
 
 还是上面那个例子，我现在希望 A 在打印完 1 后，再让 B 打印 1, 2, 3，最后再回到 A 继续打印 2, 3。这种需求下，显然 Thread.join() 已经不能满足了。我们需要更细粒度的锁来控制执行顺序。
 
@@ -218,7 +219,7 @@ A 2
 A 3
 
 ```
-四个线程 A B C D，其中 D 要等到 A B C 全执行完毕后才执行，而且 A B C 是同步运行的
+## 四个线程 A B C D，其中 D 要等到 A B C 全执行完毕后才执行，而且 A B C 是同步运行的
 
 最开始我们介绍了 **thread.join()，可以让一个线程等另一个线程运行完毕后再继续执行**，那我们可以在 D 线程里依次 join A B C，不过这也就使得 A B C 必须依次执行，而我们要的是这三者能同步运行。
 
@@ -227,7 +228,7 @@ A 3
 创建一个计数器，设置初始值，CountdownLatch countDownLatch = new CountDownLatch(2);
 在 等待线程 里调用 countDownLatch.await() 方法，进入等待状态，直到计数值变成 0；
 在 其他线程 里，调用 countDownLatch.countDown() 方法，该方法会将计数值减小 1；
-当 其他线程 的 countDown() 方法把计数值变成 0 时，等待线程 里的 countDownLatch.await() 立即退出，继续执行下面的代码。
+当 其他线程 的 countDown() 方法把计数值变成 0 时，等待线程里的 countDownLatch.await() 立即退出，继续执行下面的代码。
 
 实现代码如下：
 
@@ -284,7 +285,7 @@ All done, D starts working
 
 因此，**CountDownLatch 适用于一个线程去等待多个线程的情况**。
 
-三个运动员各自准备，等到三个人都准备好后，再一起跑
+## 三个运动员各自准备，等到三个人都准备好后，再一起跑。
 
 上面是一个形象的比喻，针对 线程 A B C 各自开始准备，直到三者都准备完毕，然后再同时运行 。也就是要实现一种 线程之间互相等待 的效果，那应该怎么来实现呢？
 
@@ -348,7 +349,125 @@ A starts running
 B starts running
 
 ```
-子线程完成某件任务后，把得到的结果回传给主线程
+## 资源的多副本的并发访问控制
+
+### Semaphore的作用
+
+在java中，使用了synchronized关键字和Lock锁实现了资源的并发访问控制，在同一时间只允许唯一了线程进入临界区访问资源(读锁除外)，这样子控制的主要目的是为了解决多个线程并发同一资源造成的数据不一致的问题。在另外一种场景下，一个资源有多个副本可供同时使用，比如打印机房有多个打印机、厕所有多个坑可供同时使用，这种情况下，Java提供了另外的并发访问控制--资源的多副本的并发访问控制，今天学习的信号量Semaphore即是其中的一种。
+
+### Semaphore实现原理初探
+
+Semaphore是用来保护一个或者多个共享资源的访问，Semaphore内部维护了一个计数器，其值为可以访问的共享资源的个数。一个线程要访问共享资源，先获得信号量，如果信号量的计数器值大于1，意味着有共享资源可以访问，则使其计数器值减去1，再访问共享资源。
+
+如果计数器值为0,线程进入休眠。当某个线程使用完共享资源后，释放信号量，并将信号量内部的计数器加1，之前进入休眠的线程将被唤醒并再次试图获得信号量。
+
+就好比一个厕所管理员，站在门口，只有厕所有空位，就开门允许与空侧数量等量的人进入厕所。多个人进入厕所后，相当于N个人来分配使用N个空位。为避免多个人来同时竞争同一个侧卫，在内部仍然使用锁来控制资源的同步访问。
+
+### Semaphore的使用
+
+Semaphore使用时需要先构建一个参数来指定共享资源的数量，Semaphore构造完成后即是获取Semaphore、共享资源使用完毕后释放Semaphore。
+
+```java
+Semaphore semaphore = new Semaphore(10,true);
+semaphore.acquire();
+//do something here
+semaphore.release();
+```
+
+### Semaphore 的方法
+
+Semaphore 类有另外 2 个版本的 acquire() 方法：
+
+- acquireUninterruptibly()：acquire()方法是当 semaphore 的内部计数器的值为 0 时，阻塞线程直到 semaphore 被释放。在阻塞期间，线程可能会被中断，然后此方法抛出 InterruptedException 异常。而此版本的 acquire 方法会忽略线程的中断而且不会抛出任何异常。
+- tryAcquire()：此方法会尝试获取 semaphore。如果成功，返回true。如果不成功，返回 false 值，并不会被阻塞和等待 semaphore 的释放。
+
+acquire、acquireUninterruptibly、tryAcquire 和 release 方法有一个外加的包含一个 int 参数的版本。这个参数表示线程想要获取或者释放 semaphore 的许可数。
+
+### 公平模式
+
+与 [ReentrantLock](http://www.cnblogs.com/huey/p/6004214.html) 一样，Semaphore 也提供一个接收 fair 参数的构造方法。当此参数置为 true 时，Semaphore 保证等待时间最久的线程优先获得信号量。
+
+下面的代码就是模拟控制商场厕所的并发使用：
+
+```java
+public class ResourceManage {  
+    private final Semaphore semaphore ;  
+    private boolean resourceArray[];  
+    private final ReentrantLock lock;  
+    public ResourceManage() {  
+        this.resourceArray = new boolean[10];//存放厕所状态  
+        this.semaphore = new Semaphore(10,true);//控制10个共享资源的使用，使用先进先出的公平模式进行共享;公平模式的信号量，先来的先获得信号量  
+        this.lock = new ReentrantLock(true);//公平模式的锁，先来的先选  
+        for(int i=0 ;i<10; i++){  
+            resourceArray[i] = true;//初始化为资源可用的情况  
+        }  
+    }  
+    public void useResource(int userId){ 
+		semaphore.acquire(); 
+        try{  
+            //semaphore.acquire();  
+            int id = getResourceId();//占到一个坑  
+            System.out.print("userId:"+userId+"正在使用资源，资源id:"+id+"\n");  
+            Thread.sleep(100);//do something，相当于于使用资源  
+            resourceArray[id] = true;//退出这个坑  
+        }catch (InterruptedException e){  
+            e.printStackTrace();  
+        }finally {  
+            semaphore.release();//释放信号量，计数器加1  
+        }  
+    }  
+    private int getResourceId(){  
+        int id = -1; 
+		lock.lock();
+        try {  
+            //lock.lock();//虽然使用了锁控制同步，但由于只是简单的一个数组遍历，效率还是很高的，所以基本不影响性能。  
+            for(int i=0; i<10; i++){  
+                if(resourceArray[i]){  
+                    resourceArray[i] = false;  
+                    id = i;  
+                    break;  
+                }  
+            }  
+        }catch (Exception e){  
+            e.printStackTrace();  
+        }finally {  
+            lock.unlock();  
+        }  
+        return id;  
+    }  
+}  
+public class ResourceUser implements Runnable{  
+    private ResourceManage resourceManage;  
+    private int userId;  
+    public ResourceUser(ResourceManage resourceManage, int userId) {  
+        this.resourceManage = resourceManage;  
+        this.userId = userId;  
+    }  
+    public void run(){  
+        System.out.print("userId:"+userId+"准备使用资源...\n");  
+        resourceManage.useResource(userId);  
+        System.out.print("userId:"+userId+"使用资源完毕...\n");  
+    }  
+
+    public static void main(String[] args){  
+        ResourceManage resourceManage = new ResourceManage();  
+        Thread[] threads = new Thread[100];  
+        for (int i = 0; i < 100; i++) {  
+            Thread thread = new Thread(new ResourceUser(resourceManage,i));//创建多个资源使用者  
+            threads[i] = thread;  
+        }  
+        for(int i = 0; i < 100; i++){  
+            Thread thread = threads[i];  
+            try {  
+                thread.start();//启动线程  
+            }catch (Exception e){  
+                e.printStackTrace();  
+            }  
+        }  
+    }  
+}
+```
+## 子线程完成某件任务后，把得到的结果回传给主线程
 
 实际的开发中，我们经常要创建子线程来做一些耗时任务，然后把任务执行结果回传给主线程使用，这种情况在 Java 里要如何实现呢？
 
