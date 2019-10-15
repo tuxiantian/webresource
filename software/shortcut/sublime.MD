@@ -30,6 +30,10 @@ ctrl+J:多行转为一行
 ctrl+shift+d 快速复制当前行代码并插入到下一行
 ctrl+shift+up/down：交换两行顺序
 
+ctrl+shift+K 删除光标所在行
+
+[Sublime自定义格式化代码快捷键]( https://www.jianshu.com/p/0aa5353006a1 ) crtl+alt+l格式化代码
+
 ### sublime插件
 
 #### DeleteBlankLines
@@ -38,13 +42,22 @@ ctrl+shift+up/down：交换两行顺序
 3. 输入DeleteBlankLines后回车进行安装
 4. 选中要删除空白行的文本范围，一般是ctrl+A直接全选 
 5. 通过ctrl+alt+backspace执行一键去除空白行功能
-### sublimeTmpl插件
+#### sublimeTmpl插件
 * 使用Ctrl + Alt +H快捷键生成html文件
 * 使用Ctrl + Alt +J快捷键生成javascript文件
 * 使用Ctrl + Alt +C快捷键生成css文件
 * 使用Ctrl + Alt +P快捷键生成php文件
 * 使用Ctrl + Alt +R快捷键生成ruby文件
 * 使用Ctrl + Alt +Shift+P快捷键生成pyhton文件
+#### autoprefixer
+功能：CSS添加私有前缀
+简介：CSS还未标准化，所以要给各大浏览器一个前缀以解决兼容问题
+
+#### AutoFileName
+
+功能：快捷输入文件名
+简介：自动完成文件名的输入，如图片选取
+使用：输入”/”即可看到相对于本项目文件夹的其他文件
 
 ## personalized setting
 

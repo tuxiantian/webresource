@@ -161,18 +161,14 @@ ruleDataDtoList = new Ordering<RuleDataDto>() {
 ```java
 try{
 
-if(atomic.incrementAndGet() > 限流数) {
+    if(atomic.incrementAndGet() > 限流数) {
+    	//拒绝请求
+    }
 
-//拒绝请求
-
-}
-
-//处理请求
+	//处理请求
 
 }finally{
-
-atomic.decrementAndGet();
-
+	atomic.decrementAndGet();
 }
 ```
 适合对业务无损的服务或者需要过载保护的服务进行限流，如抢购业务，超出了大小要么让用户排队，要么告诉用户没货了，对用户来说是可以接受的。  
