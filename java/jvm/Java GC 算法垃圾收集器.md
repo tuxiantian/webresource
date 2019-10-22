@@ -256,23 +256,15 @@ G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时
 
 1、标记阶段，首先初始标记(Initial-Mark),这个阶段是停顿的(Stop the World Event)，并且会触发一次普通Mintor GC。对应GC log:GC pause (young) (inital-mark)
 
-
-
 2、Root Region Scanning，程序运行过程中会回收survivor区(存活到老年代)，这一过程必须在young GC之前完成。
 
-
-
 3、Concurrent Marking，在整个堆中进行并发标记(和应用程序并发执行)，此过程可能被young GC中断。在并发标记阶段，若发现区域对象中的所有对象都是垃圾，那个这个区域会被立即回收(图中打X)。同时，并发标记过程中，会计算每个区域的对象活性(区域中存活对象的比例)。
-
-
 
 ![img](http://mmbiz.qpic.cn/mmbiz_png/eZzl4LXykQxkeXOa5f0hHOvgftOFYCcsibZwUzzCCwEkicNvBpKPN62IrM3Ud4ia4lNDK5qol4eWFznN6OfSlWFww/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 
 
 4、Remark, 再标记，会有短暂停顿(STW)。再标记阶段是用来收集 并发标记阶段 产生新的垃圾(并发阶段和应用程序一同运行)；G1中采用了比CMS更快的初始快照算法:snapshot-at-the-beginning (SATB)。
-
-
 
 5、Copy/Clean up，多线程清除失活对象，会有STW。G1将回收区域的存活对象拷贝到新区域，清除Remember Sets，并发清空回收区域并把它返回到空闲区域链表中。
 
@@ -284,11 +276,7 @@ G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时
 
 6、复制/清除过程后。回收区域的活性对象已经被集中回收到深蓝色和深绿色区域。
 
-
-
 ![img](http://mmbiz.qpic.cn/mmbiz_png/eZzl4LXykQxkeXOa5f0hHOvgftOFYCcsCdEZdhnq4hVbG66b4TAvXCkpibW5M1I2uGwmHS7OOYiaTszETctCfjZQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
-
-
 
 **常用的收集器组合**
 
