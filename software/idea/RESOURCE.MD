@@ -2,8 +2,10 @@
 typora-root-url: ..\..
 ---
 
+[IDEA设置修改完JS和JSP不用重启的办法(IDEA热部署)]( https://blog.csdn.net/weixin_30639719/article/details/98838634 )
 
 ## plugins
+
 ### GsonFormat
 这个插件根据json数据生成pojo，复制接口响应数据，创建entity类，在创建类的窗口，Alt+Insert,选择GsonFormat，粘贴json，生成。
 #### 安装插件
