@@ -457,15 +457,25 @@ mysql> set global log_queries_not_using_indexes = 'ON';
 FLUSH LOGS;
 
 ## mysql数据库连接的写法
+```sql
 jdbc:mysql://10.0.0.40:3308/unidsp?profileSQL=true&gatherPerfMetrics=true&
 reportMetricsIntervalMillis=500&useUnicode=true&zeroDateTimeBehavior=convertToNull
 &allowMultiQueries=true&characterEncoding=UTF-8
+```
 
 记录 SQL 实际执行的各种时间
+
+```mysql
 profileSQL=true&gatherPerfMetrics=true&reportMetricsIntervalMillis=500&
+```
 
 批量插入
+
+```mysql
 useServerPrepStmts=false&rewriteBatchedStatements=true&useCompression=true
+```
+
+
 ## MySQL常用变量
 查看最大连接数上限
 show variables like 'max_connections';
