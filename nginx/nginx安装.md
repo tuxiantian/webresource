@@ -12,3 +12,9 @@
 
 https服务默认监听的是443端口。在`nginx.conf`中要配置2个server,一个支持http的是80端口，一个支持https的是443端口。
 
+http自动跳转到https
+
+```
+ rewrite ^(.*)$ https://$host$1 permanent; 
+```
+
