@@ -1,4 +1,7 @@
+[mybatis的association以及collection的用法](https://www.jianshu.com/p/018c0f083501%20)
+
 ### Invalid bound statement (not found)
+
 [mybatis绑定错误-- Invalid bound statement (not found)](https://www.jianshu.com/p/800fe918cc7a)
 
 ### 多条件判断语句choose
@@ -83,13 +86,13 @@ DATE_FORMAT(CREATE_DATE,'%Y-%m-%d %H:%i:%s')
 ```sql
 select *   
 from user  
-where username like '%'||#username#||'%'
+where username like '%'||#{username}||'%'
 ```
 #### mysql
 ```sql
 select *   
 from user  
-where username like concat('%', #username#, '%')
+where username like concat('%', #{username}, '%')
 ```
 ### case when的使用
 ```sql
