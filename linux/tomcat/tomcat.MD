@@ -109,4 +109,3 @@ chmod +x /etc/rc.d/rc.local
 在/etc/rc.d/rc.local文件中加入下面这句
 
 /opt/script/autostart.sh
-
