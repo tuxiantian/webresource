@@ -79,10 +79,34 @@ Tomcat的session过期时间修改
     <!-- 单位：分钟 -->
     <session-timeout>180</session-timeout>
 </session-config>
-```
+ ```
 --------------------------------------------------------------------------------------
 ### linux下解压tomcat后执行startup.sh提示没有权限
 apache-tomcat-7.0.59/bin下执行  
 chmod 777 *.sh  
 ## 设置tomcat自动启动
-[设置tomcat自动启动](/linux/RESOURCE.MD#设置tomcat自动启动)
+[linux教程：[4]配置Tomcat开机启动](http://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html)  
+[Linux下chkconfig命令详解](http://www.cnblogs.com/panjun-Donet/archive/2010/08/10/1796873.html)  
+[服务不支持chkconfig的解决](http://blog.chinaunix.net/uid-10697776-id-3187846.html)  
+
+### spring boot 项目启动脚本加入开机启动项中
+
+/opt/script/autostart.sh
+
+```shell
+#!/bin/sh
+#description: auto_run
+export JAVA_HOME=/usr/local/java/jdk1.8.0_181
+export CLASSPATH=$JAVA_HOME/lib/
+export PATH=$PATH:$JAVA_HOME/bin
+rm -f /home/dison/tag/pid_tag.pid
+/home/dison/tag/start-tag.sh
+
+```
+
+chmod +x /etc/rc.d/rc.local
+
+在/etc/rc.d/rc.local文件中加入下面这句
+
+/opt/script/autostart.sh
+

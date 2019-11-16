@@ -87,11 +87,6 @@ curl -I http://www.taobao.com/
 检测web容器是否正常启动
 wget http://localhost:8083/mongodb/index.html
 
-### 设置tomcat自动启动
-[linux教程：[4]配置Tomcat开机启动](http://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html)  
-[Linux下chkconfig命令详解](http://www.cnblogs.com/panjun-Donet/archive/2010/08/10/1796873.html)  
-[服务不支持chkconfig的解决](http://blog.chinaunix.net/uid-10697776-id-3187846.html)  
-
 ### 查看磁盘、目录占用大小
 查看磁盘： df -lh
 
