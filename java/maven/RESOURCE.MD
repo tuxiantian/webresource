@@ -323,8 +323,9 @@ import: 用于一个dependencyManagement对另一个dependencyManagement的继�
     <version>3.1.0</version>
     <scope>compile</scope>
 </dependency>
+```
+
 添加上面的依赖后可以使用request.getServletContext().getRealPath(uploadPath)
 代替下面的代码
 request.getSession().getServletContext().getRealPath(uploadPath)
 tomcat的lib包下面包含servlet-api.jar
-```
