@@ -10,3 +10,31 @@ mirrors可以配置多个mirror，每个mirror有id,name,url,mirrorOf属性，id
 所谓的第一个并不一定是最上面的那个。
 
 当有id为B,A,C的顺序的mirror在mirrors节点中，maven会根据字母排序来指定第一个，所以不管怎么排列，一定会找到A这个mirror来进行查找，当A无法连接，出现意外的情况下，才会去B查询。
+
+```
+     <mirror>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>
+    </mirror>
+    <mirror>
+            <id>mvnrepository</id>
+            <name>mvnrepository Central</name>
+            <url>http://mvnrepository.com/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>ibiblio</id>
+            <name>ibiblio Central</name>
+            <url>http://mirrors.ibiblio.org/maven2/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>CN</id>
+            <name>OSChina Central</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+```
+
