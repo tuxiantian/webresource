@@ -316,7 +316,7 @@ system: 不从maven仓库获取该jar,而是通过systemPath指定该jar的路�
 import: 用于一个dependencyManagement对另一个dependencyManagement的继承
 
 依赖范围compile使用举例
-```
+```xml
 <dependency>
     <groupId>javax.servlet</groupId>
     <artifactId>javax.servlet-api</artifactId>
