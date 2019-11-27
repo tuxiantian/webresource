@@ -10,7 +10,7 @@ Arraylist 和 LinkedList 是 Java 集合框架中用来存储对象引用列表�
 
 下面是使用 List 接口声明 ArrayList 和 LinkedList 的代码片段。
 
-```
+```java
 import java.util.*;
 public class MyClass {
   // 非同步或非线程安全
@@ -67,7 +67,7 @@ List arr = new ArrayList<Integer>(10);
 
 考虑下面遍历 LinkedList 的示例代码。在这段代码中遍历会非常慢，因为 LinkedList 不支持随机访问，因此每次遍历都会带来巨大的开销。
 
-```
+```java
 LinkedList ll = new LinkedList();
 …
 …
@@ -83,7 +83,7 @@ for (int i = 0; i < list.size(); i++)
 
 一个更好的方法可提高性能，像下面这段代码。
 
-```
+```java
 LinkedList ll = new LinkedList(); 
 … 
 …   
