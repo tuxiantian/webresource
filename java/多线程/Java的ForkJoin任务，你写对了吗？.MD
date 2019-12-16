@@ -14,7 +14,7 @@ class SumTask extends RecursiveTask<Long> {
     int end;
 
     SumTask(long[] array, int start, int end) {
-    this.array = array;
+    	this.array = array;
         this.start = start;
         this.end = end;
     }

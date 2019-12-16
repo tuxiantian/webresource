@@ -59,7 +59,7 @@ select id,group_concat(name order by name desc) from aa group by id;
 2. 表结构不一样（这种情况下得指定列名）  
    insert into 表1 (列名1,列  名2,列名3)  select  列1,列2,列3 from 表2
 3. 只从另外一个表取部分值  
-  insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
+    insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
 
 ## if函数
 
@@ -150,8 +150,9 @@ TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
 ```sql
 SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
 ```
-###大小写严格匹配的模糊查询
+### 大小写严格匹配的模糊查询
 需要使用`binary`关键字
+
 ```sql
 SELECT * FROM `t_car_insurance` WHERE `insurance_pic` like binary '%upload/insurance/2018/09/j%';
 ```
@@ -166,7 +167,7 @@ update a inner join b on a.员工=b.代码 set a.员工=b.姓名
 ```
 ### 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
 1. 表结构完全一样
- 	insert into 表1  select * from 表2
+	 	insert into 表1  select * from 表2
 2. 表结构不一样（这种情况下得指定列名）
    insert into 表1 (列名1,列名2,列名3)  select  列1,列2,列3 from 表2
 3. 只从另外一个表取部分值

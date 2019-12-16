@@ -124,7 +124,6 @@ cat  www.hashfish.net.crt  www.hashfish.net.ca-bundle > www.hashfish.net.pem
 listen 443;
 ssl_certificate  【合并过后的.pem文件路径】
 ssl_certificate_key  【openssl生成的私钥文件路径】
-复制代码
 ```
 
 好了，https证书部署到此结束。上一张经典的图来描述一下https请求的过程
