@@ -7,9 +7,9 @@ typora-root-url: ..\..
 Java 8发行版是自Java 5（发行于2004，已经过了相当一段时间了）以来最具革命性的版本。Java 8我认为带来的最核心的变化主要体现在三个方面：Lambda(函数式编程)、Stream(流)和并发/并行编程简易化。其中Lamdba特性是最具革命性，为Stream、并行/并发编程等新特性提供基础支撑。
 
 Java 8所做的改变，在许多方面比Java历史上任何一次改变都深远，为古老渐显疲态的Java注入新的活力：
-1. ​lambda:最具革命性的新特性，直观上看：代码量大大减少，程序逻辑也清晰明了，可以编写出简单、干净、易读的代码；深层原因：函数式编程思想的风靡流行
-2. ​Stream(流):Lambda和集合结合的产物，也让Lambda函数式编程这一酷炫技术得到很好展现的一个新特性， 是Java 8带给我们最核心、最实用的一个特性
-3. ​并发/并行:借助于lambda、Stream和ForkJoin、CompletableFuture等新特性，让并发/并行编程更加简单
+1. lambda:最具革命性的新特性，直观上看：代码量大大减少，程序逻辑也清晰明了，可以编写出简单、干净、易读的代码；深层原因：函数式编程思想的风靡流行
+2. Stream(流):Lambda和集合结合的产物，也让Lambda函数式编程这一酷炫技术得到很好展现的一个新特性， 是Java 8带给我们最核心、最实用的一个特性
+3. 并发/并行:借助于lambda、Stream和ForkJoin、CompletableFuture等新特性，让并发/并行编程更加简单
 
 ## Lambda
 ### 概述
@@ -31,7 +31,6 @@ button.addActionListener(new ActionListener) {
 
 ```
 button.addActionListener(e -> ui.dazzle(e.getModifiers()))
-
 ```
 ### 案例
 
@@ -208,6 +207,7 @@ public Set<String> findLongTracks(List<Album> albums) {
 2. 结构更加清晰，一方面是收益于代码量的减少；另一方面，主要是使用类似描述性语言让代码的逻辑更加清晰。比如看到filter就晓得是进行过滤处理，看到map就晓得是一对一处理、看到collect就晓得是将流收集到集合中等等，这些接口本身就具有很强的描述性，简化了开发人员对代码的理解
   
     
+
 flatMap、filter、map、collect等等，这些就是Stream提供的声明式的类似描述性语言的API接口，搞过Spark开发的人看着这些函数名称应该很熟悉了，和Spark编程提供的算子很类似，在语义上基本一致，对大数据开发人员具有很好的亲和力。
 
 仔细思考会发现它们在计算模型设计的思想有很多的相似性：
@@ -249,7 +249,13 @@ Stream遵循”做什么，而不是怎么去做”的原则，可以看成lambd
 ## 并行流
 并行化操作流只需改变一个方法调用。如果已经有一个Stream对象，调用它的parallel方法就能让其拥有并行操作的能力。如果想从一个集合类创建一个流，调用parallelStream就能立即获得一个拥有并行能力的流，非常的简单就实现了并行化编程。并行流就是一个把内容分成多个数据块，并用不同的线程分别处理每个数据块的流。这样一来，你就可以自动把给定操作的工作负荷分配给多核处理器的所有内核，让他们都忙起来。
 
-并行流内部使用了默认的ForkJoinPool，它默认的线程数量就是你的处理器数量，这个值是由Runtime.getRuntime().availableProcessors()得到的。但是你可以通过系统属性java.util.concurrent.ForkJoinPool.common.parallelism来改变线程池大小，如下所示：System.setProperty(“java.util.concurrent.ForkJoinPool.common.parallelism”,”12”);这是一个全局设置，因此它将影响代码中所有的并行流。反过来说，目前还无法专为某个并行流指定这个值。一般而言，让ForkJoinPool的大小等于处理器数量是个不错的默认值，除非你有很好的理由，否则我们强烈建议你不要修改它。
+并行流内部使用了默认的ForkJoinPool，它默认的线程数量就是你的处理器数量，这个值是由Runtime.getRuntime().availableProcessors()得到的。但是你可以通过系统属性java.util.concurrent.ForkJoinPool.common.parallelism来改变线程池大小，如下所示：
+
+```java
+System.setProperty(“java.util.concurrent.ForkJoinPool.common.parallelism”,”12”);
+```
+
+这是一个全局设置，因此它将影响代码中所有的并行流。反过来说，目前还无法专为某个并行流指定这个值。一般而言，让ForkJoinPool的大小等于处理器数量是个不错的默认值，除非你有很好的理由，否则我们强烈建议你不要修改它。
 
 当然，也可以通过自定义ForkJoinPool并指定并行度方式实现局部并行度修改，方式如下：
 
@@ -455,15 +461,6 @@ public long parallelSum(long n) {
 ```
 使用parallel()可以把流转换成并行流，从而让前面的函数归约过程（也就是求和）并行运行。Stream在内部分成了几块。因此可以对不同的块独立并行进行归纳操作，最后，同一个归纳操作会将各个子流的部分归纳结果合并起来，得到整个原始流的归纳结果。
 
-配置并行流使用的线程池
-看看流的parallel方法，你可能会想，并行流用的线程是从哪儿来的？有多少个？怎么自定义这个过程呢？
-并行流内部使用了默认的ForkJoinPool，它默认的线程数量就是你的处理器数量， 这个值是由Runtime.getRuntime().availableProcessors()得到的。
-但是你可以通过系统属性java.util.concurrent.ForkJoinPool.common.parallelism来改变线程池大小，如下所示：
-```java
-System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","12");
-```
-这是一个全局设置，因此它将影响代码中所有的并行流。反过来说，目前还无法专为某个并行流指定这个值。一般而言，让ForkJoinPool的大小等于处理器数量是个不错的默认值，除非你有很好的理由，否则我们强烈建议你不要修改它。
-
 我们声称并行求和方法应该比顺序和迭代方法性能好。然而在软件工程上，靠猜绝对不是什么好办法！特别是在优化性能时，你应该始终遵循三个黄金规则：测量，测量，再测量。为此，你可以开发一个方法，如下所示(调用10次，取耗时最短一次)：
 ```java
 public long measureSumPerf(Function<Long, Long> adder, long n) {
@@ -576,14 +573,15 @@ public static long parallelRangedSum(long n) {
 ## 并发/并行编程
 由于摩尔定律在处理器的时钟频率不断提升这一方式遇到了瓶颈，即单核CPU在性能上无法进一步获得有效提升，现在趋势是在横向上进行扩展，即无法获取更快的CPU核心，但是可以通过获取更多的CPU核心来提升性能，这就是所谓的多核时代的来临。由单核主频的提升到多核扩展这一硬件结构的转变，为了让你的代码运行得更快，需要你的代码具备并行运算的能力，可以让每个处理线程单独占据一个核，从而得到多倍的整体性能。
 
-前面提到的并行流就是Java 8对并行编程一个很好的实践，但流类库提供的数据并行化只是其中的一种形式，下面会介绍Java 8在中并发/并行编程的其它手段。
+前面提到的并行流就是Java 8对并行编程一个很好的实践，但流类库提供的数据并行化只是其中的一种形式，下面会介绍Java 8在并发/并行编程中的其它手段。
 
 并发/并行编程区别
 并发是两个任务共享时间段，并行则是两个任务在同一时间发生，比如运行在多核CPU上。如果一个程序要运行两个任务，并且只有一个CPU 给它们分配了不同的时间片，那么这就是并发，而不是并行。两者之间的区别如下图：
 ![](/images/java/计算模型之java8/3.png)
 并发并行区别
 
-CompletableFuture
+### CompletableFuture
+
 Future接口是在Java5中被引入，设计初衷是对将来某个时刻会发生的结果进行建模，它建模了一种异步计算，返回一个执行运算结果的引用，当运算结束后，这个引用被返回给调用方。打个比方，你可以把它想象成这样的场景：你拿了一袋子衣服到你中意的干洗店去洗。干洗店的员工会给你张发票，告诉你什么时候你的衣服会洗好（这就是一个Future事件）。衣服干洗的同时，你可以去做其他的事情。Future的另一个优点是它比更底层的Thread更易用。要使用Future，通常你只需要将耗时的操作封装在一个Callable对象中，再将它提交给ExecutorService，就万事大吉了。下面这段代码展示了Java 8之前使用Future的一个例子。
 
 ```java
@@ -632,8 +630,7 @@ public Future<Double> getPriceAsync(String product) {
 }
 
 ```
-我们已经了解了如何通过CompletableFuture编程方式构建异步方法，看起来这些操作也比较方便，但还有进一步提升的空间，CompletableFuture类自身提供了大量精巧的工厂方法，使用这些方法能更容易地完成整个流程，还不用担心实现的细节。比如，可以将上面的代码进一步简化：
-​    
+我们已经了解了如何通过CompletableFuture编程方式构建异步方法，看起来这些操作也比较方便，但还有进一步提升的空间，CompletableFuture类自身提供了大量精巧的工厂方法，使用这些方法能更容易地完成整个流程，还不用担心实现的细节。比如，可以将上面的代码进一步简化：​ 
 ```java
 public Future<Double> getPriceAsync(String product) {
   return CompletableFuture.supplyAsync(() -> calculatePrice(product));
@@ -641,7 +638,8 @@ public Future<Double> getPriceAsync(String product) {
 
 ```
 从这里再次见识到：Java 8在代码简洁性上做的比之前优秀太多了，lambda让行为参数化后，基本上模板化的代码都被封装起来了，开发人员只需关注真正与业务相关的核心代码片段即可，在提高代码开发效率的同时，代码质量也得到了很大提升。这就得益于声明式编程，你只需要关注你要做什么，而无需关注怎么做，具体实现的细节都被封装到框架中了，自然你的代码质量也就提升了。
-Stream与CompletableFuture结合案例
+
+### Stream与CompletableFuture结合案例
 
 案例：最佳价格查询器(案例来源《Java8 实战》)  
 需求：现在有个商家列表，你需要实现一个方法，它接受产品名作为参数，返回一个字符串列表，这个字符串列表中包括商店的名称、该商店中指定商品的价格：
@@ -704,8 +702,7 @@ private final Executor executor =
 并行——使用流还是CompletableFutures？
 目前为止，你已经知道对集合进行并行计算有两种方式：
   1. 要么将其转化为并行流，利用map这样的操作开展工作
-  2. 要么枚举出集合中的每一个元素，创建新的线程，在CompletableFuture内对其进行操作。后者提供了更多的灵活性，你可以调整线程池的大小，而这能帮助
-你确保整体的计算不会因为线程都在等待I/O而发生阻塞。
+    2. 要么枚举出集合中的每一个元素，创建新的线程，在CompletableFuture内对其进行操作。后者提供了更多的灵活性，你可以调整线程池的大小，而这能帮助你确保整体的计算不会因为线程都在等待I/O而发生阻塞。
 
 我们对使用这些API的建议如下。
   1. 如果你进行的是计算密集型的操作，并且没有I/O，那么推荐使用Stream接口，因为实现简单，同时效率也可能是最高的（如果所有的线程都是计算密集型的，那就没有必要创建比处理器核数更多的线程）。
@@ -738,15 +735,16 @@ CompletableFuture.runAsync(() -> writeDb(alarmData), cachedThreadPool)//写入DB
   1. task1和task2同时并行执行，哪个执行快使用哪个的计算结果
 ```java
 String result = CompletableFuture.supplyAsync(() -> doTask1())
-                                      .applyToEither(CompletableFuture.supplyAsync(() -> doTask2()), s -> s)
-                                      .join();
+                 .applyToEither(CompletableFuture.supplyAsync(() -> doTask2()), s -> s).join();
 
 ```
 
 CompletableFuture类提供了将两个CompletableFuture建立联系功能，通过迭代方式，可以让更多个CompletableFuture建立起关系，构建出更加复杂的业务逻辑，这就形成了类似Stream流式处理功能，只不过它内部元素不再是数据，而是一个个异步任务，而且通过内部抽象出来的语义接口，可以灵活实现这些异步任务间的依赖关系等，这就是流式编程模型的哲学：让程序只关注一个目标，并尽可能把它做好，让程序能够互相协同工作完成复杂任务。这才是真正体现CompletableFuture版本实现所具备的巨大优势，用CompletableFuture在代码简洁性、可读性上带来的巨大提升，提高了开发人员进行并发/并行编程的积极性。
 
 CompletableFuture类提供的接口方法还是比较多的，但是这些接口原理上大致相同，理解上也不复杂，关键是要理解这些思想背后的逻辑及它的优势。
-Fork/Join
+
+## Fork/Join
+
 ForkJoin框架是在Java 7中引入的，即分支/合并框架，Stream并行流就是依赖ForkJoin将一个操作切分为多个子操作，在多个不同的核上并行地执行这些子操作，所以还是有必要简单认识下。
 
 在ForkJoin框架出来之前，你要将任务拆解进行并发编程：
