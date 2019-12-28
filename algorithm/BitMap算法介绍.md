@@ -70,7 +70,7 @@ Java中有自带的bitmap实现，今天我们就用Java中自带的bitmap来做
 
 代码如下：
 
-```
+```java
 public class Test {
    //为了方便，假设数据是以数组的形式给我们的
    public static Set<Integer> test(int[] arr) {
