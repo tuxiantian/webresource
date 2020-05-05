@@ -2,7 +2,10 @@
 typora-root-url: ..
 ---
 
+[TOC]
+
 ## 新手快速使用git
+
 [git下载地址](https://git-scm.com/downloads)
 打开[公司内网的git网址](http://192.168.0.254/users/sign_in)注册一个用户
 生成ssh公私钥，参考下面的说明
@@ -42,4 +45,12 @@ rebase提交方式可以让git log显示为一条直线，更加方便提交记�
 >    git remote add origin https://github.com/tuxiantian/webresource.git  
 >    git push -u origin master  
 >    注意在github网站上面先创建repository,并且创建repository时不要选择初始化README.MD，否则会提交失败  
+
+### 解决每次git pull需要输入用户名密码的问题
+
+[解决每次git pull需要输入用户名密码的问题](https://www.jianshu.com/p/faba73a28a7c)
+
+```
+git config --global credential.helper store
+```
 
