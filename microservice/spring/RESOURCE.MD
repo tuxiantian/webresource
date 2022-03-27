@@ -30,8 +30,7 @@ FileSystemXmlApplicationContext
 
 ### spring命名空间
 spring命名空间：context、beans、jdbc、tx、aop
-### spring mvc异常统一处理
-[spring mvc异常统一处理（ControllerAdvice注解）](https://my.oschina.net/gef/blog/713722)
+https://my.oschina.net/gef/blog/713722)
 ### spring mvc 静态资源
 ```xml
 <mvc:resources location="/WEB-INF/resources/**" mapping="/resources/**" />
