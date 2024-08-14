@@ -1,7 +1,3 @@
----
-typora-root-url: ..\..
----
-
 Maven手动添加JAR包到本地仓库
 
 Maven 确确实实是个好东西，用来管理项目显得很方便，但是如果是通过 Maven 来远程下载 JAR 包的话，我宿舍的带宽是4兆的，
@@ -56,6 +52,4 @@ mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -Dart
 ```
 mvn install:install-file -Dfile=D:\mvn\spring-context-support-3.1.0.RELEASE.jar -DgroupId=org.springframework -DartifactId=spring-context-support -Dversion=3.1.0.RELEASE -Dpackaging=jar
 ```
-回车，显示安装成功：
-
-![](/images/java/maven/Maven手动添加JAR包到本地仓库/4.jpg)
+回车，显示安装成功
