@@ -45,7 +45,7 @@ spring-context-support-3.1.0.RELEASE.jar 的 JAR 包，我把它安装到本地�
 </dependency>
 ```
 
-Maven 安装 JAR 包的命令是：
+# Maven 安装 JAR 包的命令
 
 
 mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar

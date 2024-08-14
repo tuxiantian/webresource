@@ -179,10 +179,3 @@ maven-enforcer-plugin是通过很多预定义的标准规则（[standard rules](
 
 Spring2.5.6与Spring3.x，从单模块拆分为多模块，Jar包名称（artifactId）也从spring变为spring-submoduleName，如
  spring-context、spring-aop等等，并且也有少部分接口改动（Jar包升级的过程中，这也是在所难免的）。由于是不同的Jar包，经maven的传递依赖机制，就会经常性的存在这俩版本的Spring都在classpath中，从而引发潜在的冲突问题。
-
-
-
-作者：sherlockyb
-链接：https://www.jianshu.com/p/100439269148
-来源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

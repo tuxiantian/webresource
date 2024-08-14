@@ -52,15 +52,6 @@ select id,group_concat(name order by name desc) from aa group by id;
 </select>
 ```
 一种业务有多个请求源接入，如果这些请求源都要进行页面元素显示配置，那将会产生很多重复数据。在REQUEST_SOURCE中配置多个以逗号分隔的请求源。查询时使用find_in_set函数。这样减少了重复数据的配置。
-## mysql 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
-
-1. 表结构完全一样  
-   insert into 表1  select * from 表2
-2. 表结构不一样（这种情况下得指定列名）  
-   insert into 表1 (列名1,列  名2,列名3)  select  列1,列2,列3 from 表2
-3. 只从另外一个表取部分值  
-    insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
-
 ## if函数
 
 mysql的if函数，例如：IF(expr1,expr2,expr3)  
@@ -167,8 +158,8 @@ update a inner join b on a.员工=b.代码 set a.员工=b.姓名
 ```
 ### 如何用一条SQL将一张表里的数据插入到另一张表的3个例子
 1. 表结构完全一样
-	 	insert into 表1  select * from 表2
+    insert into 表1  select * from 表2
 2. 表结构不一样（这种情况下得指定列名）
    insert into 表1 (列名1,列名2,列名3)  select  列1,列2,列3 from 表2
 3. 只从另外一个表取部分值
-	insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
+  insert into 表1 (列名1,列名2,列名3) values(列1,列2,(select 列3 from 表2));
