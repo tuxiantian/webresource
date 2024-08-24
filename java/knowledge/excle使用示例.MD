@@ -114,19 +114,19 @@ public McpResult upload(Long enteId, MultipartFile employeeFile) {
     return McpResult.success("员工资料保存成功");
 }
 
-private String getValue(XSSFCell xssfCell) {
-    if (xssfCell!=null) {
-        if (xssfCell.getCellType() == xssfCell.CELL_TYPE_BOOLEAN) {
-            return String.valueOf(xssfCell.getBooleanCellValue());
-        } else if (xssfCell.getCellType() == xssfCell.CELL_TYPE_NUMERIC) {
-            return new BigDecimal(xssfCell.getNumericCellValue()).toPlainString();
-        } else {
-            return String.valueOf(xssfCell.getStringCellValue());
+    private String getValue(XSSFCell xssfCell) {
+        if (xssfCell!=null) {
+            if (xssfCell.getCellType() == CellType.BOOLEAN) {
+                return String.valueOf(xssfCell.getBooleanCellValue());
+            } else if (xssfCell.getCellType() == CellType.NUMERIC) {
+                return new BigDecimal(xssfCell.getNumericCellValue()).toPlainString();
+            } else {
+                return String.valueOf(xssfCell.getStringCellValue());
+            }
+        }else {
+            return "";
         }
-    }else {
-        return "";
     }
-}
 ```
 日期被解析为数字，不能作为日期字符串解析
 1. 选中-设置单元格格式-自定义（yyyy-mm-dd）
