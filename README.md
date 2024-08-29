@@ -29,6 +29,7 @@ useful website collections
 [45个Git经典操作场景，专治不会合代码](https://mp.weixin.qq.com/s/8lhyBCnvOst2iKy-UFUo3Q)
 
 [linux命令搜索](http://wangchujiang.com/linux-command/c/crontab.html)
+[导出数据库表结构到文档中](https://gitee.com/pomz/database-export)
 
 adminlte
 
