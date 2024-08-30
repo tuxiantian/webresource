@@ -192,23 +192,6 @@ Spring提供了以下四种集合类的配置元素：
 　　 <constructor-arg index="2" value="20" type="int" />
 </bean>
 ```
-### 循环依赖的解决方案
-循环依赖就是循环引用,两个或多个Bean相互之间的持有对方,比如CircleA引用CircleB,CircleB引用CircleC,CircleC引用CircleA  
-解决 设值注入
-```xml
-<bean id="circleA" class="cn.javass.spring.chapter3.bean.CircleA" scope="prototype">
-     <property name="circleB" ref="circleB"/>
-</bean>
-<bean id="circleB" class="cn.javass.spring.chapter3.bean.CircleB" scope="prototype">
-    <property name="circleC" ref="circleC"/>
-</bean>
-<bean id="circleC" class="cn.javass.spring.chapter3.bean.CircleC" scope="prototype">
-    <property name="circleA" ref="circleA"/>
-</bean>
-```
-IOC技术的本质就是构建对象的技术。换句话说就是将一个类实例化成对象的技术，Spring提供一个容器,
-我们在xml文件里定义各个对象的依赖关系,由容器完成对象的构建。
-
 
 ### spring配置注入
 ```xml
