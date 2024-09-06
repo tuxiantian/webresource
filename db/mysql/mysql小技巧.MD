@@ -1,4 +1,31 @@
+### 取分组排序数据的第一条
+
+```
+    @Select("<script>" +
+            "SELECT equipment_no FROM (" +
+            "    SELECT equipment_no, ROW_NUMBER() OVER (PARTITION BY equipmentNo ORDER BY createTime DESC) as rn " +
+            "    FROM special_equipment_warn_record " +
+            "    WHERE state = 1 " +
+            ") t WHERE t.rn = 1" +
+            "</script>")
+    List<String> findEquipmentNo();
+```
+
+```java
+if (warnState!=null){
+    List<String> warnRecordList = specialEquipmentWarnRecordMapper.findEquipmentNo();
+    if (warnState==1){
+    queryWrapper.in(SpecialEquipment::getEquipmentNo,warnRecordList);
+    }else {
+    queryWrapper.notIn(SpecialEquipment::getEquipmentNo,warnRecordList);
+    }
+ }
+```
+
+
+
 ## INSTR
+
 ```sql
 SELECT INSTR('foobarbar', 'bar');
 ```
