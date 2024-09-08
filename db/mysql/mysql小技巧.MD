@@ -1,3 +1,12 @@
+###数字类型生成json后转字符串，入参时间字符串转Date类型
+```
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+@JsonSerialize(using = ToStringSerializer.class)
+
+import org.springframework.format.annotation.DateTimeFormat;
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate
+```
 ### 取分组排序数据的第一条
 
 ```
