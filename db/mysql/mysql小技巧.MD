@@ -134,44 +134,6 @@ AND (
 	)
 )
 ```
-### 年龄的计算
-```sql
-select  
-    id,  
-    DATE_FORMAT(birthday,"%Y-%m-%d") birthday,  
-    CURDATE() ,  
-    (year(now())-year(birthday)-1) + (DATE_FORMAT(birthday, '%m%d') <= DATE_FORMAT(NOW(), '%m%d')) as age  
-from  t_user
-```
-### 收益T+N可提现
-```sql
-TIMESTAMPDIFF(DAY,DATE_FORMAT(T.createTime,'%Y-%m-%d'),CURDATE())>=#{intervalDay}
-```
-### 计算时间差-TIMESTAMPDIFF
-大于指定间隔时间方可以提现
-```sql
-<select id="queryIncomeDraw" resultMap="entityMap">
-    <include refid="selectHead"/>
-    AND  TIMESTAMPDIFF(DAY,createTime,NOW())>=#{intervalDay}
-</select>
-```
-语法：
-
-TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
-
-说明：
-
-返回日期或日期时间表达式datetime_expr1 和datetime_expr2the 之间的整数差。其结果的单位由interval 参数给出。该参数必须是以下值的其中一个：
-
-1. FRAC_SECOND 。表示间隔是毫秒
-2. SECOND 。秒
-3. MINUTE 。分钟
-4. HOUR 。小时
-5. DAY 。天
-6. WEEK 。星期
-7. MONTH 。月
-8. QUARTER 。季度
-9. YEAR 。年
 
 ### mysql查表中有多少字段的sql语句
 ```sql
