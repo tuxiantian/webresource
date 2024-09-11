@@ -225,3 +225,113 @@ TIMESTAMPDIFF(interval,datetime_expr1,datetime_expr2)。
 ```sql
 SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='数据库名' AND table_name='表名'
 ```
+
+### 根据时间范围查询设备在一天的开关机时间
+
+```sql
+WITH RankedEvents AS (
+    SELECT
+        device_id,
+        data_time,
+        power_on_status,
+        ROW_NUMBER() OVER (PARTITION BY device_id, power_on_status, TRUNC(data_time) ORDER BY push_time) AS rn
+    FROM
+        CXNP.sw_personnel_positioning_recard
+    WHERE
+        device_id = #{deviceId}
+        AND power_on_status IN ('0', '1')
+        AND data_time BETWEEN #{startDate} AND #{endDate}
+)
+SELECT
+    device_id,
+    data_time,
+    CASE power_on_status
+        WHEN '1' THEN '开机'
+        WHEN '0' THEN '关机'
+        ELSE '未知状态'
+    END AS event
+FROM
+    RankedEvents
+WHERE
+    rn = 1
+ORDER BY
+    data_time DESC;
+```
+
+### 自定义排序顺序
+
+```
+import org.junit.jupiter.api.Test;
+
+import java.util.*;
+
+public class SortTest {
+
+    @Test
+    public void test1(){
+        List<String> list= Arrays.asList("施工一标" ,"施工七标" ,"施工三标" ,"施工九标" ,"施工二标","数字孪生施工标");
+        // 定义自定义排序顺序
+        final String[] order = {"施工一标", "施工二标", "施工三标", "施工四标", "施工五标", "施工六标", "施工七标", "施工八标", "施工九标"};
+
+        // 使用自定义比较器进行排序
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int index1 = -1;
+                int index2 = -1;
+
+                for (int i = 0; i < order.length; i++) {
+                    if (o1.equals(order[i])) {
+                        index1 = i;
+                        break;
+                    }
+                }
+                for (int i = 0; i < order.length; i++) {
+                    if (o2.equals(order[i])) {
+                        index2 = i;
+                        break;
+                    }
+                }
+
+                // 如果两个字符串都在order数组中，按照数组中的顺序排序
+                if (index1 != -1 && index2 != -1) {
+                    return Integer.compare(index1, index2);
+                }
+
+                // 如果只有一个字符串在order数组中，那么它排在前面
+                if (index1 != -1) {
+                    return -1;
+                }
+                if (index2 != -1) {
+                    return 1;
+                }
+
+                // 如果两个字符串都不在order数组中，那么它们保持原有顺序
+                return 0;
+            }
+        });
+        // 打印排序后的集合
+        System.out.println(list);
+    }
+}
+```
+
+sql自定义排序顺序
+
+```
+select p.id,p.name,n.id sub_project_id,n.node_name
+        from sys_portal p
+        LEFT JOIN construction_package_wbs_node n ON p.id=n.portal_id
+        where p.delete_flag = 0 and p.type='3' AND n.delete_flag = 0 and n.node_type='子工程'  and n.delete_flag=0 AND p.id!=1777649304224141313
+        ORDER BY 
+  CASE p.name
+    WHEN '施工一标' THEN 1
+    WHEN '施工二标' THEN 2
+    WHEN '施工三标' THEN 3
+    WHEN '施工七标' THEN 4
+    WHEN '施工九标' THEN 5
+    ELSE 6
+  END
+   ASC
+```
+
