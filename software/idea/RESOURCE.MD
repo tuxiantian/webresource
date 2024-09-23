@@ -11,7 +11,10 @@ typora-root-url: ..\..
 #### 安装插件
 Intellij IDEA File——>Settings——>IDE setttings——>Plugins
 搜索GsonFormat，安装后重启idea。
-
+### MybtisX
+从java方法到mapper.xml
+### RestfulTool2 
+方便根据路径搜索接口
 ## 激活方法
 [Win10中Clion的安装-注册-MinGW环境配置-运行C++](https://blog.csdn.net/qq_33956051/article/details/79463757)
 ## 使用for的正确姿势
